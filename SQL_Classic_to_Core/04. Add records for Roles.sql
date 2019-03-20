@@ -1,0 +1,5 @@
+INSERT INTO dbo.[Role] ([Name], [NormalizedName]) VALUES ('SuperUser', 'SUPERUSER')
+INSERT INTO dbo.[Role] ([Name], [NormalizedName]) VALUES ('Admin', 'ADMIN')
+INSERT INTO dbo.[Role] ([Name], [NormalizedName]) VALUES ('AttorneyParalegal', 'ATTORNEYPARALEGAL')
+INSERT INTO dbo.[Role] ([Name], [NormalizedName]) VALUES ('ForeignNational', 'FOREIGNNATIONAL')
+INSERT INTO dbo.[Role] ([Name], [NormalizedName]) VALUES ('CorporateUser', 'CORPORATEUSER')

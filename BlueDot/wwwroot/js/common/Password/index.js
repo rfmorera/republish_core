@@ -1,0 +1,4 @@
+﻿function initializePage() {
+    initializeHideShowPassword();
+    initializeValidationPlugin();
+}

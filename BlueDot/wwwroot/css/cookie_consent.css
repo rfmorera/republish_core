@@ -1,0 +1,24 @@
+﻿.cookie-consent-container {
+    padding-right: 1%;
+    background-color: #18a689;
+}
+
+.cookie-consent-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.cookie-consent-text {
+    flex: 2 1 auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.cookie-consent-accept-button {
+    margin-left: 5px;
+}
+
+#cookieConsent .navbar-brand, #cookieConsent .navbar-text {
+    color: #FFFFFF;
+}

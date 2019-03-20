@@ -1,0 +1,3 @@
+﻿#toast-container > .toast-success:before, #toast-container > .toast-error:before {
+    content: none;
+}

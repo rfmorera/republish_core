@@ -1,0 +1,11 @@
+﻿@page
+@using Republish.Models.Identity
+@model LoginModel
+
+@{
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+}
+
+@Html.Partial("LoginUserName", new InputUsernameModel())
+
+<partial name="~/Areas/Common/Views/_LaddaScriptsPartial.cshtml" />

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Republish</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <environment include="Development">
+        <!--TODO: Move jQuery to the body section of the document.-->
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
+        <!-- Note: This is after style.css so that certain styles override the ones in style.css. This will likely be replaced with a generated CSS file using SASS in the future. -->
+        <link href="~/css/common/bootstrap_custom.css" rel="stylesheet" />
+        <link href="~/css/login.css" rel="stylesheet" />
+        <link href="~/lib/Ladda/ladda-themeless.min.css" rel="stylesheet" />
+        <link href="~/css/cookie_consent.min.css" rel="stylesheet" />
+        <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+        <link href="~/css/common/toastr_custom.css" rel="stylesheet" />
+        <link href="~/css/common/password_requirements.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <!--TODO: Move jQuery to the body section of the document.-->
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/style.min.css" rel="stylesheet" asp-append-version="true" />
+        <!-- Note: This is after style.css so that certain styles override the ones in style.css. This will likely be replaced with a generated CSS file using SASS in the future. -->
+        <link href="~/css/common/bootstrap_custom.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/login.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/Ladda/ladda-themeless.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/cookie_consent.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/common/toastr_custom.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/common/password_requirements.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <partial name="_CookieConsentPartial" />
+    <div class="container-fluid login-main">
+        <div class="row">
+            <div class="col-sm-6 col-md-7 Republish-left-layout-bg">
+                <div class="container">
+                    <div class="logo">
+                        <a href="#"><img src="https://i.imgur.com/VKBFsbx.png" /></a>
+                    </div>
+                    <div class="Republish-details-left hidden-xs">
+                        <p class="Republish-message">Your Immigration Software</p>
+                        <p id="left_subtitle">Experience | Personalized Service | Quality</p>
+                        <ul class="Republish-details-list">
+                            <li>Compatible with most devices and browsers</li>
+                            <li>No software to install</li>
+                            <li>Designed beautifully</li>
+                            <li>Powerful functionality</li>
+                        </ul>
+                        <p id="left_details">This site is intended for use by Authorized Users only. Any attempt to gain unauthorized access, deny access to, hack into and/or deface this site will result in criminal prosecution under local, state, federal and international law. If you have reached this website in error, please remove yourself by typing the correct URL name of the website intended. We reserve the right to monitor access to/from this website in accordance with the company's policies.</p>
+                        <div class="privacy_term">
+                            <a href="http://www.Republish.pro/terms.html" target="_blank">Terms and Conditions</a> |
+                            <a href="http://www.Republish.pro/privacy.html" target="_blank">Privacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-5 Republish-right-layout-bg ">
+                <div class="container-fluid">
+                    <div class="Republish-login-form animated fadeInDown" id="Republish-login-form">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="~/Areas/Common/Views/_ValidationScriptsPartial.cshtml" />
+    <partial name="~/Areas/Common/Views/Toastr.cshtml" />
+    <environment include="Development">
+        <script src="~/js/common/ajax_utils.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/common/ajax_utils.min.js" asp-append-version="true"></script>
+    </environment>
+</body>
+</html>

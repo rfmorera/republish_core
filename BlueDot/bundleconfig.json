@@ -1,0 +1,290 @@
+[
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/login.min.css",
+    "inputFiles": [
+      "wwwroot/css/login.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/cookie_consent.min.css",
+    "inputFiles": [
+      "wwwroot/css/cookie_consent.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/iCheck/custom.min.css",
+    "inputFiles": [
+      "wwwroot/lib/iCheck/custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/layout.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/layout.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/default/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/default/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/animate.min.css",
+    "inputFiles": [
+      "wwwroot/css/animate.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/toastr_custom.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/toastr_custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/layout.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/layout.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/toastr_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/toastr_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Administrators/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Administrators/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/ajax_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/ajax_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/summernote/summernote-bs3.min.css",
+    "inputFiles": [
+      "wwwroot/lib/summernote/summernote-bs3.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/summernote/summernote.min.css",
+    "inputFiles": [
+      "wwwroot/lib/summernote/summernote.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/sweetalert/sweetalert.min.css",
+    "inputFiles": [
+      "wwwroot/lib/sweetalert/sweetalert.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Parameters/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Parameters/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/modal.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/modal.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Common/modal.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Common/modal.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/bootstrap_custom.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/bootstrap_custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/summernote/summernote-bs4.min.css",
+    "inputFiles": [
+      "wwwroot/lib/summernote/summernote-bs4.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/sweetalert/dist/sweetalert.min.css",
+    "inputFiles": [
+      "wwwroot/lib/sweetalert/dist/sweetalert.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/Archive.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/Archive.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/edit.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/edit.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/Archive.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/Archive.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/edit.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/edit.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/datatables_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/datatables_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/datepicker_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/datepicker_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/add.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/add.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/FormsMapping/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/FormsMapping/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Forms/archived.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Forms/archived.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Announcements/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Announcements/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/datatables_editor_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/datatables_editor_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/dataTables.editor_custom.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/dataTables.editor_custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/apis/smtp.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/apis/smtp.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/apis/payments.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/apis/payments.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/formvalidation_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/formvalidation_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/summernote/summernote-bs4.min.js",
+    "inputFiles": [
+      "wwwroot/lib/summernote/summernote-bs4.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/summernote_utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/summernote_utils.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/VisaBulletin/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/VisaBulletin/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/VisaBulletin/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/VisaBulletin/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/password_requirements.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/password_requirements.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/loadButton.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/loadButton.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/hideShowPassword.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/hideShowPassword.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/passwordValidation.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/passwordValidation.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/superuser/Password/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/superuser/Password/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/Password/success.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/Password/success.js"
+    ]
+  }
+]

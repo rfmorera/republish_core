@@ -1,0 +1,126 @@
+﻿/* This CSS file is used to override or add on to the Bootstrap 4 CSS. This will likely be replaced with a generated CSS file using SASS in the future. */
+
+/* These are needed to style the page with a similar look as Bootstrap 3. */
+.form-control {
+    font-size: 0.875rem;
+}
+
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group > .btn,
+.input-group-btn:first-child > .dropdown-toggle,
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group-addon:first-child {
+    border-right: 0;
+}
+
+/* This is needed to get the PassRequirements and FormValidation plugins working. */
+.form-control-feedback {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* The following is needed to get the FormValidation plugin working. */
+.has-error .form-control-feedback {
+    color: #a94442;
+}
+
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline,
+.has-error.radio label,
+.has-error.checkbox label,
+.has-error.radio-inline label,
+.has-error.checkbox-inline label {
+    color: #a94442;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    right: 15px;
+}
+
+.has-success .input-group-addon {
+    color: #3c763d;
+    border-color: #3c763d;
+    background-color: #dff0d8;
+}
+
+.has-error .input-group-addon {
+    color: #a94442;
+    border-color: #a94442;
+    background-color: #f2dede;
+}
+
+/* These are needed for styling the form labels. */
+.col-form-label {
+    text-align: right;
+}
+
+label {
+    font-weight: bold;
+}
+
+/* This is needed for increasing the font size of all datepickers in Bootstrap 4. */
+.datepicker {
+    font-size: 13px;
+}
+
+/* Customize some of the colors used in Bootstrap. */
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #fcf8e3;
+}
+
+.form-control-yellow,
+.single-line {
+    background-color: #fcfcd4;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* Needed for setting some table headers to yellow. */
+.table > thead > tr > td.warning,
+.table > tbody > tr > td.warning,
+.table > tfoot > tr > td.warning,
+.table > thead > tr > th.warning,
+.table > tbody > tr > th.warning,
+.table > tfoot > tr > th.warning,
+.table > thead > tr.warning > td,
+.table > tbody > tr.warning > td,
+.table > tfoot > tr.warning > td,
+.table > thead > tr.warning > th,
+.table > tbody > tr.warning > th,
+.table > tfoot > tr.warning > th {
+    background-color: #fcf8e3;
+}
+
+/* Needed to remove padding in dataTables. */
+.dataTables-wrapper > .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}

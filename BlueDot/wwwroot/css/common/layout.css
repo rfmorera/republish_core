@@ -1,0 +1,36 @@
+﻿#side-menu .form-link, #right-menu .form-link {
+    cursor: pointer;
+}
+
+#side-menu .form-link {
+    color: #a7b1c2;
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+    background-color: transparent;
+    display: block;
+    border: 0;
+    outline: none;
+    width: 100%;
+    text-align: left;
+}
+
+#side-menu .form-link:hover, #side-menu .form-link:focus {
+    background-color: #293846;
+    color: white;
+}
+
+#right-menu .form-link {
+    color: #999c9e;
+    background-color: transparent;
+    font-size: 14px;
+    padding: 20px 10px;
+    min-height: 50px;
+    border: 0;
+    font-weight: 600;
+    display: block;
+    outline: none;
+}
+
+#side-menu .fa-sign-out, #right-menu .fa-sign-out {
+    margin-right: 6px;
+}

@@ -1,0 +1,8 @@
+ALTER TABLE [dbo].[UserLogin]  WITH CHECK ADD  CONSTRAINT [FK_UserLogin_UserId] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([UserId])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[UserLogin] CHECK CONSTRAINT [FK_UserLogin_UserID]
+GO

@@ -1,0 +1,11 @@
+﻿<script src="~/lib/iCheck/icheck.min.js" asp-append-version="true"></script>
+<script>
+    $(document).ready(init_iChecks);
+
+    function init_iChecks() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+        });
+    }
+</script>

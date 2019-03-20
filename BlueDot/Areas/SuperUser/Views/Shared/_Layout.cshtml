@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Republish</title>
+    <environment include="Development">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
+        <!-- Note: This is after style.css so that certain styles override the ones in style.css. This will likely be replaced with a generated CSS file using SASS in the future. -->
+        <link href="~/css/common/bootstrap_custom.css" rel="stylesheet" />
+        <link href="~/lib/iCheck/custom.css" rel="stylesheet" />
+        <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+        <link href="~/css/common/toastr_custom.css" rel="stylesheet" />
+        <link href="~/lib/formvalidation/dist/css/formvalidation.css" rel="stylesheet" />
+        <link href="~/css/common/layout.css" rel="stylesheet" />
+        <link href="~/lib/Ladda/ladda-themeless.min.css" rel="stylesheet" />
+        <link href="~/lib/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/style.min.css" rel="stylesheet" asp-append-version="true" />
+        <!-- Note: This is after style.css so that certain styles override the ones in style.css. This will likely be replaced with a generated CSS file using SASS in the future. -->
+        <link href="~/css/common/bootstrap_custom.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/iCheck/custom.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/common/toastr_custom.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/formvalidation/dist/css/formvalidation.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/common/layout.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/Ladda/ladda-themeless.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/sweetalert/dist/sweetalert.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    @RenderSection("Stylesheets", required: false)
+</head>
+<!-- Body -->
+<body>
+    <div id="wrapper">
+        <!--#Left menu-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element"><img src="~/images/common/Republish_logo_transp.png" class="img-fluid" alt="Placeholder image"></div>
+                        <div class="logo-element">
+                            Republish
+                        </div>
+                    </li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="Default" asp-action="Index"><a asp-area="SuperUser" asp-controller="Default" asp-action="Index" id="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="Administrators"><a asp-area="SuperUser" asp-controller="Administrators" asp-action="Index"><i class="fa fa-user"></i> <span class="nav-label">Administrators</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="Parameters"><a asp-area="SuperUser" asp-controller="Parameters" asp-action="Index"><i class="fa fa-sliders"></i> <span class="nav-label">Parameters</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="Forms" ><a asp-area="SuperUser" asp-controller="Forms" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms catalog</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="FormsMapping" asp-action="Index"><a asp-area="SuperUser" asp-controller="FormsMapping" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms mapping</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="Apis"><a asp-area="SuperUser" asp-controller="Apis" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">APIS</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="announcements"><a is-active-route asp-area="SuperUser" asp-controller="announcements" asp-action="Index"><i class="fa fa-bullhorn"></i> <span class="nav-label">Announcements</span></a></li>
+                    <li is-active-route asp-area="SuperUser" asp-controller="VisaBulletin"><a is-active-route asp-area="SuperUser" asp-controller="VisaBulletin" asp-action="Index"><i class="fa fa-calendar-o"></i> <span class="nav-label">Visa Bulletin</span></a></li>
+                    <li is-active-route asp-area="Common" asp-controller="Password"><a is-active-route asp-area="Common" asp-controller="Password" asp-action="Index" asp-route-LayoutUrl="@Path"><i class="fa fa-lock"></i> <span class="nav-label">Change password</span></a></li>
+                    <li>
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                            <button class="form-link" type="submit"><i class="fa fa-sign-out"></i> <span class="nav-label">Log out</span></button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--#Top menu-->
+        <partial name="~/Areas/Common/Views/NavigationBar.cshtml" />
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom"></div>
+            <!-- Content -->
+            <div id="body_content">
+                @RenderBody()
+            </div>
+
+            <!-- Footer -->
+            <partial name="~/Areas/Common/Views/Footer.cshtml" />
+        </div>
+    </div>
+    <!-- Scripts -->
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/Popper/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.js"></script>
+        <script src="~/js/script.js"></script>
+        <script src="~/lib/formvalidation/dist/js/formvalidation.js"></script>
+        <script src="~/lib/formvalidation/dist/js/framework/bootstrap.js"></script>
+        <script src="~/js/common/formvalidation_utils.js"></script>
+        <script src="~/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/Popper/popper.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/metisMenu/dist/jquery.metisMenu.js" asp-append-version="true"></script>
+        <script src="~/lib/slimScroll/jquery.slimscroll.min.js" asp-append-version="true"></script>
+        <script src="~/js/script.js" asp-append-version="true"></script>
+        <script src="~/lib/formvalidation/dist/js/formvalidation.min.js" asp-append-version="true"></script>
+        <script src="~/lib/formvalidation/dist/js/framework/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/common/formvalidation_utils.min.js" asp-append-version="true"></script>
+        <script src="~/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js" asp-append-version="true"></script>
+    </environment>
+    <partial name="~/Areas/Common/Views/iCheck.cshtml" />
+    <partial name="~/Areas/Common/Views/_LaddaScriptsPartial.cshtml" />
+    <partial name="~/Areas/Common/Views/Toastr.cshtml" />
+    <environment include="Development">
+        <script src="~/js/common/ajax_utils.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/common/ajax_utils.min.js" asp-append-version="true"></script>
+    </environment>
+    <script src="~/lib/sweetalert/dist/sweetalert.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
