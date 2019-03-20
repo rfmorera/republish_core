@@ -22,7 +22,7 @@ namespace Services.Impls
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            LawFirm lawFirm = _context.Set<LawFirm>().Single();
+            Company lawFirm = _context.Set<Company>().Single();
 
             SmtpClient client = new SmtpClient(lawFirm.ExternalName, lawFirm.ExternalPort);
             client.Timeout = lawFirm.ExternalTimeout;
