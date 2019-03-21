@@ -19,7 +19,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Change password   |   <small class="text-danger">Password must be minimum 8 characters at least 1 Uppercase Alphabet, 3 Lowercase Alphabet, 2 Numbers and 1 Special Character such as: ~!\@Html.Encode("@")#$%^+- </small></h5>
+                    <h5>Cambiar contraseña   |   <small class="text-danger">La contraseña debe tener al menos 6 caracteres, 1 letra mayúscula, 1 letra minúscula, 1 número y 1 caracter especial como: ~!\@Html.Encode("@")#$%^+- </small></h5>
                 </div>
                 <div class="ibox-content">
                     <form asp-area="Common" asp-controller="Password" asp-action="Update" method="POST" name="form1" id="form1" class="form-horizontal"
@@ -33,9 +33,9 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Current password</label>
+                            <label class="col-sm-2 col-form-label">Contraseña actual</label>
                             <div class="col-sm-10">
-                                <input asp-for="CurrentPassword" class="input-password-large form-control" id="passwd" placeholder="Current Password">
+                                <input asp-for="CurrentPassword" class="input-password-large form-control" id="passwd" placeholder="Contraseña actual">
                                 <i class="glyphicon form-control-feedback">Mostrar</i>
                                 <span asp-validation-for="CurrentPassword" class="text-danger"></span>
                             </div>
@@ -44,9 +44,9 @@
                         <div class="hr-line-dashed"></div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">New password</label>
+                            <label class="col-sm-2 col-form-label">Nueva contraseña</label>
                             <div class="col-sm-10">
-                                <input asp-for="NewPassword" class="input-password-large form-control" id="New_Password" placeholder="New Password">
+                                <input asp-for="NewPassword" class="input-password-large form-control" id="New_Password" placeholder="Nueva contraseña">
                                 <i class="glyphicon form-control-feedback">Mostrar</i>
                                 <div id="new-password-popover-container">
                                 </div>
@@ -57,9 +57,9 @@
                         <div class="hr-line-dashed"></div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Confirm password</label>
+                            <label class="col-sm-2 col-form-label">Repetir contraseña</label>
                             <div class="col-sm-10">
-                                <input asp-for="ConfirmNewPassword" class="input-password-large form-control" id="verifypasswd" placeholder="Confirm Password">
+                                <input asp-for="ConfirmNewPassword" class="input-password-large form-control" id="verifypasswd" placeholder="Repetir contraseña">
                                 <i class="glyphicon form-control-feedback">Mostrar</i>
                                 <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
                             </div>
@@ -69,7 +69,7 @@
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-10">
-                                <button class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right" type="submit">Save changes</button>
+                                <button class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right" type="submit">Actualizar Contraseña</button>
                             </div>
                         </div>
                         <input asp-for="UserLoginId" type="hidden" />
