@@ -336,7 +336,7 @@ namespace Republish.Areas.Identity.Pages.Account
             }
             else if(await _userManager.IsInRoleAsync(userLogin, "Client"))
             {
-                return "/SuperUser/Default";
+                return "/Client/Default";
             }
 
             throw new InvalidOperationException("User: " + UserName + " has invalid user role.");
