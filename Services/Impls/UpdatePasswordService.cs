@@ -10,8 +10,8 @@ namespace Services.Impls
 {
     public class UpdatePasswordService : IUpdatePasswordService
     {
-        private readonly CustomUserManager _userManager;
-        public UpdatePasswordService(CustomUserManager userManager)
+        private readonly UserManager<IdentityUser> _userManager;
+        public UpdatePasswordService(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }

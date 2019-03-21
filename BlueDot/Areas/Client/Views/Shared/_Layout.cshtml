@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Republish</title>
+    <title>@ViewData["Title"] - Republish Tool</title>
     <environment include="Development">
         <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -47,18 +47,18 @@
                             Republish
                         </div>
                     </li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="Default" asp-action="Index"><a asp-area="SuperUser" asp-controller="Default" asp-action="Index" id="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="Administrators"><a asp-area="SuperUser" asp-controller="Administrators" asp-action="Index"><i class="fa fa-user"></i> <span class="nav-label">Administrators</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="Parameters"><a asp-area="SuperUser" asp-controller="Parameters" asp-action="Index"><i class="fa fa-sliders"></i> <span class="nav-label">Parameters</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="Forms" ><a asp-area="SuperUser" asp-controller="Forms" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms catalog</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="FormsMapping" asp-action="Index"><a asp-area="SuperUser" asp-controller="FormsMapping" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms mapping</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="Apis"><a asp-area="SuperUser" asp-controller="Apis" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">APIS</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="announcements"><a is-active-route asp-area="SuperUser" asp-controller="announcements" asp-action="Index"><i class="fa fa-bullhorn"></i> <span class="nav-label">Announcements</span></a></li>
-                    <li is-active-route asp-area="SuperUser" asp-controller="VisaBulletin"><a is-active-route asp-area="SuperUser" asp-controller="VisaBulletin" asp-action="Index"><i class="fa fa-calendar-o"></i> <span class="nav-label">Visa Bulletin</span></a></li>
-                    <li is-active-route asp-area="Common" asp-controller="Password"><a is-active-route asp-area="Common" asp-controller="Password" asp-action="Index" asp-route-LayoutUrl="@Path"><i class="fa fa-lock"></i> <span class="nav-label">Change password</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="Default" asp-action="Index"><a asp-area="Client" asp-controller="Default" asp-action="Index" id="home"><i class="fa fa-home"></i> <span class="nav-label">Inicio</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="Administrators"><a asp-area="Client" asp-controller="Administrators" asp-action="Index"><i class="fa fa-user"></i> <span class="nav-label">Administrators</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="Parameters"><a asp-area="Client" asp-controller="Parameters" asp-action="Index"><i class="fa fa-sliders"></i> <span class="nav-label">Parameters</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="Forms" ><a asp-area="Client" asp-controller="Forms" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms catalog</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="FormsMapping" asp-action="Index"><a asp-area="Client" asp-controller="FormsMapping" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms mapping</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="Apis"><a asp-area="Client" asp-controller="Apis" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">APIS</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="announcements"><a is-active-route asp-area="Client" asp-controller="announcements" asp-action="Index"><i class="fa fa-bullhorn"></i> <span class="nav-label">Announcements</span></a></li>
+                    <li is-active-route asp-area="Client" asp-controller="VisaBulletin"><a is-active-route asp-area="Client" asp-controller="VisaBulletin" asp-action="Index"><i class="fa fa-calendar-o"></i> <span class="nav-label">Visa Bulletin</span></a></li>
+                    <li is-active-route asp-area="Common" asp-controller="Password"><a is-active-route asp-area="Common" asp-controller="Password" asp-action="Index" asp-route-LayoutUrl="@Path"><i class="fa fa-lock"></i> <span class="nav-label">Cambiar Contraseña</span></a></li>
                     <li>
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
-                            <button class="form-link" type="submit"><i class="fa fa-sign-out"></i> <span class="nav-label">Log out</span></button>
+                            <button class="form-link" type="submit"><i class="fa fa-sign-out"></i> <span class="nav-label">Cerrar Sesión</span></button>
                         </form>
                     </li>
                 </ul>

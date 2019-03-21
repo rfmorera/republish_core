@@ -1,11 +1,11 @@
 ﻿function displayToastrSuccess() {
     setToasterOptionsCommon();
-    toastr["success"]("", "Success!");
+    toastr["success"]("", "Éxito!");
 }
 
 function displayToastrError() {
     setToasterOptionsCommon();
-    toastr["error"]("Please contact support for assistance.", "Error");
+    toastr["error"]("Por favor contacte al administrador para asistencia.", "Error");
 }
 
 function setToasterOptionsCommon() {

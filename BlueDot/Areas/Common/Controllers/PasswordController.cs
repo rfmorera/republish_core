@@ -17,9 +17,9 @@ namespace Republish.Areas.Common.Controllers
     [Authorize]
     public class PasswordController : Controller
     {
-        private readonly CustomUserManager _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IUpdatePasswordService _updatePasswordService;
-        public PasswordController(CustomUserManager userManager, IUpdatePasswordService updatePasswordService)
+        public PasswordController(UserManager<IdentityUser> userManager, IUpdatePasswordService updatePasswordService)
         {
             _userManager = userManager;
             _updatePasswordService = updatePasswordService;

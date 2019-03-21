@@ -63,12 +63,6 @@
     <Content Update="Areas\Common\Views\_LaddaScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\SuperUser\Views\_ViewImports.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Areas\SuperUser\Views\_ViewStart.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -85,14 +79,9 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Client\Data\" />
     <Folder Include="Areas\Client\Models\" />
+    <Folder Include="Areas\Client\Views\Shared\" />
     <Folder Include="Areas\Common\Controllers\" />
-    <Folder Include="Areas\Firm\Data\" />
-    <Folder Include="Areas\Firm\Models\" />
-    <Folder Include="Areas\HR\Data\" />
-    <Folder Include="Areas\HR\Models\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\SuperUser\Data\" />
-    <Folder Include="Areas\SuperUser\Models\" />
     <Folder Include="App_Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\common\" />
