@@ -24,27 +24,27 @@ function initializeValidationPlugin() {
 var commonPassRequirements = {
     rules: {
         containSpecialChars: {
-            text: "Passwords must have at least one special character",
+            text: "La contraseña debe contener al menos un caracter especial",
             minLength: 1,
             regex: new RegExp('([^!,%,&,@,#,$,^,*,?,_,~])', 'g')
         },
         containLowercase: {
-            text: "Passwords must have at least three lowercase ('a'-'z'). ",
+            text: "La contraseña debe contener al menos una letras minúsculas ('a'-'z'). ",
             minLength: 3,
             regex: new RegExp('[^a-z]', 'g')
         },
         containUppercase: {
-            text: "Passwords must have at least one uppercase ('A'-'Z'). ",
+            text: "La contraseña debe contener al menos una letra mayúscula('A'-'Z'). ",
             minLength: 1,
             regex: new RegExp('[^A-Z]', 'g')
         },
         containNumbers: {
-            text: "Passwords must have at least two digit ('0'-'9').",
+            text: "La contraseña debe contener al menos un dígito ('0'-'9').",
             minLength: 2,
             regex: new RegExp('[^0-9]', 'g')
         },
         minlength: {
-            text: "The password must be at least 8 characters long.",
+            text: "La contraseña debe contener al menos 6 caracteres.",
             minLength: 8
         }
     }

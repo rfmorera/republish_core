@@ -15,10 +15,10 @@ namespace Services.Impls
 {
     public class ForgotPasswordService : IForgotPasswordService
     {
-        private readonly CustomUserManager _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
-        public ForgotPasswordService(ApplicationDbContext context, CustomUserManager userManager, IEmailSender emailSender)
+        public ForgotPasswordService(ApplicationDbContext context, UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _context = context;

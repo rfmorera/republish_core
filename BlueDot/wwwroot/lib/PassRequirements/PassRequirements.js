@@ -121,7 +121,7 @@ if (typeof jQuery === 'undefined') {
             })
             try {
                 $(this).popover({
-                    title: 'Password Requirements',
+                    title: 'Requisitos',
                     trigger: options.trigger ? options.trigger : 'focus',
                     html: true,
                     placement: options.popoverPlacement ? options.popoverPlacement : 'bottom',

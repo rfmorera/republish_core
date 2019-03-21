@@ -328,11 +328,11 @@ namespace Republish.Areas.Identity.Pages.Account
 
         private async Task<string> UrlRedirect(string UserName)
         {
-            return "/Admin/Default";
             IdentityUser userLogin = await _userManager.FindByNameAsync(UserName);
-
+            
+            IList<string> fg = await _userManager.GetRolesAsync(userLogin);
             if(await _userManager.IsInRoleAsync(userLogin, "Admin")){
-                return "/SuperUser/Default";
+                return "/Admin/Default";
             }
             else if(await _userManager.IsInRoleAsync(userLogin, "Client"))
             {

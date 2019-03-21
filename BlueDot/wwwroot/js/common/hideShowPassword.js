@@ -10,11 +10,11 @@ function initializeHideShowPassword() {
 
             if ($(input).prop('type') === "password") {
                 $(input).prop('type', 'text');
-                $(this).text("Hide");
+                $(this).text("Ocultar");
             }
             else {
                 $(input).prop('type', 'password');
-                $(this).text("Show");
+                $(this).text("Mostrar");
             }
         });
     });

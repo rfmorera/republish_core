@@ -13,7 +13,7 @@ using Services.DTOs;
 namespace Republish.Areas.SuperUser.Controllers
 {
     [Area("SuperUser")]
-    [Authorize(Roles = "SuperUser")]
+    //[Authorize(Roles = "SuperUser")]
     public class DefaultController : Controller
     {
 

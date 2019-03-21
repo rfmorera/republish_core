@@ -2,7 +2,7 @@
 @model InputTwoFactorModel
 
 
-<p class="Republish-login-text text-center">Log in to Republish</p>
+<p class="Republish-login-text text-center">Iniciar sesión en Republish Tool</p>
 
 <form class="m-t" role="form" method="post" asp-area="Identity" asp-page="Login" asp-page-handler="TwoFactor" asp-route-returnUrl="@Model.ReturnUrl"
       data-ajax="true"
@@ -15,20 +15,20 @@
 
     <input asp-for="RememberMe" type="hidden" />
     <div class="form-group">
-        <input id="TwoFactorCode" asp-for="TwoFactorCode" class="form-control" autocomplete="off" placeholder="Authenticator code" />
+        <input id="TwoFactorCode" asp-for="TwoFactorCode" class="form-control" autocomplete="off" placeholder="Codigo de Autenticación" />
     </div>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-check form-group">
         <input asp-for="RememberMachine" class="form-check-input" />
         <label asp-for="RememberMachine" class="form-check-label">@Html.DisplayNameFor(m => m.RememberMachine)</label>
     </div>
-    <button type="submit" class="btn btn-primary block full-width m-b ladda-button" data-style="expand-right">Login</button>
+    <button type="submit" class="btn btn-primary block full-width m-b ladda-button" data-style="expand-right">Iniciar Sesión</button>
     <p>
-        Don't have access to your authenticator device? You can
-        <a asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
+        ¿No tienes acceso a tu dispositivo de autenticación? Usted puede
+        <a asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">iniciar sesión con un código de recuperación.</a>.
     </p>
 </form>
-<partial name="~/Areas/Identity/Pages/_SecurityCertificatesPartial.cshtml" />
+<!--<partial name="~/Areas/Identity/Pages/_SecurityCertificatesPartial.cshtml" />-->
 <script>
     $(document).ready(function () {
         $("#TwoFactorCode").focus();

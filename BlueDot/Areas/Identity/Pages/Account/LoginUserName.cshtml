@@ -1,8 +1,8 @@
 ﻿@using Republish.Models.Identity
 @model InputUsernameModel
 
-<p class="Republish-login-text text-center">Log in to Republish</p>
-<form class="m-t" role="form" method="post" 
+<p class="Republish-login-text text-center">Iniciar sesión en Republish Tool</p>
+<form class="m-t" role="form" method="post"
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-update="#Republish-login-form"
@@ -15,10 +15,10 @@
         <input asp-for="UserName" type="text" class="form-control" placeholder="Username" id="UserName">
     </div>
     <div asp-validation-summary="All" class="text-danger"></div>
-    <button type="submit" class="btn btn-primary block full-width m-b ladda-button" data-style="expand-right">Login</button>
-    <a asp-page="./ForgotPassword" class="btn btn-sm btn-white btn-block">Reset password</a>
+    <button type="submit" class="btn btn-primary block full-width m-b ladda-button" data-style="expand-right">Iniciar Sesión</button>
+    <a asp-page="./ForgotPassword" class="btn btn-sm btn-white btn-block">Reiniciar contraseña</a>
 </form>
-<partial name="~/Areas/Identity/Pages/_SecurityCertificatesPartial.cshtml" />
+<!--<partial name="~/Areas/Identity/Pages/_SecurityCertificatesPartial.cshtml" />-->
 <script>
     $(document).ready(function () {
         $("#UserName").focus();

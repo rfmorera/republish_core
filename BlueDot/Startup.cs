@@ -48,7 +48,7 @@ namespace Republish
                     options.UseSqlServer(
                         Configuration.GetConnectionString("RepublishLocalContextConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -58,7 +58,6 @@ namespace Republish
                 options.LogoutPath = new PathString("/Identity/Account/Logout");
             });
 
-            services.AddTransient<IRoleStore<IdentityRole>, RoleStore<IdentityRole, ApplicationDbContext, string>>();
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICustomSignInManger, ICustomSignInManger>();
