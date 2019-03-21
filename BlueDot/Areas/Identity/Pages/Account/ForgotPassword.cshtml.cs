@@ -50,7 +50,7 @@ namespace Republish.Areas.Identity.Pages.Account
                             values: new { area = "Identity" }
                             );
 
-                await _forgotPasswordService.SendResetPasswordEmail(user.Id, callbackUrl, false);
+                await _forgotPasswordService.SendResetPasswordEmail(user, callbackUrl, false);
                 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

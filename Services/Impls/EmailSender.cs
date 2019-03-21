@@ -22,17 +22,17 @@ namespace Services.Impls
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            Company lawFirm = _context.Set<Company>().Single();
+            Company company = _context.Set<Company>().Single();
 
-            SmtpClient client = new SmtpClient(lawFirm.ExternalName, lawFirm.ExternalPort);
-            client.Timeout = lawFirm.ExternalTimeout;
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(lawFirm.ExternalUsername, lawFirm.ExternalPassword);
+            SmtpClient client = new SmtpClient(company.ExternalName, company.ExternalPort);
+            client.Timeout = company.ExternalTimeout;
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(company.ExternalUsername, company.ExternalPassword);
             client.Credentials = credentials;
 
             string content = _emailTemplate.Template;
             content = content.Replace("{EMAIL_CONTENT}", htmlMessage);
 
-            MailMessage mail = new MailMessage(lawFirm.FromEmail, email);
+            MailMessage mail = new MailMessage(company.FromEmail, email);
             mail.Subject = subject;
             mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(content, null, MediaTypeNames.Text.Html));
 

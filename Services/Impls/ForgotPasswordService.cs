@@ -43,27 +43,27 @@ namespace Services.Impls
             string resetInfo = "", subject ="";
             if (createPassword)
             {
-                resetInfo = "<p>Password create instructions:</p>";
+                resetInfo = "<p>Intruscciones para crear contraseña:</p>";
                 resetInfo += "<p>";
-                resetInfo += "You have received this email because a Republish administrator account has been created for you.";
+                resetInfo += "Usted a recibido este correo porque se ha creado una cuenta de cliente en Republish Tool para usted.";
                 resetInfo += "</p>";
 
                 resetInfo += "<p>";
-                resetInfo += $"Please <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a> to set your password and access the Administrator module.";
+                resetInfo += $"Por favor <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>de clic aquí</a> para establecer su contraseña y acceder al modulo de Cliente.";
                 resetInfo += "</p>";
-                subject = "Create Password";
+                subject = "Crear Contraseña";
             }
             else
             {
-                resetInfo = "<p>Password reset instructions:</p>";
+                resetInfo = "<p>Intruscciones para reiniciar contraseña:</p>";
                 resetInfo += "<p>";
-                resetInfo += "You have received this mail because you (or someone else) have asked to reset your password.";
+                resetInfo += "Usted ha recibido este correo porque usted (o alguien mas) ha solicitado reiniciar su contraseña.";
                 resetInfo += "</p>";
 
                 resetInfo += "<p>";
-                resetInfo += $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+                resetInfo += $"Por favor reinicie su contraseña haciendo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicj aquí</a>.";
                 resetInfo += "</p>";
-                subject = "Reset Password";
+                subject = "Reiniciar Contraseña";
             }
             
             await _emailSender.SendEmailAsync(
