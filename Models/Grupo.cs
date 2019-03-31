@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Models
@@ -10,6 +11,9 @@ namespace Models
         public string Id { get; set; }
 
         public string Nombre { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Orden { get; set; }
 
         [Required]
         public string CategoriaId { get; set; }

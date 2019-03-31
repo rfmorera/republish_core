@@ -15,6 +15,9 @@ namespace Models
         [Required]
         public string Url { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Orden { get; set; }
+
         [Required]
         public string GroupId { get; set; }
         public Grupo Grupo { get; set; }

@@ -39,6 +39,7 @@ namespace Services.Impls
             Categoria categoria = await repository.FindAsync(c => c.Id == Id);
             IEnumerable<GrupoIndexDTO> list = await (from g in _context.Set<Grupo>()
                                         where g.CategoriaId == Id
+                                        orderby g.Orden
                                         select new GrupoIndexDTO(g))
                                        .ToListAsync();
 
