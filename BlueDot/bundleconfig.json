@@ -286,5 +286,17 @@
     "inputFiles": [
       "wwwroot/js/common/Password/success.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Client/Categoria/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Client/Categoria/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Client/Common/modal.min.js",
+    "inputFiles": [
+      "wwwroot/js/Client/Common/modal.js"
+    ]
   }
 ]

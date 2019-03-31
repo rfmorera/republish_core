@@ -24,21 +24,13 @@ function initializePage() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            Paramnm: {
+            Nombre: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter a Name'
+                        message: 'Por favor escriba el nombre'
                     },
                 }
             },
-
-            Paramval: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please enter a value'
-                    }
-                }
-            }
         }
     });
 }

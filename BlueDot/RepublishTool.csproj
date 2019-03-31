@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="wwwroot\js\Client\Categoria\index.min.js" />
     <Content Remove="wwwroot\js\common\Password\success.min.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\Client\Categoria\index.min.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\common\Password\success.min.js" />
   </ItemGroup>
 
@@ -33,6 +35,7 @@
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="wwwroot\js\Client\Categoria\index.min.js" />
     <None Include="wwwroot\js\common\Password\success.min.js" />
   </ItemGroup>
 
