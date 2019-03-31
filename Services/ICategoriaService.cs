@@ -8,10 +8,14 @@ namespace Services
 {
     public interface ICategoriaService
     {
-        Task Add(CategoriaDTO categoriaDTO);
+        Task Add(string UserId, CategoriaIndexDTO categoriaDTO);
 
-        Task Remove(string Id);
+        Task<CategoriaDetailsDTO> Details(string Id);
 
-        Task Update(CategoriaDTO categoriaUpdatedDTO, string Id);
+        Task Delete(string Id);
+
+        Task Update(CategoriaIndexDTO categoriaUpdatedDTO, string Id);
+
+        Task<IEnumerable<CategoriaIndexDTO>> GetAll(string UserId);
     }
 }

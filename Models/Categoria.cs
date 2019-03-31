@@ -12,7 +12,11 @@ namespace Models
         [Key]
         public string Id { get; set; }
 
+        [Required]
         public string Nombre { get; set; }
+
+        [DefaultValue("")]
+        public string Descripcion { get; set; }
 
         [Required]
         [DefaultValue(true)]
