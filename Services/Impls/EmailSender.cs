@@ -6,6 +6,7 @@ using Republish.Data;
 using Republish.Models;
 using Republish.Models.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Models;
 
 namespace Services.Impls
 {
