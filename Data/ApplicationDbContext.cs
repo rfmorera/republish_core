@@ -3,6 +3,7 @@ using Republish.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace Republish.Data
 {
@@ -21,9 +22,39 @@ namespace Republish.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            builder.Entity<Company>(entity => 
+            builder.Entity<Company>(entity =>
             {
                 entity.HasKey(b => b.Id);
+            });
+
+            builder.Entity<Anuncio>(entity =>
+            {
+                entity.HasKey("Id");
+
+                entity.HasOne(a => a.Grupo)
+                      .WithMany(g => g.Anuncios)
+                      .HasForeignKey(a => a.GroupId)
+                      .HasConstraintName("ForeignKey_Grupo_Anuncio");
+            });
+
+            builder.Entity<Grupo>(entity => 
+            {
+                entity.HasKey("Id");
+
+                entity.HasOne(a => a.Categoria)
+                      .WithMany(g => g.Grupos)
+                      .HasForeignKey(a => a.CategoriaId)
+                      .HasConstraintName("ForeignKey_Categoria_Grupo");
+            });
+
+            builder.Entity<Temporizador>(entity => 
+            {
+                
+            });
+
+            builder.Entity<Categoria>(entity => 
+            {
+                entity.HasKey("Id");
             });
         }
     }

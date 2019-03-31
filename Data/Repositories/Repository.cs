@@ -72,9 +72,19 @@ namespace Republish.Data.Repositories
 
         public async Task<T> AddAsync(T t)
         {
-            Context.Set<T>().Add(t);
+            await Context.Set<T>().AddAsync(t);
             await Context.SaveChangesAsync();
             return t;
+        }
+
+        public async Task<IEnumerable<T>> AddAllAsync(IEnumerable<T> tList)
+        {
+            foreach(T t in tList)
+            {
+                await Context.Set<T>().AddAsync(t);
+            }
+            await Context.SaveChangesAsync();
+            return tList;
         }
 
         public async Task<T> FindAsync(Expression<Func<T, bool>> match)

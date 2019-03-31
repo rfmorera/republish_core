@@ -30,6 +30,8 @@ namespace Republish.Data.RepositoriesInterfaces
 
         Task<T> AddAsync(T t);
 
+        Task<IEnumerable<T>> AddAllAsync(IEnumerable<T> tList);
+
         Task<int> CountAsync();
 
         Task<int> DeleteAsync(T entity);

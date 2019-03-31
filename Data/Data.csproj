@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190330180456_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190330180631_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190330180901_AddTemporizadoreCategoria.cs" />
+    <Compile Remove="Migrations\20190330181018_AddTemporizadoreCategoria.cs" />
+    <Compile Remove="Migrations\20190330181250_AddTemporizadorName.cs" />
+    <Compile Remove="Migrations\20190331163202_TemporizadorNewKeyType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
