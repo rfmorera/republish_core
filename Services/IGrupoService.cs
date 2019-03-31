@@ -8,7 +8,7 @@ namespace Services
 {
     public interface IGrupoService
     {
-        Task Add(GrupoDTO grupoDTO);
+        Task Add(GrupoIndexDTO grupoDTO);
 
         Task Remove(string Id);
 

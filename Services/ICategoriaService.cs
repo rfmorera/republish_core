@@ -10,7 +10,7 @@ namespace Services
     {
         Task Add(string UserId, CategoriaIndexDTO categoriaDTO);
 
-        Task<CategoriaDetailsDTO> Details(string Id);
+        Task<CategoriaDetailsDTO> DetailsAsync(string Id);
 
         Task Delete(string Id);
 

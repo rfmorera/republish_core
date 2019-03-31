@@ -21,7 +21,7 @@ namespace Services.Impls
             _groupRepository = new Repository<Grupo>(_dbContext);
         }
 
-        public Task Add(GrupoDTO grupoDTO)
+        public Task Add(GrupoIndexDTO grupoDTO)
         {
             throw new NotImplementedException();
         }

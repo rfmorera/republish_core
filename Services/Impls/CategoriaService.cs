@@ -34,9 +34,16 @@ namespace Services.Impls
             await repository.DeleteAsync(categoria);
         }
 
-        public Task<CategoriaDetailsDTO> Details(string Id)
+        public async Task<CategoriaDetailsDTO> DetailsAsync(string Id)
         {
-            throw new NotImplementedException();
+            Categoria categoria = await repository.FindAsync(c => c.Id == Id);
+            IEnumerable<GrupoIndexDTO> list = await (from g in _context.Set<Grupo>()
+                                        where g.CategoriaId == Id
+                                        select new GrupoIndexDTO(g))
+                                       .ToListAsync();
+
+            CategoriaDetailsDTO detailsDTO = new CategoriaDetailsDTO(categoria, list);
+            return detailsDTO;
         }
 
         public async Task<IEnumerable<CategoriaIndexDTO>> GetAll(string UserId)
