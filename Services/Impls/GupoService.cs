@@ -7,25 +7,33 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Services.DTOs;
 
 namespace Services.Impls
 {
-    public class GroupService : IGroupService
+    public class GupoService : IGrupoService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly Repository<Grupo> _groupRepository;
-        public GroupService(ApplicationDbContext dbContext)
+        public GupoService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _groupRepository = new Repository<Grupo>(_dbContext);
         }
 
-        public async Task Publish(string GroupId)
+        public Task Add(GrupoDTO grupoDTO)
         {
-            IEnumerable<Anuncio> anunciosList = await (from a in _dbContext.Set<Anuncio>()
-                                                      where a.GroupId == GroupId
-                                                      select a)
-                                                      .ToListAsync();
+            throw new NotImplementedException();
+        }
+
+        public Task Publish(string Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Remove(string Id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
