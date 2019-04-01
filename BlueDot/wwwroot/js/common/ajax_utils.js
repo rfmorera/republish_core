@@ -72,8 +72,8 @@ function prepareForm(anchorSelector) {
 
 function showConfirmationPopup(form) {
     swal({
-        title: "Are you sure?",
-        text: "Please confirm you wish to delete this record",
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea eliminar este elemento",
         type: "warning",
         confirmButtonColor: "#DD6B55",
         showCancelButton: true
