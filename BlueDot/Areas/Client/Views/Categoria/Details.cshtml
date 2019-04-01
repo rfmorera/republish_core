@@ -1,13 +1,33 @@
 ﻿@model CategoriaDetailsDTO
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@Model.Nombre</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-area="Client" asp-controller="Default" asp-action="Index">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-area="Client" asp-controller="Categoria" asp-action="Index">Categorías</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>@Model.Nombre</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
 <!-- Content -->
 <div class="wrapper wrapper-content animated fadeIn" style="animation-delay: 0.4s;">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Categoría - @Model.Nombre</h5>
+                    <h5>@Model.Nombre</h5>
                 </div>
                 <div class="ibox-content">
+                    <a asp-area="Client" asp-controller="Categoria" asp-action="Index" class="btn btn-default">Regresar</a>
                     <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Grupo</a>
                 </div>
                 <div class="ibox-content">
@@ -17,7 +37,7 @@
                                 <tr>
                                     <th width="10%">Acciones</th>
                                     <th width="45%">Nombre</th>
-                                    <th width="45%">Cantidad Enlaces</th>
+                                    <th width="45%">Cantidad de Anuncios</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,7 +46,7 @@
                                     <tr class="gradeX">
                                         <td>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="Details" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="Delete" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Categoria" asp-action="DeleteGrupo" asp-route-CategoriaId="@Model.Id" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             @item.Nombre
@@ -59,7 +79,7 @@
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated fadeIn">
-            <form asp-controller="Grupo" asp-action="Add" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+            <form asp-controller="Categoria" asp-action="AddGrupo" method="post" class="form-horizontal" id="form2" form="form2" role="form"
                   data-ajax="true"
                   data-ajax-method="post"
                   data-ajax-begin="onAjaxBegin"
@@ -96,6 +116,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Añadir</button>
+                    <input type="hidden" value="@Model.Id" name="CategoriaId"/>
                 </div>
             </form>
         </div>
