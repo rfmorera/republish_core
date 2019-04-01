@@ -51,6 +51,7 @@ namespace Services.Impls
         {
             IEnumerable<CategoriaIndexDTO> list = await (from c in _context.Set<Categoria>()
                                                     where c.UserId == UserId
+                                                    orderby c.Orden
                                                     select new CategoriaIndexDTO(c))
                                                     .ToListAsync();
             return list;
