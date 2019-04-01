@@ -22,5 +22,15 @@ namespace Services.DTOs
         public string Id { get; set; }
         public string Nombre { get; set; }
         public int CantidadAnuncios { get; set; } = 15;
+
+        public string CategoriaId { get; set; }
+
+        internal Grupo BuildModel()
+        {
+            Grupo grupo = new Grupo();
+            grupo.Nombre = Nombre;
+            grupo.CategoriaId = CategoriaId;
+            return grupo;
+        }
     }
 }

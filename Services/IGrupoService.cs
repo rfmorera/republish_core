@@ -8,10 +8,14 @@ namespace Services
 {
     public interface IGrupoService
     {
-        Task Add(GrupoIndexDTO grupoDTO);
+        Task AddAsync(GrupoIndexDTO grupoDTO);
 
-        Task Remove(string Id);
+        Task DeleteAsync(string Id);
 
         Task Publish(string Id);
+
+        Task<GrupoDetailsDTO> DetailsAsync(string Id);
+
+        Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string CategoriaId);
     }
 }

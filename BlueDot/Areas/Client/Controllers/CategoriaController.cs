@@ -16,16 +16,18 @@ namespace RepublishTool.Areas.Client.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ICategoriaService _categoriaService;
-        public CategoriaController(UserManager<IdentityUser> userManager, ICategoriaService categoriaService)
+        private readonly IGrupoService _grupoService;
+        public CategoriaController(UserManager<IdentityUser> userManager, ICategoriaService categoriaService, IGrupoService grupoService)
         {
             _userManager = userManager;
             _categoriaService = categoriaService;
+            _grupoService = grupoService;
         }
 
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            IEnumerable<CategoriaIndexDTO> categoriaDTOs = await _categoriaService.GetAll(user.Id);
+            IEnumerable<CategoriaIndexDTO> categoriaDTOs = await _categoriaService.GetAllAsync(user.Id);
             return View(categoriaDTOs);
         }
 
@@ -53,10 +55,30 @@ namespace RepublishTool.Areas.Client.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddGrupo(GrupoIndexDTO grupoIndexDTO)
+        {
+            await _grupoService.AddAsync(grupoIndexDTO);
+
+            CategoriaDetailsDTO model = await _categoriaService.DetailsAsync(grupoIndexDTO.CategoriaId);
+
+            return PartialView("Details", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteGrupo(string CategoriaId, string GrupoId)
+        {
+            await _grupoService.DeleteAsync(GrupoId);
+
+            CategoriaDetailsDTO model = await _categoriaService.DetailsAsync(CategoriaId);
+
+            return PartialView("Details", model);
+        }
+
         private async Task<IActionResult> BuildPartialView()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            IEnumerable<CategoriaIndexDTO> categoriaDTOs = await _categoriaService.GetAll(user.Id);
+            IEnumerable<CategoriaIndexDTO> categoriaDTOs = await _categoriaService.GetAllAsync(user.Id);
             return PartialView("Index", categoriaDTOs);
         }
     }
