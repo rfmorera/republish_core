@@ -16,10 +16,12 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Categoria> repository;
-        public CategoriaService(ApplicationDbContext context)
+        private readonly IGrupoService _grupoService;
+        public CategoriaService(ApplicationDbContext context, IGrupoService grupoService)
         {
             _context = context;
             repository = new Repository<Categoria>(context);
+            _grupoService = grupoService;
         }
 
         public async Task Add(string UserId, CategoriaIndexDTO categoriaDTO)
@@ -37,17 +39,14 @@ namespace Services.Impls
         public async Task<CategoriaDetailsDTO> DetailsAsync(string Id)
         {
             Categoria categoria = await repository.FindAsync(c => c.Id == Id);
-            IEnumerable<GrupoIndexDTO> list = await (from g in _context.Set<Grupo>()
-                                        where g.CategoriaId == Id
-                                        orderby g.Orden
-                                        select new GrupoIndexDTO(g))
-                                       .ToListAsync();
+
+            IEnumerable<GrupoIndexDTO> list = await _grupoService.GetAllAsync(Id);
 
             CategoriaDetailsDTO detailsDTO = new CategoriaDetailsDTO(categoria, list);
             return detailsDTO;
         }
 
-        public async Task<IEnumerable<CategoriaIndexDTO>> GetAll(string UserId)
+        public async Task<IEnumerable<CategoriaIndexDTO>> GetAllAsync(string UserId)
         {
             IEnumerable<CategoriaIndexDTO> list = await (from c in _context.Set<Categoria>()
                                                     where c.UserId == UserId

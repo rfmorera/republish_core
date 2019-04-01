@@ -16,6 +16,6 @@ namespace Services
 
         Task Update(CategoriaIndexDTO categoriaUpdatedDTO, string Id);
 
-        Task<IEnumerable<CategoriaIndexDTO>> GetAll(string UserId);
+        Task<IEnumerable<CategoriaIndexDTO>> GetAllAsync(string UserId);
     }
 }
