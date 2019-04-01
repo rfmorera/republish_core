@@ -16,6 +16,8 @@ function onDeleteSuccess() {
 }
 
 function initializePage() {
+    initializeDataTable($("#dataTables-table"));
+
     $('#form2').formValidation({
         framework: 'bootstrap',
         icon: {
