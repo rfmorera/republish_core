@@ -1,4 +1,8 @@
 ﻿@model CategoriaDetailsDTO
+@{
+    ViewData["Title"] = @Model.Nombre;
+}
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>@Model.Nombre</h2>
@@ -116,7 +120,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Añadir</button>
-                    <input type="hidden" value="@Model.Id" name="CategoriaId"/>
+                    <input type="hidden" value="@Model.Id" name="CategoriaId" />
                 </div>
             </form>
         </div>

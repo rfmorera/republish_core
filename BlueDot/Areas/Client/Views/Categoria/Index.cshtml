@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<CategoriaIndexDTO>
+@{
+    ViewData["Title"] = "Categorías";
+}
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Categorías</h2>
@@ -40,7 +43,7 @@
                                 {
                                     <tr class="gradeX">
                                         <td>
-                                            <a asp-area="Client" asp-controller="Categoria" asp-action="Details" asp-route-CategoriaId="@item.Id"class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
+                                            <a asp-area="Client" asp-controller="Categoria" asp-action="Details" asp-route-CategoriaId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
                                             <a asp-area="Client" asp-controller="Categoria" asp-action="Delete" asp-route-CategoriaId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
