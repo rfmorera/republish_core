@@ -185,6 +185,13 @@ namespace BlueDot.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Actualizado");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<bool>("Estado");
+
                     b.Property<string>("GroupId")
                         .IsRequired();
 
@@ -200,32 +207,6 @@ namespace BlueDot.Data.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Anuncio");
-                });
-
-            modelBuilder.Entity("Models.Categoria", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Activo");
-
-                    b.Property<string>("Descripcion");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired();
-
-                    b.Property<int>("Orden")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Categoria");
                 });
 
             modelBuilder.Entity("Models.Company", b =>
@@ -264,18 +245,22 @@ namespace BlueDot.Data.Migrations
 
                     b.Property<bool>("Activo");
 
-                    b.Property<string>("CategoriaId")
-                        .IsRequired();
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                    b.Property<string>("Nombre");
+                    b.Property<string>("Nombre")
+                        .IsRequired();
 
                     b.Property<int>("Orden")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Grupo");
                 });
@@ -285,15 +270,21 @@ namespace BlueDot.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CategoriaId")
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("GrupoId")
                         .IsRequired();
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("Orden")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId")
-                        .IsUnique();
+                    b.HasIndex("GrupoId");
 
                     b.ToTable("Temporizador");
                 });
@@ -352,7 +343,7 @@ namespace BlueDot.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Models.Categoria", b =>
+            modelBuilder.Entity("Models.Grupo", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
@@ -360,20 +351,12 @@ namespace BlueDot.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Models.Grupo", b =>
-                {
-                    b.HasOne("Models.Categoria", "Categoria")
-                        .WithMany("Grupos")
-                        .HasForeignKey("CategoriaId")
-                        .HasConstraintName("ForeignKey_Categoria_Grupo")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Models.Temporizador", b =>
                 {
-                    b.HasOne("Models.Categoria", "Categoria")
-                        .WithOne("Temporizador")
-                        .HasForeignKey("Models.Temporizador", "CategoriaId")
+                    b.HasOne("Models.Grupo", "Grupo")
+                        .WithMany("Temporizadores")
+                        .HasForeignKey("GrupoId")
+                        .HasConstraintName("ForeignKey_Grupo_Temporizador")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

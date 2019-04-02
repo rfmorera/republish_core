@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlueDot.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class NewBegining : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -172,57 +172,24 @@ namespace BlueDot.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categoria",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Nombre = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categoria", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Categoria_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Grupo",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Nombre = table.Column<string>(nullable: true),
-                    CategoriaId = table.Column<string>(nullable: false)
+                    Nombre = table.Column<string>(nullable: false),
+                    Orden = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Activo = table.Column<bool>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Grupo", x => x.Id);
                     table.ForeignKey(
-                        name: "ForeignKey_Categoria_Grupo",
-                        column: x => x.CategoriaId,
-                        principalTable: "Categoria",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Temporizador",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    CategoriaId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Temporizador", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Temporizador_Categoria_CategoriaId",
-                        column: x => x.CategoriaId,
-                        principalTable: "Categoria",
+                        name: "FK_Grupo_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -233,6 +200,11 @@ namespace BlueDot.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Url = table.Column<string>(nullable: false),
+                    Orden = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Estado = table.Column<bool>(nullable: false),
+                    Actualizado = table.Column<bool>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     GroupId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -241,6 +213,28 @@ namespace BlueDot.Data.Migrations
                     table.ForeignKey(
                         name: "ForeignKey_Grupo_Anuncio",
                         column: x => x.GroupId,
+                        principalTable: "Grupo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Temporizador",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Orden = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GrupoId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Temporizador", x => x.Id);
+                    table.ForeignKey(
+                        name: "ForeignKey_Grupo_Temporizador",
+                        column: x => x.GrupoId,
                         principalTable: "Grupo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -291,20 +285,14 @@ namespace BlueDot.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categoria_UserId",
-                table: "Categoria",
+                name: "IX_Grupo_UserId",
+                table: "Grupo",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grupo_CategoriaId",
-                table: "Grupo",
-                column: "CategoriaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Temporizador_CategoriaId",
+                name: "IX_Temporizador_GrupoId",
                 table: "Temporizador",
-                column: "CategoriaId",
-                unique: true);
+                column: "GrupoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -334,13 +322,10 @@ namespace BlueDot.Data.Migrations
                 name: "Temporizador");
 
             migrationBuilder.DropTable(
-                name: "Grupo");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Categoria");
+                name: "Grupo");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
