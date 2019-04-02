@@ -1,0 +1,109 @@
+﻿@model Services.DTOs.TemporizadorDTO
+<!-- modal window -->
+<div id="add-temporizador-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn">
+            <form asp-controller="Grupo" asp-action="AddTemporizador" method="post" class="form-horizontal" id="formTemporizador" form="formTemporizador" role="form"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-begin="onAjaxBegin"
+                  data-ajax-failure="onAjaxError"
+                  data-ajax-complete="dismiss_modal"
+                  data-ajax-success="onAddSuccess"
+                  data-ajax-update="#body_content">
+
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title">Añadir Grupo</h3>
+                        <small>Por favor entre el nombre del grupo</small>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body">
+                    <div class="ibox float-e-margins">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Nombre</label>
+                            <div class="col-sm-9">
+
+                                <input id="Nombre" name="Nombre" type="text" class="form-control" placeholder="" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Días</label>
+                            <div class="col-sm-9">
+                                <div class="i-checks">
+                                    <input asp-for="Lunes" class="form-control" />
+                                    <label asp-for="Lunes" class="form-check-label">@Html.DisplayNameFor(m => m.Lunes)</label>
+                                    <input asp-for="Martes" class="form-control" />
+                                    <label asp-for="Martes" class="form-check-label">@Html.DisplayNameFor(m => m.Martes)</label>
+                                    <input asp-for="Miercoles" class="form-control" />
+                                    <label asp-for="Miercoles" class="form-check-label">@Html.DisplayNameFor(m => m.Miercoles)</label>
+                                </div>
+                            </div>
+                            <label class="col-sm-3 col-form-label">&nbsp;</label>
+                            <div class="col-sm-9">
+                                <div class="i-checks">
+                                    <input asp-for="Jueves" class="form-control" />
+                                    <label asp-for="Jueves" class="form-check-label">@Html.DisplayNameFor(m => m.Jueves)</label>
+                                    <input asp-for="Viernes" class="form-control" />
+                                    <label asp-for="Viernes" class="form-check-label">@Html.DisplayNameFor(m => m.Viernes)</label>
+                                    <input asp-for="Sabado" class="form-control" />
+                                    <label asp-for="Sabado" class="form-check-label">@Html.DisplayNameFor(m => m.Sabado)</label>
+                                </div>
+                            </div>
+                            <label class="col-sm-3 col-form-label">&nbsp;</label>
+                            <div class="col-sm-9">
+                                <div class="i-checks">
+                                    <input asp-for="Domingo" class="form-control" />
+                                    <label asp-for="Domingo" class="form-check-label">@Html.DisplayNameFor(m => m.Domingo)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.HoraInicio)</label>
+                    <div class="col-sm-9">
+                        <div class="input-group clockpicker" data-autoclose="true">
+                            <input asp-for="HoraInicio" type="text" class="form-control" value="09:30">
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.HoraFin)</label>
+                    <div class="col-sm-9">
+                        <div class="input-group clockpicker" data-autoclose="true">
+                            <input asp-for="HoraFin" type="text" class="form-control" value="09:30">
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.Etapa)</label>
+                    <div class="col-sm-9 row">
+                        <div class="col-sm-12 input-group" data-autoclose="true">
+                            <input asp-for="Etapa" class="form-control" min="0">
+                        </div>
+                        <small class="col-sm-12">Deje "0" para publicar todos los anuncios</small>
+                    </div>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- modal window end -->

@@ -5,6 +5,7 @@
 @section Stylesheets {
     <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/dataTables/dataTables.bootstrap4.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/clockpicker/clockpicker.min.css" asp-append-version="true" />
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -35,8 +36,43 @@
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-button" data-form-id="delete-form">Eliminar Anuncios</a>
                     <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Enlaces</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary">Añadir Temporizador</a>
                 </div>
                 <div class="ibox-content">
+                    <h3>Temporizadores</h3>
+                    <div class="table-responsive">
+                        <table id="dataTables-table-temporizador" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th width="10%">Acciones</th>
+                                    <th width="30%">Nombre</th>
+                                    <th width="60%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (TemporizadorDTO item in Model.Temporizadores)
+                                {
+                                    <tr class="gradeX">
+                                        <td>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                        </td>
+                                        <td>
+                                            @item.Nombre
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <h3>Anuncios</h3>
                     <div class="table-responsive">
                         <table id="dataTables-table" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
@@ -55,7 +91,14 @@
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
-                                            @item.Caducado
+                                            @if (item.Caducado)
+                                            {
+                                                <span class="badge badge-warning">Caducado</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-primary">Activo</span>
+                                            }
                                         </td>
                                         <td>
                                             @item.Url
@@ -83,7 +126,7 @@
 
 <!-- modal window -->
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content animated fadeIn">
             <form asp-controller="Grupo" asp-action="AddAnuncio" method="post" class="form-horizontal" id="form2" form="form2" role="form"
                   data-ajax="true"
@@ -124,8 +167,11 @@
 </div>
 <!-- modal window end -->
 
+@Html.Partial("TemporizadorPartial", new TemporizadorDTO())
+
 @section Scripts {
     <partial name="~/Areas/Common/Views/_DataTables.cshtml" />
+    <partial name="~/Areas/Common/Views/_ClockPicker.cshtml" />
     <environment include="Development">
         <script src="~/js/Client/Common/modal.js"></script>
         <script src="~/js/Client/Grupo/details.js"></script>
