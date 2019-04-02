@@ -310,5 +310,17 @@
     "inputFiles": [
       "wwwroot/js/Client/Grupo/index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/clockpicker/clockpicker.min.css",
+    "inputFiles": [
+      "wwwroot/lib/clockpicker/clockpicker.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/clockpicker/clockpicker.min.js",
+    "inputFiles": [
+      "wwwroot/lib/clockpicker/clockpicker.js"
+    ]
   }
 ]

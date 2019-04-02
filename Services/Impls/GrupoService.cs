@@ -42,7 +42,13 @@ namespace Services.Impls
                                                   orderby a.Orden
                                                   select new AnuncioDTO(a))
                                                   .ToListAsync();
-            GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list);
+
+            IEnumerable<TemporizadorDTO> listT = await (from a in _context.Set<Temporizador>()
+                                                  where a.GrupoId == GrupoId
+                                                  orderby a.Orden
+                                                  select new TemporizadorDTO(a))
+                                                  .ToListAsync();
+            GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;
         }
 

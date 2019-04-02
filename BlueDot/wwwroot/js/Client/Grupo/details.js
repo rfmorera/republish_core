@@ -11,7 +11,11 @@ function onDeleteSuccess() {
 }
 
 function initializePage() {
+    $('.clockpicker').clockpicker({
+        twelvehour: true
+    });
     initializeDataTable($("#dataTables-table"));
+    initializeDataTable($("#dataTables-table-temporizador"));
     $("a.delete-all-button").off("click").on("click", function (e) {
         e.preventDefault();
         var form = prepareFormCustom($(this));
