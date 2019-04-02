@@ -304,5 +304,11 @@
     "inputFiles": [
       "wwwroot/js/Client/Grupo/details.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Client/Grupo/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Client/Grupo/index.js"
+    ]
   }
 ]

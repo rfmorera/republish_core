@@ -15,10 +15,7 @@
                 <a asp-area="Client" asp-controller="Default" asp-action="Index">Inicio</a>
             </li>
             <li class="breadcrumb-item">
-                <a asp-area="Client" asp-controller="Categoria" asp-action="Index">Categorías</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a asp-area="Client" asp-controller="Categoria" asp-action="Details" asp-route-CategoriaId="@Model.CategoriaId">@Model.CategoriaNombre</a>
+                <a asp-area="Client" asp-controller="Grupo" asp-action="Index">Grupos</a>
             </li>
             <li class="active breadcrumb-item">
                 <strong>@Model.Nombre</strong>
@@ -35,7 +32,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <a asp-area="Client" asp-controller="Categoria" asp-action="Details" asp-route-CategoriaId="@Model.CategoriaId" class="btn btn-default">Regresar</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-button" data-form-id="delete-form">Eliminar Anuncios</a>
                     <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Enlaces</a>
                 </div>
@@ -45,8 +42,8 @@
                             <thead>
                                 <tr>
                                     <th width="10%">Acciones</th>
-                                    <th width="45%">Url</th>
-                                    <th width="45%">Comentario</th>
+                                    <th width="5%">Estado</th>
+                                    <th width="50%">Url</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,10 +55,10 @@
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
-                                            @item.Url
+                                            @item.Estado
                                         </td>
                                         <td>
-                                            
+                                            @item.Url
                                         </td>
                                     </tr>
                                 }

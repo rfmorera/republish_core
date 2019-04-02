@@ -16,20 +16,17 @@ namespace Services.DTOs
         {
             Id = grupo.Id;
             Nombre = grupo.Nombre;
-            //CantidadAnuncios = grupo.Anuncios.Count;
+            CantidadAnuncios = grupo.Anuncios.Count;
         }
 
         public string Id { get; set; }
         public string Nombre { get; set; }
-        public int CantidadAnuncios { get; set; } = 15;
-
-        public string CategoriaId { get; set; }
+        public int CantidadAnuncios { get; set; }
 
         internal Grupo BuildModel()
         {
             Grupo grupo = new Grupo();
             grupo.Nombre = Nombre;
-            grupo.CategoriaId = CategoriaId;
             return grupo;
         }
     }

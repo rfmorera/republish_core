@@ -19,21 +19,24 @@ namespace Services.Impls
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
         }
 
-        public async Task<IEnumerable<Anuncio>> AddAsync(IEnumerable<Anuncio> anuncios)
+        public Task AddAsync(IEnumerable<string> links)
         {
-            await repositoryAnuncio.AddAllAsync(anuncios);
-            return anuncios;
+            throw new NotImplementedException();
         }
 
-        public async Task<int> RemoveByIdAsync(string Id)
+        public Task DeleteAllByGroup(string GrupoId)
         {
-            Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
-            return await repositoryAnuncio.DeleteAsync(anuncio);
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(string Id)
+        {
+            throw new NotImplementedException();
         }
 
         public void Publish(string url)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

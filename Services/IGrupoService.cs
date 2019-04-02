@@ -16,6 +16,6 @@ namespace Services
 
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 
-        Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string CategoriaId);
+        Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);
     }
 }

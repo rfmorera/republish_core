@@ -1,6 +1,6 @@
-﻿@model IEnumerable<CategoriaIndexDTO>
+﻿@model IEnumerable<GrupoIndexDTO>
 @{
-    ViewData["Title"] = "Categorías";
+    ViewData["Title"] = "Grupos";
 }
 @section Stylesheets {
     <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" asp-append-version="true" />
@@ -9,51 +9,51 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Categorías</h2>
+        <h2>Grupos</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="Client" asp-controller="Default" asp-action="Index">Inicio</a>
             </li>
             <li class="active breadcrumb-item">
-                <strong>Categorías</strong>
+                <strong>Grupos</strong>
             </li>
         </ol>
     </div>
     <div class="col-lg-2">
     </div>
 </div>
+
 <!-- Content -->
 <div class="wrapper wrapper-content animated fadeIn" style="animation-delay: 0.4s;">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-
                 <div class="ibox-content">
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Categoría</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Grupo</a>
                 </div>
                 <div class="ibox-content">
-                    <div class="table-responsive dataTables-wrapper">
+                    <div class="table-responsive">
                         <table id="dataTables-table" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
                                     <th width="10%">Acciones</th>
                                     <th width="45%">Nombre</th>
-                                    <th width="45%">Descripción</th>
+                                    <th width="45%">Cantidad de Anuncios</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (CategoriaIndexDTO item in Model)
+                                @foreach (GrupoIndexDTO item in Model)
                                 {
                                     <tr class="gradeX">
                                         <td>
-                                            <a asp-area="Client" asp-controller="Categoria" asp-action="Details" asp-route-CategoriaId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
-                                            <a asp-area="Client" asp-controller="Categoria" asp-action="Delete" asp-route-CategoriaId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="Details" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="Delete" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             @item.Nombre
                                         </td>
                                         <td>
-                                            @item.Descripcion
+                                            @item.CantidadAnuncios
                                         </td>
                                     </tr>
                                 }
@@ -80,7 +80,7 @@
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated fadeIn">
-            <form asp-controller="Categoria" asp-action="Add" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+            <form asp-controller="Grupo" asp-action="Add" method="post" class="form-horizontal" id="form2" form="form2" role="form"
                   data-ajax="true"
                   data-ajax-method="post"
                   data-ajax-begin="onAjaxBegin"
@@ -91,8 +91,8 @@
 
                 <div class="modal-header">
                     <div>
-                        <h3 class="modal-title">Añadir Categoría</h3>
-                        <small>Por favor entre el nombre de la categoría y su descripción</small>
+                        <h3 class="modal-title">Añadir Grupo</h3>
+                        <small>Por favor entre el nombre del grupo</small>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
@@ -104,13 +104,6 @@
                                 <input id="Nombre" name="Nombre" type="text" class="form-control" placeholder="" value="">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Descripción</label>
-                            <div class="col-sm-9">
-                                <input id="Descripcion" name="Descripcion" type="text" class="form-control" placeholder="" value="">
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -128,11 +121,11 @@
     <partial name="~/Areas/Common/Views/_DataTables.cshtml" />
     <environment include="Development">
         <script src="~/js/Client/Common/modal.js"></script>
-        <script src="~/js/Client/Categoria/index.js"></script>
+        <script src="~/js/Client/Grupo/index.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/Client/Common/modal.min.js" asp-append-version="true"></script>
-        <script src="~/js/Client/Categoria/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/Client/Grupo/index.min.js" asp-append-version="true"></script>
     </environment>
 
 }

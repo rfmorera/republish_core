@@ -65,7 +65,6 @@ namespace Republish
             services.AddTransient<IStoredProcedureService, StoredProcedureService>();
             services.AddTransient<IForgotPasswordService, ForgotPasswordService>();
             services.AddTransient<IUpdatePasswordService, UpdatePasswordService>();
-            services.AddTransient<ICategoriaService, CategoriaService>();
             services.AddTransient<IGrupoService, GrupoService>();
             
             services.AddMvc().AddRazorPagesOptions(opts => {

@@ -15,9 +15,14 @@ namespace Models
 
         public string Name { get; set; }
 
+        [ConcurrencyCheck]
+        public string ConcurrencyStamp { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Orden { get; set; }
+
         [Required]
-        [ForeignKey("ForeignKey_Categoria_Temporizador")]
-        public string CategoriaId { get; set; }
-        public Categoria Categoria { get; set; }
+        public string GrupoId { get; set; }
+        public Grupo Grupo { get; set; }
     }
 }

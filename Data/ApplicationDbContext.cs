@@ -41,21 +41,16 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
 
-                entity.HasOne(a => a.Categoria)
-                      .WithMany(g => g.Grupos)
-                      .HasForeignKey(a => a.CategoriaId)
-                      .HasConstraintName("ForeignKey_Categoria_Grupo");
             });
 
             builder.Entity<Temporizador>(entity => 
             {
-                
+                entity.HasOne(a => a.Grupo)
+                      .WithMany(g => g.Temporizadores)
+                      .HasForeignKey(a => a.GrupoId)
+                      .HasConstraintName("ForeignKey_Grupo_Temporizador");
             });
 
-            builder.Entity<Categoria>(entity => 
-            {
-                entity.HasKey("Id");
-            });
         }
     }
 }

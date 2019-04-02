@@ -36,7 +36,6 @@ namespace Services.Impls
         public async Task<GrupoDetailsDTO> DetailsAsync(string GrupoId)
         {
             Grupo grupo = await _repository.FindAsync(g => g.Id == GrupoId);
-            _context.Entry(grupo).Reference(s => s.Categoria).Load();
             IEnumerable<AnuncioDTO> list = await (from a in _context.Set<Anuncio>()
                                                   where a.GroupId == GrupoId
                                                   orderby a.Orden
@@ -46,10 +45,10 @@ namespace Services.Impls
             return model;
         }
 
-        public async Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string CategoriaId)
+        public async Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId)
         {
             IEnumerable<GrupoIndexDTO> list = await (from g in _context.Set<Grupo>()
-                                                     where g.CategoriaId == CategoriaId
+                                                     where g.UserId == UserId
                                                      orderby g.Orden
                                                      select new GrupoIndexDTO(g))
                                                      .ToListAsync();
