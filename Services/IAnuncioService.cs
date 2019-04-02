@@ -7,7 +7,7 @@ namespace Services
 {
     public interface IAnuncioService
     {
-        Task AddAsync(IEnumerable<string> links);
+        Task AddAsync(string GrupoId, string[] links);
 
         Task DeleteAsync(string Id);
 

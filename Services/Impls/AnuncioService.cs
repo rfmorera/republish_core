@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Services.Impls
 {
@@ -19,19 +21,34 @@ namespace Services.Impls
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
         }
 
-        public Task AddAsync(IEnumerable<string> links)
+        public async Task AddAsync(string GrupoId, string[] links)
         {
-            throw new NotImplementedException();
+            foreach(string st in links)
+            {
+                try
+                {
+                    await _dbContext.Set<Anuncio>().AddAsync(new Anuncio() { UrlFormat = new Uri(st), GroupId = GrupoId });
+                }
+                catch (Exception) { }
+                
+            }
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAllByGroup(string GrupoId)
+        public async Task DeleteAllByGroup(string GrupoId)
         {
-            throw new NotImplementedException();
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
+            foreach(Anuncio a in anuncios)
+            {
+                _dbContext.Set<Anuncio>().Remove(a);
+            }
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(string Id)
+        public async Task DeleteAsync(string Id)
         {
-            throw new NotImplementedException();
+            Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
+            await repositoryAnuncio.DeleteAsync(anuncio);
         }
 
         public void Publish(string url)

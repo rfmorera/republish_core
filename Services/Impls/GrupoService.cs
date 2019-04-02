@@ -1,4 +1,5 @@
-﻿using Models;
+﻿
+using Models;
 using Republish.Data;
 using Republish.Data.Repositories;
 using System;
@@ -47,11 +48,12 @@ namespace Services.Impls
 
         public async Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId)
         {
-            IEnumerable<GrupoIndexDTO> list = await (from g in _context.Set<Grupo>()
-                                                     where g.UserId == UserId
-                                                     orderby g.Orden
-                                                     select new GrupoIndexDTO(g))
-                                                     .ToListAsync();
+            IEnumerable<GrupoIndexDTO> list = await _context.Set<Grupo>()
+                                                    .Where(g => g.UserId == UserId)
+                                                    .OrderBy(g => g.Orden)
+                                                    .Include(g => g.Anuncios)
+                                                    .Select(g => new GrupoIndexDTO(g))
+                                                    .ToListAsync();
             return list;
         }
 
