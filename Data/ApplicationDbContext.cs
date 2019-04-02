@@ -35,11 +35,16 @@ namespace Republish.Data
                       .WithMany(g => g.Anuncios)
                       .HasForeignKey(a => a.GroupId)
                       .HasConstraintName("ForeignKey_Grupo_Anuncio");
+
+                entity.Property(p => p.Actualizado).HasDefaultValue(false);
+                entity.Property(p => p.Estado).HasDefaultValue(true);
             });
 
             builder.Entity<Grupo>(entity => 
             {
                 entity.HasKey("Id");
+
+                entity.Property(p => p.Activo).HasDefaultValue(true);
 
             });
 
