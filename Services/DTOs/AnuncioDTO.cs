@@ -7,11 +7,13 @@ namespace Services.DTOs
 {
     public class AnuncioDTO
     {
-        private Anuncio a;
-
         public AnuncioDTO(Anuncio a)
         {
-            this.a = a;
+            Id = a.Id;
+            Url = a.Url;
         }
+
+        public string Id { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -298,5 +298,11 @@
     "inputFiles": [
       "wwwroot/js/Client/Common/modal.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Client/Grupo/details.min.js",
+    "inputFiles": [
+      "wwwroot/js/Client/Grupo/details.js"
+    ]
   }
 ]
