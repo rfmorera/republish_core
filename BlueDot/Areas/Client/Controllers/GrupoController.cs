@@ -40,6 +40,8 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(GrupoIndexDTO grupoIndexDTO)
         {
+            IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
+            grupoIndexDTO.UserId = user.Id;
             await _grupoService.AddAsync(grupoIndexDTO);
 
             return await BuildPartialView();
@@ -54,9 +56,10 @@ namespace RepublishTool.Areas.Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAnuncio(string GrupoId, IEnumerable<string> enlaces)
+        public async Task<IActionResult> AddAnuncio(string GrupoId, string Enlaces)
         {
-            await _anuncioService.AddAsync(enlaces);
+            string[] list = Enlaces.Split("\r\n");
+            await _anuncioService.AddAsync(GrupoId, list);
 
             return await BuildPartialDetailsView(GrupoId);
         }

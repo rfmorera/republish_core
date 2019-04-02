@@ -1,6 +1,17 @@
 ﻿$(document).ready(initializePage);
 
+function onAddSuccess() {
+    clean_modal();
+    initializePage();
+}
+
+function onDeleteSuccess() {
+    onAjaxSuccess();
+    initializePage();
+}
+
 function initializePage() {
+    initializeDataTable($("#dataTables-table"));
     $("a.delete-all-button").off("click").on("click", function (e) {
         e.preventDefault();
         var form = prepareFormCustom($(this));
