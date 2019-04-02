@@ -20,7 +20,6 @@ namespace Models
         public int Orden { get; set; }
 
         [Required]
-        [DefaultValue(true)]
         public bool Activo { get; set; }
 
         [ConcurrencyCheck]

@@ -16,13 +16,22 @@ namespace Models
         [Required]
         public string Url { get; set; }
 
+        [NotMapped]
+        public Uri UrlFormat { get
+            {
+                return new Uri(Url);
+            }
+            set
+            {
+                Url = value.ToString();
+            }
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Orden { get; set; }
 
-        [DefaultValue(true)]
         public bool Estado { get; set; }
 
-        [DefaultValue(true)]
         public bool Actualizado { get; set; }
 
         [ConcurrencyCheck]
