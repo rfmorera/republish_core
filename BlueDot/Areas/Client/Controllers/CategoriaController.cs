@@ -10,6 +10,7 @@ using Services.DTOs;
 
 namespace RepublishTool.Areas.Client.Controllers
 {
+    // Dejar de usar categoria
     [Area("Client")]
     [Authorize(Roles = "Client")]
     public class CategoriaController : Controller
