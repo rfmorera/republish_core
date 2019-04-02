@@ -30,7 +30,7 @@ namespace Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Orden { get; set; }
 
-        public bool Estado { get; set; }
+        public bool Caducado { get; set; }
 
         public bool Actualizado { get; set; }
 

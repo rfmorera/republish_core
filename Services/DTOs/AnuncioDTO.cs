@@ -11,11 +11,11 @@ namespace Services.DTOs
         {
             Id = a.Id;
             Url = a.Url;
-            Estado = a.Estado;
+            Caducado = a.Caducado;
         }
 
         public string Id { get; set; }
         public string Url { get; set; }
-        public bool Estado { get; set; }
+        public bool Caducado { get; set; }
     }
 }
