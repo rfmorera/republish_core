@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Grupos";
 }
-
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/common/switch.min.css" asp-append-version="true" />
+}
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Grupos</h2>
@@ -33,8 +35,9 @@
                             <thead>
                                 <tr>
                                     <th width="10%">Acciones</th>
-                                    <th width="45%">Nombre</th>
-                                    <th width="45%">Cantidad de Anuncios</th>
+                                    <th width="10%">Estado</th>
+                                    <th width="40%">Nombre</th>
+                                    <th width="30%">Cantidad de Anuncios</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +47,15 @@
                                         <td>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="Details" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="Delete" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                        </td>
+                                        <td>
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" checked="" class="onoffswitch-checkbox" id="@item.Id">
+                                                <label class="onoffswitch-label" for="@item.Id">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
                                         </td>
                                         <td>
                                             @item.Nombre
