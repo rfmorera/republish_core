@@ -23,7 +23,7 @@
         });
 
         selector.DataTable({
-            "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
                 { extend: 'copy' },
