@@ -34,8 +34,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
-                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-button" data-form-id="delete-form">Eliminar Anuncios</a>
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Enlaces</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
                     <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary">Añadir Temporizador</a>
                 </div>
                 <div class="ibox-content">
@@ -70,6 +69,11 @@
                             </tfoot>
                         </table>
                     </div>
+                </div>
+                <div class="ibox-content">
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-anuncios-button" data-form-id="delete-form">Eliminar Anuncios</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Enlaces</a>
                 </div>
                 <div class="ibox-content">
                     <h3>Anuncios</h3>

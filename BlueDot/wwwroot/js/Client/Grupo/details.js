@@ -16,12 +16,20 @@ function initializePage() {
     });
     initializeDataTable($("#dataTables-table"));
     initializeDataTable($("#dataTables-table-temporizador"));
-    $("a.delete-all-button").off("click").on("click", function (e) {
+    $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
         e.preventDefault();
         var form = prepareFormCustom($(this));
 
         if (form) {
             showConfirmationPopupCustom(form);
+        }
+    });
+    $("a.delete-all-temporizadores-button").off("click").on("click", function (e) {
+        e.preventDefault();
+        var form = prepareFormCustom($(this));
+
+        if (form) {
+            showConfirmationPopupTemporizadoresCustom(form);
         }
     });
 }
@@ -42,6 +50,17 @@ function showConfirmationPopupCustom(form) {
     swal({
         title: "¿Está seguro?",
         text: "Por favor confirme que usted desea eliminar todos los anuncios de este grupo",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        form.submit();
+    });
+}
+function showConfirmationPopupTemporizadoresCustom(form) {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea eliminar todos los temporizadores de este grupo",
         type: "warning",
         confirmButtonColor: "#DD6B55",
         showCancelButton: true

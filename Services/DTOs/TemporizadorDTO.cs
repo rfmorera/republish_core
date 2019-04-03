@@ -16,6 +16,7 @@ namespace Services.DTOs
 
         public TemporizadorDTO(Temporizador t)
         {
+            Id = t.Id;
             Nombre = t.Nombre;
             Lunes = t.Lunes;
             Martes = t.Martes;

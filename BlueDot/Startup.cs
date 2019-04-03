@@ -67,6 +67,7 @@ namespace Republish
             services.AddTransient<IUpdatePasswordService, UpdatePasswordService>();
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
+            services.AddTransient<ITemporizadorService, TemporizadorService>();
             
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
