@@ -46,7 +46,7 @@
                                 <tr>
                                     <th width="10%">Acciones</th>
                                     <th width="30%">Nombre</th>
-                                    <th width="60%"></th>
+                                    <th width="60%">Descripcion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,14 +54,14 @@
                                 {
                                     <tr class="gradeX">
                                         <td>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="disabled btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             @item.Nombre
                                         </td>
                                         <td>
-                                            
+                                            @item.ToString()
                                         </td>
                                     </tr>
                                 }

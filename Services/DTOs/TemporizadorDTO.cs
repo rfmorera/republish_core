@@ -1,4 +1,5 @@
 ﻿using Models;
+using Republish.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +32,61 @@ namespace Services.DTOs
             IntervaloMinutos = t.IntervaloMinutos;
 
             Etapa = t.Etapa;
+        }
+
+        public override string ToString()
+        {
+            string tmp = "";
+            tmp += "Días: ";
+            if(Lunes && Martes && Miercoles && Jueves && Viernes && Sabado && Domingo)
+            {
+                tmp += "Todos |";
+            }
+            else
+            {
+                if (Lunes)
+                {
+                    tmp += "L, ";
+                }
+                if (Martes)
+                {
+                    tmp += "Ma, ";
+                }
+                if (Miercoles)
+                {
+                    tmp += "Mi,";
+                }
+                if (Jueves)
+                {
+                    tmp += "J, ";
+                }
+                if (Viernes)
+                {
+                    tmp += "V, ";
+                }
+                if (Sabado)
+                {
+                    tmp += "S, ";
+                }
+                if (Domingo)
+                {
+                    tmp += "D, ";
+                }
+                tmp = tmp.Substring(0, tmp.Length - 2);
+                tmp += " | ";
+            }
+
+            tmp += string.Format("Hora Inicio{0} - Hora Fin {1} |", HoraInicio.ToTimeString(), HoraFin.ToTimeString());
+            tmp += string.Format("Intervalo Horas: {0} Minutos: {1} |", IntervaloHoras, IntervaloMinutos);
+            if(Etapa == 0)
+            {
+                tmp += "Todos";
+            }
+            else
+            {
+                tmp += "5 link/intervalo";
+            }
+            return tmp;
         }
         public string Id { get; set; }
 

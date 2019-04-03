@@ -15,6 +15,11 @@ namespace Republish.Extensions
             return dateTime.ToString(@"MM/dd/yyyy hh:mm:ss tt");
         }
 
+        public static string ToTimeString(this DateTime dateTime)
+        {
+            return dateTime.ToString(@"hh:mm tt");
+        }
+
         public static string ToDateString(this DateTime? dateTime)
         {
             return ToDateStringCommon(dateTime, ToDateString);
