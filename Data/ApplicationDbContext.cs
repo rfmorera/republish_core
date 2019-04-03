@@ -36,7 +36,7 @@ namespace Republish.Data
                       .HasConstraintName("ForeignKey_Grupo_Anuncio");
 
                 entity.Property(p => p.Actualizado).HasDefaultValue(false);
-                entity.Property(p => p.Caducado).HasDefaultValue(true);
+                entity.Property(p => p.Caducado).HasDefaultValue(false);
             });
 
             builder.Entity<Grupo>(entity => 

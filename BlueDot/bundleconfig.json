@@ -322,5 +322,11 @@
     "inputFiles": [
       "wwwroot/lib/clockpicker/clockpicker.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/common/switch.min.css",
+    "inputFiles": [
+      "wwwroot/css/common/switch.css"
+    ]
   }
 ]
