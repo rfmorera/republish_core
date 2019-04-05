@@ -1,7 +1,0 @@
-﻿{
-  "ConnectionStrings": {
-    "ClassicDbConnection": "Server=bluedotdev.database.windows.net;Database=bluedot;Uid=bluedot;Pwd=DevelopmentLotus2017!@",
-    "CoreDbConnection": "Server=bluedotdev.database.windows.net;Database=bluedot_core;Uid=bluedot_core_team;Pwd=Development2019!@"
-  }
-
-}
