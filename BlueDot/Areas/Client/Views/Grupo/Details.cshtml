@@ -34,6 +34,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="Publish" asp-route-GrupoId="@Model.Id" class="btn btn-secondary" >Publicar</a>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
                     <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary">Añadir Temporizador</a>
                 </div>
@@ -127,6 +128,14 @@
       data-ajax-failure="onAjaxError"
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content"></form>
+
+<form id="publish-form" method="post" role="form"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onDeleteSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted"></form>
 
 <!-- modal window -->
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

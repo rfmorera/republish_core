@@ -17,11 +17,13 @@ namespace RepublishTool.Areas.Client.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IGrupoService _grupoService;
         private readonly IAnuncioService _anuncioService;
-        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService)
+        private readonly ITemporizadorService _temporizadorService;
+        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService)
         {
             _grupoService = grupoService;
             _userManager = userManager;
             _anuncioService = anuncioService;
+            _temporizadorService = temporizadorService;
         }
 
         public async Task<IActionResult> Index()
@@ -55,6 +57,14 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialView();
         }
 
+        //[HttpPost]
+        public async Task<IActionResult> Publish(string GrupoId)
+        {
+            await _grupoService.Publish(GrupoId);
+
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAnuncio(string GrupoId, string Enlaces)
         {
@@ -76,6 +86,29 @@ namespace RepublishTool.Areas.Client.Controllers
         public async Task<IActionResult> DeleteAllAnuncios(string GrupoId)
         {
             await _anuncioService.DeleteAllByGroup(GrupoId);
+
+            return await BuildPartialDetailsView(GrupoId);
+        }
+
+        public async Task<IActionResult> AddTemporizador(string GrupoId, TemporizadorDTO dTO)
+        {
+            await _temporizadorService.AddAsync(GrupoId, dTO);
+
+            return await BuildPartialDetailsView(GrupoId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteTemporizador(string GrupoId, string TemporizadorId)
+        {
+            await _temporizadorService.DeleteAsync(TemporizadorId);
+
+            return await BuildPartialDetailsView(GrupoId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAllTemporizadores(string GrupoId)
+        {
+            await _temporizadorService.DeleteAllByGroup(GrupoId);
 
             return await BuildPartialDetailsView(GrupoId);
         }

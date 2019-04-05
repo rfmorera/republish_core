@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Services.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IAnuncioService
+    public interface ITemporizadorService
     {
-        Task AddAsync(string GrupoId, string[] links);
+        Task AddAsync(string GrupoId, TemporizadorDTO temporizadorDTO);
 
         Task DeleteAsync(string Id);
 
         Task DeleteAllByGroup(string GrupoId);
-
-        void Publish(string url, string Key2Captcha);
     }
 }

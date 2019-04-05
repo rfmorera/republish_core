@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs;
+using System.Threading;
 
 namespace Services.Impls
 {
@@ -16,10 +17,12 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly Repository<Grupo> _repository;
-        public GrupoService(ApplicationDbContext context)
+        private readonly IAnuncioService _anuncioService;
+        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService)
         {
             _context = context;
             _repository = new Repository<Grupo>(_context);
+            _anuncioService = anuncioService;
         }
 
         public async Task AddAsync(GrupoIndexDTO grupoDTO)
@@ -63,9 +66,72 @@ namespace Services.Impls
             return list;
         }
 
-        public Task Publish(string Id)
+        public async Task Publish(string GrupoId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<AnuncioDTO> list = await(from a in _context.Set<Anuncio>()
+                                                     where a.GroupId == GrupoId
+                                                     orderby a.Orden
+                                                     select new AnuncioDTO(a))
+                                                  .ToListAsync();
+
+                //Estadisticas estadisticas = new Estadisticas();
+                //estadisticas.total = _uriList.Count;
+                int total = list.Count();
+                CountdownEvent countdown = new CountdownEvent(total);
+
+                string key2Captcha = "73894d7e20bf0659da5ea5a15baebf90";
+
+                foreach (AnuncioDTO dTO in list)
+                {
+                    string url = dTO.Url;
+                    ThreadPool.QueueUserWorkItem(state => {
+                        try
+                        {
+                            _anuncioService.Publish(url, key2Captcha);
+                            countdown.Signal();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    });
+                }
+
+                countdown.Wait();
+
+                //for (int i = 0; i < estadisticas.total; i++)
+                //{
+                //    RevolicoAnuncio anuncio = listaAnuncios[i];
+                //    switch (anuncio.estado)
+                //    {
+                //        case AnuncioEstado.Ok:
+                //            estadisticas.ok++;
+                //            continue;
+                //        case AnuncioEstado.Revolico:
+                //            estadisticas.revolico++;
+                //            continue;
+                //        case AnuncioEstado.InvalidExecution:
+                //            estadisticas.otros++;
+                //            continue;
+                //        case AnuncioEstado.InternetConnection:
+                //            estadisticas.internet++;
+                //            continue;
+                //        case AnuncioEstado.CaptchaError:
+                //            estadisticas.captcha++;
+                //            continue;
+                //        case AnuncioEstado.Undefined:
+                //            estadisticas.otros++;
+                //            continue;
+                //    }
+                //}
+                //return estadisticas;
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
     }
 }

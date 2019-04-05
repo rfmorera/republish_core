@@ -18,12 +18,13 @@ namespace Services.DTOs
             Nombre = grupo.Nombre;
             CantidadAnuncios = grupo.Anuncios.Count;
             UserId = grupo.UserId;
+            Activo = grupo.Activo;
         }
 
         public string Id { get; set; }
         public string Nombre { get; set; }
         public int CantidadAnuncios { get; set; }
-
+        public bool Activo { get; set; }
         public string UserId { get; set; }
 
         internal Grupo BuildModel()
