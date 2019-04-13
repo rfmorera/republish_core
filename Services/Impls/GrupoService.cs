@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs;
 using System.Threading;
+using System.IO;
 
 namespace Services.Impls
 {
@@ -66,18 +67,27 @@ namespace Services.Impls
             return list;
         }
 
-        public async Task Publish(string GrupoId)
+        public async Task Publish(string GrupoId, int Etapa, string TempNombre)
         {
             try
             {
+                //Random p = new Random();
+                //int sec = p.Next() % 20;
+                //string horainicio = DateTime.Now.ToLongTimeString();
+                //await Task.Delay(sec * 1000);
+
+                //Console.WriteLine(_repository.Find(g => g.Id == GrupoId).Single().Nombre +" actualizado");
+                //StreamWriter w = File.AppendText(TempNombre+".txt");
+                //await w.WriteAsync("-------------------------------\n\r\n Actualizado : \n" 
+                //                    + _repository.Find(g => g.Id == GrupoId).Single().Nombre 
+                //                    + " actualizado. Por Temporizador: "+ TempNombre +" Tiempo " + sec + "segundos. \nHora Inicio: "+ horainicio+ ". Hora Fin: " + DateTime.Now.ToLongTimeString() +"\n-------------------------------\n");
+                //w.Close();
+                
                 IEnumerable<AnuncioDTO> list = await(from a in _context.Set<Anuncio>()
                                                      where a.GroupId == GrupoId
                                                      orderby a.Orden
                                                      select new AnuncioDTO(a))
                                                   .ToListAsync();
-
-                //Estadisticas estadisticas = new Estadisticas();
-                //estadisticas.total = _uriList.Count;
                 int total = list.Count();
                 CountdownEvent countdown = new CountdownEvent(total);
 

@@ -32,6 +32,8 @@ namespace Models
         public DateTime HoraInicio { get; set; }
         public DateTime HoraFin { get; set; }
         
+        public DateTime NextExecution { get; set; }
+
         public int IntervaloHoras { get; set; }
         public int IntervaloMinutos { get; set; }
 

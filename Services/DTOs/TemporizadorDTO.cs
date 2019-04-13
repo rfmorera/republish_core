@@ -33,6 +33,35 @@ namespace Services.DTOs
             IntervaloMinutos = t.IntervaloMinutos;
 
             Etapa = t.Etapa;
+
+            GrupoId = t.GrupoId;
+        }
+
+        public Temporizador BuildModel()
+        {
+            Temporizador t = new Temporizador();
+            t.Id = Id;
+            t.Nombre = Nombre;
+            t.Lunes = Lunes;
+            t.Martes = Martes;
+            t.Miercoles = Miercoles;
+            t.Jueves = Jueves;
+            t.Viernes = Viernes;
+            t.Sabado = Sabado;
+            t.Domingo = Domingo;
+
+            t.HoraInicio = HoraInicio;
+            t.HoraFin = HoraFin;
+            t.NextExecution = HoraInicio;
+
+            t.IntervaloHoras = IntervaloHoras;
+            t.IntervaloMinutos = IntervaloMinutos;
+
+            t.Etapa = Etapa;
+
+            t.GrupoId = GrupoId;
+
+            return t;
         }
 
         public override string ToString()
@@ -77,7 +106,7 @@ namespace Services.DTOs
                 tmp += " | ";
             }
 
-            tmp += string.Format("Hora Inicio{0} - Hora Fin {1} |", HoraInicio.ToTimeString(), HoraFin.ToTimeString());
+            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} |", HoraInicio.ToTimeString(), HoraFin.ToTimeString());
             tmp += string.Format("Intervalo Horas: {0} Minutos: {1} |", IntervaloHoras, IntervaloMinutos);
             if(Etapa == 0)
             {
@@ -85,7 +114,7 @@ namespace Services.DTOs
             }
             else
             {
-                tmp += "5 link/intervalo";
+                tmp += string.Format("{0} link/intervalo", Etapa);
             }
             return tmp;
         }
@@ -123,5 +152,7 @@ namespace Services.DTOs
         [Display(Name = "Cantidad de anuncios por intervalo", Order = 11)]
         [Range(0,300)]
         public int Etapa { get; set; }
+
+        public string GrupoId { get; set; }
     }
 }

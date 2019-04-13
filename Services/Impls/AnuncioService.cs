@@ -32,7 +32,8 @@ namespace Services.Impls
             {
                 try
                 {
-                    await _dbContext.Set<Anuncio>().AddAsync(new Anuncio() { UrlFormat = new Uri(st), GroupId = GrupoId });
+                    Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(st), GroupId = GrupoId};
+                    await _dbContext.Set<Anuncio>().AddAsync(anuncio);
                 }
                 catch (Exception) { }
                 

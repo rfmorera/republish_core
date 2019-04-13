@@ -88,6 +88,24 @@
                 </div>
 
                 <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.IntervaloHoras)</label>
+                    <div class="col-sm-9 row">
+                        <div class="col-sm-12 input-group" data-autoclose="true">
+                            <input asp-for="IntervaloHoras" class="form-control" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.IntervaloMinutos)</label>
+                    <div class="col-sm-9 row">
+                        <div class="col-sm-12 input-group" data-autoclose="true">
+                            <input asp-for="IntervaloMinutos" class="form-control" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label class="col-sm-3 col-form-label">@Html.DisplayNameFor(m => m.Etapa)</label>
                     <div class="col-sm-9 row">
                         <div class="col-sm-12 input-group" data-autoclose="true">
@@ -95,10 +113,10 @@
                         </div>
                         <small class="col-sm-12">Deje "0" para publicar todos los anuncios</small>
                     </div>
-                    
                 </div>
 
                 <div class="modal-footer">
+                    <input asp-for="GrupoId" type="hidden" />
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Añadir</button>
                 </div>

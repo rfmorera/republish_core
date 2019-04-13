@@ -19,9 +19,10 @@ namespace Services.Impls
             _dbContext = dbContext;
             repositoryTemporizador = new Repository<Temporizador>(dbContext);
         }
-        public async Task AddAsync(string GrupoId, TemporizadorDTO temporizadorDTO)
+        public async Task AddAsync(TemporizadorDTO temporizadorDTO)
         {
-            throw new NotImplementedException();
+            Temporizador temporizador = temporizadorDTO.BuildModel();
+            await repositoryTemporizador.AddAsync(temporizador);
         }
 
         public async Task DeleteAllByGroup(string GrupoId)

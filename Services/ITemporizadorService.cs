@@ -8,7 +8,7 @@ namespace Services
 {
     public interface ITemporizadorService
     {
-        Task AddAsync(string GrupoId, TemporizadorDTO temporizadorDTO);
+        Task AddAsync(TemporizadorDTO temporizadorDTO);
 
         Task DeleteAsync(string Id);
 

@@ -11,9 +11,7 @@ function onDeleteSuccess() {
 }
 
 function initializePage() {
-    $('.clockpicker').clockpicker({
-        twelvehour: true
-    });
+    $('.clockpicker').clockpicker();
     initializeDataTable($("#dataTables-table"));
     initializeDataTable($("#dataTables-table-temporizador"));
     $("a.delete-all-anuncios-button").off("click").on("click", function (e) {

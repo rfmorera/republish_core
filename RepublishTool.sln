@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepublishTool", "BlueDot\RepublishTool.csproj", "{5BBC5F6B-D8A0-43F9-A721-2D4C4095828E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1C459568-914E-4B7C-AF2A-4418425A9573} = {1C459568-914E-4B7C-AF2A-4418425A9573}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{DF0044A1-6622-4951-9CE6-DDFCC562CB70}"
 EndProject

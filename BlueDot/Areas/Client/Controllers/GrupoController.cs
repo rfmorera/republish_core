@@ -18,12 +18,14 @@ namespace RepublishTool.Areas.Client.Controllers
         private readonly IGrupoService _grupoService;
         private readonly IAnuncioService _anuncioService;
         private readonly ITemporizadorService _temporizadorService;
-        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService)
+        private readonly IChequerService _chequerService;
+        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService, IChequerService chequerService)
         {
             _grupoService = grupoService;
             _userManager = userManager;
             _anuncioService = anuncioService;
             _temporizadorService = temporizadorService;
+            _chequerService = chequerService;
         }
 
         public async Task<IActionResult> Index()
@@ -60,7 +62,7 @@ namespace RepublishTool.Areas.Client.Controllers
         //[HttpPost]
         public async Task<IActionResult> Publish(string GrupoId)
         {
-            await _grupoService.Publish(GrupoId);
+            await _grupoService.Publish(GrupoId, 20, "Manual");
 
             return Ok();
         }
@@ -90,11 +92,11 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialDetailsView(GrupoId);
         }
 
-        public async Task<IActionResult> AddTemporizador(string GrupoId, TemporizadorDTO dTO)
+        public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
-            await _temporizadorService.AddAsync(GrupoId, dTO);
+            await _temporizadorService.AddAsync(dTO);
 
-            return await BuildPartialDetailsView(GrupoId);
+            return await BuildPartialDetailsView(dTO.GrupoId);
         }
 
         [HttpPost]
@@ -113,6 +115,21 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialDetailsView(GrupoId);
         }
 
+        [AllowAnonymous]
+        //[HttpPost]
+        public async Task<IActionResult> CheckTemporizadores()
+        {
+            await _chequerService.CheckAllTemporizadores();
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        //[HttpPost]
+        public async Task<IActionResult> ResetTemporizadores()
+        {
+            await _chequerService.ResetAll();
+            return Ok();
+        }
         private async Task<IActionResult> BuildPartialView()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
