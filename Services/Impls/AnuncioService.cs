@@ -57,9 +57,10 @@ namespace Services.Impls
             await repositoryAnuncio.DeleteAsync(anuncio);
         }
 
-        public void Publish(string url, string Key2Captcha)
+        public Task Publish(string url, string Key2Captcha)
         {
             StartProcess(url, Key2Captcha, true);
+            return Task.FromResult(0);
         }
 
         private void StartProcess(string _uri, string key2Captcha, bool v2)
@@ -69,7 +70,7 @@ namespace Services.Impls
                 NameValueCollection textValues, imagesValues, contactValues, captchaValues;
                 //ManageLog.Log("inicio web request");
                 WebResponse anuncioModificar = RequestAnuncio(_uri);
-                //ManageLog.Log("inicio field anuncio");
+                //ManageLog.Log("inicio field anuncio");https://www.revolico.com/modificar-anuncio.html?key=8LJ2k5gD88zc28264704
                 FieldsAnuncios(anuncioModificar, out textValues, out imagesValues, out contactValues, out captchaValues, v2);
                 //ManageLog.Log("inicio solve captcha");
                 if (v2)
@@ -265,7 +266,8 @@ namespace Services.Impls
 
                 string answerUrl = "http://2captcha.com/res.php?key=" + key2captcha + "&action=get&id=" + responseString.Substring(3, responseString.Length - 3);
 
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
+                Task.Delay(5000);
                 for (int i = 1; i < 8; i++)
                 {
                     //Console.WriteLine(id + " > " + "Solving {0}-th", i);
@@ -286,7 +288,7 @@ namespace Services.Impls
                         captchaValues["captcha_code"] = responseString.Substring(3, responseString.Length - 3);
                         return;
                     }
-                    Thread.Sleep(5000);
+                    Task.Delay(5000);
                 }
             }
             catch (Exception e)
@@ -339,7 +341,8 @@ namespace Services.Impls
                 #endregion
 
                 #region Request Captcha Solution V2
-                Thread.Sleep(60000);
+                //Thread.Sleep();
+                Task.Delay(60000);
                 string answerUrl = "http://2captcha.com/res.php?key=" + key2Captcha + "&action=get&id=" + captchaValues["identification"];
                 for (int i = 1; i < 8; i++)
                 {
@@ -360,7 +363,8 @@ namespace Services.Impls
                         i = 12;
                         return;
                     }
-                    Thread.Sleep(20000);
+                    //Thread.Sleep(20000);
+                    Task.Delay(20000);
                 }
 
                 #endregion
