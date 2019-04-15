@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Services.DTOs;
 using System.IO;
+using Services.Extensions;
 
 namespace Services.Impls
 {
@@ -27,8 +28,9 @@ namespace Services.Impls
         {
             DateTime now = DateTime.Now;
             IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
-                                                                                    ((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
-                                                                                 || (t.NextExecution == t.HoraInicio && t.HoraInicio <= now && now <= t.HoraFin)
+                                                                                        (((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
+                                                                                     || (t.NextExecution == t.HoraInicio && t.HoraInicio <= now && now <= t.HoraFin))
+                                                                                 && t.IsValidDay()
                                                                                  )));
 
             //IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => t.Id != null));
