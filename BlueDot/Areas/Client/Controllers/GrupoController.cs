@@ -127,7 +127,7 @@ namespace RepublishTool.Areas.Client.Controllers
         //[HttpPost]
         public async Task<IActionResult> ResetTemporizadores()
         {
-            await _chequerService.ResetAll();
+            _chequerService.ResetAll();
             return Ok();
         }
         private async Task<IActionResult> BuildPartialView()
