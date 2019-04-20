@@ -12,6 +12,7 @@ namespace RepublishTool.Areas.Client.Controllers
 {
     [Area("Client")]
     [Authorize(Roles = "Client")]
+    [Route("Client/Grupo/[action]")]
     public class GrupoController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -28,19 +29,21 @@ namespace RepublishTool.Areas.Client.Controllers
             _chequerService = chequerService;
         }
 
+        //[Route("Hola")]
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
             IEnumerable<GrupoIndexDTO> grupoIndexDTOs = await _grupoService.GetAllAsync(user.Id);
             return View(grupoIndexDTOs);
         }
-
+        
         public async Task<IActionResult> Details(string GrupoId)
         {
             GrupoDetailsDTO model = await _grupoService.DetailsAsync(GrupoId);
             return View(model);
         }
 
+        //[Route("Add")]
         [HttpPost]
         public async Task<IActionResult> Add(GrupoIndexDTO grupoIndexDTO)
         {
@@ -67,6 +70,7 @@ namespace RepublishTool.Areas.Client.Controllers
             return Ok();
         }
 
+        //[Route("AddAnuncio")]
         [HttpPost]
         public async Task<IActionResult> AddAnuncio(string GrupoId, string Enlaces)
         {
@@ -92,6 +96,8 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialDetailsView(GrupoId);
         }
 
+        //[Route("AddAnuncio")]
+        [HttpPost]
         public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
             await _temporizadorService.AddAsync(dTO);
@@ -119,7 +125,7 @@ namespace RepublishTool.Areas.Client.Controllers
         //[HttpPost]
         public async Task<IActionResult> CheckTemporizadores()
         {
-            await _chequerService.CheckAllTemporizadores();
+            _chequerService.CheckAllTemporizadores();
             return Ok();
         }
 
