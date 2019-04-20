@@ -21,6 +21,8 @@ namespace Republish.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            builder.HasDefaultSchema("dbo");
+
             builder.Entity<Company>(entity =>
             {
                 entity.HasKey(b => b.Id);
