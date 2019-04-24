@@ -14,6 +14,8 @@ using Republish.Models.Identity;
 
 namespace Republish.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
+    [Area("Identity")]
     //[Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
