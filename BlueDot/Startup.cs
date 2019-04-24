@@ -16,6 +16,7 @@ using Republish.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services.Impls;
 using Services;
+using Microsoft.Extensions.Logging;
 
 namespace Republish
 {
@@ -46,7 +47,7 @@ namespace Republish
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
+                        Configuration.GetConnectionString("RepublishContextConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -78,7 +79,7 @@ namespace Republish
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext db, SignInManager<IdentityUser> s)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext db, SignInManager<IdentityUser> s, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +90,8 @@ namespace Republish
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
