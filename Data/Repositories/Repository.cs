@@ -119,7 +119,7 @@ namespace Republish.Data.Repositories
             if (exist != null)
             {
                 Context.Entry(exist).CurrentValues.SetValues(t);
-                await Context.SaveChangesAsync();
+                //await Context.SaveChangesAsync();
             }
             return exist;
         }

@@ -34,7 +34,6 @@ namespace Services.Impls
                                                                                  && t.IsValidDay()
                                                                                  )));
 
-            //IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => t.Id != null));
             List<Task> publishTasks = new List<Task>();
             foreach (Temporizador t in list)
             {
@@ -45,28 +44,17 @@ namespace Services.Impls
                     t.NextExecution = t.HoraInicio;
                 }
                 await repository.UpdateAsync(t, t.Id);
-                //await _grupoService.Publish(t.GrupoId, t.Etapa);
-                //publishTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, t.Nombre));
+            }
+
+            await _context.SaveChangesAsync();
+
+            foreach (Temporizador t in list)
+            {
                 new Thread(() =>
                 {
-                    //Simulate processing            
-                    //Thread.SpinWait(Int32.MaxValue / 100);
-                    //Console.WriteLine("Emp " + t.Nombre);
-                    //Thread.Sleep(new TimeSpan(0, 0, 30));
-                    //StreamWriter w = File.AppendText(t.Nombre + ".txt");
-                    //await w.WriteAsync("-------------------------------\n\r\n Actualizado : \n"
-                    //                    + " actualizado. Por Temporizador: " + t.Nombre + "\nHora Inicio: " + now + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
-                    //w.Close();
-                    //Console.WriteLine("Term " + t.Nombre);
                     _grupoService.Publish(t.GrupoId, t.Etapa, "");
                 }).Start();
             }
-            //await _context.SaveChangesAsync();
-            //await Task.WhenAll(publishTasks);
-
-            //StreamWriter w = File.AppendText("log.txt");
-            //await w.WriteAsync("Completado Check All\n");
-            //w.Close();
         }
 
         public async Task ResetAll()
