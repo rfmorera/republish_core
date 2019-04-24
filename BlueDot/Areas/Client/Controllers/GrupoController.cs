@@ -14,7 +14,6 @@ namespace RepublishTool.Areas.Client.Controllers
 {
     [Area("Client")]
     [Authorize(Roles = "Client")]
-    //[Route("Client/Grupo/[action]")]
     public class GrupoController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -34,7 +33,6 @@ namespace RepublishTool.Areas.Client.Controllers
             _log = log;
         }
 
-        //[Route("Hola")]
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
@@ -48,7 +46,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return View(model);
         }
 
-        //[Route("Add")]
         [HttpPost]
         public async Task<IActionResult> Add(GrupoIndexDTO grupoIndexDTO)
         {
@@ -68,7 +65,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialView();
         }
 
-        //[HttpPost]
         public async Task<IActionResult> Publish(string GrupoId)
         {
             _grupoService.Publish(GrupoId, 20, "Manual");
@@ -76,7 +72,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return await Index();
         }
 
-        //[Route("AddAnuncio")]
         [HttpPost]
         public async Task<IActionResult> AddAnuncio(string GrupoId, string Enlaces)
         {
@@ -102,7 +97,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialDetailsView(GrupoId);
         }
 
-        //[Route("AddAnuncio")]
         [HttpPost]
         public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
