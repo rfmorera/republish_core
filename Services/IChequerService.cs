@@ -7,7 +7,7 @@ namespace Services
 {
     public interface IChequerService
     {
-        Task CheckAllTemporizadores();
+        void CheckAllTemporizadores();
         Task ResetAll();
     }
 }

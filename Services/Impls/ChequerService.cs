@@ -24,10 +24,10 @@ namespace Services.Impls
             repository = new Repository<Temporizador>(context);
             _grupoService = grupoService;
         }
-        public async Task CheckAllTemporizadores()
+        public void CheckAllTemporizadores()
         {
             DateTime now = DateTime.Now;
-            IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
+            IEnumerable<Temporizador> list = (repository.Find(t => (
                                                                                         (((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
                                                                                      || (t.NextExecution == t.HoraInicio && t.HoraInicio <= now && now <= t.HoraFin))
                                                                                  && t.IsValidDay()
@@ -43,15 +43,16 @@ namespace Services.Impls
                 {
                     t.NextExecution = t.HoraInicio;
                 }
-                await repository.UpdateAsync(t, t.Id);
+                repository.Update(t, t.Id);
                 //await _grupoService.Publish(t.GrupoId, t.Etapa);
-                publishTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, t.Nombre));
+                //publishTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, t.Nombre));
+                _grupoService.Publish(t.GrupoId, t.Etapa, t.Nombre);
             }
             //await _context.SaveChangesAsync();
-            await Task.WhenAll(publishTasks);
+            //await Task.WhenAll(publishTasks);
 
             StreamWriter w = File.AppendText("log.txt");
-            await w.WriteAsync("Completado Check All\n");
+            w.Write("Completado Check All\n");
             w.Close();
         }
 

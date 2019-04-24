@@ -67,7 +67,7 @@ namespace Services.Impls
             return list;
         }
 
-        public async Task Publish(string GrupoId, int Etapa, string TempNombre)
+        public void Publish(string GrupoId, int Etapa, string TempNombre)
         {
             try
             {
@@ -83,36 +83,37 @@ namespace Services.Impls
                 //                    + " actualizado. Por Temporizador: " + TempNombre + " Tiempo " + sec + "segundos. \nHora Inicio: " + horainicio + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
                 //w.Close();
                 //return;
-                IEnumerable<AnuncioDTO> list = await(from a in _context.Set<Anuncio>()
+                IEnumerable<AnuncioDTO> list = (from a in _context.Set<Anuncio>()
                                                      where a.GroupId == GrupoId
                                                      orderby a.Orden
                                                      select new AnuncioDTO(a))
-                                                  .ToListAsync();
+                                                  .ToList();
                 int total = list.Count();
                 CountdownEvent countdown = new CountdownEvent(total);
 
-                string key2Captcha = "73894d7e20bf0659da5ea5a15baebf90";
+                string key2Captcha = "bea50bfde423fb27e7126e873fb42eed";
                 List<Task> anunciosTasks = new List<Task>();
                 foreach (AnuncioDTO dTO in list)
                 {
                     string url = dTO.Url;
-                    anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
-                    //ThreadPool.QueueUserWorkItem(state => {
-                    //    try
-                    //    {
-                    //        _anuncioService.Publish(url, key2Captcha);
-                    //        countdown.Signal();
-                    //    }
-                    //    catch (Exception)
-                    //    {
+                    //anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
+                    ThreadPool.QueueUserWorkItem(state =>
+                    {
+                        try
+                        {
+                            _anuncioService.Publish(url, key2Captcha);
+                            countdown.Signal();
+                        }
+                        catch (Exception)
+                        {
 
-                    //    }
-                    //});
+                        }
+                    });
                 }
 
-                await Task.WhenAll(anunciosTasks);
+                //await Task.WhenAll(anunciosTasks);
 
-                //countdown.Wait();
+                countdown.Wait();
 
                 //for (int i = 0; i < estadisticas.total; i++)
                 //{

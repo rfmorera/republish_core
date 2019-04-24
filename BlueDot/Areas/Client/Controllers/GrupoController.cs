@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 using Services.DTOs;
 
@@ -12,7 +14,7 @@ namespace RepublishTool.Areas.Client.Controllers
 {
     [Area("Client")]
     [Authorize(Roles = "Client")]
-    [Route("Client/Grupo/[action]")]
+    //[Route("Client/Grupo/[action]")]
     public class GrupoController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -20,13 +22,16 @@ namespace RepublishTool.Areas.Client.Controllers
         private readonly IAnuncioService _anuncioService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IChequerService _chequerService;
-        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService, IChequerService chequerService)
+        readonly ILogger<GrupoController> _log;
+
+        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService, IChequerService chequerService, ILogger<GrupoController> log)
         {
             _grupoService = grupoService;
             _userManager = userManager;
             _anuncioService = anuncioService;
             _temporizadorService = temporizadorService;
             _chequerService = chequerService;
+            _log = log;
         }
 
         //[Route("Hola")]
@@ -47,6 +52,7 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(GrupoIndexDTO grupoIndexDTO)
         {
+
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
             grupoIndexDTO.UserId = user.Id;
             await _grupoService.AddAsync(grupoIndexDTO);
@@ -65,9 +71,9 @@ namespace RepublishTool.Areas.Client.Controllers
         //[HttpPost]
         public async Task<IActionResult> Publish(string GrupoId)
         {
-            await _grupoService.Publish(GrupoId, 20, "Manual");
+            _grupoService.Publish(GrupoId, 20, "Manual");
 
-            return Ok();
+            return await Index();
         }
 
         //[Route("AddAnuncio")]
@@ -123,7 +129,7 @@ namespace RepublishTool.Areas.Client.Controllers
 
         [AllowAnonymous]
         //[HttpPost]
-        public async Task<IActionResult> CheckTemporizadores()
+        public IActionResult CheckTemporizadores()
         {
             _chequerService.CheckAllTemporizadores();
             return Ok();
@@ -133,7 +139,7 @@ namespace RepublishTool.Areas.Client.Controllers
         //[HttpPost]
         public async Task<IActionResult> ResetTemporizadores()
         {
-            _chequerService.ResetAll();
+            await _chequerService.ResetAll();
             return Ok();
         }
         private async Task<IActionResult> BuildPartialView()
