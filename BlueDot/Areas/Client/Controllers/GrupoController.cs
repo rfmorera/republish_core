@@ -121,21 +121,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialDetailsView(GrupoId);
         }
 
-        [AllowAnonymous]
-        //[HttpPost]
-        public IActionResult CheckTemporizadores()
-        {
-            _chequerService.CheckAllTemporizadores();
-            return Ok();
-        }
-
-        [AllowAnonymous]
-        //[HttpPost]
-        public async Task<IActionResult> ResetTemporizadores()
-        {
-            await _chequerService.ResetAll();
-            return Ok();
-        }
         private async Task<IActionResult> BuildPartialView()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
