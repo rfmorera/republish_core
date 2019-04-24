@@ -47,7 +47,7 @@ namespace Republish
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishContextConnection")));
+                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,6 +70,7 @@ namespace Republish
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
             services.AddTransient<IChequerService, ChequerService>();
+            services.AddTransient<IRegistroService, RegistroService>();
             
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
