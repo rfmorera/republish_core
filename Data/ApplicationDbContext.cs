@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System;
 
 namespace Republish.Data
 {
@@ -57,6 +58,10 @@ namespace Republish.Data
                       .HasConstraintName("ForeignKey_Grupo_Temporizador");
             });
 
+            builder.Entity<Registro>(entity =>
+            {
+                entity.Property(p => p.DateCreated).HasDefaultValue(DateTime.Now);
+            });
         }
     }
 }
