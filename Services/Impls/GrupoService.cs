@@ -18,11 +18,13 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly Repository<Grupo> _repository;
+        private readonly Repository<Anuncio> _anuncioRepo;
         private readonly IAnuncioService _anuncioService;
         public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService)
         {
             _context = context;
             _repository = new Repository<Grupo>(_context);
+            _anuncioRepo = new Repository<Anuncio>(_context);
             _anuncioService = anuncioService;
         }
 
@@ -48,9 +50,9 @@ namespace Services.Impls
                                                   .ToListAsync();
 
             IEnumerable<TemporizadorDTO> listT = await (from a in _context.Set<Temporizador>()
-                                                  where a.GrupoId == GrupoId
-                                                  orderby a.Orden
-                                                  select new TemporizadorDTO(a))
+                                                        where a.GrupoId == GrupoId
+                                                        orderby a.Orden
+                                                        select new TemporizadorDTO(a))
                                                   .ToListAsync();
             GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;
@@ -83,11 +85,35 @@ namespace Services.Impls
                 //                    + " actualizado. Por Temporizador: " + TempNombre + " Tiempo " + sec + "segundos. \nHora Inicio: " + horainicio + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
                 //w.Close();
                 //return;
-                IEnumerable<AnuncioDTO> list = (from a in _context.Set<Anuncio>()
-                                                     where a.GroupId == GrupoId
-                                                     orderby a.Orden
-                                                     select new AnuncioDTO(a))
+                IEnumerable<Anuncio> listAnuncio = (from a in _context.Set<Anuncio>()
+                                                    where a.GroupId == GrupoId && a.Actualizado == false
+                                                    orderby a.Orden
+                                                    select a).Take(Etapa)
                                                   .ToList();
+                List<AnuncioDTO> list = new List<AnuncioDTO>();
+
+                foreach (Anuncio a in listAnuncio)
+                {
+                    a.Actualizado = true;
+                    _anuncioRepo.Update(a, a.Id);
+
+                    list.Add(new AnuncioDTO(a));
+                }
+
+                if (listAnuncio.Count() < Etapa)
+                {
+                    listAnuncio = (from a in _context.Set<Anuncio>()
+                                   select a).ToList();
+
+                    foreach (Anuncio a in listAnuncio)
+                    {
+                        a.Actualizado = false;
+                        _anuncioRepo.Update(a, a.Id);
+                    }
+                }
+
+                _context.SaveChanges();
+
                 int total = list.Count();
                 CountdownEvent countdown = new CountdownEvent(total);
 
@@ -144,7 +170,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                
+
             }
         }
     }

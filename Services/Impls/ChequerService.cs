@@ -11,6 +11,7 @@ using Services.DTOs;
 using System.IO;
 using Services.Extensions;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Impls
 {
@@ -19,14 +20,17 @@ namespace Services.Impls
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repository;
         private readonly IGrupoService _grupoService;
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService)
+        readonly ILogger<ChequerService> _log;
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
             _grupoService = grupoService;
+            _log = log;
         }
-        public async Task CheckAllTemporizadores()
+        public async Task<string> CheckAllTemporizadores()
         {
+            string log = "";
             DateTime now = DateTime.Now;
             IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
                                                                                         (((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
@@ -35,8 +39,12 @@ namespace Services.Impls
                                                                                  )));
 
             List<Task> publishTasks = new List<Task>();
+            _log.LogTrace(string.Format("Cantidad de temporizadores {0}", list.Count()), null);
+            log += string.Format("Cantidad de temporizadores {0}", list.Count());
+            log += "<ul>";
             foreach (Temporizador t in list)
             {
+                log += string.Format("<li>{0}<li>", t.Nombre);
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
                 t.NextExecution = now + timeSpan;
                 if (t.NextExecution > t.HoraFin)
@@ -45,16 +53,29 @@ namespace Services.Impls
                 }
                 await repository.UpdateAsync(t, t.Id);
             }
-
+            log += "</ul>";
             await _context.SaveChangesAsync();
+            await Task.Delay(15000);
+            //foreach (Temporizador t in list)
+            //{
+            //    //new Thread(() =>
+            //    //{
+            //    //    _grupoService.Publish(t.GrupoId, t.Etapa, "");
+            //    //}).Start();
+            //    ThreadPool.QueueUserWorkItem(state =>
+            //    {
+            //        try
+            //        {
+            //            _grupoService.Publish(t.GrupoId, t.Etapa, "");
+            //        }
+            //        catch (Exception)
+            //        {
 
-            foreach (Temporizador t in list)
-            {
-                new Thread(() =>
-                {
-                    _grupoService.Publish(t.GrupoId, t.Etapa, "");
-                }).Start();
-            }
+            //        }
+            //    });
+            //}
+            //Thread.Sleep(new TimeSpan(0, 1, 20));
+            return log;
         }
 
         public async Task ResetAll()
@@ -66,6 +87,7 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repository.UpdateAsync(t, t.Id);
             }
+            await _context.SaveChangesAsync();
         }
     }
 }
