@@ -28,9 +28,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "Consume Scoped Service Hosted Service is starting.");
 
-            //await DoWork();
-            
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
@@ -45,8 +43,10 @@ namespace Services.BackgroundTasks
                 var scopedProcessingService =
                     scope.ServiceProvider
                         .GetRequiredService<IChequerService>();
-
-                scopedProcessingService.CheckAllTemporizadores();
+                
+                IAsyncResult asyncResult = scopedProcessingService.CheckAllTemporizadores();
+                WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
+                waitHandle.WaitOne();
             }
         }
 

@@ -54,27 +54,17 @@ namespace Services.Impls
                 await repository.UpdateAsync(t, t.Id);
             }
             log += "</ul>";
+            Console.WriteLine(log);
             await _context.SaveChangesAsync();
-            await Task.Delay(15000);
-            //foreach (Temporizador t in list)
-            //{
-            //    //new Thread(() =>
-            //    //{
-            //    //    _grupoService.Publish(t.GrupoId, t.Etapa, "");
-            //    //}).Start();
-            //    ThreadPool.QueueUserWorkItem(state =>
-            //    {
-            //        try
-            //        {
-            //            _grupoService.Publish(t.GrupoId, t.Etapa, "");
-            //        }
-            //        catch (Exception)
-            //        {
 
-            //        }
-            //    });
-            //}
-            //Thread.Sleep(new TimeSpan(0, 1, 20));
+            List<Task> gruposTasks = new List<Task>();
+            foreach (Temporizador t in list)
+            {
+                gruposTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, ""));
+            }
+
+            await Task.WhenAll(gruposTasks);
+
             return log;
         }
 

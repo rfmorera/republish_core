@@ -12,7 +12,7 @@ namespace Services
 
         Task DeleteAsync(string Id);
 
-        void Publish(string Id, int Etapa,string t);
+        Task Publish(string Id, int Etapa,string t);
 
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 

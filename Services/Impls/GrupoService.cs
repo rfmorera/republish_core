@@ -69,14 +69,14 @@ namespace Services.Impls
             return list;
         }
 
-        public void Publish(string GrupoId, int Etapa, string TempNombre)
+        public async Task Publish(string GrupoId, int Etapa, string TempNombre)
         {
             try
             {
-                //Random p = new Random();
-                //int sec = p.Next() % 20;
-                //string horainicio = DateTime.Now.ToLongTimeString();
-                //await Task.Delay(sec * 1000);
+                Random p = new Random();
+                int sec = p.Next() % 20;
+                string horainicio = DateTime.Now.ToLongTimeString();
+                await Task.Delay(sec * 1000);
 
                 //Console.WriteLine(_repository.Find(g => g.Id == GrupoId).Single().Nombre + " actualizado");
                 //StreamWriter w = File.AppendText(TempNombre + ".txt");
@@ -84,12 +84,12 @@ namespace Services.Impls
                 //                    + _repository.Find(g => g.Id == GrupoId).Single().Nombre
                 //                    + " actualizado. Por Temporizador: " + TempNombre + " Tiempo " + sec + "segundos. \nHora Inicio: " + horainicio + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
                 //w.Close();
-                //return;
-                IEnumerable<Anuncio> listAnuncio = (from a in _context.Set<Anuncio>()
+                return;
+                IEnumerable<Anuncio> listAnuncio = await (from a in _context.Set<Anuncio>()
                                                     where a.GroupId == GrupoId && a.Actualizado == false
                                                     orderby a.Orden
                                                     select a).Take(Etapa)
-                                                  .ToList();
+                                                  .ToListAsync();
                 List<AnuncioDTO> list = new List<AnuncioDTO>();
 
                 foreach (Anuncio a in listAnuncio)
@@ -112,63 +112,21 @@ namespace Services.Impls
                     }
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 int total = list.Count();
-                CountdownEvent countdown = new CountdownEvent(total);
 
                 string key2Captcha = "bea50bfde423fb27e7126e873fb42eed";
                 List<Task> anunciosTasks = new List<Task>();
                 foreach (AnuncioDTO dTO in list)
                 {
                     string url = dTO.Url;
-                    //anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
-                    ThreadPool.QueueUserWorkItem(state =>
-                    {
-                        try
-                        {
-                            _anuncioService.Publish(url, key2Captcha);
-                            countdown.Signal();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    });
+                    anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
                 }
 
-                //await Task.WhenAll(anunciosTasks);
-
-                countdown.Wait();
-
-                //for (int i = 0; i < estadisticas.total; i++)
-                //{
-                //    RevolicoAnuncio anuncio = listaAnuncios[i];
-                //    switch (anuncio.estado)
-                //    {
-                //        case AnuncioEstado.Ok:
-                //            estadisticas.ok++;
-                //            continue;
-                //        case AnuncioEstado.Revolico:
-                //            estadisticas.revolico++;
-                //            continue;
-                //        case AnuncioEstado.InvalidExecution:
-                //            estadisticas.otros++;
-                //            continue;
-                //        case AnuncioEstado.InternetConnection:
-                //            estadisticas.internet++;
-                //            continue;
-                //        case AnuncioEstado.CaptchaError:
-                //            estadisticas.captcha++;
-                //            continue;
-                //        case AnuncioEstado.Undefined:
-                //            estadisticas.otros++;
-                //            continue;
-                //    }
-                //}
-                //return estadisticas;
+                await Task.WhenAll(anunciosTasks);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
