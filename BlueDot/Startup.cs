@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.Impls;
 using Services;
 using Microsoft.Extensions.Logging;
+using Services.BackgroundTasks;
 
 namespace Republish
 {
@@ -47,7 +48,7 @@ namespace Republish
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishContextConnection")));
+                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -59,6 +60,8 @@ namespace Republish
                 options.LogoutPath = new PathString("/Identity/Account/Logout");
             });
 
+            services.AddHostedService<TimerService>();
+
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICustomSignInManger, ICustomSignInManger>();
@@ -69,7 +72,7 @@ namespace Republish
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
-            services.AddTransient<IChequerService, ChequerService>();
+            services.AddScoped<IChequerService, ChequerService>();
             
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
