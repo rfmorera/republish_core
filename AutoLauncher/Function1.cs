@@ -13,7 +13,7 @@ namespace AutoLauncher
             try
             {
                 log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
-                WebRequest request = WebRequest.Create("https://localhost:44306/Client/Grupo/CheckTemporizadores");
+                WebRequest request = WebRequest.Create("https://localhost:44307/Client/Checker/Check");
                 //request.Timeout = (int)TimeSpan.FromMinutes(5).TotalMilliseconds;
                 ((HttpWebRequest)request).UserAgent = ".NET Framework Client";
                 request.Credentials = CredentialCache.DefaultCredentials;
