@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 
 namespace RepublishTool.Areas.Client.Controllers
@@ -13,6 +14,7 @@ namespace RepublishTool.Areas.Client.Controllers
     public class CheckerController : Controller
     {
         private readonly IChequerService _chequerService;
+        
         public CheckerController(IChequerService chequerService)
         {
             _chequerService = chequerService;
@@ -20,8 +22,15 @@ namespace RepublishTool.Areas.Client.Controllers
         
         public async Task<IActionResult> Check()
         {
-            await _chequerService.CheckAllTemporizadores();
-            return Ok();
+            try
+            {
+                string log = await _chequerService.CheckAllTemporizadores();
+                return View(model: log);
+            }
+            catch(Exception ex)
+            {
+                return View(model: ex.ToString());
+            }
         }
 
         [AllowAnonymous]
