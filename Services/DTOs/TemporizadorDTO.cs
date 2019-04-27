@@ -29,6 +29,7 @@ namespace Services.DTOs
 
             HoraInicio = t.HoraInicio;
             HoraFin = t.HoraFin;
+            Next = t.NextExecution;
 
             IntervaloHoras = t.IntervaloHoras;
             IntervaloMinutos = t.IntervaloMinutos;
@@ -107,7 +108,7 @@ namespace Services.DTOs
                 tmp += " | ";
             }
 
-            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} |", HoraInicio.ToString(), HoraFin.ToString());
+            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} Next {2}|", HoraInicio.ToString(), HoraFin.ToString(), Next.ToString());
             tmp += string.Format("Intervalo Horas: {0} Minutos: {1} |", IntervaloHoras, IntervaloMinutos);
             if(Etapa == 0)
             {
@@ -144,6 +145,7 @@ namespace Services.DTOs
         public TimeSpan HoraInicio { get; set; }
         [Display(Name = "Hora de Fin", Order = 9, ShortName = "HF")]
         public TimeSpan HoraFin { get; set; }
+        public TimeSpan Next { get; set; }
 
         [Display(Name = "Intervalo en horas", Order = 10, ShortName = "IH")]
         public int IntervaloHoras { get; set; }
