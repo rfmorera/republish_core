@@ -93,8 +93,7 @@ namespace Republish
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+            loggerFactory.AddFile("logger{Date}");
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
