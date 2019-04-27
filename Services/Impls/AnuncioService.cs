@@ -187,7 +187,7 @@ namespace Services.Impls
                         i = 12;
                         break;
                     }
-                    await Task.Delay(20000);
+                    await Task.Delay(15000);
                 }
 
                 #endregion
@@ -200,7 +200,7 @@ namespace Services.Impls
             try
             {
                 // Create a WebRequest for the URI
-                WebRequest request = WebRequest.Create(_uri);
+                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(_uri);
 
                 // If required by the server, set the credentials
                 request.Credentials = CredentialCache.DefaultCredentials;
@@ -222,92 +222,111 @@ namespace Services.Impls
                 // Set Method
                 request.Method = "POST";
 
-                ((HttpWebRequest)request).KeepAlive = true;
-                ((HttpWebRequest)request).UserAgent = ".NET Framework Client";
+                request.KeepAlive = true;
+                request.UserAgent = ".NET Framework Client";
 
                 // Stream to Write data to Send
-                Stream dataStreamRequest = request.GetRequestStream();
-
-                // Contenido Anuncio
-                string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-                foreach (string key in textValues.Keys)
+                using (Stream dataStreamRequest = await request.GetRequestStreamAsync())
                 {
+                    // Contenido Anuncio
+                    string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                    foreach (string key in textValues.Keys)
+                    {
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        string formItem = string.Format(formdataTemplate, key, textValues[key]);
+                        byte[] formItemBytes = System.Text.Encoding.UTF32.GetBytes(formItem);
+                        formItemBytes = Encoding.Convert(utf32, iso, formItemBytes);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+                    }
+
+                    // Images de anuncio. Por default Vacio
+                    string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                    {
+                        string formItem, formImage;
+                        byte[] formItemBytes, formImageBytes;
+                        // Image A. Max file size.
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
+                        formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+
+                        // Image A. File
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formImage = string.Format(headerTemplate, "ad_picture_a", "", "application/octet-stream");
+                        formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
+                        dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
+                        request.ContentLength += formImageBytes.Length;
+
+                        // Image B. Max file size.
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
+                        formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+
+                        // Image B. File
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formImage = string.Format(headerTemplate, "ad_picture_b", "", "application/octet-stream");
+                        formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
+                        dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
+                        request.ContentLength += formImageBytes.Length;
+
+                        // Image C. Max file size.
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
+                        formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+
+                        // Image C. File
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        formImage = string.Format(headerTemplate, "ad_picture_c", "", "application/octet-stream");
+                        formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
+                        dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
+                        request.ContentLength += formImageBytes.Length;
+                    }
+
+
+                    // Informacion de Contacto
+                    foreach (string key in contactValues.Keys)
+                    {
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        string formItem = string.Format(formdataTemplate, key, contactValues[key]);
+                        byte[] formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+                    }
+
+                    // Informacion Captcha
+                    foreach (string key in captchaValues.Keys)
+                    {
+                        dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
+                        request.ContentLength += boundarybytes.Length;
+                        string formItem = string.Format(formdataTemplate, key, captchaValues[key]);
+                        byte[] formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
+                        dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                        request.ContentLength += formItemBytes.Length;
+                    }
+
                     dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    string formItem = string.Format(formdataTemplate, key, textValues[key]);
-                    byte[] formItemBytes = System.Text.Encoding.UTF32.GetBytes(formItem);
-                    formItemBytes = Encoding.Convert(utf32, iso, formItemBytes);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
+                    request.ContentLength += boundarybytes.Length;
                 }
-
-                // Images de anuncio. Por default Vacio
-                string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-                {
-                    string formItem, formImage;
-                    byte[] formItemBytes, formImageBytes;
-                    // Image A. Max file size.
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
-                    formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
-
-                    // Image A. File
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formImage = string.Format(headerTemplate, "ad_picture_a", "", "application/octet-stream");
-                    formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
-                    dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
-
-                    // Image B. Max file size.
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
-                    formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
-
-                    // Image B. File
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formImage = string.Format(headerTemplate, "ad_picture_b", "", "application/octet-stream");
-                    formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
-                    dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
-
-                    // Image C. Max file size.
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formItem = string.Format(formdataTemplate, "MAX_FILE_SIZE", "307200");
-                    formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
-
-                    // Image C. File
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    formImage = string.Format(headerTemplate, "ad_picture_c", "", "application/octet-stream");
-                    formImageBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formImage);
-                    dataStreamRequest.Write(formImageBytes, 0, formImageBytes.Length);
-                }
-
-
-                // Informacion de Contacto
-                foreach (string key in contactValues.Keys)
-                {
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    string formItem = string.Format(formdataTemplate, key, contactValues[key]);
-                    byte[] formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
-                }
-
-                // Informacion Captcha
-                foreach (string key in captchaValues.Keys)
-                {
-                    dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-                    string formItem = string.Format(formdataTemplate, key, captchaValues[key]);
-                    byte[] formItemBytes = System.Text.UTF8Encoding.UTF8.GetBytes(formItem);
-                    dataStreamRequest.Write(formItemBytes, 0, formItemBytes.Length);
-                }
-
-                dataStreamRequest.Write(boundarybytes, 0, boundarybytes.Length);
-
-                // Send Request
-                dataStreamRequest.Close();
-                ((HttpWebRequest)request).AllowAutoRedirect = false;
-
+                
+                request.AllowAutoRedirect = false;
+                
                 // Obtener respuesta de solicitud
                 HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
+                
 
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Found)
                 {
@@ -326,7 +345,7 @@ namespace Services.Impls
                 }
 
                 response.Close();
-                response.Dispose();
+                //response.Dispose();
                 //estado = AnuncioEstado.CaptchaError;
                 return;
             }
