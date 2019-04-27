@@ -12,6 +12,7 @@ using System.IO;
 using Services.Extensions;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -31,9 +32,8 @@ namespace Services.Impls
         public async Task<string> CheckAllTemporizadores()
         {
             string log = "";
-            TimeZoneInfo hwZone = TimeZoneInfo.FindSystemTimeZoneById("US Eastern Standard Time");
-            DateTime utc = TimeZoneInfo.ConvertTime(DateTime.Now, hwZone);
-            
+            DateTime utc = DateTime.Now.ToUtcCuba();
+
             IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
                                                                                         (((t.NextExecution - utc) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == utc.Minute)
                                                                                      || (t.NextExecution == t.HoraInicio && t.HoraInicio <= utc && utc <= t.HoraFin))
@@ -41,12 +41,8 @@ namespace Services.Impls
                                                                                  )));
 
             List<Task> publishTasks = new List<Task>();
-            //_log.LogTrace(string.Format("Cantidad de temporizadores {0}", list.Count()), null);
-            log += string.Format("Cantidad de temporizadores {0}", list.Count());
-            log += "<ul>";
             foreach (Temporizador t in list)
             {
-                log += string.Format("<li>{0}<li>", t.Nombre);
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
                 t.NextExecution = utc + timeSpan;
                 if (t.NextExecution > t.HoraFin)
@@ -55,9 +51,6 @@ namespace Services.Impls
                 }
                 await repository.UpdateAsync(t, t.Id);
             }
-            log += "</ul>";
-            Console.WriteLine(log);
-            await _context.SaveChangesAsync();
 
             List<Task> gruposTasks = new List<Task>();
             foreach (Temporizador t in list)
@@ -66,6 +59,7 @@ namespace Services.Impls
             }
 
             await Task.WhenAll(gruposTasks);
+            await repository.SaveChangesAsync();
 
             return log;
         }
