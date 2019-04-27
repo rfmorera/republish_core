@@ -29,10 +29,10 @@ namespace Models
         public bool Sabado { get; set; }
         public bool Domingo { get; set; }
 
-        public DateTime HoraInicio { get; set; }
-        public DateTime HoraFin { get; set; }
+        public TimeSpan HoraInicio { get; set; }
+        public TimeSpan HoraFin { get; set; }
         
-        public DateTime NextExecution { get; set; }
+        public TimeSpan NextExecution { get; set; }
 
         public int IntervaloHoras { get; set; }
         public int IntervaloMinutos { get; set; }
