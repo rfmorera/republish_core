@@ -33,11 +33,11 @@ namespace Services.Impls
         {
             string log = "";
             TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
-            IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
-                                                                                        (((t.NextExecution - utc) < TimeSpan.FromSeconds(59) && t.NextExecution.Minutes == utc.Minutes)
-                                                                                     || (t.NextExecution == t.HoraInicio && t.HoraInicio <= utc && utc <= t.HoraFin))
-                                                                                 && t.IsValidDay()
-                                                                                 )));
+            TimeSpan utc2 = DateTime.Now.ToUtcCuba().TimeOfDay + new TimeSpan(0, 0, 1);
+            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution < utc2 );
+
+            list = list.Where(t => t.IsValidDay());
+
             List<Task> gruposTasks = new List<Task>();
             foreach (Temporizador t in list)
             {
