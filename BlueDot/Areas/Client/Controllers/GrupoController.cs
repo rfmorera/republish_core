@@ -67,7 +67,7 @@ namespace RepublishTool.Areas.Client.Controllers
 
         public async Task<IActionResult> Publish(string GrupoId)
         {
-            _grupoService.Publish(GrupoId, 20, "Manual");
+            await _grupoService.Publish(GrupoId, 1, "Manual");
 
             return await Index();
         }
