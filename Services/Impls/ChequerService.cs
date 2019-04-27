@@ -32,10 +32,9 @@ namespace Services.Impls
         public async Task<string> CheckAllTemporizadores()
         {
             string log = "";
-            DateTime utc = DateTime.Now.ToUtcCuba();
-
+            TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
             IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
-                                                                                        (((t.NextExecution - utc) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == utc.Minute)
+                                                                                        (((t.NextExecution - utc) < TimeSpan.FromSeconds(59) && t.NextExecution.Minutes == utc.Minutes)
                                                                                      || (t.NextExecution == t.HoraInicio && t.HoraInicio <= utc && utc <= t.HoraFin))
                                                                                  && t.IsValidDay()
                                                                                  )));
