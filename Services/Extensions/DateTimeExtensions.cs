@@ -42,6 +42,12 @@ namespace Republish.Extensions
             }
         }
 
+        public static DateTime ToUtcCuba(this DateTime dateTime)
+        {
+            TimeZoneInfo hwZone = TimeZoneInfo.FindSystemTimeZoneById("US Eastern Standard Time");
+            DateTime utc = TimeZoneInfo.ConvertTime(dateTime, hwZone);
+            return utc;
+        }
         public static DateTime ToDateTime(this string value)
         {
             return DateTime.ParseExact(value, "MM/dd/yyyy", new CultureInfo("en-US"));
