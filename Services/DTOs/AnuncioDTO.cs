@@ -11,7 +11,7 @@ namespace Services.DTOs
         {
             Id = a.Id;
             Url = a.Url;
-            Caducado = a.Caducado;
+            Caducado = a.Actualizado;
         }
 
         public string Id { get; set; }
