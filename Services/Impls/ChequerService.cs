@@ -39,8 +39,7 @@ namespace Services.Impls
                                                                                      || (t.NextExecution == t.HoraInicio && t.HoraInicio <= utc && utc <= t.HoraFin))
                                                                                  && t.IsValidDay()
                                                                                  )));
-
-            List<Task> publishTasks = new List<Task>();
+            List<Task> gruposTasks = new List<Task>();
             foreach (Temporizador t in list)
             {
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
@@ -50,11 +49,7 @@ namespace Services.Impls
                     t.NextExecution = t.HoraInicio;
                 }
                 await repository.UpdateAsync(t, t.Id);
-            }
 
-            List<Task> gruposTasks = new List<Task>();
-            foreach (Temporizador t in list)
-            {
                 gruposTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, ""));
             }
 
@@ -73,7 +68,7 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repository.UpdateAsync(t, t.Id);
             }
-            await _context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
     }
 }
