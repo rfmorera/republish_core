@@ -73,23 +73,12 @@ namespace Services.Impls
         {
             try
             {
-                Random p = new Random();
-                int sec = p.Next() % 20;
-                string horainicio = DateTime.Now.ToLongTimeString();
-                await Task.Delay(sec * 1000);
-
-                //Console.WriteLine(_repository.Find(g => g.Id == GrupoId).Single().Nombre + " actualizado");
-                //StreamWriter w = File.AppendText(TempNombre + ".txt");
-                //await w.WriteAsync("-------------------------------\n\r\n Actualizado : \n"
-                //                    + _repository.Find(g => g.Id == GrupoId).Single().Nombre
-                //                    + " actualizado. Por Temporizador: " + TempNombre + " Tiempo " + sec + "segundos. \nHora Inicio: " + horainicio + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
-                //w.Close();
-                return;
                 IEnumerable<Anuncio> listAnuncio = await (from a in _context.Set<Anuncio>()
-                                                    where a.GroupId == GrupoId && a.Actualizado == false
+                                                    where a.GroupId == GrupoId 
                                                     orderby a.Orden
                                                     select a).Take(Etapa)
                                                   .ToListAsync();
+
                 List<AnuncioDTO> list = new List<AnuncioDTO>();
 
                 foreach (Anuncio a in listAnuncio)
@@ -100,7 +89,7 @@ namespace Services.Impls
                     list.Add(new AnuncioDTO(a));
                 }
 
-                if (listAnuncio.Count() < Etapa)
+                if (listAnuncio.Any())
                 {
                     listAnuncio = (from a in _context.Set<Anuncio>()
                                    select a).ToList();
@@ -113,8 +102,6 @@ namespace Services.Impls
                 }
 
                 await _context.SaveChangesAsync();
-
-                int total = list.Count();
 
                 string key2Captcha = "bea50bfde423fb27e7126e873fb42eed";
                 List<Task> anunciosTasks = new List<Task>();
