@@ -60,7 +60,7 @@ namespace Services.Impls
 
         public async Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId)
         {
-            IEnumerable<GrupoIndexDTO> list = await _context.Set<Grupo>()
+            IEnumerable<GrupoIndexDTO> list = await _repository.QueryAll()
                                                     .Where(g => g.UserId == UserId)
                                                     .OrderBy(g => g.Orden)
                                                     .Include(g => g.Anuncios)
@@ -73,37 +73,42 @@ namespace Services.Impls
         {
             try
             {
-                IEnumerable<Anuncio> listAnuncio = await (from a in _context.Set<Anuncio>()
-                                                    where a.GroupId == GrupoId 
-                                                    orderby a.Orden
-                                                    select a).Take(Etapa)
-                                                  .ToListAsync();
+                IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false))
+                                                                      .Take(Etapa);
 
                 List<AnuncioDTO> list = new List<AnuncioDTO>();
 
-                foreach (Anuncio a in listAnuncio)
-                {
-                    a.Actualizado = true;
-                    _anuncioRepo.Update(a, a.Id);
-
-                    list.Add(new AnuncioDTO(a));
-                }
-
                 if (listAnuncio.Any())
                 {
-                    listAnuncio = (from a in _context.Set<Anuncio>()
-                                   select a).ToList();
+                    foreach (Anuncio a in listAnuncio)
+                    {
+                        a.Actualizado = true;
+                        await _anuncioRepo.UpdateAsync(a, a.Id);
+
+                        list.Add(new AnuncioDTO(a));
+                    }
+                }
+                else
+                {
+                    listAnuncio = await _anuncioRepo.GetAllAsync();
 
                     foreach (Anuncio a in listAnuncio)
                     {
-                        a.Actualizado = false;
-                        _anuncioRepo.Update(a, a.Id);
+                        if(Etapa > 0)
+                        {
+                            list.Add(new AnuncioDTO(a));
+                            Etapa--;
+                        }
+                        else
+                        {
+                            a.Actualizado = false;
+                            await _anuncioRepo.UpdateAsync(a, a.Id);
+                        }
                     }
                 }
 
-                await _context.SaveChangesAsync();
-
                 string key2Captcha = "bea50bfde423fb27e7126e873fb42eed";
+
                 List<Task> anunciosTasks = new List<Task>();
                 foreach (AnuncioDTO dTO in list)
                 {
