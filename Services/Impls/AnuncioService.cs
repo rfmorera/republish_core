@@ -34,22 +34,20 @@ namespace Services.Impls
                 try
                 {
                     Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(st), GroupId = GrupoId };
-                    await _dbContext.Set<Anuncio>().AddAsync(anuncio);
+                    repositoryAnuncio.Add(anuncio);
                 }
                 catch (Exception) { }
 
             }
-            await _dbContext.SaveChangesAsync();
+            await repositoryAnuncio.SaveChangesAsync();
         }
 
         public async Task DeleteAllByGroup(string GrupoId)
         {
             IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
-            foreach (Anuncio a in anuncios)
-            {
-                _dbContext.Set<Anuncio>().Remove(a);
-            }
-            await _dbContext.SaveChangesAsync();
+            repositoryAnuncio.RemoveRange(anuncios);
+
+            await repositoryAnuncio.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string Id)
