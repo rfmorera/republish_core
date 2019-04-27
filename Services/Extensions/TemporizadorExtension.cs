@@ -1,4 +1,5 @@
 ﻿using Models;
+using Republish.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Services.Extensions
     {
         public static bool IsValidDay(this Temporizador value)
         {
-            DayOfWeek today = DateTime.Now.DayOfWeek;
+            DayOfWeek today = DateTime.Now.ToUtcCuba().DayOfWeek;
             switch (today)
             {
                 case DayOfWeek.Sunday:
