@@ -48,7 +48,7 @@ namespace Republish
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
+                        Configuration.GetConnectionString("RepublishContextConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
