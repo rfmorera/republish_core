@@ -18,11 +18,9 @@ namespace Republish
         public static void Main(string[] args)
         {
             ServicePoint sp1, sp2;
-            ThreadPool.SetMinThreads(1, 1);
-            ThreadPool.SetMaxThreads(10, 10);
             
             // Upper Limit of Connections
-            ServicePointManager.DefaultConnectionLimit = 50;
+            ServicePointManager.DefaultConnectionLimit = 250;
             ServicePointManager.MaxServicePoints = 25;
             Uri uriRevolico = new Uri("https://www.revolico.com");
             Uri uri2Captcha = new Uri("https://www.2captcha.com");
@@ -31,11 +29,11 @@ namespace Republish
             sp2 = ServicePointManager.FindServicePoint(uri2Captcha);
 
             // Configuration ServicePoint Revolico
-            sp1.ConnectionLimit = 100;
+            sp1.ConnectionLimit = 200;
             sp1.ConnectionLeaseTimeout = 6000;
 
             // Configuration ServicePoint 2Captcha
-            sp2.ConnectionLimit = 100;
+            sp2.ConnectionLimit = 200;
             sp2.ConnectionLeaseTimeout = 6000;
 
             CreateWebHostBuilder(args).Build().Run();
