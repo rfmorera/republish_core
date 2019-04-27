@@ -33,8 +33,7 @@ namespace Services.Impls
         {
             string log = "";
             TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
-            TimeSpan utc2 = DateTime.Now.ToUtcCuba().TimeOfDay + new TimeSpan(0, 0, 1);
-            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution < utc2 );
+            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc );
 
             list = list.Where(t => t.IsValidDay());
 
