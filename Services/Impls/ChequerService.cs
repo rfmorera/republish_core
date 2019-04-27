@@ -31,22 +31,24 @@ namespace Services.Impls
         public async Task<string> CheckAllTemporizadores()
         {
             string log = "";
-            DateTime now = DateTime.Now;
+            TimeZoneInfo hwZone = TimeZoneInfo.FindSystemTimeZoneById("US Eastern Standard Time");
+            DateTime utc = TimeZoneInfo.ConvertTime(DateTime.Now, hwZone);
+            
             IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
-                                                                                        (((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
-                                                                                     || (t.NextExecution == t.HoraInicio && t.HoraInicio <= now && now <= t.HoraFin))
+                                                                                        (((t.NextExecution - utc) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == utc.Minute)
+                                                                                     || (t.NextExecution == t.HoraInicio && t.HoraInicio <= utc && utc <= t.HoraFin))
                                                                                  && t.IsValidDay()
                                                                                  )));
 
             List<Task> publishTasks = new List<Task>();
-            _log.LogTrace(string.Format("Cantidad de temporizadores {0}", list.Count()), null);
+            //_log.LogTrace(string.Format("Cantidad de temporizadores {0}", list.Count()), null);
             log += string.Format("Cantidad de temporizadores {0}", list.Count());
             log += "<ul>";
             foreach (Temporizador t in list)
             {
                 log += string.Format("<li>{0}<li>", t.Nombre);
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                t.NextExecution = now + timeSpan;
+                t.NextExecution = utc + timeSpan;
                 if (t.NextExecution > t.HoraFin)
                 {
                     t.NextExecution = t.HoraInicio;
