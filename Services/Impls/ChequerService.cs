@@ -37,7 +37,7 @@ namespace Services.Impls
 
             list = list.Where(t => t.IsValidDay());
 
-            List<Task> gruposTasks = new List<Task>();
+            List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
             foreach (Temporizador t in list)
             {
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
@@ -48,11 +48,19 @@ namespace Services.Impls
                 }
                 await repository.UpdateAsync(t, t.Id);
 
-                gruposTasks.Add(_grupoService.Publish(t.GrupoId, t.Etapa, ""));
+                selectTasks.Add(_grupoService.Select(t.GrupoId, t.Etapa, ""));
             }
 
-            await Task.WhenAll(gruposTasks);
+            await Task.WhenAll(selectTasks);
             await repository.SaveChangesAsync();
+
+            List<Task> publishTasks = new List<Task>();
+            foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
+            {
+                publishTasks.Add(_grupoService.Publish(item.Result));
+            }
+
+            await Task.WhenAll(publishTasks);
 
             return log;
         }
