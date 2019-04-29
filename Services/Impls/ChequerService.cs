@@ -36,7 +36,7 @@ namespace Services.Impls
             IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc );
 
             list = list.Where(t => t.IsValidDay());
-
+            _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
             List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
             foreach (Temporizador t in list)
             {
@@ -57,6 +57,7 @@ namespace Services.Impls
             List<Task> publishTasks = new List<Task>();
             foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
             {
+                _log.LogInformation(string.Format("Anuncions {0}", item.Result.Count()));
                 publishTasks.Add(_grupoService.Publish(item.Result));
             }
 

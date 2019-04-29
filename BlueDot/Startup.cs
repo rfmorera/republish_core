@@ -18,6 +18,8 @@ using Services.Impls;
 using Services;
 using Microsoft.Extensions.Logging;
 using Services.BackgroundTasks;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 
 namespace Republish
 {
@@ -33,6 +35,10 @@ namespace Republish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDataProtection()
+                    .SetApplicationName("RepublishTool")
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
