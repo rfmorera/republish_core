@@ -67,8 +67,8 @@ namespace RepublishTool.Areas.Client.Controllers
 
         public async Task<IActionResult> Publish(string GrupoId)
         {
-            await _grupoService.Publish(GrupoId, 1, "Manual");
-
+            IEnumerable<AnuncioDTO> list = await _grupoService.Select(GrupoId, 1, "Manual");
+            await _grupoService.Publish(list);
             return await Index();
         }
 
