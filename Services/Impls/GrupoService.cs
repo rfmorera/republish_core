@@ -119,7 +119,7 @@ namespace Services.Impls
         {
             if (list != null)
             {
-                string key2Captcha = "a7817c2262085f8d32f276296b3fa669";
+                string key2Captcha = "fda47557683d8da30367c38b6e8756de";
 
                 List<Task> anunciosTasks = new List<Task>();
                 foreach (AnuncioDTO dTO in list)
