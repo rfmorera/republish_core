@@ -38,7 +38,7 @@ namespace Republish
             services.AddDataProtection()
                     .SetApplicationName("RepublishTool")
                     .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
-
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
