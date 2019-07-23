@@ -21,6 +21,11 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
+        public AnuncioService()
+        {
+
+        }
+
         public AnuncioService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
