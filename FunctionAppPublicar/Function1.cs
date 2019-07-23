@@ -17,7 +17,7 @@ namespace FunctionAppPublicar
         {
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
             string[] url = myQueueItem.Split(";");
-            Thread.Sleep(5000);
+            
             List<Task> tasks = new List<Task>();
             IAnuncioService anuncioService = new AnuncioService();
 
