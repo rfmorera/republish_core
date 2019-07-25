@@ -28,7 +28,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "Consume Scoped Service Hosted Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(45));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
 
             return Task.CompletedTask;
         }

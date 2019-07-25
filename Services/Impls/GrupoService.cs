@@ -69,12 +69,16 @@ namespace Services.Impls
             return list;
         }
 
-        public async Task<IEnumerable<AnuncioDTO>> Select(string GrupoId, int Etapa, string TempNombre)
+        public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
             try
             {
-                IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false))
-                                                                      .Take(Etapa);
+                IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
+
+                if(Etapa > 0)
+                {
+                    listAnuncio = listAnuncio.Take(Etapa);
+                }
 
                 List<AnuncioDTO> list = new List<AnuncioDTO>();
 
@@ -94,7 +98,7 @@ namespace Services.Impls
 
                     foreach (Anuncio a in listAnuncio)
                     {
-                        if (Etapa > 0)
+                        if (Etapa > 0 || Etapa == -1)
                         {
                             list.Add(new AnuncioDTO(a));
                             Etapa--;
@@ -112,23 +116,6 @@ namespace Services.Impls
             catch (Exception)
             {
                 return null;
-            }
-        }
-
-        public async Task Publish(IEnumerable<AnuncioDTO> list)
-        {
-            if (list != null)
-            {
-                string key2Captcha = "fda47557683d8da30367c38b6e8756de";
-
-                List<Task> anunciosTasks = new List<Task>();
-                foreach (AnuncioDTO dTO in list)
-                {
-                    string url = dTO.Url;
-                    anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
-                }
-
-                await Task.WhenAll(anunciosTasks);
             }
         }
     }

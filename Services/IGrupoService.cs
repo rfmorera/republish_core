@@ -12,10 +12,8 @@ namespace Services
 
         Task DeleteAsync(string Id);
 
-        Task<IEnumerable<AnuncioDTO>> Select(string Id, int Etapa, string t);
-
-        Task Publish(IEnumerable<AnuncioDTO> list);
-
+        Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string Id, int Etapa, string t);
+        
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 
         Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);

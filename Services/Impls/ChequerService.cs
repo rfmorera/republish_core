@@ -21,23 +21,30 @@ namespace Services.Impls
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repository;
         private readonly IGrupoService _grupoService;
+        private readonly IQueueService _queueService;
         readonly ILogger<ChequerService> _log;
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log)
+
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
             _grupoService = grupoService;
             _log = log;
+            _queueService = queueService;
         }
+
         public async Task<string> CheckAllTemporizadores()
         {
             string log = "";
             TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
-            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc );
 
+            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc );
             list = list.Where(t => t.IsValidDay());
+
             _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+
             List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
+
             foreach (Temporizador t in list)
             {
                 TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
@@ -48,21 +55,21 @@ namespace Services.Impls
                 }
                 await repository.UpdateAsync(t, t.Id);
 
-                selectTasks.Add(_grupoService.Select(t.GrupoId, t.Etapa, ""));
+                selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
             }
 
             await Task.WhenAll(selectTasks);
             await repository.SaveChangesAsync();
-
-            List<Task> publishTasks = new List<Task>();
+            
             foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
             {
                 _log.LogInformation(string.Format("Anuncions {0}", item.Result.Count()));
-                publishTasks.Add(_grupoService.Publish(item.Result));
+                if (item.Result.Any())
+                {
+                    await _queueService.AddMessage(item.Result);
+                }
             }
-
-            await Task.WhenAll(publishTasks);
-
+            
             return log;
         }
 

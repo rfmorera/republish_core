@@ -20,6 +20,8 @@ using Microsoft.Extensions.Logging;
 using Services.BackgroundTasks;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
 
 namespace Republish
 {
@@ -51,11 +53,7 @@ namespace Republish
             services.Configure<CookieTempDataProviderOptions>(options => {
                 options.Cookie.IsEssential = true;
             });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishContextConnection")));
-
+            
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -65,6 +63,8 @@ namespace Republish
                 options.LoginPath = new PathString("/Identity/Account/Logout"); 
                 options.LogoutPath = new PathString("/Identity/Account/Logout");
             });
+
+            ConfigureConnections(services);
 
             services.AddHostedService<TimerService>();
 
@@ -78,6 +78,7 @@ namespace Republish
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
+            services.AddScoped<IQueueService, QueueService>();
             services.AddScoped<IChequerService, ChequerService>();
             
             services.AddMvc().AddRazorPagesOptions(opts => {
@@ -130,6 +131,19 @@ namespace Republish
 
             // This is needed to prevent the user from being locked out due to an expired two factor authentication code.
             AppContext.SetSwitch("Microsoft.AspNetCore.Identity.CheckPasswordSignInAlwaysResetLockoutOnSuccess", true);
+        }
+
+        private void ConfigureConnections(IServiceCollection services)
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureWebJobsStorage"));
+            
+            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+
+            services.AddSingleton(queueClient);
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
         }
     }
 }

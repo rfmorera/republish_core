@@ -65,13 +65,6 @@ namespace RepublishTool.Areas.Client.Controllers
             return await BuildPartialView();
         }
 
-        public async Task<IActionResult> Publish(string GrupoId)
-        {
-            IEnumerable<AnuncioDTO> list = await _grupoService.Select(GrupoId, 1, "Manual");
-            await _grupoService.Publish(list);
-            return await Index();
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddAnuncio(string GrupoId, string Enlaces)
         {

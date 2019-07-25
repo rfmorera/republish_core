@@ -63,6 +63,7 @@ namespace Services.Impls
 
         public async Task Publish(string url, string Key2Captcha)
         {
+            await Task.Delay(5000);
             await StartProcess(url, Key2Captcha, true);
         }
 
