@@ -143,7 +143,7 @@ namespace Republish
             
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
+                        Configuration.GetConnectionString("RepublishContextConnection")));
         }
     }
 }
