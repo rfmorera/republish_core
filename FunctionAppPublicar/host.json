@@ -1,3 +1,7 @@
 {
-    "version": "2.0"
+  "version": "2.0",
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=republishstoragecore;AccountKey=B2vJm+EcY+ksuO8Z9NNL/TDa0xHXlNdkD45Funp0HDt9LkGkVNXSZO/5Z2g4JYMi4B1S580B206YT3Jf+iYX9Q==;BlobEndpoint=https://republishstoragecore.blob.core.windows.net/;QueueEndpoint=https://republishstoragecore.queue.core.windows.net/;TableEndpoint=https://republishstoragecore.table.core.windows.net/;FileEndpoint=https://republishstoragecore.file.core.windows.net/;",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
 }
