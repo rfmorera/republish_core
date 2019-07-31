@@ -48,6 +48,8 @@ namespace Services.BackgroundTasks
                 WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
                 waitHandle.WaitOne();
             }
+            _logger.LogInformation(
+                "Completed - Consume Scoped Service Hosted Service is completed.");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
