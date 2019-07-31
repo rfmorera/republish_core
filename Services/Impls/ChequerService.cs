@@ -60,16 +60,18 @@ namespace Services.Impls
 
             await Task.WhenAll(selectTasks);
             await repository.SaveChangesAsync();
-            
+            List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
+
             foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
             {
                 _log.LogInformation(string.Format("Anuncions {0}", item.Result.Count()));
                 if (item.Result.Any())
                 {
-                    await _queueService.AddMessage(item.Result);
+                    listAnuncios.AddRange(item.Result);
                 }
             }
-            
+            await _queueService.AddMessage(listAnuncios);
+
             return log;
         }
 
