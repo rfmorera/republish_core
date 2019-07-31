@@ -70,8 +70,12 @@ namespace Services.Impls
                     listAnuncios.AddRange(item.Result);
                 }
             }
-            await _queueService.AddMessage(listAnuncios);
 
+            if (listAnuncios.Any())
+            {
+                await _queueService.AddMessage(listAnuncios);
+            }
+            
             return log;
         }
 

@@ -1,0 +1,69 @@
+2019-07-31T10:39:21.1743445-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
+2019-07-31T10:39:21.1984972-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:39:21.7954580-04:00 0HLOLOJG10G0R:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
+2019-07-31T10:39:21.8978912-04:00 0HLOLOJG10G0R:00000001 [INF] Request finished in 105.808ms 200  (791a596a)
+2019-07-31T10:39:22.2303670-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T10:39:22.2371117-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T10:39:22.2493528-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T10:39:22.4089854-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:39:23.7197763-04:00  [INF] Executed DbCommand ("187"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:39:23.8198720-04:00  [INF] Hora 10:39:21.2362776 cantidad de temporizadores 0 (c3c1991b)
+2019-07-31T10:39:31.1935750-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:39:31.2265643-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:39:31.3047191-04:00  [INF] Executed DbCommand ("68"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:39:31.3121016-04:00  [INF] Hora 10:39:31.1942679 cantidad de temporizadores 0 (7b4c3acb)
+2019-07-31T10:39:41.2012577-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:39:41.2109396-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:39:41.2853349-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:39:41.2931473-04:00  [INF] Hora 10:39:41.2020623 cantidad de temporizadores 0 (f97209ca)
+2019-07-31T10:39:51.2041235-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:39:51.2117058-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:39:51.2854708-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:39:51.2924020-04:00  [INF] Hora 10:39:51.2044123 cantidad de temporizadores 0 (8d99a03e)
+2019-07-31T10:40:01.1949306-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:40:01.2022489-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:40:01.2766195-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:40:01.2847586-04:00  [INF] Hora 10:40:01.1952353 cantidad de temporizadores 0 (277b041a)
+2019-07-31T10:40:11.2048126-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:40:11.2127935-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:40:11.2868583-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:40:11.2944444-04:00  [INF] Hora 10:40:11.2051913 cantidad de temporizadores 0 (70c9e5a6)
+2019-07-31T10:40:21.1928074-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:40:21.1991587-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:40:21.2738190-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:40:21.2917851-04:00  [INF] Hora 10:40:21.1931476 cantidad de temporizadores 0 (197b5c02)
+2019-07-31T10:40:31.1995612-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:40:31.2064589-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:40:31.2804353-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:40:31.2867968-04:00  [INF] Hora 10:40:31.2000124 cantidad de temporizadores 0 (6be64400)
+2019-07-31T10:40:41.2025864-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T10:40:41.2094172-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T10:40:41.2845457-04:00  [INF] Executed DbCommand ("68"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-07-31T10:40:41.2909476-04:00  [INF] Hora 10:40:41.2030300 cantidad de temporizadores 0 (4d345e18)
