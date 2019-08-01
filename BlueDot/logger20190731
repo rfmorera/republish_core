@@ -1,69 +1,490 @@
-2019-07-31T10:39:21.1743445-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
-2019-07-31T10:39:21.1984972-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:39:21.7954580-04:00 0HLOLOJG10G0R:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
-2019-07-31T10:39:21.8978912-04:00 0HLOLOJG10G0R:00000001 [INF] Request finished in 105.808ms 200  (791a596a)
-2019-07-31T10:39:22.2303670-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
-2019-07-31T10:39:22.2371117-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
-2019-07-31T10:39:22.2493528-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
-2019-07-31T10:39:22.4089854-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:39:23.7197763-04:00  [INF] Executed DbCommand ("187"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+2019-07-31T22:12:19.3283055-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
+2019-07-31T22:12:19.3587344-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T22:12:19.7430727-04:00 0HLOM4MN8JH65:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/   (ca22a1cb)
+2019-07-31T22:12:19.7430622-04:00 0HLOM4MN8JH66:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
+2019-07-31T22:12:19.8354953-04:00 0HLOM4MN8JH66:00000001 [INF] Request finished in 105.4089ms 200  (791a596a)
+2019-07-31T22:12:20.2930273-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T22:12:20.3003962-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T22:12:20.3065546-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-07-31T22:12:20.5280350-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T22:12:21.0922701-04:00 0HLOM4MN8JH65:00000001 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-07-31T22:12:21.2193695-04:00  [INF] Executed DbCommand ("59"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
 ""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
 FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:39:23.8198720-04:00  [INF] Hora 10:39:21.2362776 cantidad de temporizadores 0 (c3c1991b)
-2019-07-31T10:39:31.1935750-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:39:31.2265643-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:39:31.3047191-04:00  [INF] Executed DbCommand ("68"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+2019-07-31T22:12:21.2204155-04:00 0HLOM4MN8JH65:00000001 [INF] Executing handler method "OnGetAsync" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-07-31T22:12:21.2537211-04:00 0HLOM4MN8JH65:00000001 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-07-31T22:12:21.3599049-04:00  [INF] Hora 22:12:19.3980258 cantidad de temporizadores 12 (4bb3719f)
+2019-07-31T22:12:21.4848371-04:00  [INF] Executed DbCommand ("15"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.5079760-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.5504954-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.5940120-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6061381-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6173473-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6290161-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6403356-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]" (0723d8ff)
+2019-07-31T22:12:21.6629150-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6754279-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.6889091-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.7018477-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.7159500-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-07-31T22:12:21.7298914-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]" (0723d8ff)
+2019-07-31T22:12:21.7515623-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]" (0723d8ff)
+2019-07-31T22:12:21.7724289-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]" (0723d8ff)
+2019-07-31T22:12:21.7930075-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]" (0723d8ff)
+2019-07-31T22:12:22.5194039-04:00 0HLOM4MN8JH65:00000001 [INF] Executed action "/Account/Login" in 1409.3157ms (afa2e885)
+2019-07-31T22:12:22.5571959-04:00 0HLOM4MN8JH65:00000001 [INF] Request finished in 2821.6631ms 200 text/html; charset=utf-8 (791a596a)
+2019-07-31T22:12:22.5989021-04:00  [INF] Executed DbCommand ("23"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p172='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p173='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p174='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p175='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p176='?' (Size = 4000), @p11='?' (Size = 450), @p10='?' (DbType = Boolean), @p177='?' (Size = 4000), @p13='?' (Size = 450), @p12='?' (DbType = Boolean), @p178='?' (Size = 4000), @p15='?' (Size = 450), @p14='?' (DbType = Boolean), @p179='?' (Size = 4000), @p17='?' (Size = 450), @p16='?' (DbType = Boolean), @p180='?' (Size = 4000), @p19='?' (Size = 450), @p18='?' (DbType = Boolean), @p181='?' (Size = 4000), @p21='?' (Size = 450), @p20='?' (DbType = Boolean), @p182='?' (Size = 4000), @p23='?' (Size = 450), @p22='?' (DbType = Boolean), @p183='?' (Size = 4000), @p25='?' (Size = 450), @p24='?' (DbType = Boolean), @p184='?' (Size = 4000), @p27='?' (Size = 450), @p26='?' (DbType = Boolean), @p185='?' (Size = 4000), @p29='?' (Size = 450), @p28='?' (DbType = Boolean), @p186='?' (Size = 4000), @p31='?' (Size = 450), @p30='?' (DbType = Boolean), @p187='?' (Size = 4000), @p33='?' (Size = 450), @p32='?' (DbType = Boolean), @p188='?' (Size = 4000), @p35='?' (Size = 450), @p34='?' (DbType = Boolean), @p189='?' (Size = 4000), @p37='?' (Size = 450), @p36='?' (DbType = Boolean), @p190='?' (Size = 4000), @p39='?' (Size = 450), @p38='?' (DbType = Boolean), @p191='?' (Size = 4000), @p41='?' (Size = 450), @p40='?' (DbType = Boolean), @p192='?' (Size = 4000), @p43='?' (Size = 450), @p42='?' (DbType = Boolean), @p193='?' (Size = 4000), @p45='?' (Size = 450), @p44='?' (DbType = Boolean), @p194='?' (Size = 4000), @p47='?' (Size = 450), @p46='?' (DbType = Boolean), @p195='?' (Size = 4000), @p49='?' (Size = 450), @p48='?' (DbType = Boolean), @p196='?' (Size = 4000), @p51='?' (Size = 450), @p50='?' (DbType = Boolean), @p197='?' (Size = 4000), @p53='?' (Size = 450), @p52='?' (DbType = Boolean), @p198='?' (Size = 4000), @p55='?' (Size = 450), @p54='?' (DbType = Boolean), @p199='?' (Size = 4000), @p57='?' (Size = 450), @p56='?' (DbType = Boolean), @p200='?' (Size = 4000), @p59='?' (Size = 450), @p58='?' (DbType = Boolean), @p201='?' (Size = 4000), @p61='?' (Size = 450), @p60='?' (DbType = Boolean), @p202='?' (Size = 4000), @p63='?' (Size = 450), @p62='?' (DbType = Boolean), @p203='?' (Size = 4000), @p65='?' (Size = 450), @p64='?' (DbType = Boolean), @p204='?' (Size = 4000), @p67='?' (Size = 450), @p66='?' (DbType = Boolean), @p205='?' (Size = 4000), @p69='?' (Size = 450), @p68='?' (DbType = Boolean), @p206='?' (Size = 4000), @p71='?' (Size = 450), @p70='?' (DbType = Boolean), @p207='?' (Size = 4000), @p73='?' (Size = 450), @p72='?' (DbType = Boolean), @p208='?' (Size = 4000), @p75='?' (Size = 450), @p74='?' (DbType = Boolean), @p209='?' (Size = 4000), @p77='?' (Size = 450), @p76='?' (DbType = Boolean), @p210='?' (Size = 4000), @p79='?' (Size = 450), @p78='?' (DbType = Boolean), @p211='?' (Size = 4000), @p81='?' (Size = 450), @p80='?' (DbType = Boolean), @p212='?' (Size = 4000), @p83='?' (Size = 450), @p82='?' (DbType = Boolean), @p213='?' (Size = 4000), @p85='?' (Size = 450), @p84='?' (DbType = Boolean), @p214='?' (Size = 4000), @p87='?' (Size = 450), @p86='?' (DbType = Boolean), @p215='?' (Size = 4000), @p89='?' (Size = 450), @p88='?' (DbType = Boolean), @p216='?' (Size = 4000), @p91='?' (Size = 450), @p90='?' (DbType = Boolean), @p217='?' (Size = 4000), @p93='?' (Size = 450), @p92='?' (DbType = Boolean), @p218='?' (Size = 4000), @p95='?' (Size = 450), @p94='?' (DbType = Boolean), @p219='?' (Size = 4000), @p97='?' (Size = 450), @p96='?' (DbType = Boolean), @p220='?' (Size = 4000), @p99='?' (Size = 450), @p98='?' (DbType = Boolean), @p221='?' (Size = 4000), @p101='?' (Size = 450), @p100='?' (DbType = Boolean), @p222='?' (Size = 4000), @p103='?' (Size = 450), @p102='?' (DbType = Boolean), @p223='?' (Size = 4000), @p105='?' (Size = 450), @p104='?' (DbType = Boolean), @p224='?' (Size = 4000), @p107='?' (Size = 450), @p106='?' (DbType = Boolean), @p225='?' (Size = 4000), @p109='?' (Size = 450), @p108='?' (DbType = Boolean), @p226='?' (Size = 4000), @p111='?' (Size = 450), @p110='?' (DbType = Boolean), @p227='?' (Size = 4000), @p113='?' (Size = 450), @p112='?' (DbType = Boolean), @p228='?' (Size = 4000), @p115='?' (Size = 450), @p114='?' (DbType = Boolean), @p229='?' (Size = 4000), @p117='?' (Size = 450), @p116='?' (DbType = Boolean), @p230='?' (Size = 4000), @p119='?' (Size = 450), @p118='?' (DbType = Boolean), @p231='?' (Size = 4000), @p121='?' (Size = 450), @p120='?' (DbType = Boolean), @p232='?' (Size = 4000), @p123='?' (Size = 450), @p122='?' (DbType = Boolean), @p233='?' (Size = 4000), @p125='?' (Size = 450), @p124='?' (DbType = Boolean), @p234='?' (Size = 4000), @p127='?' (Size = 450), @p126='?' (DbType = Boolean), @p235='?' (Size = 4000), @p129='?' (Size = 450), @p128='?' (DbType = Boolean), @p236='?' (Size = 4000), @p131='?' (Size = 450), @p130='?' (DbType = Boolean), @p237='?' (Size = 4000), @p133='?' (Size = 450), @p132='?' (DbType = Boolean), @p238='?' (Size = 4000), @p135='?' (Size = 450), @p134='?' (DbType = Boolean), @p239='?' (Size = 4000), @p137='?' (Size = 450), @p136='?' (DbType = Boolean), @p240='?' (Size = 4000), @p139='?' (Size = 450), @p138='?' (DbType = Boolean), @p241='?' (Size = 4000), @p141='?' (Size = 450), @p140='?' (DbType = Boolean), @p242='?' (Size = 4000), @p143='?' (Size = 450), @p142='?' (DbType = Boolean), @p243='?' (Size = 4000), @p145='?' (Size = 450), @p144='?' (DbType = Boolean), @p244='?' (Size = 4000), @p147='?' (Size = 450), @p146='?' (DbType = Boolean), @p245='?' (Size = 4000), @p149='?' (Size = 450), @p246='?' (Size = 4000), @p148='?' (DbType = Time), @p151='?' (Size = 450), @p247='?' (Size = 4000), @p150='?' (DbType = Time), @p153='?' (Size = 450), @p248='?' (Size = 4000), @p152='?' (DbType = Time), @p155='?' (Size = 450), @p249='?' (Size = 4000), @p154='?' (DbType = Time), @p157='?' (Size = 450), @p250='?' (Size = 4000), @p156='?' (DbType = Time), @p159='?' (Size = 450), @p251='?' (Size = 4000), @p158='?' (DbType = Time), @p161='?' (Size = 450), @p252='?' (Size = 4000), @p160='?' (DbType = Time), @p163='?' (Size = 450), @p253='?' (Size = 4000), @p162='?' (DbType = Time), @p165='?' (Size = 450), @p254='?' (Size = 4000), @p164='?' (DbType = Time), @p167='?' (Size = 450), @p255='?' (Size = 4000), @p166='?' (DbType = Time), @p169='?' (Size = 450), @p256='?' (Size = 4000), @p168='?' (DbType = Time), @p171='?' (Size = 450), @p257='?' (Size = 4000), @p170='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p12
+WHERE [Id] = @p13 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p14
+WHERE [Id] = @p15 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p16
+WHERE [Id] = @p17 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p18
+WHERE [Id] = @p19 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p20
+WHERE [Id] = @p21 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p22
+WHERE [Id] = @p23 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p24
+WHERE [Id] = @p25 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p26
+WHERE [Id] = @p27 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p28
+WHERE [Id] = @p29 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p30
+WHERE [Id] = @p31 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p32
+WHERE [Id] = @p33 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p34
+WHERE [Id] = @p35 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p36
+WHERE [Id] = @p37 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p38
+WHERE [Id] = @p39 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p40
+WHERE [Id] = @p41 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p42
+WHERE [Id] = @p43 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p44
+WHERE [Id] = @p45 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p46
+WHERE [Id] = @p47 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p48
+WHERE [Id] = @p49 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p50
+WHERE [Id] = @p51 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p52
+WHERE [Id] = @p53 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p54
+WHERE [Id] = @p55 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p56
+WHERE [Id] = @p57 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p58
+WHERE [Id] = @p59 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p60
+WHERE [Id] = @p61 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p62
+WHERE [Id] = @p63 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p64
+WHERE [Id] = @p65 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p66
+WHERE [Id] = @p67 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p68
+WHERE [Id] = @p69 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p70
+WHERE [Id] = @p71 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p72
+WHERE [Id] = @p73 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p74
+WHERE [Id] = @p75 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p76
+WHERE [Id] = @p77 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p78
+WHERE [Id] = @p79 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p80
+WHERE [Id] = @p81 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p82
+WHERE [Id] = @p83 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p84
+WHERE [Id] = @p85 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p86
+WHERE [Id] = @p87 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p88
+WHERE [Id] = @p89 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p90
+WHERE [Id] = @p91 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p92
+WHERE [Id] = @p93 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p94
+WHERE [Id] = @p95 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p96
+WHERE [Id] = @p97 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p98
+WHERE [Id] = @p99 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p100
+WHERE [Id] = @p101 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p102
+WHERE [Id] = @p103 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p104
+WHERE [Id] = @p105 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p106
+WHERE [Id] = @p107 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p108
+WHERE [Id] = @p109 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p110
+WHERE [Id] = @p111 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p112
+WHERE [Id] = @p113 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p114
+WHERE [Id] = @p115 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p116
+WHERE [Id] = @p117 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p118
+WHERE [Id] = @p119 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p120
+WHERE [Id] = @p121 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p122
+WHERE [Id] = @p123 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p124
+WHERE [Id] = @p125 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p126
+WHERE [Id] = @p127 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p128
+WHERE [Id] = @p129 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p130
+WHERE [Id] = @p131 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p132
+WHERE [Id] = @p133 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p134
+WHERE [Id] = @p135 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p136
+WHERE [Id] = @p137 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p138
+WHERE [Id] = @p139 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p140
+WHERE [Id] = @p141 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p142
+WHERE [Id] = @p143 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p144
+WHERE [Id] = @p145 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p146
+WHERE [Id] = @p147 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p148
+WHERE [Id] = @p149 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p150
+WHERE [Id] = @p151 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p152
+WHERE [Id] = @p153 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p154
+WHERE [Id] = @p155 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p156
+WHERE [Id] = @p157 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p158
+WHERE [Id] = @p159 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p160
+WHERE [Id] = @p161 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p162
+WHERE [Id] = @p163 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p164
+WHERE [Id] = @p165 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p166
+WHERE [Id] = @p167 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p168
+WHERE [Id] = @p169 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p170
+WHERE [Id] = @p171 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-07-31T22:12:22.6701856-04:00  [INF] !!! ---- >>> Queue Messages 100 (fda419a8)
+2019-07-31T22:12:22.8222935-04:00 0HLOM4MN8JH65:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/style.css   (ca22a1cb)
+2019-07-31T22:12:22.8760667-04:00 0HLOM4MN8JH66:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/bootstrap/dist/css/bootstrap.css   (ca22a1cb)
+2019-07-31T22:12:22.8795314-04:00 0HLOM4MN8JH6A:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/common/bootstrap_custom.css   (ca22a1cb)
+2019-07-31T22:12:22.8870668-04:00 0HLOM4MN8JH69:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/cookie_consent.min.css   (ca22a1cb)
+2019-07-31T22:12:22.8942597-04:00 0HLOM4MN8JH68:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/toastr/toastr.css   (ca22a1cb)
+2019-07-31T22:12:22.9018453-04:00 0HLOM4MN8JH67:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/login.css   (ca22a1cb)
+2019-07-31T22:12:22.9790660-04:00 0HLOM4MN8JH6B:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/Ladda/ladda-themeless.min.css   (ca22a1cb)
+2019-07-31T22:12:22.9860618-04:00 0HLOM4MN8JH6C:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/common/toastr_custom.css   (ca22a1cb)
+2019-07-31T22:12:23.0010699-04:00 0HLOM4MN8JH6A:00000001 [INF] Sending file. Request path: '"/css/common/bootstrap_custom.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\common\bootstrap_custom.css"' (27b0a520)
+2019-07-31T22:12:23.0049801-04:00 0HLOM4MN8JH6B:00000001 [INF] Sending file. Request path: '"/lib/Ladda/ladda-themeless.min.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\Ladda\ladda-themeless.min.css"' (27b0a520)
+2019-07-31T22:12:23.0108613-04:00 0HLOM4MN8JH69:00000001 [INF] Sending file. Request path: '"/css/cookie_consent.min.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\cookie_consent.min.css"' (27b0a520)
+2019-07-31T22:12:23.0163362-04:00 0HLOM4MN8JH68:00000001 [INF] Sending file. Request path: '"/lib/toastr/toastr.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\toastr\toastr.css"' (27b0a520)
+2019-07-31T22:12:23.0227008-04:00 0HLOM4MN8JH6C:00000001 [INF] Sending file. Request path: '"/css/common/toastr_custom.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\common\toastr_custom.css"' (27b0a520)
+2019-07-31T22:12:23.0277799-04:00 0HLOM4MN8JH67:00000001 [INF] Sending file. Request path: '"/css/login.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\login.css"' (27b0a520)
+2019-07-31T22:12:23.0385788-04:00 0HLOM4MN8JH6C:00000001 [INF] Request finished in 49.9336ms 200 text/css (791a596a)
+2019-07-31T22:12:23.0438237-04:00 0HLOM4MN8JH6B:00000001 [INF] Request finished in 58.9846ms 200 text/css (791a596a)
+2019-07-31T22:12:23.0474863-04:00 0HLOM4MN8JH6A:00000001 [INF] Request finished in 221.0839ms 200 text/css (791a596a)
+2019-07-31T22:12:23.0589425-04:00 0HLOM4MN8JH69:00000001 [INF] Request finished in 218.607ms 200 text/css (791a596a)
+2019-07-31T22:12:23.0953258-04:00 0HLOM4MN8JH68:00000001 [INF] Request finished in 227.5957ms 200 text/css (791a596a)
+2019-07-31T22:12:23.1141214-04:00 0HLOM4MN8JH6D:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/common/password_requirements.css   (ca22a1cb)
+2019-07-31T22:12:23.1332867-04:00 0HLOM4MN8JH67:00000001 [INF] Request finished in 232.3124ms 200 text/css (791a596a)
+2019-07-31T22:12:23.1555999-04:00 0HLOM4MN8JH6D:00000001 [INF] Sending file. Request path: '"/css/common/password_requirements.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\common\password_requirements.css"' (27b0a520)
+2019-07-31T22:12:23.1810160-04:00 0HLOM4MN8JH65:00000002 [INF] Connection id ""0HLOM4MN8JH65"", Request id ""0HLOM4MN8JH65:00000002"": the application aborted the connection. (9f49aef1)
+2019-07-31T22:12:23.1902622-04:00 0HLOM4MN8JH6D:00000001 [INF] Request finished in 111.9652ms 200 text/css (791a596a)
+2019-07-31T22:12:23.1999660-04:00 0HLOM4MN8JH66:00000002 [INF] Connection id ""0HLOM4MN8JH66"", Request id ""0HLOM4MN8JH66:00000002"": the application aborted the connection. (9f49aef1)
+2019-07-31T22:12:23.2075577-04:00 0HLOM4MN8JH65:00000002 [INF] Sending file. Request path: '"/css/style.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\style.css"' (27b0a520)
+2019-07-31T22:12:23.2117534-04:00 0HLOM4MN8JH66:00000002 [INF] Sending file. Request path: '"/lib/bootstrap/dist/css/bootstrap.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\bootstrap\dist\css\bootstrap.css"' (27b0a520)
+2019-07-31T22:12:23.2206420-04:00 0HLOM4MN8JH65:00000002 [INF] Request finished in 474.8978ms 200 text/css (791a596a)
+2019-07-31T22:12:23.2254746-04:00 0HLOM4MN8JH66:00000002 [INF] Request finished in 481.1207ms 200 text/css (791a596a)
+2019-07-31T22:12:23.7346542-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-07-31T22:12:29.3616871-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T22:12:29.3749122-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T22:12:29.3864711-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
 ""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
 FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:39:31.3121016-04:00  [INF] Hora 10:39:31.1942679 cantidad de temporizadores 0 (7b4c3acb)
-2019-07-31T10:39:41.2012577-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:39:41.2109396-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:39:41.2853349-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+2019-07-31T22:12:29.3938759-04:00  [INF] Hora 22:12:29.3623588 cantidad de temporizadores 0 (d142d326)
+2019-07-31T22:12:29.4007463-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-07-31T22:12:39.3611083-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T22:12:39.3669626-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T22:12:39.3750414-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
 ""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
 FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:39:41.2931473-04:00  [INF] Hora 10:39:41.2020623 cantidad de temporizadores 0 (f97209ca)
-2019-07-31T10:39:51.2041235-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:39:51.2117058-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:39:51.2854708-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+2019-07-31T22:12:39.3802497-04:00  [INF] Hora 22:12:39.3613847 cantidad de temporizadores 0 (f48bb405)
+2019-07-31T22:12:39.3853403-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-07-31T22:12:49.3574045-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T22:12:49.3639680-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T22:12:49.3734861-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
 ""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
 FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:39:51.2924020-04:00  [INF] Hora 10:39:51.2044123 cantidad de temporizadores 0 (8d99a03e)
-2019-07-31T10:40:01.1949306-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:40:01.2022489-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:40:01.2766195-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+2019-07-31T22:12:49.3792993-04:00  [INF] Hora 22:12:49.3577463 cantidad de temporizadores 0 (5f0efdb5)
+2019-07-31T22:12:49.3848460-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-07-31T22:12:59.3614930-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-07-31T22:12:59.3675463-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-07-31T22:12:59.3774488-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
 ""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
 FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:40:01.2847586-04:00  [INF] Hora 10:40:01.1952353 cantidad de temporizadores 0 (277b041a)
-2019-07-31T10:40:11.2048126-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:40:11.2127935-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:40:11.2868583-04:00  [INF] Executed DbCommand ("66"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
-""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
-FROM [Temporizador] AS [t]
-WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:40:11.2944444-04:00  [INF] Hora 10:40:11.2051913 cantidad de temporizadores 0 (70c9e5a6)
-2019-07-31T10:40:21.1928074-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:40:21.1991587-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:40:21.2738190-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
-""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
-FROM [Temporizador] AS [t]
-WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:40:21.2917851-04:00  [INF] Hora 10:40:21.1931476 cantidad de temporizadores 0 (197b5c02)
-2019-07-31T10:40:31.1995612-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:40:31.2064589-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:40:31.2804353-04:00  [INF] Executed DbCommand ("67"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
-""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
-FROM [Temporizador] AS [t]
-WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:40:31.2867968-04:00  [INF] Hora 10:40:31.2000124 cantidad de temporizadores 0 (6be64400)
-2019-07-31T10:40:41.2025864-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
-2019-07-31T10:40:41.2094172-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
-2019-07-31T10:40:41.2845457-04:00  [INF] Executed DbCommand ("68"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
-""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
-FROM [Temporizador] AS [t]
-WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
-2019-07-31T10:40:41.2909476-04:00  [INF] Hora 10:40:41.2030300 cantidad de temporizadores 0 (4d345e18)
+2019-07-31T22:12:59.3843419-04:00  [INF] Hora 22:12:59.3617770 cantidad de temporizadores 0 (bed88cca)
+2019-07-31T22:12:59.3920926-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)

@@ -15,11 +15,11 @@ namespace FunctionAppPublicar
         [FunctionName("Function1")]
         public static void Run([QueueTrigger("anunciosq", Connection = "AzureWebJobsStorage")]string myQueueItem, ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
             string[] url = myQueueItem.Split(";");
+            log.LogInformation($"C# Queue trigger function processed. -- Total#: {url.Length} -- ");
             
             List<Task> tasks = new List<Task>();
-            IAnuncioService anuncioService = new AnuncioService();
+            IAnuncioService anuncioService = new AnuncioService(log);
             string key2Captcha = "fda47557683d8da30367c38b6e8756de";
             foreach(string st in url)
             {
