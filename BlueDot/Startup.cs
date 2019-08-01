@@ -80,7 +80,8 @@ namespace Republish
             services.AddTransient<ITemporizadorService, TemporizadorService>();
             services.AddScoped<IQueueService, QueueService>();
             services.AddScoped<IChequerService, ChequerService>();
-            
+            services.AddScoped<ICaptchaService, CaptchaService>();
+
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
                 opts.Conventions.AddAreaPageRoute("Identity", "/Account/Login","");
