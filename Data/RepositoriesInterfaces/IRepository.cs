@@ -47,8 +47,9 @@ namespace Republish.Data.RepositoriesInterfaces
         Task<T> GetAsync(int id);
 
         Task<T> UpdateAsync(T t, object key);
-        T Update(T t, object key);
 
         IQueryable<T> QueryAll();
+
+        Task SaveChangesAsync();
     }
 }

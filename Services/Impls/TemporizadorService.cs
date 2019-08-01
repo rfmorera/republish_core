@@ -28,11 +28,8 @@ namespace Services.Impls
         public async Task DeleteAllByGroup(string GrupoId)
         {
             IEnumerable<Temporizador> anuncios = await repositoryTemporizador.FindAllAsync(p => p.GrupoId == GrupoId);
-            foreach (Temporizador a in anuncios)
-            {
-                _dbContext.Set<Temporizador>().Remove(a);
-            }
-            await _dbContext.SaveChangesAsync();
+            repositoryTemporizador.RemoveRange(anuncios);
+            await repositoryTemporizador.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string Id)

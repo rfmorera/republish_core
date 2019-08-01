@@ -1,5 +1,6 @@
 ﻿using Models;
 using Republish.Extensions;
+using Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace Services.DTOs
 
             HoraInicio = t.HoraInicio;
             HoraFin = t.HoraFin;
+            Next = t.NextExecution;
 
             IntervaloHoras = t.IntervaloHoras;
             IntervaloMinutos = t.IntervaloMinutos;
@@ -106,7 +108,7 @@ namespace Services.DTOs
                 tmp += " | ";
             }
 
-            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} |", HoraInicio.ToTimeString(), HoraFin.ToTimeString());
+            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} Next {2}|", HoraInicio.ToString(), HoraFin.ToString(), Next.ToString());
             tmp += string.Format("Intervalo Horas: {0} Minutos: {1} |", IntervaloHoras, IntervaloMinutos);
             if(Etapa == 0)
             {
@@ -140,9 +142,10 @@ namespace Services.DTOs
 
 
         [Display(Name = "Hora de Inicio", Order = 8, ShortName = "HI")]
-        public DateTime HoraInicio { get; set; }
+        public TimeSpan HoraInicio { get; set; }
         [Display(Name = "Hora de Fin", Order = 9, ShortName = "HF")]
-        public DateTime HoraFin { get; set; }
+        public TimeSpan HoraFin { get; set; }
+        public TimeSpan Next { get; set; }
 
         [Display(Name = "Intervalo en horas", Order = 10, ShortName = "IH")]
         public int IntervaloHoras { get; set; }

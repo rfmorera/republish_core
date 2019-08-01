@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.DTOs;
 using System.Threading;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Impls
 {
@@ -18,12 +19,17 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly Repository<Grupo> _repository;
+        private readonly Repository<Anuncio> _anuncioRepo;
         private readonly IAnuncioService _anuncioService;
-        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService)
+        readonly ILogger<ChequerService> _log;
+
+        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService, ILogger<ChequerService> log)
         {
             _context = context;
             _repository = new Repository<Grupo>(_context);
+            _anuncioRepo = new Repository<Anuncio>(_context);
             _anuncioService = anuncioService;
+            _log = log;
         }
 
         public async Task AddAsync(GrupoIndexDTO grupoDTO)
@@ -48,9 +54,9 @@ namespace Services.Impls
                                                   .ToListAsync();
 
             IEnumerable<TemporizadorDTO> listT = await (from a in _context.Set<Temporizador>()
-                                                  where a.GrupoId == GrupoId
-                                                  orderby a.Orden
-                                                  select new TemporizadorDTO(a))
+                                                        where a.GrupoId == GrupoId
+                                                        orderby a.Orden
+                                                        select new TemporizadorDTO(a))
                                                   .ToListAsync();
             GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;
@@ -58,7 +64,7 @@ namespace Services.Impls
 
         public async Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId)
         {
-            IEnumerable<GrupoIndexDTO> list = await _context.Set<Grupo>()
+            IEnumerable<GrupoIndexDTO> list = await _repository.QueryAll()
                                                     .Where(g => g.UserId == UserId)
                                                     .OrderBy(g => g.Orden)
                                                     .Include(g => g.Anuncios)
@@ -67,85 +73,47 @@ namespace Services.Impls
             return list;
         }
 
-        public void Publish(string GrupoId, int Etapa, string TempNombre)
+        public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
-            try
+            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
+
+            if (Etapa > 0)
             {
-                //Random p = new Random();
-                //int sec = p.Next() % 20;
-                //string horainicio = DateTime.Now.ToLongTimeString();
-                //await Task.Delay(sec * 1000);
+                listAnuncio = listAnuncio.Take(Etapa);
+            }
 
-                //Console.WriteLine(_repository.Find(g => g.Id == GrupoId).Single().Nombre + " actualizado");
-                //StreamWriter w = File.AppendText(TempNombre + ".txt");
-                //await w.WriteAsync("-------------------------------\n\r\n Actualizado : \n"
-                //                    + _repository.Find(g => g.Id == GrupoId).Single().Nombre
-                //                    + " actualizado. Por Temporizador: " + TempNombre + " Tiempo " + sec + "segundos. \nHora Inicio: " + horainicio + ". Hora Fin: " + DateTime.Now.ToLongTimeString() + "\n-------------------------------\n");
-                //w.Close();
-                //return;
-                IEnumerable<AnuncioDTO> list = (from a in _context.Set<Anuncio>()
-                                                     where a.GroupId == GrupoId
-                                                     orderby a.Orden
-                                                     select new AnuncioDTO(a))
-                                                  .ToList();
-                int total = list.Count();
-                CountdownEvent countdown = new CountdownEvent(total);
+            List<AnuncioDTO> list = new List<AnuncioDTO>();
 
-                string key2Captcha = "bea50bfde423fb27e7126e873fb42eed";
-                List<Task> anunciosTasks = new List<Task>();
-                foreach (AnuncioDTO dTO in list)
+            if (listAnuncio.Any())
+            {
+                foreach (Anuncio a in listAnuncio)
                 {
-                    string url = dTO.Url;
-                    //anunciosTasks.Add(_anuncioService.Publish(url, key2Captcha));
-                    ThreadPool.QueueUserWorkItem(state =>
-                    {
-                        try
-                        {
-                            _anuncioService.Publish(url, key2Captcha);
-                            countdown.Signal();
-                        }
-                        catch (Exception)
-                        {
+                    a.Actualizado = true;
+                    //await _anuncioRepo.UpdateAsync(a, a.Id);
 
-                        }
-                    });
+                    list.Add(new AnuncioDTO(a));
                 }
-
-                //await Task.WhenAll(anunciosTasks);
-
-                countdown.Wait();
-
-                //for (int i = 0; i < estadisticas.total; i++)
-                //{
-                //    RevolicoAnuncio anuncio = listaAnuncios[i];
-                //    switch (anuncio.estado)
-                //    {
-                //        case AnuncioEstado.Ok:
-                //            estadisticas.ok++;
-                //            continue;
-                //        case AnuncioEstado.Revolico:
-                //            estadisticas.revolico++;
-                //            continue;
-                //        case AnuncioEstado.InvalidExecution:
-                //            estadisticas.otros++;
-                //            continue;
-                //        case AnuncioEstado.InternetConnection:
-                //            estadisticas.internet++;
-                //            continue;
-                //        case AnuncioEstado.CaptchaError:
-                //            estadisticas.captcha++;
-                //            continue;
-                //        case AnuncioEstado.Undefined:
-                //            estadisticas.otros++;
-                //            continue;
-                //    }
-                //}
-                //return estadisticas;
             }
-            catch (Exception ex)
+            else
             {
-                
+                listAnuncio = await _anuncioRepo.GetAllAsync();
+
+                foreach (Anuncio a in listAnuncio)
+                {
+                    if (Etapa > 0 || Etapa == -1)
+                    {
+                        list.Add(new AnuncioDTO(a));
+                        Etapa--;
+                    }
+                    else
+                    {
+                        a.Actualizado = false;
+                        //await _anuncioRepo.UpdateAsync(a, a.Id);
+                    }
+                }
             }
+
+            return list;
         }
     }
 }

@@ -11,6 +11,8 @@ using Services.DTOs;
 using System.IO;
 using Services.Extensions;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -19,42 +21,69 @@ namespace Services.Impls
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repository;
         private readonly IGrupoService _grupoService;
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService)
+        private readonly IQueueService _queueService;
+        readonly ILogger<ChequerService> _log;
+
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
             _grupoService = grupoService;
+            _log = log;
+            _queueService = queueService;
         }
-        public async Task CheckAllTemporizadores()
+
+        public async Task<string> CheckAllTemporizadores()
         {
-            DateTime now = DateTime.Now;
-            IEnumerable<Temporizador> list = (await repository.FindAllAsync(t => (
-                                                                                        (((t.NextExecution - now) < TimeSpan.FromSeconds(59) && t.NextExecution.Minute == now.Minute)
-                                                                                     || (t.NextExecution == t.HoraInicio && t.HoraInicio <= now && now <= t.HoraFin))
-                                                                                 && t.IsValidDay()
-                                                                                 )));
-
-            List<Task> publishTasks = new List<Task>();
-            foreach (Temporizador t in list)
+            string log = "";
+            try
             {
-                TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                t.NextExecution = now + timeSpan;
-                if (t.NextExecution > t.HoraFin)
+                TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
+
+                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc);
+                list = list.Where(t => t.IsValidDay());
+
+                _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+
+                List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
+
+                foreach (Temporizador t in list)
                 {
-                    t.NextExecution = t.HoraInicio;
+                    TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
+                    t.NextExecution = utc + timeSpan;
+                    if (t.NextExecution > t.HoraFin)
+                    {
+                        t.NextExecution = t.HoraInicio;
+                    }
+                    await repository.UpdateAsync(t, t.Id);
+
+                    selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
-                await repository.UpdateAsync(t, t.Id);
-            }
 
-            await _context.SaveChangesAsync();
+                await Task.WhenAll(selectTasks);
+                await repository.SaveChangesAsync();
+                List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
 
-            foreach (Temporizador t in list)
-            {
-                new Thread(() =>
+                foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
                 {
-                    _grupoService.Publish(t.GrupoId, t.Etapa, "");
-                }).Start();
+                    if (item.IsCompletedSuccessfully && item.Result.Any())
+                    {
+                        listAnuncios.AddRange(item.Result);
+                    }
+                }
+
+                if (listAnuncios.Any())
+                {
+                    _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
+                    await _queueService.AddMessage(listAnuncios);
+                }
             }
+            catch(Exception ex)
+            {
+                _log.LogError(ex.ToString());
+            }
+            
+            return log;
         }
 
         public async Task ResetAll()
@@ -66,6 +95,7 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repository.UpdateAsync(t, t.Id);
             }
+            await repository.SaveChangesAsync();
         }
     }
 }

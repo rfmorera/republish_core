@@ -150,25 +150,9 @@ namespace Republish.Data.Repositories
             return Context.Set<T>();
         }
 
-        public T Update(T t, object key)
+        public async Task SaveChangesAsync()
         {
-            if (t == null)
-                return null;
-            T exist = null;
-            if (key.GetType() == typeof(int[]))
-            {
-                exist = Context.Set<T>().Find(((int[])key)[0], ((int[])key)[1]);
-            }
-            else
-            {
-                exist = Context.Set<T>().Find(key);
-            }
-            if (exist != null)
-            {
-                Context.Entry(exist).CurrentValues.SetValues(t);
-                Context.SaveChanges();
-            }
-            return exist;
+            await Context.SaveChangesAsync();
         }
     }
 }

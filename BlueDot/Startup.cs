@@ -17,6 +17,11 @@ using Microsoft.EntityFrameworkCore;
 using Services.Impls;
 using Services;
 using Microsoft.Extensions.Logging;
+using Services.BackgroundTasks;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
 
 namespace Republish
 {
@@ -32,6 +37,10 @@ namespace Republish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDataProtection()
+                    .SetApplicationName("RepublishTool")
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -44,11 +53,7 @@ namespace Republish
             services.Configure<CookieTempDataProviderOptions>(options => {
                 options.Cookie.IsEssential = true;
             });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        Configuration.GetConnectionString("RepublishLocalContextConnection")));
-
+            
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -58,6 +63,10 @@ namespace Republish
                 options.LoginPath = new PathString("/Identity/Account/Logout"); 
                 options.LogoutPath = new PathString("/Identity/Account/Logout");
             });
+
+            ConfigureConnections(services);
+
+            services.AddHostedService<TimerService>();
 
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -69,9 +78,10 @@ namespace Republish
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
-            services.AddTransient<IChequerService, ChequerService>();
+            services.AddScoped<IQueueService, QueueService>();
+            services.AddScoped<IChequerService, ChequerService>();
             services.AddTransient<IRegistroService, RegistroService>();
-            
+
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
                 opts.Conventions.AddAreaPageRoute("Identity", "/Account/Login","");
@@ -91,8 +101,7 @@ namespace Republish
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+            loggerFactory.AddFile("logger{Date}");
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -123,6 +132,19 @@ namespace Republish
 
             // This is needed to prevent the user from being locked out due to an expired two factor authentication code.
             AppContext.SetSwitch("Microsoft.AspNetCore.Identity.CheckPasswordSignInAlwaysResetLockoutOnSuccess", true);
+        }
+
+        private void ConfigureConnections(IServiceCollection services)
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureWebJobsStorage"));
+            
+            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+
+            services.AddSingleton(queueClient);
+            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("RepublishContextConnection")));
         }
     }
 }
