@@ -20,7 +20,7 @@ namespace FunctionAppPublicar
             
             List<Task> tasks = new List<Task>();
             IAnuncioService anuncioService = new AnuncioService(log);
-            string key2Captcha = "fda47557683d8da30367c38b6e8756de";
+            string key2Captcha = "d5b645dd220dc714d2f87a94bfe747fe";
             foreach(string st in url)
             {
                 tasks.Add(anuncioService.Publish(st, key2Captcha));
