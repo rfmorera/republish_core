@@ -36,44 +36,51 @@ namespace Services.Impls
         public async Task<string> CheckAllTemporizadores()
         {
             string log = "";
-            TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
-
-            IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc );
-            list = list.Where(t => t.IsValidDay());
-
-            _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
-
-            List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
-
-            foreach (Temporizador t in list)
+            try
             {
-                TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                t.NextExecution = utc + timeSpan;
-                if (t.NextExecution > t.HoraFin)
+                TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
+
+                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => utc <= t.HoraFin && t.NextExecution <= utc);
+                list = list.Where(t => t.IsValidDay());
+
+                _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+
+                List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
+
+                foreach (Temporizador t in list)
                 {
-                    t.NextExecution = t.HoraInicio;
+                    TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
+                    t.NextExecution = utc + timeSpan;
+                    if (t.NextExecution > t.HoraFin)
+                    {
+                        t.NextExecution = t.HoraInicio;
+                    }
+                    await repository.UpdateAsync(t, t.Id);
+
+                    selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
-                await repository.UpdateAsync(t, t.Id);
 
-                selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
-            }
+                await Task.WhenAll(selectTasks);
+                await repository.SaveChangesAsync();
+                List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
 
-            await Task.WhenAll(selectTasks);
-            await repository.SaveChangesAsync();
-            List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
-
-            foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
-            {
-                _log.LogInformation(string.Format("Anuncions {0}", item.Result.Count()));
-                if (item.Result.Any())
+                foreach (Task<IEnumerable<AnuncioDTO>> item in selectTasks)
                 {
-                    listAnuncios.AddRange(item.Result);
+                    if (item.IsCompletedSuccessfully && item.Result.Any())
+                    {
+                        listAnuncios.AddRange(item.Result);
+                    }
+                }
+
+                if (listAnuncios.Any())
+                {
+                    _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
+                    await _queueService.AddMessage(listAnuncios);
                 }
             }
-
-            if (listAnuncios.Any())
+            catch(Exception ex)
             {
-                await _queueService.AddMessage(listAnuncios);
+                _log.LogError(ex.ToString());
             }
             
             return log;

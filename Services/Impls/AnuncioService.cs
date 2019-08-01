@@ -14,6 +14,7 @@ using System.IO;
 using System.Threading;
 using HtmlAgilityPack;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Impls
 {
@@ -21,15 +22,18 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
-        public AnuncioService()
-        {
+        readonly ILogger _log;
 
+        public AnuncioService(ILogger log)
+        {
+            _log = log;
         }
 
-        public AnuncioService(ApplicationDbContext dbContext)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService>log)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
+            _log = log;
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
@@ -80,8 +84,9 @@ namespace Services.Impls
                     throw new Exception("Revolico no ha respondido");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //_log.LogError("Get Anuncio " + ex.ToString());
                 return;
             }
 
@@ -130,8 +135,9 @@ namespace Services.Impls
                 captchaValues.Add("send_form", "Enviar");
                 captchaValues.Add("href", "/");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //_log.LogError("Rellenando Collection " + ex.ToString());
                 return;
             }
 
@@ -195,8 +201,9 @@ namespace Services.Impls
 
                 #endregion
             }
-            catch (Exception )
+            catch (Exception ex)
             {
+                //_log.LogError("Solving Captcha " + ex.ToString());
                 return;
             }
 
@@ -354,6 +361,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
+                //_log.LogError("Actualizando Anuncio " + ex.ToString());
                 return;
             }
         }

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.DTOs;
 using System.Threading;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Impls
 {
@@ -20,12 +21,15 @@ namespace Services.Impls
         private readonly Repository<Grupo> _repository;
         private readonly Repository<Anuncio> _anuncioRepo;
         private readonly IAnuncioService _anuncioService;
-        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService)
+        readonly ILogger<ChequerService> _log;
+
+        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService, ILogger<ChequerService> log)
         {
             _context = context;
             _repository = new Repository<Grupo>(_context);
             _anuncioRepo = new Repository<Anuncio>(_context);
             _anuncioService = anuncioService;
+            _log = log;
         }
 
         public async Task AddAsync(GrupoIndexDTO grupoDTO)
@@ -71,52 +75,45 @@ namespace Services.Impls
 
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
-            try
+            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
+
+            if (Etapa > 0)
             {
-                IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
+                listAnuncio = listAnuncio.Take(Etapa);
+            }
 
-                if(Etapa > 0)
+            List<AnuncioDTO> list = new List<AnuncioDTO>();
+
+            if (listAnuncio.Any())
+            {
+                foreach (Anuncio a in listAnuncio)
                 {
-                    listAnuncio = listAnuncio.Take(Etapa);
+                    a.Actualizado = true;
+                    //await _anuncioRepo.UpdateAsync(a, a.Id);
+
+                    list.Add(new AnuncioDTO(a));
                 }
+            }
+            else
+            {
+                listAnuncio = await _anuncioRepo.GetAllAsync();
 
-                List<AnuncioDTO> list = new List<AnuncioDTO>();
-
-                if (listAnuncio.Any())
+                foreach (Anuncio a in listAnuncio)
                 {
-                    foreach (Anuncio a in listAnuncio)
+                    if (Etapa > 0 || Etapa == -1)
                     {
-                        a.Actualizado = true;
-                        await _anuncioRepo.UpdateAsync(a, a.Id);
-
                         list.Add(new AnuncioDTO(a));
+                        Etapa--;
                     }
-                }
-                else
-                {
-                    listAnuncio = await _anuncioRepo.GetAllAsync();
-
-                    foreach (Anuncio a in listAnuncio)
+                    else
                     {
-                        if (Etapa > 0 || Etapa == -1)
-                        {
-                            list.Add(new AnuncioDTO(a));
-                            Etapa--;
-                        }
-                        else
-                        {
-                            a.Actualizado = false;
-                            await _anuncioRepo.UpdateAsync(a, a.Id);
-                        }
+                        a.Actualizado = false;
+                        //await _anuncioRepo.UpdateAsync(a, a.Id);
                     }
                 }
+            }
 
-                return list;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return list;
         }
     }
 }
