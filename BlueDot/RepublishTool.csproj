@@ -50,6 +50,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Admin\Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Common\Views\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -94,6 +103,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\common\" />
     <Folder Include="wwwroot\js\Client\Categoria\" />
+    <Folder Include="wwwroot\js\Client\Common\" />
   </ItemGroup>
 
   <ItemGroup>
