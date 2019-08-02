@@ -8,6 +8,6 @@ namespace Services
 {
     public interface IQueueService
     {
-        Task AddMessage(IEnumerable<AnuncioDTO> list);
+        Task AddMessageAsync(string captchaKey, IEnumerable<AnuncioDTO> list);
     }
 }

@@ -22,15 +22,17 @@ namespace Services.Impls
         private readonly IRepository<Temporizador> repository;
         private readonly IGrupoService _grupoService;
         private readonly IQueueService _queueService;
+        private readonly ICaptchaService _captchaService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
             _grupoService = grupoService;
             _log = log;
             _queueService = queueService;
+            _captchaService = captchaService;
         }
 
         public async Task<string> CheckAllTemporizadores()
@@ -75,7 +77,9 @@ namespace Services.Impls
                 if (listAnuncios.Any())
                 {
                     _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
-                    await _queueService.AddMessage(listAnuncios);
+
+                    string KeyCaptcha = (await _captchaService.GetCaptchaKeyAsync()).Id;
+                    await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
                 }
             }
             catch(Exception ex)
