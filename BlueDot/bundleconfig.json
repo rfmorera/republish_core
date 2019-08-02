@@ -328,5 +328,11 @@
     "inputFiles": [
       "wwwroot/css/common/switch.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Admin/CaptchaServer/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Admin/CaptchaServer/index.js"
+    ]
   }
 ]

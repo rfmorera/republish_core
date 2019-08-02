@@ -58,6 +58,11 @@ namespace Republish.Data
                       .HasConstraintName("ForeignKey_Grupo_Temporizador");
             });
 
+            builder.Entity<CaptchaKeys>(entity =>
+            {
+                entity.HasKey("Id");
+
+            });
             builder.Entity<Registro>(entity =>
             {
                 entity.Property(p => p.DateCreated).HasDefaultValue(DateTime.Now);

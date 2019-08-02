@@ -80,6 +80,7 @@ namespace Republish
             services.AddTransient<ITemporizadorService, TemporizadorService>();
             services.AddScoped<IQueueService, QueueService>();
             services.AddScoped<IChequerService, ChequerService>();
+            services.AddScoped<ICaptchaService, CaptchaService>();
             services.AddTransient<IRegistroService, RegistroService>();
 
             services.AddMvc().AddRazorPagesOptions(opts => {

@@ -18,16 +18,17 @@ namespace Services.Impls
             _cloudQueue = _cloudQueueClient.GetQueueReference("anunciosq");
         }
 
-        public async Task AddMessage(IEnumerable<AnuncioDTO> list)
+        public async Task AddMessageAsync(string captchaKey, IEnumerable<AnuncioDTO> list)
         {
-            string msgStr = "";
-            foreach(AnuncioDTO dTO in list)
+            string msgStr = captchaKey + ";";
+            
+            foreach(AnuncioDTO dt in list)
             {
-                msgStr += dTO.Url + ";";
+                msgStr += dt.Url + ";";
             }
 
             CloudQueueMessage message = new CloudQueueMessage(msgStr);
-            
+
             await _cloudQueue.AddMessageAsync(message);
         }
     }

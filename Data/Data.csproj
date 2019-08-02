@@ -12,6 +12,7 @@
     <Compile Remove="Migrations\20190330181018_AddTemporizadoreCategoria.cs" />
     <Compile Remove="Migrations\20190330181250_AddTemporizadorName.cs" />
     <Compile Remove="Migrations\20190331163202_TemporizadorNewKeyType.cs" />
+    <Compile Remove="Migrations\20190801170917_CaptchaKeys.cs" />
   </ItemGroup>
 
   <ItemGroup>
