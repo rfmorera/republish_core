@@ -1,4 +1,5 @@
-﻿using Services.DTOs.Registro;
+﻿using Models;
+using Services.DTOs.Registro;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,9 @@ namespace Services
 {
     public interface IRegistroService
     {
+        Task Registro(Registro registro);
+        Task AddRegistros(IEnumerable<Registro> registros);
         Task<EstadisticaDiaria> RegistroDiario(string UserId);
         Task<EstadisticaMensual> RegistroMensual(string UserId);
-
     }
 }

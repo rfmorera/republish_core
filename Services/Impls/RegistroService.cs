@@ -20,6 +20,16 @@ namespace Services.Impls
             _registroRepo = new Repository<Registro>(context);
         }
 
+        public async Task Registro(Registro registro)
+        {
+            await _registroRepo.AddAsync(registro);
+        }
+
+        public async Task AddRegistros(IEnumerable<Registro> registros)
+        {
+            await _registroRepo.AddAllAsync(registros);
+        }
+
         public Task<EstadisticaDiaria> RegistroDiario(string UserId)
         {
             throw new NotImplementedException();
