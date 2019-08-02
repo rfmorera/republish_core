@@ -7,6 +7,11 @@ namespace Models
 {
     public class CaptchaKeys
     {
+        public CaptchaKeys()
+        {
+
+        }
+
         public CaptchaKeys(string key)
         {
             Id = key;
