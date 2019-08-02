@@ -57,6 +57,11 @@ namespace Republish.Data
                       .HasConstraintName("ForeignKey_Grupo_Temporizador");
             });
 
+            builder.Entity<CaptchaKeys>(entity =>
+            {
+                entity.HasKey("Id");
+
+            });
         }
     }
 }

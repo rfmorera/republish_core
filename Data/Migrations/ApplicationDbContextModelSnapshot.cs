@@ -213,6 +213,16 @@ namespace BlueDot.Data.Migrations
                     b.ToTable("Anuncio");
                 });
 
+            modelBuilder.Entity("Models.CaptchaKeys", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CaptchaKeys");
+                });
+
             modelBuilder.Entity("Models.Company", b =>
                 {
                     b.Property<string>("Id")

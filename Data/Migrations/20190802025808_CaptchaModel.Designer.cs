@@ -10,8 +10,8 @@ using Republish.Data;
 namespace BlueDot.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190801170917_CaptchaKeys")]
-    partial class CaptchaKeys
+    [Migration("20190802025808_CaptchaModel")]
+    partial class CaptchaModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -213,6 +213,16 @@ namespace BlueDot.Data.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Anuncio");
+                });
+
+            modelBuilder.Entity("Models.CaptchaKeys", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CaptchaKeys");
                 });
 
             modelBuilder.Entity("Models.Company", b =>
