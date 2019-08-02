@@ -65,7 +65,7 @@ namespace Republish.Data
             });
             builder.Entity<Registro>(entity =>
             {
-                entity.Property(p => p.DateCreated).HasDefaultValue(DateTime.Now);
+                entity.HasKey("Id");
             });
         }
     }
