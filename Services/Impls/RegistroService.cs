@@ -30,7 +30,7 @@ namespace Services.Impls
             await _registroRepo.AddAllAsync(registros);
         }
 
-        public Task<EstadisticaDiaria> RegistroDiario(string UserId)
+        public Task<EstadisticaDia> RegistroDiario(string UserId)
         {
             throw new NotImplementedException();
         }

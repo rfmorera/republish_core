@@ -15,18 +15,19 @@ namespace RepublishTool.Areas.Client.Controllers
     public class DefaultController : Controller
     {
         private readonly IRegistroService _registroService;
+        private readonly IEstadisticasService _estadisticasService;
         private readonly UserManager<IdentityUser> _userManager;
-        public DefaultController(UserManager<IdentityUser> userManager, IRegistroService registroService)
+        public DefaultController(UserManager<IdentityUser> userManager, IRegistroService registroService, IEstadisticasService estadisticasService)
         {
             _registroService = registroService;
             _userManager = userManager;
+            _estadisticasService = estadisticasService;
         }
 
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(User);
-            EstadisticaMensual estadistica = await _registroService.RegistroMensual(user.Id);
-            ClientDashboard dashboard = new ClientDashboard(estadistica);
+            ClientDashboard dashboard = await _estadisticasService.GetDashboard(user);
             return View(dashboard);
         }
     }

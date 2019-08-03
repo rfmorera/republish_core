@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Services.DTOs.Registro
 {
-    public class EstadisticaDiaria
+    public class EstadisticaSemanal
     {
-
     }
 }
