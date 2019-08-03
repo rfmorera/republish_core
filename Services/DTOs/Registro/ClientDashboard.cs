@@ -6,18 +6,16 @@ namespace Services.DTOs.Registro
 {
     public class ClientDashboard
     {
-        public ClientDashboard(EstadisticaMensual mensual)
+        public ClientDashboard(EstadisticaDiario dia, EstadisticaSemanal semana)
         {
-            Mes = mensual;
+            Diario = dia;
+            Semanal = semana;
         }
 
-        public ClientDashboard(EstadisticaDiario dia)
-        {
-            Dia = dia;
-        }
-
-        public EstadisticaMensual Mes { get; }
-        public EstadisticaDiario Dia { get; }
+        
+        public EstadisticaDiario Diario { get; }
+        public EstadisticaSemanal Semanal { get; }
+        public EstadisticaMensual Mensual { get; }
 
     }
 }
