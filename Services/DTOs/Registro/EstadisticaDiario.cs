@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Services.DTOs.Registro
 {
-    public class EstadisticaDia
+    public class EstadisticaDiario
     {
-        public EstadisticaDia(int tot)
+        public EstadisticaDiario(int tot)
         {
             Total = tot;
         }

@@ -11,13 +11,13 @@ namespace Services.DTOs.Registro
             Mes = mensual;
         }
 
-        public ClientDashboard(EstadisticaDia dia)
+        public ClientDashboard(EstadisticaDiario dia)
         {
             Dia = dia;
         }
 
         public EstadisticaMensual Mes { get; }
-        public EstadisticaDia Dia { get; }
+        public EstadisticaDiario Dia { get; }
 
     }
 }

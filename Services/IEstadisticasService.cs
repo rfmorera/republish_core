@@ -9,7 +9,7 @@ namespace Services
 {
     public interface IEstadisticasService
     {
-        Task<EstadisticaDia> GetDia(IdentityUser user);
+        Task<EstadisticaDiario> GetDiario(IdentityUser user, DateTime UtcCuba);
         Task<ClientDashboard> GetDashboard(IdentityUser user);
     }
 }

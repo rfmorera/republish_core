@@ -26,21 +26,21 @@ namespace Services.Impls
 
         public async Task<ClientDashboard> GetDashboard(IdentityUser user)
         {
-            EstadisticaDia dia = await GetDia(user);
+            DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+            EstadisticaDiario dia = await GetDiario(user, UtcCuba);
 
             ClientDashboard dashboard = new ClientDashboard(dia);
             return dashboard;
         }
 
-        public async Task<EstadisticaDia> GetDia(IdentityUser user)
+        public async Task<EstadisticaDiario> GetDiario(IdentityUser user, DateTime UtcCuba)
         {
-            DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             IEnumerable<Registro> registros = await repositoryRegistro.FindAllAsync(r => 
                                                                                     (r.DateCreated.DayOfYear == UtcCuba.DayOfYear 
                                                                                     && r.DateCreated.Year == UtcCuba.Year
                                                                                     && r.UserId == user.Id));
             int tot = registros.Sum(r => r.CaptchasResuletos);
-            EstadisticaDia dia = new EstadisticaDia(tot);
+            EstadisticaDiario dia = new EstadisticaDiario(tot);
             return dia;
         }
     }
