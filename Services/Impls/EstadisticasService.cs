@@ -41,9 +41,7 @@ namespace Services.Impls
                                                                                     (r.DateCreated.DayOfYear == UtcCuba.DayOfYear 
                                                                                     && r.DateCreated.Year == UtcCuba.Year
                                                                                     && r.UserId == user.Id));
-            int tot = registros.Sum(r => r.CaptchasResuletos);
-            double gasto = registros.Sum(r => r.Gasto);
-            EstadisticaDiario dia = new EstadisticaDiario(tot, gasto);
+            EstadisticaDiario dia = new EstadisticaDiario(registros);
             return dia;
         }
 
