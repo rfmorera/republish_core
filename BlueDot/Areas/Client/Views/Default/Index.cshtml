@@ -15,7 +15,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">@diario.Total</h1>
-                    <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @(diario.Total * 0.017)</div>
+                    <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @diario.Gasto</div>
                     <small>Anuncios Publicados</small>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">@semanal.Total</h1>
-                    <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @(semanal.Total * 0.017) </div>
+                    <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @semanal.Gasto</div>
                     <small>@semanal.Inicio.ToShortDateString() - @semanal.Fin.ToShortDateString()</small>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">@mensual.Total</h1>
-                    <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@(mensual.Total * 0.017)</div>
+                    <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@mensual.Gasto</div>
                     <small>Anuncios Publicados</small>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                 width: 100
             })
 
-            var lineData = {
+            var dataDay = {
                 labels: ["January", "February", "March", "April", "May", "June", "July"],
                 datasets: [
                     {

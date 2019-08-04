@@ -42,7 +42,8 @@ namespace Services.Impls
                                                                                     && r.DateCreated.Year == UtcCuba.Year
                                                                                     && r.UserId == user.Id));
             int tot = registros.Sum(r => r.CaptchasResuletos);
-            EstadisticaDiario dia = new EstadisticaDiario(tot);
+            double gasto = registros.Sum(r => r.Gasto);
+            EstadisticaDiario dia = new EstadisticaDiario(tot, gasto);
             return dia;
         }
 
@@ -57,7 +58,7 @@ namespace Services.Impls
             days.Add(await GetDiario(user, UtcCuba));
 
             int tot = days.Sum(r => r.Total);
-            double gasto = 0.3;
+            double gasto = days.Sum(r => r.Gasto);
             EstadisticaMensual mes = new EstadisticaMensual(days, tot, gasto);
             return mes;
         }
@@ -71,7 +72,8 @@ namespace Services.Impls
             }
 
             int total = last7Days.Sum(d => d.Total);
-            EstadisticaSemanal semana = new EstadisticaSemanal(last7Days, total, UtcCuba);
+            double gasto = last7Days.Sum(d => d.Gasto);
+            EstadisticaSemanal semana = new EstadisticaSemanal(last7Days, total, UtcCuba, gasto);
 
             return semana;
         }
