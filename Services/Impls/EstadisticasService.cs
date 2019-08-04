@@ -29,8 +29,9 @@ namespace Services.Impls
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             EstadisticaDiario dia = await GetDiario(user, UtcCuba);
             EstadisticaSemanal semana = await GetSemanal(user, UtcCuba);
+            EstadisticaMensual mensual = await GetMensual(user, UtcCuba);
 
-            ClientDashboard dashboard = new ClientDashboard(dia, semana);
+            ClientDashboard dashboard = new ClientDashboard(dia, semana, mensual);
             return dashboard;
         }
 
@@ -43,6 +44,22 @@ namespace Services.Impls
             int tot = registros.Sum(r => r.CaptchasResuletos);
             EstadisticaDiario dia = new EstadisticaDiario(tot);
             return dia;
+        }
+
+        public async Task<EstadisticaMensual> GetMensual(IdentityUser user, DateTime UtcCuba)
+        {
+            List<EstadisticaDiario> days = new List<EstadisticaDiario>();
+            while(UtcCuba.Day > 1)
+            {
+                days.Add(await GetDiario(user, UtcCuba));
+                UtcCuba = UtcCuba.AddDays(-1);
+            }
+            days.Add(await GetDiario(user, UtcCuba));
+
+            int tot = days.Sum(r => r.Total);
+            double gasto = 0.3;
+            EstadisticaMensual mes = new EstadisticaMensual(days, tot, gasto);
+            return mes;
         }
 
         public async Task<EstadisticaSemanal> GetSemanal(IdentityUser user, DateTime UtcCuba)

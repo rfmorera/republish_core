@@ -34,16 +34,5 @@ namespace Services.Impls
         {
             throw new NotImplementedException();
         }
-
-        public Task<EstadisticaMensual> RegistroMensual(string UserId)
-        {
-            DateTime now = DateTime.Now;
-            IEnumerable<Registro> registros = _registroRepo.QueryAll()
-                                       .Where(r => r.UserId == UserId && r.DateCreated.Month == now.Month)
-                                       .Select(s => s);
-
-            EstadisticaMensual estadistica = new EstadisticaMensual() {AnunciosActualizados = registros.Sum(s => s.AnunciosActualizados) };
-            return Task.FromResult(estadistica);
-        }
     }
 }

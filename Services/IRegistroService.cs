@@ -12,6 +12,5 @@ namespace Services
         Task Registro(Registro registro);
         Task AddRegistros(IEnumerable<Registro> registros);
         Task<EstadisticaDiario> RegistroDiario(string UserId);
-        Task<EstadisticaMensual> RegistroMensual(string UserId);
     }
 }
