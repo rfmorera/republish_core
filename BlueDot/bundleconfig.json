@@ -334,5 +334,11 @@
     "inputFiles": [
       "wwwroot/js/Admin/CaptchaServer/index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Admin/Default/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Admin/Default/index.js"
+    ]
   }
 ]

@@ -55,7 +55,7 @@
                 <div class="ibox-content">
                     <h1 class="no-margins">$ 80,600</h1>
                     @*<div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>*@
-                    <small>In first month</small>
+                    <small>Actualizado </small>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>Orders</h5>
+                    <h5>Resumen Detallado</h5>
                     <div class="float-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-xs btn-white active">Hoy</button>
@@ -81,24 +81,24 @@
                             <br>
                             All sales: 162,862
                         </span>
-                        <h1 class="m-b-xs">$ 50,992</h1>
-                        <h3 class="font-bold no-margins">
+                        <h1 id="GastoTotalResumen" class="m-b-xs">$ @diario.Gasto</h1>
+                        @*<h3 class="font-bold no-margins">
                             Half-year revenue margin
                         </h3>
-                        <small>Sales marketing.</small>
+                        <small>Sales marketing.</small>*@
                     </div>
                     <div>
                         @*<iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px none; height: 0px; margin: 0px; position: absolute; inset: 0px;"></iframe>*@
                         <canvas id="lineChart" height="287" style="display: block; width: 989px; height: 230px;" width="1236"></canvas>
                     </div>
                     <div class="m-t-md">
-                        <small class="float-right">
+                        @*<small class="float-right">
                             <i class="fa fa-clock-o"> </i>
                             Update on 16.07.2015
-                        </small>
-                        <small>
+                        </small>*@
+                        @*<small>
                             <strong>Analysis of sales:</strong> The value has been changed over time, and last month reached a level over $50,000.
-                        </small>
+                        </small>*@
                     </div>
                 </div>
             </div>
@@ -109,61 +109,19 @@
 
 @section Scripts {
     <environment names="Development">
+        <script src="~/js/Admin/Default/index.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.js"></script>
     </environment>
     <environment names="Staging,Production">
+        <script src="~/js/Admin/Default/index.min.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.min.js"></script>
     </environment>
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-
-            $(".line").peity("line", {
-                fill: '#1ab394',
-                stroke: '#169c81',
-            })
-
-            $(".bar").peity("bar", {
-                fill: ["#1ab394", "#d7d7d7"]
-            })
-
-            $(".bar_dashboard").peity("bar", {
-                fill: ["#1ab394", "#d7d7d7"],
-                width: 100
-            })
-
-            var dataDay = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
-                datasets: [
-                    {
-                        label: "Example dataset",
-                        backgroundColor: "rgba(26,179,148,0.5)",
-                        borderColor: "rgba(26,179,148,0.7)",
-                        pointBackgroundColor: "rgba(26,179,148,1)",
-                        pointBorderColor: "#fff",
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    },
-                    {
-                        label: "Example dataset",
-                        backgroundColor: "rgba(220,220,220,0.5)",
-                        borderColor: "rgba(220,220,220,1)",
-                        pointBackgroundColor: "rgba(220,220,220,1)",
-                        pointBorderColor: "#fff",
-                        data: [65, 59, 80, 81, 56, 55, 40]
-                    }
-                ]
-            };
-
-            var lineOptions = {
-                responsive: true
-            };
-
-
-            var ctx = document.getElementById("lineChart").getContext("2d");
-            new Chart(ctx, { type: 'line', data: lineData, options: lineOptions });
+            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
         });
     </script>
 }
