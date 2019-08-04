@@ -23639,3 +23639,1201 @@ FROM [Temporizador] AS [t]
 WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
 2019-08-04T13:20:02.3157621-04:00  [INF] Hora 13:20:02.2930891 cantidad de temporizadores 0 (72098c4d)
 2019-08-04T13:20:02.3221538-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:45:26.3259051-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
+2019-08-04T13:45:26.3496191-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:45:26.8163366-04:00 0HLOP0E4B7UVN:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
+2019-08-04T13:45:26.8163423-04:00 0HLOP0E4B7UVO:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/   (ca22a1cb)
+2019-08-04T13:45:26.9099697-04:00 0HLOP0E4B7UVN:00000001 [INF] Request finished in 107.0979ms 200  (791a596a)
+2019-08-04T13:45:27.2383292-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:27.2448308-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:27.2511213-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:27.4134352-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:28.2904057-04:00  [INF] Executed DbCommand ("81"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:45:28.3433079-04:00 0HLOP0E4B7UVO:00000001 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:45:28.4715280-04:00 0HLOP0E4B7UVO:00000001 [INF] Executing handler method "OnGetAsync" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:45:28.5166690-04:00 0HLOP0E4B7UVO:00000001 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-08-04T13:45:28.5275053-04:00  [INF] Hora 13:45:26.3865178 cantidad de temporizadores 1 (470c97dc)
+2019-08-04T13:45:28.6914107-04:00  [INF] Executed DbCommand ("19"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-08-04T13:45:28.8811798-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p12='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p13='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p14='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p15='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p16='?' (Size = 4000), @p11='?' (Size = 450), @p17='?' (Size = 4000), @p10='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-08-04T13:45:28.9889371-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [e].[Id], [e].[Activo], [e].[ConcurrencyStamp], [e].[Nombre], [e].[Orden], [e].[UserId]
+FROM [Grupo] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:45:29.2984138-04:00 0HLOP0E4B7UVO:00000001 [INF] Executed action "/Account/Login" in 914.9788ms (afa2e885)
+2019-08-04T13:45:29.5038339-04:00 0HLOP0E4B7UVO:00000001 [INF] Request finished in 2527.6731ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:45:29.7942655-04:00 0HLOP0E4B7UVN:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/style.css   (ca22a1cb)
+2019-08-04T13:45:29.8349449-04:00  [INF] Executed DbCommand ("135"ms) [Parameters=["@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Double), @p5='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Registro] ([Id], [AnunciosActualizados], [CaptchasResuletos], [DateCreated], [Gasto], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);" (0723d8ff)
+2019-08-04T13:45:29.9424001-04:00  [INF] !!! ---- >>> Queue Messages 5 (39c20511)
+2019-08-04T13:45:29.9691015-04:00 0HLOP0E4B7UVN:00000002 [INF] Connection id ""0HLOP0E4B7UVN"", Request id ""0HLOP0E4B7UVN:00000002"": the application aborted the connection. (9f49aef1)
+2019-08-04T13:45:29.9841255-04:00 0HLOP0E4B7UVN:00000002 [INF] Sending file. Request path: '"/css/style.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\style.css"' (27b0a520)
+2019-08-04T13:45:30.0008029-04:00 0HLOP0E4B7UVN:00000002 [INF] Request finished in 365.3402ms 200 text/css (791a596a)
+2019-08-04T13:45:30.0114409-04:00  [INF] Executed DbCommand ("4"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [c].[Id]
+FROM [CaptchaKeys] AS [c]" (0723d8ff)
+2019-08-04T13:45:33.9577847-04:00 0HLOP0E4B7UVQ:00000001 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login application/x-www-form-urlencoded; charset=UTF-8 255 (ca22a1cb)
+2019-08-04T13:45:33.9975482-04:00 0HLOP0E4B7UVQ:00000001 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:45:34.1544321-04:00 0HLOP0E4B7UVQ:00000001 [INF] Executing handler method "OnPost" with arguments (["Republish.Models.Identity.InputUsernameModel", ""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:45:34.1944928-04:00 0HLOP0E4B7UVQ:00000001 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:34.2897324-04:00 0HLOP0E4B7UVQ:00000001 [INF] Executed DbCommand ("1"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:45:34.4466987-04:00 0HLOP0E4B7UVQ:00000001 [INF] Executing PartialViewResult, running view "LoginPassword". (1d3d4b21)
+2019-08-04T13:45:34.5267482-04:00 0HLOP0E4B7UVQ:00000001 [INF] Executed PartialViewResult - view "LoginPassword" executed in 86.1625ms. (6f83ade2)
+2019-08-04T13:45:34.5399764-04:00 0HLOP0E4B7UVQ:00000001 [INF] Executed action "/Account/Login" in 536.8502ms (afa2e885)
+2019-08-04T13:45:34.5548063-04:00 0HLOP0E4B7UVQ:00000001 [INF] Request finished in 597.6771ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:45:34.6088639-04:00 0HLOP0E4B7UVQ:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/common/hideShowPassword.js   (ca22a1cb)
+2019-08-04T13:45:34.6606360-04:00 0HLOP0E4B7UVQ:00000002 [INF] Sending file. Request path: '"/js/common/hideShowPassword.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\common\hideShowPassword.js"' (27b0a520)
+2019-08-04T13:45:34.6998354-04:00 0HLOP0E4B7UVQ:00000002 [INF] Request finished in 67.2668ms 200 application/javascript (791a596a)
+2019-08-04T13:45:36.3478305-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:45:36.3558809-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:36.3674493-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:45:36.3746547-04:00  [INF] Hora 13:45:36.3486212 cantidad de temporizadores 0 (7d2f7ff4)
+2019-08-04T13:45:36.3820179-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:45:36.8697221-04:00 0HLOP0E4B7UVQ:00000003 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login?handler=Password application/x-www-form-urlencoded; charset=UTF-8 238 (ca22a1cb)
+2019-08-04T13:45:36.8768490-04:00 0HLOP0E4B7UVQ:00000003 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:45:36.8874598-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executing handler method "OnPostPassword" with arguments (["Republish.Models.Identity.InputPasswordModel"]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:45:36.9228467-04:00 0HLOP0E4B7UVQ:00000003 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:36.9360156-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:45:37.1881811-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__user_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0" (0723d8ff)
+2019-08-04T13:45:37.3119852-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:45:37.3636783-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__normalizedName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0" (0723d8ff)
+2019-08-04T13:45:37.4340112-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("4"ms) [Parameters=["@__role_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0" (0723d8ff)
+2019-08-04T13:45:37.4978100-04:00 0HLOP0E4B7UVQ:00000003 [INF] AuthenticationScheme: "Identity.Application" signed in. (c66dd7e7)
+2019-08-04T13:45:37.5268811-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:45:37.5487790-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:45:37.5967141-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:45:37.6609675-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:45:37.6961754-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("4"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:45:37.7230110-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("9"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:45:37.7516373-04:00 0HLOP0E4B7UVQ:00000003 [INF] User logged in. (fdce0db4)
+2019-08-04T13:45:37.7662765-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:45:37.7807228-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:45:37.7992991-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:45:37.8233891-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("6"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:45:37.8464782-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed DbCommand ("6"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:45:37.8605069-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executing JsonResult, writing value of type '"<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'. (2f513669)
+2019-08-04T13:45:37.9061776-04:00 0HLOP0E4B7UVQ:00000003 [INF] Executed action "/Account/Login" in 1016.9481ms (afa2e885)
+2019-08-04T13:45:37.9496327-04:00 0HLOP0E4B7UVQ:00000003 [INF] Request finished in 1044.3163ms 202 application/json; charset=utf-8 (791a596a)
+2019-08-04T13:45:37.9838786-04:00 0HLOP0E4B7UVQ:00000004 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Client/Default   (ca22a1cb)
+2019-08-04T13:45:38.0525932-04:00 0HLOP0E4B7UVQ:00000004 [INF] Route matched with "{area = \"Client\", action = \"Index\", controller = \"Default\", page = \"\"}". Executing action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" (a44c0341)
+2019-08-04T13:45:38.0847128-04:00 0HLOP0E4B7UVQ:00000004 [INF] Authorization was successful. (0d575a54)
+2019-08-04T13:45:38.1177690-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executing action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" - Validation state: Valid (dad538d7)
+2019-08-04T13:45:38.1305377-04:00 0HLOP0E4B7UVQ:00000004 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:38.1577639-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:45:38.2091021-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("1"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.2860321-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.2967599-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3060663-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3146060-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3227414-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3341854-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3422532-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3571443-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3661942-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3754174-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.3832495-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:45:38.4051093-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)", returned result "Microsoft.AspNetCore.Mvc.ViewResult" in 273.8243ms. (50a9e262)
+2019-08-04T13:45:38.4391191-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executing ViewResult, running view "Index". (c83d0e25)
+2019-08-04T13:45:38.6851297-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed ViewResult - view "Index" executed in 258.8071ms. (f66409e9)
+2019-08-04T13:45:38.6911585-04:00 0HLOP0E4B7UVQ:00000004 [INF] Executed action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" in 632.8269ms (afa2e885)
+2019-08-04T13:45:38.7004893-04:00 0HLOP0E4B7UVQ:00000004 [INF] Request finished in 725.0946ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:45:38.8696784-04:00 0HLOP0E4B7UVQ:00000005 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/font-awesome/css/font-awesome.css   (ca22a1cb)
+2019-08-04T13:45:38.8789041-04:00 0HLOP0E4B7UVR:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/Admin/Default/index.js   (ca22a1cb)
+2019-08-04T13:45:38.8877237-04:00 0HLOP0E4B7UVS:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Images/profile_small.jpg   (ca22a1cb)
+2019-08-04T13:45:38.8929196-04:00 0HLOP0E4B7UVQ:00000005 [INF] Sending file. Request path: '"/lib/font-awesome/css/font-awesome.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\font-awesome\css\font-awesome.css"' (27b0a520)
+2019-08-04T13:45:38.9046744-04:00 0HLOP0E4B7UVQ:00000005 [INF] Request finished in 106.1423ms 200 text/css (791a596a)
+2019-08-04T13:45:38.9280505-04:00 0HLOP0E4B7UVR:00000001 [INF] Sending file. Request path: '"/js/Admin/Default/index.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\Admin\Default\index.js"' (27b0a520)
+2019-08-04T13:45:38.9349097-04:00 0HLOP0E4B7UVS:00000001 [INF] Request finished in 28.3563ms 404  (791a596a)
+2019-08-04T13:45:38.9375003-04:00 0HLOP0E4B7UVR:00000001 [INF] Request finished in 60.0626ms 200 application/javascript (791a596a)
+2019-08-04T13:45:54.4935701-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
+2019-08-04T13:45:54.5212155-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:45:55.0727548-04:00 0HLOP0ECO697S:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
+2019-08-04T13:45:55.0727590-04:00 0HLOP0ECO697T:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/   (ca22a1cb)
+2019-08-04T13:45:55.1797448-04:00 0HLOP0ECO697S:00000001 [INF] Request finished in 111.9355ms 200  (791a596a)
+2019-08-04T13:45:55.5688172-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:55.5744953-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:55.5797713-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:45:55.8069046-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:45:56.4017212-04:00 0HLOP0ECO697T:00000001 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:45:56.4886442-04:00  [INF] Executed DbCommand ("84"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:45:56.5282359-04:00 0HLOP0ECO697T:00000001 [INF] Executing handler method "OnGetAsync" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:45:56.5657656-04:00 0HLOP0ECO697T:00000001 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-08-04T13:45:56.6779296-04:00  [INF] Hora 13:45:54.5647715 cantidad de temporizadores 0 (88eb67e7)
+2019-08-04T13:45:56.7525141-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:45:57.1394142-04:00 0HLOP0ECO697T:00000001 [INF] Executed action "/Account/Login" in 718.4899ms (afa2e885)
+2019-08-04T13:45:57.1757931-04:00 0HLOP0ECO697T:00000001 [INF] Request finished in 2112.2145ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:45:57.3864820-04:00 0HLOP0ECO697S:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/style.css   (ca22a1cb)
+2019-08-04T13:45:57.3985182-04:00 0HLOP0ECO697U:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/login.css   (ca22a1cb)
+2019-08-04T13:45:57.4171250-04:00 0HLOP0ECO697V:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/common/bootstrap_custom.css   (ca22a1cb)
+2019-08-04T13:45:57.4289210-04:00 0HLOP0ECO6980:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/Ladda/ladda-themeless.min.css   (ca22a1cb)
+2019-08-04T13:45:57.4331957-04:00 0HLOP0ECO6981:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/cookie_consent.min.css   (ca22a1cb)
+2019-08-04T13:45:57.4410297-04:00 0HLOP0ECO697T:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/bootstrap/dist/css/bootstrap.css   (ca22a1cb)
+2019-08-04T13:45:57.4447432-04:00 0HLOP0ECO6982:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/toastr/toastr.css   (ca22a1cb)
+2019-08-04T13:45:57.5379420-04:00 0HLOP0ECO6981:00000001 [INF] Sending file. Request path: '"/css/cookie_consent.min.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\cookie_consent.min.css"' (27b0a520)
+2019-08-04T13:45:57.5583612-04:00 0HLOP0ECO6981:00000001 [INF] Request finished in 182.9019ms 200 text/css (791a596a)
+2019-08-04T13:45:57.6247552-04:00 0HLOP0ECO697V:00000001 [INF] Sending file. Request path: '"/css/common/bootstrap_custom.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\common\bootstrap_custom.css"' (27b0a520)
+2019-08-04T13:45:57.6643461-04:00 0HLOP0ECO6982:00000001 [INF] Sending file. Request path: '"/lib/toastr/toastr.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\toastr\toastr.css"' (27b0a520)
+2019-08-04T13:45:57.6708333-04:00 0HLOP0ECO697U:00000001 [INF] Sending file. Request path: '"/css/login.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\login.css"' (27b0a520)
+2019-08-04T13:45:57.6826127-04:00 0HLOP0ECO6980:00000001 [INF] Sending file. Request path: '"/lib/Ladda/ladda-themeless.min.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\Ladda\ladda-themeless.min.css"' (27b0a520)
+2019-08-04T13:45:57.6891872-04:00 0HLOP0ECO697U:00000001 [INF] Request finished in 328.9527ms 200 text/css (791a596a)
+2019-08-04T13:45:57.6936928-04:00 0HLOP0ECO6980:00000001 [INF] Request finished in 342.4713ms 200 text/css (791a596a)
+2019-08-04T13:45:57.6991157-04:00 0HLOP0ECO697V:00000001 [INF] Request finished in 364.0802ms 200 text/css (791a596a)
+2019-08-04T13:45:57.7149987-04:00 0HLOP0ECO6982:00000001 [INF] Request finished in 241.5702ms 200 text/css (791a596a)
+2019-08-04T13:45:57.7325090-04:00 0HLOP0ECO697T:00000002 [INF] Connection id ""0HLOP0ECO697T"", Request id ""0HLOP0ECO697T:00000002"": the application aborted the connection. (9f49aef1)
+2019-08-04T13:45:57.7387384-04:00 0HLOP0ECO697T:00000002 [INF] Sending file. Request path: '"/lib/bootstrap/dist/css/bootstrap.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\bootstrap\dist\css\bootstrap.css"' (27b0a520)
+2019-08-04T13:45:57.7486713-04:00 0HLOP0ECO697S:00000002 [INF] Connection id ""0HLOP0ECO697S"", Request id ""0HLOP0ECO697S:00000002"": the application aborted the connection. (9f49aef1)
+2019-08-04T13:45:57.7557061-04:00 0HLOP0ECO697T:00000002 [INF] Request finished in 439.757ms 200 text/css (791a596a)
+2019-08-04T13:45:57.7655292-04:00 0HLOP0ECO697S:00000002 [INF] Sending file. Request path: '"/css/style.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\style.css"' (27b0a520)
+2019-08-04T13:45:57.7724382-04:00 0HLOP0ECO697S:00000002 [INF] Request finished in 462.6286ms 200 text/css (791a596a)
+2019-08-04T13:46:04.5279731-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:04.5452369-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:04.5750115-04:00  [INF] Executed DbCommand ("19"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:04.5829792-04:00  [INF] Hora 13:46:04.5287294 cantidad de temporizadores 0 (1603f2ba)
+2019-08-04T13:46:04.5916258-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:46:10.2439842-04:00 0HLOP0ECO6981:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login application/x-www-form-urlencoded; charset=UTF-8 244 (ca22a1cb)
+2019-08-04T13:46:10.2746685-04:00 0HLOP0ECO6981:00000002 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:46:10.4304575-04:00 0HLOP0ECO6981:00000002 [INF] Executing handler method "OnPost" with arguments (["Republish.Models.Identity.InputUsernameModel", ""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:46:10.4672180-04:00 0HLOP0ECO6981:00000002 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:10.5762276-04:00 0HLOP0ECO6981:00000002 [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:46:10.7451032-04:00 0HLOP0ECO6981:00000002 [INF] Executing PartialViewResult, running view "LoginPassword". (1d3d4b21)
+2019-08-04T13:46:10.7947631-04:00 0HLOP0ECO6981:00000002 [INF] Executed PartialViewResult - view "LoginPassword" executed in 55.552ms. (6f83ade2)
+2019-08-04T13:46:10.8054128-04:00 0HLOP0ECO6981:00000002 [INF] Executed action "/Account/Login" in 525.4484ms (afa2e885)
+2019-08-04T13:46:10.8180569-04:00 0HLOP0ECO6981:00000002 [INF] Request finished in 575.1524ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:46:14.5273837-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:14.5341013-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:14.5487692-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:14.5567633-04:00  [INF] Hora 13:46:14.5278187 cantidad de temporizadores 0 (db8fff04)
+2019-08-04T13:46:14.5642768-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:46:16.7056977-04:00 0HLOP0ECO697V:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login?handler=Password application/x-www-form-urlencoded; charset=UTF-8 238 (ca22a1cb)
+2019-08-04T13:46:16.7192774-04:00 0HLOP0ECO697V:00000002 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:46:16.7345740-04:00 0HLOP0ECO697V:00000002 [INF] Executing handler method "OnPostPassword" with arguments (["Republish.Models.Identity.InputPasswordModel"]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:46:16.7729634-04:00 0HLOP0ECO697V:00000002 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:16.7853832-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:46:17.0229851-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__user_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0" (0723d8ff)
+2019-08-04T13:46:17.1417608-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:46:17.1890178-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("1"ms) [Parameters=["@__normalizedName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0" (0723d8ff)
+2019-08-04T13:46:17.2461006-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__role_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0" (0723d8ff)
+2019-08-04T13:46:17.2821559-04:00 0HLOP0ECO697V:00000002 [INF] AuthenticationScheme: "Identity.Application" signed in. (c66dd7e7)
+2019-08-04T13:46:17.3014865-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:46:17.3111632-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:46:17.3461782-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:46:17.4049639-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:46:17.4249085-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:46:17.4377448-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:46:17.4674158-04:00 0HLOP0ECO697V:00000002 [INF] User logged in. (fdce0db4)
+2019-08-04T13:46:17.4770272-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:46:17.4874979-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:46:17.4977247-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:46:17.5113354-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:46:17.5221769-04:00 0HLOP0ECO697V:00000002 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:46:17.5345490-04:00 0HLOP0ECO697V:00000002 [INF] Executing JsonResult, writing value of type '"<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'. (2f513669)
+2019-08-04T13:46:17.5824649-04:00 0HLOP0ECO697V:00000002 [INF] Executed action "/Account/Login" in 856.6413ms (afa2e885)
+2019-08-04T13:46:17.5906192-04:00 0HLOP0ECO697V:00000002 [INF] Request finished in 891.7572ms 202 application/json; charset=utf-8 (791a596a)
+2019-08-04T13:46:17.6168985-04:00 0HLOP0ECO6981:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Client/Default   (ca22a1cb)
+2019-08-04T13:46:17.7142371-04:00 0HLOP0ECO6981:00000003 [INF] Route matched with "{area = \"Client\", action = \"Index\", controller = \"Default\", page = \"\"}". Executing action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" (a44c0341)
+2019-08-04T13:46:17.7601555-04:00 0HLOP0ECO6981:00000003 [INF] Authorization was successful. (0d575a54)
+2019-08-04T13:46:17.7983052-04:00 0HLOP0ECO6981:00000003 [INF] Executing action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" - Validation state: Valid (dad538d7)
+2019-08-04T13:46:17.8118937-04:00 0HLOP0ECO6981:00000003 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:17.8445276-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:46:17.9041889-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.0717464-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.0930948-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1084359-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1250941-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("4"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1378911-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1496142-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1606374-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1791762-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.1964977-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.2075012-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.2194630-04:00 0HLOP0ECO6981:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:46:18.2445604-04:00 0HLOP0ECO6981:00000003 [INF] Executed action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)", returned result "Microsoft.AspNetCore.Mvc.ViewResult" in 431.1383ms. (50a9e262)
+2019-08-04T13:46:18.2853336-04:00 0HLOP0ECO6981:00000003 [INF] Executing ViewResult, running view "Index". (c83d0e25)
+2019-08-04T13:46:18.6922600-04:00 0HLOP0ECO6981:00000003 [INF] Executed ViewResult - view "Index" executed in 423.7974ms. (f66409e9)
+2019-08-04T13:46:18.6993007-04:00 0HLOP0ECO6981:00000003 [INF] Executed action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" in 978.4174ms (afa2e885)
+2019-08-04T13:46:18.7081633-04:00 0HLOP0ECO6981:00000003 [INF] Request finished in 1091.6242ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:46:18.9442589-04:00 0HLOP0ECO697V:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/formvalidation/dist/css/formvalidation.css   (ca22a1cb)
+2019-08-04T13:46:18.9648398-04:00 0HLOP0ECO6981:00000004 [INF] Request starting HTTP/1.1 GET http://localhost:44307/css/common/layout.css   (ca22a1cb)
+2019-08-04T13:46:18.9736651-04:00 0HLOP0ECO6983:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/lib/sweetalert/dist/sweetalert.css   (ca22a1cb)
+2019-08-04T13:46:18.9847036-04:00 0HLOP0ECO697V:00000003 [INF] Sending file. Request path: '"/lib/formvalidation/dist/css/formvalidation.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\formvalidation\dist\css\formvalidation.css"' (27b0a520)
+2019-08-04T13:46:18.9972295-04:00 0HLOP0ECO6984:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Images/profile_small.jpg   (ca22a1cb)
+2019-08-04T13:46:19.0030438-04:00 0HLOP0ECO697V:00000003 [INF] Request finished in 89.9901ms 200 text/css (791a596a)
+2019-08-04T13:46:19.0088695-04:00 0HLOP0ECO6983:00000001 [INF] Sending file. Request path: '"/lib/sweetalert/dist/sweetalert.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\lib\sweetalert\dist\sweetalert.css"' (27b0a520)
+2019-08-04T13:46:19.0157891-04:00 0HLOP0ECO6985:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/Admin/Default/index.js   (ca22a1cb)
+2019-08-04T13:46:19.0216858-04:00 0HLOP0ECO6983:00000001 [INF] Request finished in 67.7509ms 200 text/css (791a596a)
+2019-08-04T13:46:19.0293085-04:00 0HLOP0ECO6981:00000004 [INF] Sending file. Request path: '"/css/common/layout.css"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\css\common\layout.css"' (27b0a520)
+2019-08-04T13:46:19.0389220-04:00 0HLOP0ECO6985:00000001 [INF] Sending file. Request path: '"/js/Admin/Default/index.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\Admin\Default\index.js"' (27b0a520)
+2019-08-04T13:46:19.0431359-04:00 0HLOP0ECO6984:00000001 [INF] Request finished in 54.636ms 404  (791a596a)
+2019-08-04T13:46:19.0475951-04:00 0HLOP0ECO6985:00000001 [INF] Request finished in 43.7684ms 200 application/javascript (791a596a)
+2019-08-04T13:46:19.0518320-04:00 0HLOP0ECO6981:00000004 [INF] Request finished in 125.8384ms 200 text/css (791a596a)
+2019-08-04T13:46:24.5272462-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:24.5337482-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:24.5437205-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:24.5532375-04:00  [INF] Hora 13:46:24.5275630 cantidad de temporizadores 0 (085ba885)
+2019-08-04T13:46:24.5611811-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:46:34.5272852-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:34.5345151-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:34.5443889-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:34.5525167-04:00  [INF] Hora 13:46:34.5276858 cantidad de temporizadores 1 (87622c3d)
+2019-08-04T13:46:34.6215756-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-08-04T13:46:34.7591802-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p12='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p13='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p14='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p15='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p16='?' (Size = 4000), @p11='?' (Size = 450), @p17='?' (Size = 4000), @p10='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-08-04T13:46:34.8400076-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [e].[Id], [e].[Activo], [e].[ConcurrencyStamp], [e].[Nombre], [e].[Orden], [e].[UserId]
+FROM [Grupo] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:46:34.9876544-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Double), @p5='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Registro] ([Id], [AnunciosActualizados], [CaptchasResuletos], [DateCreated], [Gasto], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);" (0723d8ff)
+2019-08-04T13:46:34.9972412-04:00  [INF] !!! ---- >>> Queue Messages 5 (39c20511)
+2019-08-04T13:46:35.0360154-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [c].[Id]
+FROM [CaptchaKeys] AS [c]" (0723d8ff)
+2019-08-04T13:46:44.5265180-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:44.5338592-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:44.5428948-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:44.5503698-04:00  [INF] Hora 13:46:44.5269627 cantidad de temporizadores 0 (1b2b65cb)
+2019-08-04T13:46:44.5565213-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:46:54.5265175-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:46:54.5326714-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:46:54.5419980-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:46:54.5489145-04:00  [INF] Hora 13:46:54.5268471 cantidad de temporizadores 0 (3a0108ad)
+2019-08-04T13:46:54.5556781-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:02.7887060-04:00  [ERR] Microsoft.Azure.Storage.StorageException: No connection could be made because the target machine actively refused it ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   --- End of inner exception stack trace ---
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   at Services.Impls.QueueService.AddMessageAsync(String captchaKey, IEnumerable`1 list) in D:\Trabajos\OptimusPC\Core\Services\Impls\QueueService.cs:line 32
+   at Services.Impls.ChequerService.CheckAllTemporizadores() in D:\Trabajos\OptimusPC\Core\Services\Impls\ChequerService.cs:line 98
+Request Information
+RequestID:
+RequestDate:
+StatusMessage:
+ErrorCode:
+ (452f6e1a)
+2019-08-04T13:47:02.7942711-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:04.5265391-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:04.5331426-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:04.5425859-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:04.5488851-04:00  [INF] Hora 13:47:04.5268427 cantidad de temporizadores 0 (14e48f89)
+2019-08-04T13:47:04.5553950-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:14.5267154-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:14.5328477-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:14.5423043-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:14.5490464-04:00  [INF] Hora 13:47:14.5270016 cantidad de temporizadores 0 (c8e5dc29)
+2019-08-04T13:47:14.5553965-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:24.5263820-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:24.5323927-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:24.5419198-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:24.5482976-04:00  [INF] Hora 13:47:24.5266769 cantidad de temporizadores 0 (0792e06f)
+2019-08-04T13:47:24.5545322-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:34.5263122-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:34.5325709-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:34.5411288-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:34.5482372-04:00  [INF] Hora 13:47:34.5267049 cantidad de temporizadores 0 (bc0cb810)
+2019-08-04T13:47:34.5548554-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:47:44.5267728-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:44.5330346-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:44.5419757-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:44.5485887-04:00  [INF] Hora 13:47:44.5272006 cantidad de temporizadores 1 (0e39d70b)
+2019-08-04T13:47:44.5585021-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-08-04T13:47:44.5742876-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p12='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p13='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p14='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p15='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p16='?' (Size = 4000), @p11='?' (Size = 450), @p17='?' (Size = 4000), @p10='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-08-04T13:47:44.5885696-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [e].[Id], [e].[Activo], [e].[ConcurrencyStamp], [e].[Nombre], [e].[Orden], [e].[UserId]
+FROM [Grupo] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:47:44.6140734-04:00  [INF] Executed DbCommand ("4"ms) [Parameters=["@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Double), @p5='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Registro] ([Id], [AnunciosActualizados], [CaptchasResuletos], [DateCreated], [Gasto], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);" (0723d8ff)
+2019-08-04T13:47:44.6216934-04:00  [INF] !!! ---- >>> Queue Messages 5 (39c20511)
+2019-08-04T13:47:44.6328732-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [c].[Id]
+FROM [CaptchaKeys] AS [c]" (0723d8ff)
+2019-08-04T13:47:54.5264212-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:47:54.5327869-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:47:54.5418711-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:47:54.5485003-04:00  [INF] Hora 13:47:54.5268336 cantidad de temporizadores 0 (c0081ca4)
+2019-08-04T13:47:54.5545563-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:04.5275574-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:04.5342390-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:04.5434211-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:04.5502221-04:00  [INF] Hora 13:48:04.5280154 cantidad de temporizadores 0 (30cc7f5a)
+2019-08-04T13:48:04.5569476-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:13.6672278-04:00  [ERR] Microsoft.Azure.Storage.StorageException: No connection could be made because the target machine actively refused it ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   --- End of inner exception stack trace ---
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   at Services.Impls.QueueService.AddMessageAsync(String captchaKey, IEnumerable`1 list) in D:\Trabajos\OptimusPC\Core\Services\Impls\QueueService.cs:line 32
+   at Services.Impls.ChequerService.CheckAllTemporizadores() in D:\Trabajos\OptimusPC\Core\Services\Impls\ChequerService.cs:line 98
+Request Information
+RequestID:
+RequestDate:
+StatusMessage:
+ErrorCode:
+ (452f6e1a)
+2019-08-04T13:48:13.6731426-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:14.5272950-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:14.5334080-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:14.5423594-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:14.5490244-04:00  [INF] Hora 13:48:14.5275804 cantidad de temporizadores 0 (fd244272)
+2019-08-04T13:48:14.5572187-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:24.5267418-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:24.5327419-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:24.5413731-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:24.5480503-04:00  [INF] Hora 13:48:24.5270612 cantidad de temporizadores 0 (6139ab33)
+2019-08-04T13:48:24.5541316-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:34.5315367-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:34.5377570-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:34.5469934-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:34.5539726-04:00  [INF] Hora 13:48:34.5319090 cantidad de temporizadores 0 (943a1ace)
+2019-08-04T13:48:34.5608986-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:44.5275396-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:44.5337747-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:44.5431210-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:44.5496622-04:00  [INF] Hora 13:48:44.5279806 cantidad de temporizadores 1 (0234a3b7)
+2019-08-04T13:48:44.5603775-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-08-04T13:48:44.5750647-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p12='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p13='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p14='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p15='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p16='?' (Size = 4000), @p11='?' (Size = 450), @p17='?' (Size = 4000), @p10='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-08-04T13:48:44.5889896-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [e].[Id], [e].[Activo], [e].[ConcurrencyStamp], [e].[Nombre], [e].[Orden], [e].[UserId]
+FROM [Grupo] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:48:44.6037749-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Double), @p5='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Registro] ([Id], [AnunciosActualizados], [CaptchasResuletos], [DateCreated], [Gasto], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);" (0723d8ff)
+2019-08-04T13:48:44.6139914-04:00  [INF] !!! ---- >>> Queue Messages 5 (39c20511)
+2019-08-04T13:48:44.6240310-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [c].[Id]
+FROM [CaptchaKeys] AS [c]" (0723d8ff)
+2019-08-04T13:48:48.3742367-04:00 0HLOP0ECO6986:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Client/Grupo   (ca22a1cb)
+2019-08-04T13:48:48.4132778-04:00 0HLOP0ECO6986:00000001 [INF] Route matched with "{area = \"Client\", action = \"Index\", controller = \"Grupo\", page = \"\"}". Executing action "RepublishTool.Areas.Client.Controllers.GrupoController.Index (RepublishTool)" (a44c0341)
+2019-08-04T13:48:48.4297034-04:00 0HLOP0ECO6986:00000001 [INF] Authorization was successful. (0d575a54)
+2019-08-04T13:48:48.4490174-04:00 0HLOP0ECO6986:00000001 [INF] Executing action method "RepublishTool.Areas.Client.Controllers.GrupoController.Index (RepublishTool)" - Validation state: Valid (dad538d7)
+2019-08-04T13:48:48.4595780-04:00 0HLOP0ECO6986:00000001 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:48.4877682-04:00 0HLOP0ECO6986:00000001 [INF] Executed DbCommand ("16"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:48:48.6476853-04:00 0HLOP0ECO6986:00000001 [INF] Executed DbCommand ("6"ms) [Parameters=["@__UserId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [g].[Id], [g].[Activo], [g].[ConcurrencyStamp], [g].[Nombre], [g].[Orden], [g].[UserId]
+FROM [Grupo] AS [g]
+WHERE [g].[UserId] = @__UserId_0
+ORDER BY [g].[Orden], [g].[Id]" (0723d8ff)
+2019-08-04T13:48:48.7031018-04:00 0HLOP0ECO6986:00000001 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UserId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [g.Anuncios].[Id], [g.Anuncios].[Actualizado], [g.Anuncios].[Caducado], [g.Anuncios].[ConcurrencyStamp], [g.Anuncios].[GroupId], [g.Anuncios].[Orden], [g.Anuncios].[Url]
+FROM [Anuncio] AS [g.Anuncios]
+INNER JOIN (
+    SELECT [g0].[Id], [g0].[Orden]
+    FROM [Grupo] AS [g0]
+    WHERE [g0].[UserId] = @__UserId_0
+) AS [t] ON [g.Anuncios].[GroupId] = [t].[Id]
+ORDER BY [t].[Orden], [t].[Id]" (0723d8ff)
+2019-08-04T13:48:48.7457210-04:00 0HLOP0ECO6986:00000001 [INF] Executed action method "RepublishTool.Areas.Client.Controllers.GrupoController.Index (RepublishTool)", returned result "Microsoft.AspNetCore.Mvc.ViewResult" in 290.1536ms. (50a9e262)
+2019-08-04T13:48:48.7606909-04:00 0HLOP0ECO6986:00000001 [INF] Executing ViewResult, running view "Index". (c83d0e25)
+2019-08-04T13:48:49.0397550-04:00 0HLOP0ECO6986:00000001 [INF] Executed ViewResult - view "Index" executed in 286.0991ms. (f66409e9)
+2019-08-04T13:48:49.0464095-04:00 0HLOP0ECO6986:00000001 [INF] Executed action "RepublishTool.Areas.Client.Controllers.GrupoController.Index (RepublishTool)" in 626.6708ms (afa2e885)
+2019-08-04T13:48:49.0570195-04:00 0HLOP0ECO6986:00000001 [INF] Request finished in 704.1739ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:48:49.3879029-04:00 0HLOP0ECO6986:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Images/profile_small.jpg   (ca22a1cb)
+2019-08-04T13:48:49.3969403-04:00 0HLOP0ECO6987:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/Client/Grupo/index.js   (ca22a1cb)
+2019-08-04T13:48:49.4325828-04:00 0HLOP0ECO6987:00000001 [INF] Sending file. Request path: '"/js/Client/Grupo/index.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\Client\Grupo\index.js"' (27b0a520)
+2019-08-04T13:48:49.4458083-04:00 0HLOP0ECO6986:00000002 [INF] Request finished in 250.7688ms 404  (791a596a)
+2019-08-04T13:48:49.4537119-04:00 0HLOP0ECO6987:00000001 [INF] Request finished in 44.7641ms 200 application/javascript (791a596a)
+2019-08-04T13:48:49.4572163-04:00 0HLOP0ECO6988:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/common/modal.js   (ca22a1cb)
+2019-08-04T13:48:49.4685430-04:00 0HLOP0ECO6988:00000001 [INF] Sending file. Request path: '"/js/common/modal.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\common\modal.js"' (27b0a520)
+2019-08-04T13:48:49.4751552-04:00 0HLOP0ECO6988:00000001 [INF] Request finished in 67.1275ms 200 application/javascript (791a596a)
+2019-08-04T13:48:54.5302892-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:48:54.5382410-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:54.5497248-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:48:54.5596945-04:00  [INF] Hora 13:48:54.5307563 cantidad de temporizadores 0 (b3df29f2)
+2019-08-04T13:48:54.5676059-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:48:56.4959274-04:00 0HLOP0ECO6987:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Client   (ca22a1cb)
+2019-08-04T13:48:56.5036407-04:00 0HLOP0ECO6987:00000002 [INF] Route matched with "{area = \"Client\", action = \"Index\", controller = \"Default\", page = \"\"}". Executing action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" (a44c0341)
+2019-08-04T13:48:56.5106176-04:00 0HLOP0ECO6987:00000002 [INF] Authorization was successful. (0d575a54)
+2019-08-04T13:48:56.5174522-04:00 0HLOP0ECO6987:00000002 [INF] Executing action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" - Validation state: Valid (dad538d7)
+2019-08-04T13:48:56.5246206-04:00 0HLOP0ECO6987:00000002 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:48:56.5418108-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("4"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:48:56.5549637-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("4"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.5785030-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6074771-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6194853-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6307851-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6536455-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("5"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6646044-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6756992-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.6873306-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("4"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.7053461-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.7279478-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("14"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.7402461-04:00 0HLOP0ECO6987:00000002 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:48:56.7484312-04:00 0HLOP0ECO6987:00000002 [INF] Executed action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)", returned result "Microsoft.AspNetCore.Mvc.ViewResult" in 223.589ms. (50a9e262)
+2019-08-04T13:48:56.7551394-04:00 0HLOP0ECO6987:00000002 [INF] Executing ViewResult, running view "Index". (c83d0e25)
+2019-08-04T13:48:56.7668078-04:00 0HLOP0ECO6987:00000002 [INF] Executed ViewResult - view "Index" executed in 10.9256ms. (f66409e9)
+2019-08-04T13:48:56.7738414-04:00 0HLOP0ECO6987:00000002 [INF] Executed action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" in 263.3479ms (afa2e885)
+2019-08-04T13:48:56.7837087-04:00 0HLOP0ECO6987:00000002 [INF] Request finished in 285.7563ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:48:56.8709063-04:00 0HLOP0ECO6986:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Images/profile_small.jpg   (ca22a1cb)
+2019-08-04T13:48:56.8830839-04:00 0HLOP0ECO6986:00000003 [INF] Request finished in 10.3132ms 404  (791a596a)
+2019-08-04T13:48:56.9671703-04:00 0HLOP0ECO6988:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/Admin/Default/index.js   (ca22a1cb)
+2019-08-04T13:48:56.9993885-04:00 0HLOP0ECO6988:00000002 [INF] The file "/js/Admin/Default/index.js" was not modified (f1f8d725)
+2019-08-04T13:48:57.0134678-04:00 0HLOP0ECO6988:00000002 [INF] Request finished in 118.3257ms 304 application/javascript (791a596a)
+2019-08-04T13:49:04.5275518-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:49:04.5356119-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:49:04.5464373-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:49:04.5536830-04:00  [INF] Hora 13:49:04.5279142 cantidad de temporizadores 0 (d6777150)
+2019-08-04T13:49:04.5612875-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:49:14.5269400-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:49:14.5338842-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:49:14.5444420-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:49:14.5520514-04:00  [INF] Hora 13:49:14.5272580 cantidad de temporizadores 0 (7b2b8267)
+2019-08-04T13:49:14.5592395-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:49:15.0386634-04:00  [ERR] Microsoft.Azure.Storage.StorageException: No connection could be made because the target machine actively refused it ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   --- End of inner exception stack trace ---
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   at Services.Impls.QueueService.AddMessageAsync(String captchaKey, IEnumerable`1 list) in D:\Trabajos\OptimusPC\Core\Services\Impls\QueueService.cs:line 32
+   at Services.Impls.ChequerService.CheckAllTemporizadores() in D:\Trabajos\OptimusPC\Core\Services\Impls\ChequerService.cs:line 98
+Request Information
+RequestID:
+RequestDate:
+StatusMessage:
+ErrorCode:
+ (452f6e1a)
+2019-08-04T13:49:15.0450423-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:49:54.2625896-04:00  [INF] Consume Scoped Service Hosted Service is starting. (61996372)
+2019-08-04T13:49:54.2926360-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:49:54.8695616-04:00 0HLOP0GK6UHOQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/   (ca22a1cb)
+2019-08-04T13:49:54.8695869-04:00 0HLOP0GK6UHOR:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:57593/  0 (ca22a1cb)
+2019-08-04T13:49:54.9771788-04:00 0HLOP0GK6UHOR:00000001 [INF] Request finished in 108.5788ms 200  (791a596a)
+2019-08-04T13:49:55.2934331-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:49:55.2987422-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:49:55.3044090-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-08-04T13:49:55.4762584-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:49:56.2121787-04:00 0HLOP0GK6UHOQ:00000001 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:49:56.2667634-04:00  [INF] Executed DbCommand ("74"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:49:56.3425289-04:00 0HLOP0GK6UHOQ:00000001 [INF] Executing handler method "OnGetAsync" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:49:56.3734649-04:00 0HLOP0GK6UHOQ:00000001 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-08-04T13:49:56.4373520-04:00  [INF] Hora 13:49:54.3304146 cantidad de temporizadores 1 (c3ba6a6e)
+2019-08-04T13:49:56.5742118-04:00  [INF] Executed DbCommand ("14"ms) [Parameters=["@__GrupoId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [a].[Id], [a].[Actualizado], [a].[Caducado], [a].[ConcurrencyStamp], [a].[GroupId], [a].[Orden], [a].[Url]
+FROM [Anuncio] AS [a]
+WHERE ([a].[GroupId] = @__GrupoId_0) AND ([a].[Actualizado] = 0)" (0723d8ff)
+2019-08-04T13:49:56.7197207-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p1='?' (Size = 450), @p0='?' (DbType = Boolean), @p12='?' (Size = 4000), @p3='?' (Size = 450), @p2='?' (DbType = Boolean), @p13='?' (Size = 4000), @p5='?' (Size = 450), @p4='?' (DbType = Boolean), @p14='?' (Size = 4000), @p7='?' (Size = 450), @p6='?' (DbType = Boolean), @p15='?' (Size = 4000), @p9='?' (Size = 450), @p8='?' (DbType = Boolean), @p16='?' (Size = 4000), @p11='?' (Size = 450), @p17='?' (Size = 4000), @p10='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+UPDATE [Anuncio] SET [Actualizado] = @p0
+WHERE [Id] = @p1 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p2
+WHERE [Id] = @p3 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p4
+WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p6
+WHERE [Id] = @p7 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Anuncio] SET [Actualizado] = @p8
+WHERE [Id] = @p9 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;
+
+UPDATE [Temporizador] SET [NextExecution] = @p10
+WHERE [Id] = @p11 AND [ConcurrencyStamp] IS NULL;
+SELECT @@ROWCOUNT;" (0723d8ff)
+2019-08-04T13:49:56.8014712-04:00  [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [e].[Id], [e].[Activo], [e].[ConcurrencyStamp], [e].[Nombre], [e].[Orden], [e].[UserId]
+FROM [Grupo] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:49:56.9541448-04:00 0HLOP0GK6UHOQ:00000001 [INF] Executed action "/Account/Login" in 728.0386ms (afa2e885)
+2019-08-04T13:49:56.9804652-04:00 0HLOP0GK6UHOQ:00000001 [INF] Request finished in 2121.9199ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:49:57.1234025-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Double), @p5='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Registro] ([Id], [AnunciosActualizados], [CaptchasResuletos], [DateCreated], [Gasto], [UserId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);" (0723d8ff)
+2019-08-04T13:49:57.1303878-04:00 0HLOP0GK6UHOQ:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/common/toastr_utils.js   (ca22a1cb)
+2019-08-04T13:49:57.1454264-04:00 0HLOP0GK6UHOR:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/common/loadButton.js   (ca22a1cb)
+2019-08-04T13:49:57.1520817-04:00  [INF] !!! ---- >>> Queue Messages 5 (39c20511)
+2019-08-04T13:49:57.1945562-04:00 0HLOP0GK6UHOR:00000002 [INF] Sending file. Request path: '"/js/common/loadButton.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\common\loadButton.js"' (27b0a520)
+2019-08-04T13:49:57.2002773-04:00 0HLOP0GK6UHOR:00000002 [INF] Request finished in 78.2076ms 200 application/javascript (791a596a)
+2019-08-04T13:49:57.2341551-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [c].[Id]
+FROM [CaptchaKeys] AS [c]" (0723d8ff)
+2019-08-04T13:49:57.2535023-04:00 0HLOP0GK6UHOQ:00000002 [INF] Sending file. Request path: '"/js/common/toastr_utils.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\common\toastr_utils.js"' (27b0a520)
+2019-08-04T13:49:57.2657024-04:00 0HLOP0GK6UHOQ:00000002 [INF] Request finished in 165.4629ms 200 application/javascript (791a596a)
+2019-08-04T13:50:04.2938541-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:50:04.3027651-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:04.3162198-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:50:04.3234134-04:00  [INF] Hora 13:50:04.2945013 cantidad de temporizadores 0 (f96e5f74)
+2019-08-04T13:50:04.3306917-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:50:14.2939322-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:50:14.3007031-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:14.3102695-04:00  [INF] Executed DbCommand ("2"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:50:14.3174862-04:00  [INF] Hora 13:50:14.2943970 cantidad de temporizadores 0 (76d53d18)
+2019-08-04T13:50:14.3238876-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:50:16.8536979-04:00 0HLOP0GK6UHOR:00000003 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login application/x-www-form-urlencoded; charset=UTF-8 244 (ca22a1cb)
+2019-08-04T13:50:16.8882852-04:00 0HLOP0GK6UHOR:00000003 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:50:17.0161063-04:00 0HLOP0GK6UHOR:00000003 [INF] Executing handler method "OnPost" with arguments (["Republish.Models.Identity.InputUsernameModel", ""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:50:17.0405906-04:00 0HLOP0GK6UHOR:00000003 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:17.1039454-04:00 0HLOP0GK6UHOR:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:50:17.2548975-04:00 0HLOP0GK6UHOR:00000003 [INF] Executing PartialViewResult, running view "LoginPassword". (1d3d4b21)
+2019-08-04T13:50:17.3083781-04:00 0HLOP0GK6UHOR:00000003 [INF] Executed PartialViewResult - view "LoginPassword" executed in 70.6183ms. (6f83ade2)
+2019-08-04T13:50:17.3207987-04:00 0HLOP0GK6UHOR:00000003 [INF] Executed action "/Account/Login" in 426.8237ms (afa2e885)
+2019-08-04T13:50:17.3363909-04:00 0HLOP0GK6UHOR:00000003 [INF] Request finished in 479.6715ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:50:19.8829915-04:00 0HLOP0GK6UHOQ:00000003 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Login?handler=Password application/x-www-form-urlencoded; charset=UTF-8 238 (ca22a1cb)
+2019-08-04T13:50:19.8902108-04:00 0HLOP0GK6UHOQ:00000003 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:50:19.9042550-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executing handler method "OnPostPassword" with arguments (["Republish.Models.Identity.InputPasswordModel"]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:50:19.9330617-04:00 0HLOP0GK6UHOQ:00000003 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:19.9471856-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("4"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:50:20.1771047-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__user_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0" (0723d8ff)
+2019-08-04T13:50:20.3089159-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:50:20.3583911-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0" (0723d8ff)
+2019-08-04T13:50:20.4228854-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__role_Id_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0" (0723d8ff)
+2019-08-04T13:50:20.4636664-04:00 0HLOP0GK6UHOQ:00000003 [INF] AuthenticationScheme: "Identity.Application" signed in. (c66dd7e7)
+2019-08-04T13:50:20.4856617-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:50:20.4974827-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:50:20.5311576-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:50:20.5837555-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:50:20.6039451-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:50:20.6158567-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:50:20.6374936-04:00 0HLOP0GK6UHOQ:00000003 [INF] User logged in. (fdce0db4)
+2019-08-04T13:50:20.6470812-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedUserName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0" (0723d8ff)
+2019-08-04T13:50:20.6584706-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0" (0723d8ff)
+2019-08-04T13:50:20.6737384-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:50:20.6873910-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("3"ms) [Parameters=["@__get_Item_0='?' (Size = 450), @__get_Item_1='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[UserId], [e].[RoleId]
+FROM [AspNetUserRoles] AS [e]
+WHERE ([e].[UserId] = @__get_Item_0) AND ([e].[RoleId] = @__get_Item_1)" (0723d8ff)
+2019-08-04T13:50:20.6974267-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed DbCommand ("2"ms) [Parameters=["@__normalizedRoleName_0='?' (Size = 256)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedRoleName_0" (0723d8ff)
+2019-08-04T13:50:20.7076687-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executing JsonResult, writing value of type '"<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'. (2f513669)
+2019-08-04T13:50:20.7469348-04:00 0HLOP0GK6UHOQ:00000003 [INF] Executed action "/Account/Login" in 850.384ms (afa2e885)
+2019-08-04T13:50:20.7593354-04:00 0HLOP0GK6UHOQ:00000003 [INF] Request finished in 871.0245ms 202 application/json; charset=utf-8 (791a596a)
+2019-08-04T13:50:20.7799022-04:00 0HLOP0GK6UHOR:00000004 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Client/Default   (ca22a1cb)
+2019-08-04T13:50:20.8583584-04:00 0HLOP0GK6UHOR:00000004 [INF] Route matched with "{area = \"Client\", action = \"Index\", controller = \"Default\", page = \"\"}". Executing action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" (a44c0341)
+2019-08-04T13:50:20.8929577-04:00 0HLOP0GK6UHOR:00000004 [INF] Authorization was successful. (0d575a54)
+2019-08-04T13:50:20.9243612-04:00 0HLOP0GK6UHOR:00000004 [INF] Executing action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" - Validation state: Valid (dad538d7)
+2019-08-04T13:50:20.9373934-04:00 0HLOP0GK6UHOR:00000004 [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:20.9640227-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__get_Item_0='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0" (0723d8ff)
+2019-08-04T13:50:21.0206932-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("2"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1135736-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1326016-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1437054-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1547248-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1647601-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1744519-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.1849743-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.2026486-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.2181483-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.2291895-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.2396670-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed DbCommand ("3"ms) [Parameters=["@__UtcCuba_DayOfYear_0='?' (DbType = Int32), @__UtcCuba_Year_1='?' (DbType = Int32), @__user_Id_2='?' (Size = 450)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [r].[Id], [r].[AnunciosActualizados], [r].[CaptchasResuletos], [r].[DateCreated], [r].[Gasto], [r].[UserId]
+FROM [Registro] AS [r]
+WHERE ((DATEPART(dayofyear, [r].[DateCreated]) = @__UtcCuba_DayOfYear_0) AND (DATEPART(year, [r].[DateCreated]) = @__UtcCuba_Year_1)) AND ([r].[UserId] = @__user_Id_2)" (0723d8ff)
+2019-08-04T13:50:21.2630420-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed action method "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)", returned result "Microsoft.AspNetCore.Mvc.ViewResult" in 324.0778ms. (50a9e262)
+2019-08-04T13:50:21.3036169-04:00 0HLOP0GK6UHOR:00000004 [INF] Executing ViewResult, running view "Index". (c83d0e25)
+2019-08-04T13:50:21.5803942-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed ViewResult - view "Index" executed in 293.1376ms. (f66409e9)
+2019-08-04T13:50:21.5864283-04:00 0HLOP0GK6UHOR:00000004 [INF] Executed action "RepublishTool.Areas.Client.Controllers.DefaultController.Index (RepublishTool)" in 722.3798ms (afa2e885)
+2019-08-04T13:50:21.5929250-04:00 0HLOP0GK6UHOR:00000004 [INF] Request finished in 814.4326ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:50:21.8447908-04:00 0HLOP0GK6UHOQ:00000004 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/common/formvalidation_utils.js   (ca22a1cb)
+2019-08-04T13:50:21.8698044-04:00 0HLOP0GK6UHOR:00000005 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Images/profile_small.jpg   (ca22a1cb)
+2019-08-04T13:50:21.8854151-04:00 0HLOP0GK6UHOQ:00000004 [INF] Sending file. Request path: '"/js/common/formvalidation_utils.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\common\formvalidation_utils.js"' (27b0a520)
+2019-08-04T13:50:21.9411760-04:00 0HLOP0GK6UHOQ:00000004 [INF] Request finished in 90.8196ms 200 application/javascript (791a596a)
+2019-08-04T13:50:21.9414603-04:00 0HLOP0GK6UHOR:00000005 [INF] Request finished in 92.7056ms 404  (791a596a)
+2019-08-04T13:50:21.9508138-04:00 0HLOP0GK6UHOS:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44307/js/Admin/Default/index.js   (ca22a1cb)
+2019-08-04T13:50:21.9780121-04:00 0HLOP0GK6UHOS:00000001 [INF] Sending file. Request path: '"/js/Admin/Default/index.js"'. Physical path: '"D:\Trabajos\OptimusPC\Core\BlueDot\wwwroot\js\Admin\Default\index.js"' (27b0a520)
+2019-08-04T13:50:21.9863997-04:00 0HLOP0GK6UHOS:00000001 [INF] Request finished in 86.0258ms 200 application/javascript (791a596a)
+2019-08-04T13:50:24.2902270-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:50:24.2974835-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:24.3076645-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:50:24.3155866-04:00  [INF] Hora 13:50:24.2906616 cantidad de temporizadores 0 (61dd6f29)
+2019-08-04T13:50:24.3231672-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:50:24.3292191-04:00 0HLOP0GK6UHOQ:00000005 [INF] Request starting HTTP/1.1 POST http://localhost:44307/Identity/Account/Logout application/x-www-form-urlencoded 225 (ca22a1cb)
+2019-08-04T13:50:24.3545553-04:00 0HLOP0GK6UHOQ:00000005 [INF] Route matched with "{page = \"/Account/Logout\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Logout" (a44c0341)
+2019-08-04T13:50:24.3630388-04:00 0HLOP0GK6UHOQ:00000005 [INF] Executing handler method "OnPost" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:50:24.3773638-04:00 0HLOP0GK6UHOQ:00000005 [INF] AuthenticationScheme: "Identity.Application" signed out. (d3f50c8d)
+2019-08-04T13:50:24.3842566-04:00 0HLOP0GK6UHOQ:00000005 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-08-04T13:50:24.3910507-04:00 0HLOP0GK6UHOQ:00000005 [INF] AuthenticationScheme: "Identity.TwoFactorUserId" signed out. (d3f50c8d)
+2019-08-04T13:50:24.3971947-04:00 0HLOP0GK6UHOQ:00000005 [INF] User logged out. (f9c27106)
+2019-08-04T13:50:24.4131189-04:00 0HLOP0GK6UHOQ:00000005 [INF] Executed action "/Account/Logout" in 52.3433ms (afa2e885)
+2019-08-04T13:50:24.4214151-04:00 0HLOP0GK6UHOQ:00000005 [INF] Request finished in 90.0225ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:50:26.6989749-04:00 0HLOP0GK6UHOR:00000006 [INF] Request starting HTTP/1.1 GET http://localhost:44307/Identity/Account/Login   (ca22a1cb)
+2019-08-04T13:50:26.7094142-04:00 0HLOP0GK6UHOR:00000006 [INF] Route matched with "{page = \"/Account/Login\", area = \"Identity\", action = \"\", controller = \"\"}". Executing action "/Account/Login" (a44c0341)
+2019-08-04T13:50:26.7177652-04:00 0HLOP0GK6UHOR:00000006 [INF] Executing handler method "OnGetAsync" with arguments ([""]) - ModelState is Valid (d4ff7456)
+2019-08-04T13:50:26.7249951-04:00 0HLOP0GK6UHOR:00000006 [INF] AuthenticationScheme: "Identity.External" signed out. (d3f50c8d)
+2019-08-04T13:50:26.7474046-04:00 0HLOP0GK6UHOR:00000006 [INF] Executed action "/Account/Login" in 28.0712ms (afa2e885)
+2019-08-04T13:50:26.7561619-04:00 0HLOP0GK6UHOR:00000006 [INF] Request finished in 58.0841ms 200 text/html; charset=utf-8 (791a596a)
+2019-08-04T13:50:28.0119552-04:00  [ERR] Microsoft.Azure.Storage.StorageException: No connection could be made because the target machine actively refused it ---> System.Net.Http.HttpRequestException: No connection could be made because the target machine actively refused it ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncUnbuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   --- End of inner exception stack trace ---
+   at Microsoft.Azure.Storage.Core.Executor.Executor.ExecuteAsync[T](RESTCommand`1 cmd, IRetryPolicy policy, OperationContext operationContext, CancellationToken token)
+   at Services.Impls.QueueService.AddMessageAsync(String captchaKey, IEnumerable`1 list) in D:\Trabajos\OptimusPC\Core\Services\Impls\QueueService.cs:line 32
+   at Services.Impls.ChequerService.CheckAllTemporizadores() in D:\Trabajos\OptimusPC\Core\Services\Impls\ChequerService.cs:line 98
+Request Information
+RequestID:
+RequestDate:
+StatusMessage:
+ErrorCode:
+ (452f6e1a)
+2019-08-04T13:50:28.0180422-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:50:34.3010168-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:50:34.3075139-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:34.3172385-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:50:34.3242532-04:00  [INF] Hora 13:50:34.3014450 cantidad de temporizadores 0 (e15ffcb0)
+2019-08-04T13:50:34.3303013-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
+2019-08-04T13:50:44.2978697-04:00  [INF] Consume Scoped Service Hosted Service is working. (bd1deba2)
+2019-08-04T13:50:44.3045185-04:00  [INF] Entity Framework Core "2.1.4-rtm-31024" initialized '"ApplicationDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2019-08-04T13:50:44.3138572-04:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__utc_0='?' (DbType = Time), @__utc_1='?' (DbType = Time)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Domingo], [t].[Etapa], [t].[GrupoId], [t].[HoraFin], [t].[HoraInicio], [t].[IntervaloHoras], [t].[IntervaloMinutos], [t].[Jueves], [t].[Lunes], [t].[Martes], [t].[Miercoles], [t].[NextExecution], [t].[Nombre], [t].[Orden], [t].[Sabado], [t].[Viernes]
+FROM [Temporizador] AS [t]
+WHERE (@__utc_0 <= [t].[HoraFin]) AND ([t].[NextExecution] <= @__utc_1)" (0723d8ff)
+2019-08-04T13:50:44.3206321-04:00  [INF] Hora 13:50:44.2982122 cantidad de temporizadores 0 (3bd75a5a)
+2019-08-04T13:50:44.3260346-04:00  [INF] Completed - Consume Scoped Service Hosted Service is completed. (2e0d17bb)
