@@ -13,12 +13,13 @@ namespace Models
 
         }
 
-        public Registro(string userId, int capResueltos, DateTime dateTime)
+        public Registro(string userId, int capResueltos, DateTime dateTime, double costo)
         {
             UserId = userId;
             CaptchasResuletos = capResueltos;
             AnunciosActualizados = capResueltos;
             DateCreated = dateTime;
+            Gasto = costo * capResueltos;
         }
 
         [Key]
@@ -29,6 +30,7 @@ namespace Models
 
         public int CaptchasResuletos { get; set; }
         public int AnunciosActualizados { get; set; }
+        public double Gasto { get; set; }
         
         [Required]
         public string UserId { get; set; }
