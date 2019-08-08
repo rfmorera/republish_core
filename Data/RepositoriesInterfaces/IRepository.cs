@@ -34,7 +34,7 @@ namespace Republish.Data.RepositoriesInterfaces
 
         Task<int> CountAsync();
 
-        Task<int> DeleteAsync(T entity);
+        //Task<int> DeleteAsync(T entity);
 
         Task<ICollection<T>> FindAllAsync(Expression<Func<T, bool>> match);
 
@@ -50,6 +50,6 @@ namespace Republish.Data.RepositoriesInterfaces
 
         IQueryable<T> QueryAll();
 
-        Task SaveChangesAsync();
+        Task<int> SaveChangesAsync();
     }
 }

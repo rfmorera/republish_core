@@ -23,11 +23,13 @@ namespace Services.Impls
         public async Task Registro(Registro registro)
         {
             await _registroRepo.AddAsync(registro);
+            await _registroRepo.SaveChangesAsync();
         }
 
         public async Task AddRegistros(IEnumerable<Registro> registros)
         {
             await _registroRepo.AddAllAsync(registros);
+            await _registroRepo.SaveChangesAsync();
         }
 
         public Task<EstadisticaDiario> RegistroDiario(string UserId)

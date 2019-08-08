@@ -29,11 +29,12 @@ namespace Services.Impls
         public async Task<CaptchaKeys> Update2CaptchaKey(string key)
         {
             CaptchaKeys captcha = await GetCaptchaKeyAsync();
-            await repositoryCaptcha.DeleteAsync(captcha);
+            repositoryCaptcha.Remove(captcha);
 
             captcha = new CaptchaKeys(key);
 
             await repositoryCaptcha.AddAsync(captcha);
+            await repositoryCaptcha.SaveChangesAsync();
 
             return captcha;
         }

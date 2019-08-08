@@ -62,7 +62,8 @@ namespace Services.Impls
         public async Task DeleteAsync(string Id)
         {
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
-            await repositoryAnuncio.DeleteAsync(anuncio);
+            repositoryAnuncio.Remove(anuncio);
+            await repositoryAnuncio.SaveChangesAsync();
         }
 
         public async Task Publish(string url, string Key2Captcha)

@@ -23,6 +23,7 @@ namespace Services.Impls
         {
             Temporizador temporizador = temporizadorDTO.BuildModel();
             await repositoryTemporizador.AddAsync(temporizador);
+            await repositoryTemporizador.SaveChangesAsync();
         }
 
         public async Task DeleteAllByGroup(string GrupoId)
@@ -35,7 +36,8 @@ namespace Services.Impls
         public async Task DeleteAsync(string Id)
         {
             Temporizador temp = await repositoryTemporizador.FindAsync(t => t.Id == Id);
-            await repositoryTemporizador.DeleteAsync(temp);
+            repositoryTemporizador.Remove(temp);
+            await repositoryTemporizador.SaveChangesAsync();
         }
     }
 }

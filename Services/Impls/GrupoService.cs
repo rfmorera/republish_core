@@ -36,12 +36,14 @@ namespace Services.Impls
         {
             Grupo grupo = grupoDTO.BuildModel();
             await _repository.AddAsync(grupo);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string Id)
         {
             Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
-            await _repository.DeleteAsync(grupo);
+            _repository.Remove(grupo);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<GrupoDetailsDTO> DetailsAsync(string GrupoId)

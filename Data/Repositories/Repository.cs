@@ -73,7 +73,7 @@ namespace Republish.Data.Repositories
         public async Task<T> AddAsync(T t)
         {
             await Context.Set<T>().AddAsync(t);
-            await Context.SaveChangesAsync();
+            //await Context.SaveChangesAsync();
             return t;
         }
 
@@ -83,7 +83,7 @@ namespace Republish.Data.Repositories
             {
                 await Context.Set<T>().AddAsync(t);
             }
-            await Context.SaveChangesAsync();
+            //await Context.SaveChangesAsync();
             return tList;
         }
 
@@ -97,11 +97,11 @@ namespace Republish.Data.Repositories
             return await Context.Set<T>().Where(match).ToListAsync();
         }
 
-        public async Task<int> DeleteAsync(T entity)
-        {
-            Context.Set<T>().Remove(entity);
-            return await Context.SaveChangesAsync();
-        }
+        //public Task DeleteAsync(T entity)
+        //{
+        //    Context.Set<T>().Remove(entity);
+        //    //return await Context.SaveChangesAsync();
+        //}
 
         public async Task<T> UpdateAsync(T t, object key)
         {
@@ -150,9 +150,9 @@ namespace Republish.Data.Repositories
             return Context.Set<T>();
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            await Context.SaveChangesAsync();
+            return await Context.SaveChangesAsync();
         }
     }
 }
