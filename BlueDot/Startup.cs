@@ -81,6 +81,7 @@ namespace Republish
             services.AddScoped<IQueueService, QueueService>();
             services.AddScoped<IChequerService, ChequerService>();
             services.AddScoped<ICaptchaService, CaptchaService>();
+            services.AddScoped<IUserControlService, UserControlService>();
 
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
