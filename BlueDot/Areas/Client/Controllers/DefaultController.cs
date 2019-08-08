@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Services;
+using Services.DTOs.Registro;
 
 namespace RepublishTool.Areas.Client.Controllers
 {
@@ -11,9 +14,21 @@ namespace RepublishTool.Areas.Client.Controllers
     [Authorize(Roles = "Client")]
     public class DefaultController : Controller
     {
-        public IActionResult Index()
+        private readonly IRegistroService _registroService;
+        private readonly IEstadisticasService _estadisticasService;
+        private readonly UserManager<IdentityUser> _userManager;
+        public DefaultController(UserManager<IdentityUser> userManager, IRegistroService registroService, IEstadisticasService estadisticasService)
         {
-            return View();
+            _registroService = registroService;
+            _userManager = userManager;
+            _estadisticasService = estadisticasService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            IdentityUser user = await _userManager.GetUserAsync(User);
+            ClientDashboard dashboard = await _estadisticasService.GetDashboard(user);
+            return View(dashboard);
         }
     }
 }

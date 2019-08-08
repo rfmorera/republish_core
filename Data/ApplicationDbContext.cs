@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System;
 
 namespace Republish.Data
 {
@@ -61,6 +62,10 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
 
+            });
+            builder.Entity<Registro>(entity =>
+            {
+                entity.HasKey("Id");
             });
         }
     }

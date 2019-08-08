@@ -281,6 +281,29 @@ namespace BlueDot.Data.Migrations
                     b.ToTable("Grupo");
                 });
 
+            modelBuilder.Entity("Models.Registro", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AnunciosActualizados");
+
+                    b.Property<int>("CaptchasResuletos");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<double>("Gasto");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Registro");
+                });
+
             modelBuilder.Entity("Models.Temporizador", b =>
                 {
                     b.Property<string>("Id")
@@ -386,6 +409,14 @@ namespace BlueDot.Data.Migrations
                 });
 
             modelBuilder.Entity("Models.Grupo", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.Registro", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()

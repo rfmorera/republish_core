@@ -81,6 +81,8 @@ namespace Republish
             services.AddScoped<IQueueService, QueueService>();
             services.AddScoped<IChequerService, ChequerService>();
             services.AddScoped<ICaptchaService, CaptchaService>();
+            services.AddTransient<IRegistroService, RegistroService>();
+            services.AddTransient<IEstadisticasService, EstadisticasService>();
             services.AddScoped<IUserControlService, UserControlService>();
 
             services.AddMvc().AddRazorPagesOptions(opts => {
