@@ -36,7 +36,8 @@ namespace Republish.Data
                 entity.HasOne(a => a.Grupo)
                       .WithMany(g => g.Anuncios)
                       .HasForeignKey(a => a.GroupId)
-                      .HasConstraintName("ForeignKey_Grupo_Anuncio");
+                      .HasConstraintName("ForeignKey_Grupo_Anuncio")
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(p => p.Actualizado).HasDefaultValue(false);
                 entity.Property(p => p.Caducado).HasDefaultValue(false);
@@ -47,7 +48,6 @@ namespace Republish.Data
                 entity.HasKey("Id");
 
                 entity.Property(p => p.Activo).HasDefaultValue(true);
-
             });
 
             builder.Entity<Temporizador>(entity => 
@@ -55,7 +55,8 @@ namespace Republish.Data
                 entity.HasOne(a => a.Grupo)
                       .WithMany(g => g.Temporizadores)
                       .HasForeignKey(a => a.GrupoId)
-                      .HasConstraintName("ForeignKey_Grupo_Temporizador");
+                      .HasConstraintName("ForeignKey_Grupo_Temporizador")
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<CaptchaKeys>(entity =>
@@ -63,7 +64,13 @@ namespace Republish.Data
                 entity.HasKey("Id");
 
             });
+
             builder.Entity<Registro>(entity =>
+            {
+                entity.HasKey("Id");
+            });
+
+            builder.Entity<Recarga>(entity =>
             {
                 entity.HasKey("Id");
             });
