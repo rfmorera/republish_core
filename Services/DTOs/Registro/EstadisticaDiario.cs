@@ -8,7 +8,7 @@ namespace Services.DTOs.Registro
 {
     public class EstadisticaDiario : IEstadistica
     {
-        public EstadisticaDiario(IEnumerable<Models.Registro> registros)
+        public EstadisticaDiario(IEnumerable<Models.Registro> registros, DateTime utcCuba)
         {
             Total = registros.Sum(r => r.CaptchasResuletos);
             Gasto = registros.Sum(r => r.Gasto);
@@ -16,11 +16,14 @@ namespace Services.DTOs.Registro
             
             List<IGrouping<int, Models.Registro>> groups = registros.GroupBy(r => r.DateCreated.Hour).ToList();
 
+            DiaMes = utcCuba.Day;
+
             Horas = groups.Select(r => r.Key).ToArray();
             GastoHoras = groups.Select(r => r.ToList().Sum(t => t.Gasto)).ToArray();
             AnunciosHoras = groups.Select(r => r.ToList().Sum(t => t.AnunciosActualizados)).ToArray();
         }
 
+        public int DiaMes { get; }
         public int Total { get; }
         public double Gasto { get; }
         public int[] AnunciosHoras { get; }

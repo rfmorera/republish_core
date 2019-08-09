@@ -41,7 +41,7 @@ namespace Services.Impls
                                                                                     (r.DateCreated.DayOfYear == UtcCuba.DayOfYear 
                                                                                     && r.DateCreated.Year == UtcCuba.Year
                                                                                     && r.UserId == user.Id));
-            EstadisticaDiario dia = new EstadisticaDiario(registros);
+            EstadisticaDiario dia = new EstadisticaDiario(registros, UtcCuba);
             return dia;
         }
 
@@ -63,8 +63,8 @@ namespace Services.Impls
 
         public async Task<EstadisticaSemanal> GetSemanal(IdentityUser user, DateTime UtcCuba)
         {
-            List<EstadisticaDiario> last7Days = new List<EstadisticaDiario>(7);
-            for(int i = 0; i < 7; i++)
+            List<EstadisticaDiario> last7Days = new List<EstadisticaDiario>();
+            for(int i = 6; i >= 0; i--)
             {
                 last7Days.Add(await GetDiario(user, UtcCuba.AddDays(-i)));
             }
