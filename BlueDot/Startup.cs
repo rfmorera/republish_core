@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Queue;
+using BlueDot.Data.UnitsOfWorkInterfaces;
+using BlueDot.Data.UnitsOfWork;
 
 namespace Republish
 {
@@ -69,6 +71,7 @@ namespace Republish
             services.AddHostedService<TimerService>();
 
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICustomSignInManger, ICustomSignInManger>();
             services.AddTransient<IAdministratorsService, AdministratorsService>();
