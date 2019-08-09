@@ -346,5 +346,11 @@
     "inputFiles": [
       "wwwroot/js/Admin/ClientControl/index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Client/Default/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Client/Default/index.js"
+    ]
   }
 ]

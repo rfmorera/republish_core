@@ -46,16 +46,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 text-muted">
             <div class="ibox ">
                 <div class="ibox-title">
                     <span class="label label-danger float-right">Low value</span>
                     <h5>Saldo</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">$ 80,600</h1>
+                    <h1 class="no-margins">$ --,---</h1>
                     @*<div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>*@
-                    <small>Actualizado </small>
+                    @*<small>Actualizado </small>*@
                 </div>
             </div>
         </div>
@@ -66,11 +66,11 @@
                 <div class="ibox-title">
                     <h5>Resumen Detallado</h5>
                     <div class="float-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-xs btn-white active">Hoy</button>
-                            <button type="button" class="btn btn-xs btn-white">Últimos 7 días</button>
-                            <button type="button" class="btn btn-xs btn-white">Mensual</button>
-                            <button type="button" class="btn btn-xs btn-white">Anual</button>
+                        <div class="btn-group estadistica">
+                            <button id="Diario" type="button" class="btn btn-xs btn-white active">Hoy</button>
+                            <button id="Semanal" type="button" class="btn btn-xs btn-white">Últimos 7 días</button>
+                            <button id="Mensual" type="button" class="btn btn-xs btn-white">Mensual</button>
+                            <button id="Anual" type="button" class="btn btn-xs btn-white disabled">Anual</button>
                         </div>
                     </div>
                 </div>
@@ -109,19 +109,35 @@
 
 @section Scripts {
     <environment names="Development">
-        <script src="~/js/Admin/Default/index.js"></script>
+        <script src="~/js/Client/Default/index.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/Admin/Default/index.min.js"></script>
+        <script src="~/js/Client/Default/index.min.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.min.js"></script>
     </environment>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+            InitializeDiario();
         });
+
+        function InitializeDiario() {
+            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+        }
+
+        function InitializeSemanal() {
+            initializeChart(@semanal.Gasto, @semanal.ToStringLabels(), @semanal.ToStringGastos(), @semanal.ToStringAnuncios());
+        }
+
+        function InitializeMensual() {
+            initializeChart(@mensual.Gasto, @mensual.ToStringLabels(), @mensual.ToStringGastos(), @mensual.ToStringAnuncios());
+        }
+
+        @*function InitializeAnual() {
+            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+        }*@
     </script>
 }

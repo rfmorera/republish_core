@@ -1,6 +1,27 @@
 ﻿$(document).ready(initializePage);
 
 function initializePage() {
+
+    $(".btn-group.estadistica > #Diario").on("click", function () {
+        ButtonCommon(this);
+        InitializeDiario();
+    });
+
+    $(".btn-group.estadistica > #Semanal").on("click", function () {
+        ButtonCommon(this);
+        InitializeSemanal();
+    });
+
+    $(".btn-group.estadistica > #Mensual").on("click", function () {
+        ButtonCommon(this);
+        InitializeMensual();
+    });
+
+    //$(".btn-group.estadistica > #Anual").on("click", function () {
+    //    ButtonCommon(this);
+    //    InitializeAnual();
+    //});
+
     $(".line").peity("line", {
         fill: '#1ab394',
         stroke: '#169c81'
@@ -14,6 +35,18 @@ function initializePage() {
         fill: ["#1ab394", "#d7d7d7"],
         width: 100
     });
+}
+
+function ButtonCommon(t) {
+    $(".btn-group.estadistica > .active").removeClass("active");
+    $(t).addClass("active");
+    $(".chartjs-hidden-iframe").remove();
+    var canvas = document.getElementById("lineChart");
+    var parent = $(canvas).parent();
+    canvas.remove();
+    parent.append("<canvas id=\"lineChart\" height=\"287\" style=\"display: block; width: 989px; height: 230px; \" width=\"1236\"></canvas>");
+    //var ctx = canvas.getContext('2d');
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function initializeChart(gastoTotal, labels, gastos, anuncios) {
