@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Services.DTOs.Registro
 {
-    public class EstadisticaDiario
+    public class EstadisticaDiario : IEstadistica
     {
         public EstadisticaDiario(IEnumerable<Models.Registro> registros)
         {
@@ -26,6 +26,16 @@ namespace Services.DTOs.Registro
         public int[] AnunciosHoras { get; }
         public double[] GastoHoras { get; }
         public int[] Horas { get; }
+
+        public int GetTotalAnuncios()
+        {
+            return Total;
+        }
+
+        public double GetTotalGasto()
+        {
+            return Gasto;
+        }
 
         public string ToStringAnuncios()
         {
