@@ -102,6 +102,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\common\" />
+    <Folder Include="wwwroot\js\Admin\Default\" />
     <Folder Include="wwwroot\js\Client\Categoria\" />
     <Folder Include="wwwroot\js\Client\Common\" />
   </ItemGroup>
