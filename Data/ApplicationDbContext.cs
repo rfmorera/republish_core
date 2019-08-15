@@ -74,6 +74,13 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
             });
+
+            builder.Entity<Cuenta>(entity =>
+            {
+                entity.HasKey("Id");
+
+                entity.HasIndex(c => c.UserId);
+            });
         }
     }
 }
