@@ -17,7 +17,7 @@ function initializePage() {
         id = $(this).attr("data-Id");
         Username = $(this).attr("data-Username");
 
-        $("#RecargarId").val(id);
+        $("#ClientId").val(id);
         $("#UserNameRecarga").val(Username);
     });
 

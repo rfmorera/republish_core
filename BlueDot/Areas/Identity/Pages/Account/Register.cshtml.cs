@@ -16,7 +16,7 @@ namespace Republish.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     [Area("Identity")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;

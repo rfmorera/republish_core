@@ -71,7 +71,7 @@ namespace Republish
             services.AddHostedService<TimerService>();
 
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICustomSignInManger, ICustomSignInManger>();
             services.AddTransient<IAdministratorsService, AdministratorsService>();
@@ -81,12 +81,13 @@ namespace Republish
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
-            services.AddScoped<IQueueService, QueueService>();
-            services.AddScoped<IChequerService, ChequerService>();
-            services.AddScoped<ICaptchaService, CaptchaService>();
+            services.AddTransient<IQueueService, QueueService>();
+            services.AddTransient<IChequerService, ChequerService>();
+            services.AddTransient<ICaptchaService, CaptchaService>();
             services.AddTransient<IRegistroService, RegistroService>();
             services.AddTransient<IEstadisticasService, EstadisticasService>();
-            services.AddScoped<IUserControlService, UserControlService>();
+            services.AddTransient<IUserControlService, UserControlService>();
+            services.AddTransient<IManejadorFinancieroService, ManejadorFinancieroService>();
 
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");

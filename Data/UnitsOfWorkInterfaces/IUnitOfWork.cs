@@ -11,6 +11,7 @@ namespace BlueDot.Data.UnitsOfWorkInterfaces
     {
         IRepository<Registro> Registro { get; }
         IRepository<Recarga> Recarga { get; }
+        IRepository<Cuenta> Cuenta { get; }
         Task SaveChangesAsync();
     }
 }
