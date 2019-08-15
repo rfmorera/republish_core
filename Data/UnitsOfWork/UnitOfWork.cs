@@ -15,6 +15,7 @@ namespace BlueDot.Data.UnitsOfWork
         private readonly ApplicationDbContext _dbContext;
         private IRepository<Registro> _registroRepository;
         private IRepository<Recarga> _recargaRepository;
+        private IRepository<Cuenta> _cuentaRepository;
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
@@ -34,6 +35,14 @@ namespace BlueDot.Data.UnitsOfWork
             get
             {
                 return _recargaRepository = _recargaRepository ?? new Repository<Recarga>(_dbContext);
+            }
+        }
+
+        public IRepository<Cuenta> Cuenta
+        {
+            get
+            {
+                return _cuentaRepository = _cuentaRepository ?? new Repository<Cuenta>(_dbContext);
             }
         }
 
