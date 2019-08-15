@@ -9,16 +9,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Services.DTOs.Registro;
 
 namespace Services.Impls
 {
     public class UserControlService : IUserControlService
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEstadisticasService _estadisticasService;
+        private readonly IManejadorFinancieroService _financieroService;
         
-        public UserControlService(UserManager<IdentityUser> userManager)
+        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService)
         {
             _userManager = userManager;
+            _estadisticasService = estadisticasService;
+            _financieroService = financieroService;
         }
 
         public async Task<IdentityResult> AddAdmin(IdentityUser user)
@@ -39,6 +44,7 @@ namespace Services.Impls
             {
                 return result;
             }
+            await _financieroService.InicializarUsuario(user.Id);
             result = await _userManager.AddToRoleAsync(user, RTRoles.Client);
             return result;
         }
@@ -60,6 +66,18 @@ namespace Services.Impls
                                                 .Select(t => new UserDTO(t.Id, t.UserName, t.Email, RTRoles.Client));
 
             return list;
+        }
+
+        public async Task<ClientDashboard> GetDashboard(IdentityUser user)
+        {
+            EstadisticaDiario dia = await _estadisticasService.GetDiario(user);
+            EstadisticaSemanal semana = await _estadisticasService.GetSemanal(user);
+            EstadisticaMensual mensual = await _estadisticasService.GetMensual(user);
+
+            double Saldo = await _financieroService.GetSaldo(user.Id);
+
+            ClientDashboard dashboard = new ClientDashboard(Saldo, dia, semana, mensual);
+            return dashboard;
         }
     }
 }
