@@ -1,6 +1,7 @@
 ﻿@model ClientDashboard
 @{
     ViewData["Title"] = "Dashboard";
+    CuentaDTO ct = Model.Cnt;
     EstadisticaDiario diario = Model.Diario;
     EstadisticaSemanal semanal = Model.Semanal;
     EstadisticaMensual mensual = Model.Mensual;
@@ -53,9 +54,9 @@
                     <h5>Saldo</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">$ @Model.Saldo</h1>
+                    <h1 class="no-margins">$ @ct.Saldo</h1>
                     @*<div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>*@
-                    @*<small>Actualizado </small>*@
+                    <small>@ct.LastUpdate.ToDateTimeString()</small>
                 </div>
             </div>
         </div>
