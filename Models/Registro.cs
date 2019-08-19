@@ -31,6 +31,8 @@ namespace Models
         public int CaptchasResuletos { get; set; }
         public int AnunciosActualizados { get; set; }
         public double Gasto { get; set; }
+
+        public bool Facturado { get; set; } = false;
         
         [Required]
         public string UserId { get; set; }

@@ -18,6 +18,8 @@ namespace Models
         [Required]
         public DateTime UltimaRecarga { get; set; }
 
+        public DateTime? LastUpdate { get; set; }
+
         [Required]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
