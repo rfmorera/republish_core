@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Services.BackgroundTasks
 {
-    public class TimerService : IHostedService, IDisposable
+    public class TemporizadoresTimer : IHostedService, IDisposable
     {
         private Timer _timer;
         private readonly ILogger _logger;
 
-        public TimerService(IServiceProvider services,
-            ILogger<TimerService> logger)
+        public TemporizadoresTimer(IServiceProvider services,
+            ILogger<TemporizadoresTimer> logger)
         {
             Services = services;
             _logger = logger;
