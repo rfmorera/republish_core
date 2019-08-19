@@ -49,7 +49,7 @@ namespace Services.Impls
             return result;
         }
 
-        public async Task<IdentityResult> DisableUser(IdentityUser user, bool flag)
+        public async Task<IdentityResult> LockoutUser(IdentityUser user, bool flag)
         {
             return await _userManager.SetLockoutEnabledAsync(user, flag);
         }
@@ -74,10 +74,15 @@ namespace Services.Impls
             EstadisticaSemanal semana = await _estadisticasService.GetSemanal(user);
             EstadisticaMensual mensual = await _estadisticasService.GetMensual(user);
 
-            double Saldo = await _financieroService.GetSaldo(user.Id);
+            Cuenta cnt = await _financieroService.GetCuenta(user.Id);
 
-            ClientDashboard dashboard = new ClientDashboard(Saldo, dia, semana, mensual);
+            ClientDashboard dashboard = new ClientDashboard(cnt, dia, semana, mensual);
             return dashboard;
+        }
+
+        public async Task CheckOutCeroBalanceAccount()
+        {
+            await _financieroService.FacturarRegistros();
         }
     }
 }

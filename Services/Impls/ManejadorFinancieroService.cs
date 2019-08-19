@@ -48,5 +48,32 @@ namespace Services.Impls
 
             await _unitOfWork.Cuenta.AddAsync(c);
         }
+
+        public async Task FacturarRegistros()
+        {
+            DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+            IEnumerable<Registro> lst = (await _unitOfWork.Registro.FindAllAsync(t => t.Facturado == false)).OrderBy(r => r.UserId);
+
+            Cuenta ct = null;
+
+            foreach(Registro rg in lst)
+            {
+                if(ct is null || ct.UserId != rg.UserId)
+                {
+                    ct = await _unitOfWork.Cuenta.FindAsync(c => c.UserId == rg.UserId);
+                }
+
+                ct.Saldo -= rg.Gasto;
+                rg.Facturado = true;
+                ct.LastUpdate = UtcCuba;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<Cuenta> GetCuenta(string UserId)
+        {
+            return (await _unitOfWork.Cuenta.FindAsync(t => t.UserId == UserId));
+        }
     }
 }

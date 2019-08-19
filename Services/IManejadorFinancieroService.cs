@@ -1,4 +1,5 @@
-﻿using Services.DTOs;
+﻿using Models;
+using Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,7 @@ namespace Services
         Task InicializarUsuario(string UserId);
         Task RecargarUsuario(RecargaDTO recargaDTO);
         Task<double> GetSaldo(string UserId);
+        Task<Cuenta> GetCuenta(string UserId);
+        Task FacturarRegistros();
     }
 }

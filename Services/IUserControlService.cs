@@ -15,10 +15,12 @@ namespace Services
 
         Task<IdentityResult> RemoveUser(string Id);
 
-        Task<IdentityResult> DisableUser(IdentityUser user, bool flag);
+        Task<IdentityResult> LockoutUser(IdentityUser user, bool flag);
 
         Task<IEnumerable<UserDTO>> GetClientList();
 
         Task<ClientDashboard> GetDashboard(IdentityUser user);
+
+        Task CheckOutCeroBalanceAccount();
     }
 }
