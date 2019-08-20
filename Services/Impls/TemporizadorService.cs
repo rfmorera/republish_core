@@ -20,9 +20,9 @@ namespace Services.Impls
             _dbContext = dbContext;
             repositoryTemporizador = new Repository<Temporizador>(dbContext);
         }
-        public async Task AddAsync(Temporizador temporizador, bool Enable)
+        public async Task AddAsync(Temporizador temporizador, bool SystemEnable)
         {
-            temporizador.Enable = Enable;
+            temporizador.SystemEnable = SystemEnable;
             await repositoryTemporizador.AddAsync(temporizador);
             await repositoryTemporizador.SaveChangesAsync();
         }
@@ -49,12 +49,12 @@ namespace Services.Impls
             return listT;
         }
 
-        public async Task SetEnable(string UserId, bool status)
+        public async Task SetEnable(string UserId, bool SystemEnable)
         {
             IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.UserId == UserId);
             foreach(Temporizador t in list)
             {
-                t.Enable = status;
+                t.SystemEnable = SystemEnable;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
             await repositoryTemporizador.SaveChangesAsync();

@@ -22,7 +22,7 @@ namespace Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Orden { get; set; }
 
-        public bool Enable { get; set; }
+        public bool SystemEnable { get; set; }
 
         public bool Lunes { get; set; }
         public bool Martes { get; set; }
