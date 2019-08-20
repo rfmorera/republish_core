@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Models;
 using Republish.Extensions;
 using Services.Extensions;
 using System;
@@ -37,9 +38,10 @@ namespace Services.DTOs
             Etapa = t.Etapa;
 
             GrupoId = t.GrupoId;
+            UserId = t.UserId;
         }
 
-        public Temporizador BuildModel()
+        public Temporizador BuildModel(IdentityUser user)
         {
             Temporizador t = new Temporizador();
             t.Id = Id;
@@ -62,6 +64,7 @@ namespace Services.DTOs
             t.Etapa = Etapa;
 
             t.GrupoId = GrupoId;
+            t.UserId = user.Id;
 
             return t;
         }
@@ -157,5 +160,6 @@ namespace Services.DTOs
         public int Etapa { get; set; }
 
         public string GrupoId { get; set; }
+        public string UserId { get; set; }
     }
 }

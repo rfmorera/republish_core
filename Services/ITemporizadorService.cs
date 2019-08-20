@@ -9,7 +9,7 @@ namespace Services
 {
     public interface ITemporizadorService
     {
-        Task AddAsync(TemporizadorDTO temporizadorDTO, bool Enable);
+        Task AddAsync(Temporizador temporizador, bool Enable);
 
         Task DeleteAsync(string Id);
 
@@ -17,7 +17,6 @@ namespace Services
 
         Task DeleteAllByGroup(string GrupoId);
 
-        Task SetEnable(string Id, bool status);
-        Task SetEnable(IEnumerable<Temporizador> lst, bool status);
+        Task SetEnable(string UserId, bool status);
     }
 }

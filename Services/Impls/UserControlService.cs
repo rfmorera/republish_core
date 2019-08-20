@@ -86,33 +86,20 @@ namespace Services.Impls
 
         public async Task CheckOutCeroBalanceAccount()
         {
-            IEnumerable<string> list = await _financieroService.FacturarRegistros();
+            IEnumerable<string> listUsers = await _financieroService.FacturarRegistros();
             List<Task> tasksList = new List<Task>();
-            foreach(string UserId in list)
+            foreach(string UserId in listUsers)
             {
-                tasksList.Add(SetEnableTemporizadores(UserId, false));
+                tasksList.Add(_temporizadorService.SetEnable(UserId, false));
             }
 
             await Task.WhenAll(tasksList);
         }
 
-        public async Task SetEnableTemporizadores(string UserId, bool status)
-        {
-            IEnumerable<GrupoIndexDTO> grupos = await _grupoService.GetAllAsync(UserId);
-            List<Task> taskList = new List<Task>();
-            foreach (GrupoIndexDTO g in grupos)
-            {
-                IEnumerable<Temporizador> list = await _temporizadorService.GetByGroup(g.Id);
-                taskList.Add(_temporizadorService.SetEnable(list, status));
-            }
-
-            await Task.WhenAll(taskList);
-        }
-
         public async Task RecargarCliente(RecargaDTO recargaDTO)
         {
             await _financieroService.RecargarUsuario(recargaDTO);
-            await SetEnableTemporizadores(recargaDTO.ClientId, true);
+            await _temporizadorService.SetEnable(recargaDTO.ClientId, true);
         }
     }
 }

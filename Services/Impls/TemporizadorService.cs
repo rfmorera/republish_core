@@ -20,9 +20,8 @@ namespace Services.Impls
             _dbContext = dbContext;
             repositoryTemporizador = new Repository<Temporizador>(dbContext);
         }
-        public async Task AddAsync(TemporizadorDTO temporizadorDTO, bool Enable)
+        public async Task AddAsync(Temporizador temporizador, bool Enable)
         {
-            Temporizador temporizador = temporizadorDTO.BuildModel();
             temporizador.Enable = Enable;
             await repositoryTemporizador.AddAsync(temporizador);
             await repositoryTemporizador.SaveChangesAsync();
@@ -50,17 +49,10 @@ namespace Services.Impls
             return listT;
         }
 
-        public async Task SetEnable(string Id, bool status)
+        public async Task SetEnable(string UserId, bool status)
         {
-            Temporizador temp = await repositoryTemporizador.FindAsync(t => t.Id == Id);
-            temp.Enable = status;
-            await repositoryTemporizador.UpdateAsync(temp, temp.Id);
-            await repositoryTemporizador.SaveChangesAsync();
-        }
-
-        public async Task SetEnable(IEnumerable<Temporizador> lst, bool status)
-        {
-            foreach(Temporizador t in lst)
+            IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.UserId == UserId);
+            foreach(Temporizador t in list)
             {
                 t.Enable = status;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);

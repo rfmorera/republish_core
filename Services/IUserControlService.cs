@@ -23,6 +23,5 @@ namespace Services
 
         Task RecargarCliente(RecargaDTO recargaDTO);
         Task CheckOutCeroBalanceAccount();
-        Task SetEnableTemporizadores(string UserId, bool status);
     }
 }
