@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,5 +45,9 @@ namespace Models
         [Required]
         public string GrupoId { get; set; }
         public Grupo Grupo { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
     }
 }
