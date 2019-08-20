@@ -69,7 +69,7 @@ namespace Republish
             ConfigureConnections(services);
 
             services.AddHostedService<TemporizadoresTimer>();
-            services.AddHostedService<DisableTimer>();
+            services.AddHostedService<FacturarTimer>();
 
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
