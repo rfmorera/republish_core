@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,26 +10,30 @@ using System.Threading.Tasks;
 
 namespace Services.BackgroundTasks
 {
-    public class TemporizadoresTimer : IHostedService, IDisposable
+    public class FacturarTimer : IHostedService, IDisposable
     {
         private Timer _timer;
         private readonly ILogger _logger;
+        public IServiceProvider Services { get; }
 
-        public TemporizadoresTimer(IServiceProvider services,
+        public FacturarTimer(IServiceProvider services,
             ILogger<TemporizadoresTimer> logger)
         {
             Services = services;
             _logger = logger;
         }
 
-        public IServiceProvider Services { get; }
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is starting.");
+                "FacturarTimer Service Hosted Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
+            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(45), TimeSpan.FromSeconds(45));
 
             return Task.CompletedTask;
         }
@@ -44,9 +49,9 @@ namespace Services.BackgroundTasks
                 {
                     var scopedProcessingService =
                         scope.ServiceProvider
-                            .GetRequiredService<IChequerService>();
+                            .GetRequiredService<IUserControlService>();
 
-                    IAsyncResult asyncResult = scopedProcessingService.CheckAllTemporizadores();
+                    IAsyncResult asyncResult = scopedProcessingService.CheckOutCeroBalanceAccount();
                     WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
                     waitHandle.WaitOne();
                 }
@@ -55,21 +60,16 @@ namespace Services.BackgroundTasks
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error en TemporizadoresTimer");
+                _logger.LogError(ex, $"Error en FacturarTimer \n{ex.ToExceptionString()}");
             }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is stopping.");
+                "FacturarTimer Service Hosted Service is stopping.");
 
             return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }
