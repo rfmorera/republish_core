@@ -24,9 +24,10 @@ namespace Services.Impls
         private readonly IQueueService _queueService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
+        private readonly IAnuncioService _anuncioService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
@@ -35,6 +36,7 @@ namespace Services.Impls
             _queueService = queueService;
             _captchaService = captchaService;
             _registroService = registroService;
+            _anuncioService = anuncioService;
         }
 
         public async Task<string> CheckAllTemporizadores()
@@ -95,7 +97,13 @@ namespace Services.Impls
                     _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     string KeyCaptcha = (await _captchaService.GetCaptchaKeyAsync()).Id;
-                    await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
+                    List<Task> tasksList = new List<Task>();
+                    foreach(AnuncioDTO an in listAnuncios)
+                    {
+                        tasksList.Add(_anuncioService.Publish(an.Url, KeyCaptcha));
+                    }
+                    //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
+                    await Task.WhenAll(tasksList);
                 }
             }
             catch(Exception ex)

@@ -15,6 +15,7 @@ using System.Threading;
 using HtmlAgilityPack;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
+using Services.Extensions;
 
 namespace Services.Impls
 {
@@ -29,7 +30,7 @@ namespace Services.Impls
             _log = log;
         }
 
-        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService>log)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
@@ -87,7 +88,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                //_log.LogError("Get Anuncio " + ex.ToString());
+                _log.LogError("Get Anuncio " + ex.ToExceptionString());
                 return;
             }
 
@@ -138,7 +139,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                //_log.LogError("Rellenando Collection " + ex.ToString());
+                _log.LogError("Rellenando Collection " + ex.ToExceptionString());
                 return;
             }
 
@@ -204,7 +205,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                //_log.LogError("Solving Captcha " + ex.ToString());
+                _log.LogError("Solving Captcha " + ex.ToExceptionString());
                 return;
             }
 
@@ -362,7 +363,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                //_log.LogError("Actualizando Anuncio " + ex.ToString());
+                _log.LogError("Actualizando Anuncio " + ex.ToExceptionString());
                 return;
             }
         }
