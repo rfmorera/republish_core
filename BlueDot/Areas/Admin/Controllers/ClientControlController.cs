@@ -17,13 +17,11 @@ namespace RepublishTool.Areas.Admin.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserControlService _userControlService;
-        private readonly IManejadorFinancieroService _financieroService;
 
-        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService)
+        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService)
         {
             _userControlService = userControlService;
             _userManager = userManager;
-            _financieroService = financieroService;
         }
 
         public async Task<IActionResult> Index()
@@ -57,7 +55,7 @@ namespace RepublishTool.Areas.Admin.Controllers
             IdentityUser user = await _userManager.GetUserAsync(User);
 
             RecargaDTO r = new RecargaDTO(user.Id, ClientId, ValorRecarga);
-            await _financieroService.RecargarUsuario(r);
+            await _userControlService.RecargarCliente(r);
             return await BuildPartialView();
         }
 

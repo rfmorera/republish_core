@@ -21,9 +21,10 @@ namespace RepublishTool.Areas.Client.Controllers
         private readonly IAnuncioService _anuncioService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IChequerService _chequerService;
+        private readonly IManejadorFinancieroService _financieroService;
         readonly ILogger<GrupoController> _log;
 
-        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService, IChequerService chequerService, ILogger<GrupoController> log)
+        public GrupoController(UserManager<IdentityUser> userManager, IGrupoService grupoService, IAnuncioService anuncioService, ITemporizadorService temporizadorService, IChequerService chequerService, ILogger<GrupoController> log, IManejadorFinancieroService financieroService)
         {
             _grupoService = grupoService;
             _userManager = userManager;
@@ -31,6 +32,7 @@ namespace RepublishTool.Areas.Client.Controllers
             _temporizadorService = temporizadorService;
             _chequerService = chequerService;
             _log = log;
+            _financieroService = financieroService;
         }
 
         public async Task<IActionResult> Index()
@@ -49,7 +51,6 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(GrupoIndexDTO grupoIndexDTO)
         {
-
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
             grupoIndexDTO.UserId = user.Id;
             await _grupoService.AddAsync(grupoIndexDTO);
@@ -93,7 +94,8 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
-            await _temporizadorService.AddAsync(dTO);
+            IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
+            await _temporizadorService.AddAsync(dTO, await _financieroService.HasBalance(user.Id));
 
             return await BuildPartialDetailsView(dTO.GrupoId);
         }
