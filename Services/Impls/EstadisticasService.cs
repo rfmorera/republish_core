@@ -62,7 +62,7 @@ namespace Services.Impls
         {
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             List<EstadisticaDiario> last7Days = new List<EstadisticaDiario>(7);
-            for(int i = 0; i < 7; i++)
+            for(int i = 6; i >= 0; i--)
             {
                 last7Days.Add(await GetDiarioDetail(user, UtcCuba.AddDays(-i)));
             }
