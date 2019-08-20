@@ -49,31 +49,47 @@ namespace Services.Impls
             await _unitOfWork.Cuenta.AddAsync(c);
         }
 
-        public async Task FacturarRegistros()
+        public async Task<IEnumerable<string>> FacturarRegistros()
         {
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             IEnumerable<Registro> lst = (await _unitOfWork.Registro.FindAllAsync(t => t.Facturado == false)).OrderBy(r => r.UserId);
 
             Cuenta ct = null;
-
+            List<string> CeroBalanceUsers = new List<string>();
+            bool flag = false;
+            
             foreach(Registro rg in lst)
             {
                 if(ct is null || ct.UserId != rg.UserId)
                 {
+                    flag = false;
                     ct = await _unitOfWork.Cuenta.FindAsync(c => c.UserId == rg.UserId);
                 }
 
                 ct.Saldo -= rg.Gasto;
                 rg.Facturado = true;
                 ct.LastUpdate = UtcCuba;
+
+                if(!flag && ct.Saldo < 0)
+                {
+                    CeroBalanceUsers.Add(ct.UserId);
+                    flag = true;
+                }
             }
 
             await _unitOfWork.SaveChangesAsync();
+            return CeroBalanceUsers;
         }
 
         public async Task<Cuenta> GetCuenta(string UserId)
         {
             return (await _unitOfWork.Cuenta.FindAsync(t => t.UserId == UserId));
+        }
+
+        public async Task<bool> HasBalance(string UserId)
+        {
+            Cuenta ct = await GetCuenta(UserId);
+            return ct.Saldo > 0;
         }
     }
 }

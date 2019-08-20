@@ -17,13 +17,17 @@ namespace Services.Impls
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEstadisticasService _estadisticasService;
+        private readonly IGrupoService _grupoService;
+        private readonly ITemporizadorService _temporizadorService;
         private readonly IManejadorFinancieroService _financieroService;
         
-        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService)
+        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService, IGrupoService grupoService, ITemporizadorService temporizadorService)
         {
             _userManager = userManager;
             _estadisticasService = estadisticasService;
             _financieroService = financieroService;
+            _grupoService = grupoService;
+            _temporizadorService = temporizadorService;
         }
 
         public async Task<IdentityResult> AddAdmin(IdentityUser user)
@@ -82,7 +86,33 @@ namespace Services.Impls
 
         public async Task CheckOutCeroBalanceAccount()
         {
-            await _financieroService.FacturarRegistros();
+            IEnumerable<string> list = await _financieroService.FacturarRegistros();
+            List<Task> tasksList = new List<Task>();
+            foreach(string UserId in list)
+            {
+                tasksList.Add(SetEnableTemporizadores(UserId, false));
+            }
+
+            await Task.WhenAll(tasksList);
+        }
+
+        public async Task SetEnableTemporizadores(string UserId, bool status)
+        {
+            IEnumerable<GrupoIndexDTO> grupos = await _grupoService.GetAllAsync(UserId);
+            List<Task> taskList = new List<Task>();
+            foreach (GrupoIndexDTO g in grupos)
+            {
+                IEnumerable<Temporizador> list = await _temporizadorService.GetByGroup(g.Id);
+                taskList.Add(_temporizadorService.SetEnable(list, status));
+            }
+
+            await Task.WhenAll(taskList);
+        }
+
+        public async Task RecargarCliente(RecargaDTO recargaDTO)
+        {
+            await _financieroService.RecargarUsuario(recargaDTO);
+            await SetEnableTemporizadores(recargaDTO.ClientId, true);
         }
     }
 }

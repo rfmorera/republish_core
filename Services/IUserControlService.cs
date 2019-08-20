@@ -21,6 +21,8 @@ namespace Services
 
         Task<ClientDashboard> GetDashboard(IdentityUser user);
 
+        Task RecargarCliente(RecargaDTO recargaDTO);
         Task CheckOutCeroBalanceAccount();
+        Task SetEnableTemporizadores(string UserId, bool status);
     }
 }

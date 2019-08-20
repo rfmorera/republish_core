@@ -13,6 +13,7 @@ namespace Services
         Task RecargarUsuario(RecargaDTO recargaDTO);
         Task<double> GetSaldo(string UserId);
         Task<Cuenta> GetCuenta(string UserId);
-        Task FacturarRegistros();
+        Task<IEnumerable<string>> FacturarRegistros();
+        Task<bool> HasBalance(string UserId);
     }
 }
