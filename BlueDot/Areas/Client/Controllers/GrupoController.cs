@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using Services;
 using Services.DTOs;
 
@@ -95,7 +96,8 @@ namespace RepublishTool.Areas.Client.Controllers
         public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            await _temporizadorService.AddAsync(dTO, await _financieroService.HasBalance(user.Id));
+            Temporizador t = dTO.BuildModel(user);
+            await _temporizadorService.AddAsync(t, await _financieroService.HasBalance(user.Id));
 
             return await BuildPartialDetailsView(dTO.GrupoId);
         }
