@@ -11,7 +11,7 @@ namespace BlueDot.Data.Migrations
                 name: "Enable",
                 table: "Temporizador",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: true);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastUpdate",
