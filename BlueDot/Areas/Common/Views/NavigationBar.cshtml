@@ -10,7 +10,7 @@
         <li style="padding:20px">
             <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Bienvenido a Republish Tool.</span>
         </li>
-        <li>
+        <li id="CerrarSesion">
             <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
                 <button type="submit" class="form-link"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
             </form>

@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="~/css/common/switch.min.css" asp-append-version="true" />
     <environment include="Development">
         <link rel="stylesheet" href="~/css/common/dataTables.editor_custom.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/common/dataTables.editor_custom.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.min.css" asp-append-version="true" />
     </environment>
 }
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -29,14 +31,26 @@
     <div class="col-lg-2">
     </div>
 </div>
-
+<div class="widget blue-bg p-lg text-center">
+    <div class="m-b-md">
+        <i class="fa fa-binoculars fa-4x"></i>
+        <h1 class="m-xs">Recorrido Inicial</h1>
+        <h3 class="font-bold no-margins">
+            Conozca la página Grupos!
+        </h3>
+        <small>Tutorial interactivo</small>
+        <div class=" m-t-sm">
+            <a href="#" class="btn btn-danger startTour"><i class="fa fa-play"></i> Iniciar Recorrido</a>
+        </div>
+    </div>
+</div>
 <!-- Content -->
 <div class="wrapper wrapper-content animated fadeIn" style="animation-delay: 0.4s;">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-content">
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Grupo</a>
+                <div iclass="ibox-content">
+                    <a id="btnAddGrupo" href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Grupo</a>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
@@ -54,8 +68,8 @@
                                 {
                                     <tr class="gradeX">
                                         <td>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="Details" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="Delete" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a id="btnDetails" asp-area="Client" asp-controller="Grupo" asp-action="Details" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Detalles"></i></a>
+                                            <a id="btnEliminar" asp-area="Client" asp-controller="Grupo" asp-action="Delete" asp-route-GrupoId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             <div class="onoffswitch">
@@ -140,10 +154,90 @@
     <environment include="Development">
         <script src="~/js/common/modal.js"></script>
         <script src="~/js/Client/Grupo/index.js"></script>
+        <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
         <script src="~/js/Client/Grupo/index.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.min.js" asp-append-version="true"></script>
     </environment>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Instance the tour
+            var tour = new Tour({
+                steps: [{
+
+                    element: ".page-heading",
+                    title: "Barra de Navegación",
+                    content: "Muestra la ubicación de la página actual.",
+                    placement: "bottom",
+                    backdrop: true,
+                    backdropContainer: '#wrapper',
+                    onShown: function (tour) {
+                        $('body').addClass('tour-open')
+                    },
+                    onHidden: function (tour) {
+                        $('body').removeClass('tour-close')
+                    }
+                },
+                {
+                    element: "#btnAddGrupo",
+                    title: "Añadir Grupo",
+                    content: "Permite crear un grupo, dentro del cual usted puede crear los anuncios y temporizadores.",
+                    placement: "right",
+                    backdrop: true,
+                    backdropContainer: '#wrapper',
+                    onShown: function (tour) {
+                        $('body').addClass('tour-open')
+                    },
+                    onHidden: function (tour) {
+                        $('body').removeClass('tour-close')
+                    }
+                },
+                {
+                    element: "#btnDetails",
+                    title: "Detalles de Grupo",
+                    content: "Puede acceder a los detalles del grupo para añadir nuevos anuncios y configurar los temorizadores",
+                    placement: "right",
+                    backdrop: true,
+                    backdropContainer: '#wrapper',
+                    onShown: function (tour) {
+                        $('body').addClass('tour-open')
+                    },
+                    onHidden: function (tour) {
+                        $('body').removeClass('tour-close')
+                    }
+                },
+                {
+                    element: "#btnEliminar",
+                    title: "Eliminar Grupo",
+                    content: "Elimina el grupo seleccionado.",
+                    placement: "left",
+                    backdrop: true,
+                    backdropContainer: '#wrapper',
+                    onShown: function (tour) {
+                        $('body').addClass('tour-open')
+                    },
+                    onHidden: function (tour) {
+                        $('body').removeClass('tour-close')
+                    }
+                }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            $('.startTour').click(function () {
+                tour.restart();
+
+                // Start the tour
+                // tour.start();
+            })
+
+        });
+
+    </script>
 }

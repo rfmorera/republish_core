@@ -1,6 +1,6 @@
 ﻿@model bool
 
-@{ 
+@{
     bool? status = null;
     if (Model)
     {
@@ -15,3 +15,11 @@
         <span class="onoffswitch-switch"></span>
     </label>
 </div>
+@if (status.HasValue)
+{
+    <h5>Los temporizadores están habilitados para ejecutarse.</h5>
+}
+else
+{
+    <h5>La ejecución de los temporizadores se encuentra interrumpida.</h5>
+}

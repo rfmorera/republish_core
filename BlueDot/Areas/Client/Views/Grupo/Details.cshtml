@@ -6,10 +6,16 @@
     <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/dataTables/dataTables.bootstrap4.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/clockpicker/clockpicker.min.css" asp-append-version="true" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.min.css" asp-append-version="true" />
+    </environment>
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+    <div class="col-lg-9">
         <h2>@Model.Nombre</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -23,7 +29,18 @@
             </li>
         </ol>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-3">
+        <div class="widget blue-bg text-center">
+            <div class="">
+                <i class="fa fa-binoculars fa-1x"></i>
+                @*<h3 class="m-xs">Recorrido Inicial</h3>*@
+                @*<h3 class="font-bold no-margins">
+                        Conozca la página Grupos!
+                    </h3>
+                    <small>Tutorial interactivo</small>*@
+                <a href="#" class="btn btn-danger startTour" style="margin-left: 10px;"><i class="fa fa-play"></i> Iniciar Recorrido</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -32,13 +49,13 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-content">
+                <div class="ibox-title">
+                    <h3>Temporizadores</h3><br>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
-                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
-                    <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary">Añadir Temporizador</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary" id="btnAddTemporizador">Añadir Temporizador</a>
                 </div>
                 <div class="ibox-content">
-                    <h3>Temporizadores</h3>
                     <div class="table-responsive">
                         <table id="dataTables-table-temporizador" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
@@ -70,19 +87,23 @@
                         </table>
                     </div>
                 </div>
-                <div class="ibox-content">
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h3>Anuncios</h3><br>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
-                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-danger delete-all-anuncios-button" data-form-id="delete-form">Eliminar Anuncios</a>
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Enlaces</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-anuncios-button" data-form-id="delete-form">Eliminar Anuncios</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary" id="btnAddAnuncios">Añadir Anuncios</a>
                 </div>
                 <div class="ibox-content">
-                    <h3>Anuncios</h3>
                     <div class="table-responsive">
                         <table id="dataTables-table" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
                                     <th width="10%">Acciones</th>
-                                    <th width="5%">Estado</th>
+                                    @*<th width="5%">Estado</th>*@
                                     <th width="50%">Url</th>
                                 </tr>
                             </thead>
@@ -94,16 +115,16 @@
                                             <a href="@item.Url" target="_blank" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visitar"></i></a>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
-                                        <td>
-                                            @if (item.Caducado)
-                                            {
-                                                <span class="badge badge-warning">Caducado</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-primary">Activo</span>
-                                            }
-                                        </td>
+                                        @*<td>
+                                                @if (item.Caducado)
+                                                {
+                                                    <span class="badge badge-warning">Caducado</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-primary">Activo</span>
+                                                }
+                                            </td>*@
                                         <td>
                                             @item.Url
                                         </td>
@@ -179,10 +200,76 @@
     <environment include="Development">
         <script src="~/js/common/modal.js"></script>
         <script src="~/js/Client/Grupo/details.js"></script>
+        <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
         <script src="~/js/Client/Grupo/details.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.min.js" asp-append-version="true"></script>
     </environment>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Instance the tour
+            var tour = new Tour({
+                steps: [
+                    //{
+                    //    element: ".startTour",
+                    //    title: "Pasos Iniciales",
+                    //    content: "A continuación mostraremos como configurar un grupo por primera vez, creando un temporizador y añadiendo anuncios al grupo.",
+                    //    placement: "left",
+                    //    backdrop: true,
+                    //    backdropContainer: '#wrapper',
+                    //    onShown: function (tour) {
+                    //        $('body').addClass('tour-open')
+                    //    },
+                    //    onHidden: function (tour) {
+                    //        $('body').removeClass('tour-close')
+                    //    }
+                    //},
+                    {
+                        element: "#btnAddTemporizador",
+                        title: "Añadir temporizador",
+                        content: "Los temporizadores controlan los horarios de actualización de los anuncios. Al dar click sobre el botón aparecerá una ventana para añadir un nuevo temporiador.",
+                        placement: "bottom",
+                        backdrop: true,
+                        backdropContainer: '#wrapper',
+                        onShown: function (tour) {
+                            $('body').addClass('tour-open')
+                        },
+                        onHidden: function (tour) {
+                            $('body').removeClass('tour-close')
+                        }
+                    },
+                    {
+                        element: "#btnAddAnuncios",
+                        title: "Añadir anuncios",
+                        content: "Al dar presionar el botón aparecerá una ventana donde debe pegar el enlace de modificar el anuncio que fue provisto por Revolico. Estos anuncios serán actualizados acorde a la configuración de los temporizadores del grupo.",
+                        placement: "left",
+                        backdrop: true,
+                        backdropContainer: '#wrapper',
+                        onShown: function (tour) {
+                            $('body').addClass('tour-open')
+                        },
+                        onHidden: function (tour) {
+                            $('body').removeClass('tour-close')
+                        }
+                    }
+                ]
+            });
+
+            // Initialize the tour
+            tour.init();
+
+            $('.startTour').click(function () {
+                tour.restart();
+
+                // Start the tour
+                // tour.start();
+            })
+
+        });
+
+    </script>
 }
