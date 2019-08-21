@@ -16,12 +16,15 @@ namespace RepublishTool.Areas.Client.Controllers
     {
         private readonly IRegistroService _registroService;
         private readonly IUserControlService _userControlService;
+        private readonly ITemporizadorService _temporizadorService;
         private readonly UserManager<IdentityUser> _userManager;
-        public DefaultController(UserManager<IdentityUser> userManager, IRegistroService registroService, IUserControlService userControlService)
+
+        public DefaultController(UserManager<IdentityUser> userManager, IRegistroService registroService, IUserControlService userControlService, ITemporizadorService temporizadorService)
         {
             _registroService = registroService;
             _userManager = userManager;
             _userControlService = userControlService;
+            _temporizadorService = temporizadorService;
         }
 
         public async Task<IActionResult> Index()
@@ -29,6 +32,14 @@ namespace RepublishTool.Areas.Client.Controllers
             IdentityUser user = await _userManager.GetUserAsync(User);
             ClientDashboard dashboard = await _userControlService.GetDashboard(user);
             return View(dashboard);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TemporizadorUserEnable()
+        {
+            IdentityUser user = await _userManager.GetUserAsync(User);
+            bool UserEnable = await _temporizadorService.ToogleUserEnable(user.Id);
+            return PartialView("~/Areas/Common/Views/onoffswitch.cshtml", UserEnable);
         }
     }
 }
