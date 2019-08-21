@@ -81,6 +81,11 @@ namespace Republish.Data
 
                 entity.HasIndex(c => c.UserId);
             });
+
+            builder.Entity<ClienteOpciones>(entity =>
+            {
+                entity.HasKey("Id");
+            });
         }
     }
 }
