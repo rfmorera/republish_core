@@ -88,7 +88,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Get Anuncio " + ex.ToExceptionString());
+                //_log.LogError("Get Anuncio " + ex.ToExceptionString());
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Rellenando Collection " + ex.ToExceptionString());
+                //_log.LogError("Rellenando Collection " + ex.ToExceptionString());
                 return;
             }
 
@@ -205,7 +205,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Solving Captcha " + ex.ToExceptionString());
+                //_log.LogError("Solving Captcha " + ex.ToExceptionString());
                 return;
             }
 
@@ -363,7 +363,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Actualizando Anuncio " + ex.ToExceptionString());
+                //_log.LogError("Actualizando Anuncio " + ex.ToExceptionString());
                 return;
             }
         }

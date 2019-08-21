@@ -43,6 +43,10 @@ namespace Services.DTOs
 
         public Temporizador BuildModel(IdentityUser user)
         {
+            if (!Lunes && !Martes && !Miercoles && !Jueves && !Viernes && !Sabado && !Domingo)
+            {
+                Lunes = Martes = Miercoles = Jueves = Viernes = Sabado = Domingo = true;
+            }
             Temporizador t = new Temporizador();
             t.Id = Id;
             t.Nombre = Nombre;
@@ -89,7 +93,7 @@ namespace Services.DTOs
                 }
                 if (Miercoles)
                 {
-                    tmp += "Mi,";
+                    tmp += "Mi, ";
                 }
                 if (Jueves)
                 {

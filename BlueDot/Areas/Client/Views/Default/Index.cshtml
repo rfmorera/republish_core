@@ -191,7 +191,7 @@
         });
 
         function InitializeDiario() {
-            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+            initializeChart(@diario.Gasto, @Html.Raw(diario.ToStringLabels()), @diario.ToStringGastos(), @diario.ToStringAnuncios());
         }
 
         function InitializeSemanal() {
