@@ -9,7 +9,7 @@ namespace Services.DTOs.Registro
     {
         public CuentaDTO(Cuenta ct)
         {
-            Saldo = ct.Saldo;
+            Saldo = Math.Round(ct.Saldo, 3);
             LastUpdate = ct.LastUpdate;
         }
         public double Saldo { get; }

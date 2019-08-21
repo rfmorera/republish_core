@@ -11,7 +11,7 @@ namespace Services.DTOs.Registro
         public EstadisticaDiario(IEnumerable<Models.Registro> registros, DateTime utcCuba)
         {
             Total = registros.Sum(r => r.CaptchasResuletos);
-            Gasto = registros.Sum(r => r.Gasto);
+            Gasto = Math.Round(registros.Sum(r => r.Gasto), 3);
             registros = registros.OrderBy(r => r.DateCreated);
             
             List<IGrouping<int, Models.Registro>> groups = registros.GroupBy(r => r.DateCreated.Hour).ToList();

@@ -53,7 +53,7 @@ namespace Services.Impls
             days.Add(await GetDiarioDetail(user, UtcCuba));
 
             int tot = days.Sum(r => r.Total);
-            double gasto = days.Sum(r => r.Gasto);
+            double gasto = Math.Round(days.Sum(r => r.Gasto), 3);
             EstadisticaMensual mes = new EstadisticaMensual(days, tot, gasto);
             return mes;
         }
@@ -68,7 +68,7 @@ namespace Services.Impls
             }
 
             int total = last7Days.Sum(d => d.Total);
-            double gasto = last7Days.Sum(d => d.Gasto);
+            double gasto = Math.Round(last7Days.Sum(d => d.Gasto), 3);
             EstadisticaSemanal semana = new EstadisticaSemanal(last7Days, total, UtcCuba, gasto);
 
             return semana;
