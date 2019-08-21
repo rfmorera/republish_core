@@ -1,0 +1,17 @@
+﻿@model bool
+
+@{ 
+    bool? status = null;
+    if (Model)
+    {
+        status = true;
+    }
+}
+
+<div class="onoffswitch">
+    <input type="checkbox" checked="@(status)" class="onoffswitch-checkbox" id="TemporizadoresEnable" data-form-id="temporizadores-form" />
+    <label class="onoffswitch-label" for="TemporizadoresEnable">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>

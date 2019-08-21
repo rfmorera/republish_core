@@ -1,7 +1,6 @@
 ﻿$(document).ready(initializePage);
 
 function initializePage() {
-
     $(".btn-group.estadistica > #Diario").on("click", function () {
         ButtonCommon(this);
         InitializeDiario();
@@ -81,4 +80,16 @@ function initializeChart(gastoTotal, labels, gastos, anuncios) {
     
     var ctx = document.getElementById("lineChart").getContext("2d");
     new Chart(ctx, { type: 'line', data: data, options: lineOptions });
+}
+
+function showTemporizadoresConfirmationPopup(form, estado, detail) {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea " + estado + " los temporizadores. " + detail ,
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        form.submit();
+    });
 }
