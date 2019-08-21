@@ -11,7 +11,7 @@ namespace Models
         [Key]
         public string Id { get; set; }
 
-        public bool TemporizadoresSystemEnable { get; set; }
+        public bool TemporizadoresUserEnable { get; set; }
 
         [Required]
         public string UserId { get; set; }
