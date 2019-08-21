@@ -352,5 +352,29 @@
     "inputFiles": [
       "wwwroot/js/Client/Default/index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap-tour/css/bootstrap-tour.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap-tour/css/bootstrap-tour.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap-tour/css/bootstrap-tour-standalone.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap-tour/css/bootstrap-tour-standalone.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap-tour/js/bootstrap-tour.min.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap-tour/js/bootstrap-tour.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap-tour/js/bootstrap-tour-standalone.min.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"
+    ]
   }
 ]
