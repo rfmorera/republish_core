@@ -17,6 +17,7 @@ namespace Services
 
         Task DeleteAllByGroup(string GrupoId);
 
-        Task SetEnable(string UserId, bool SystemEnable);
+        Task SetSystemEnable(string UserId, bool SystemEnable);
+        Task<bool> ToogleUserEnable(string UserId);
     }
 }

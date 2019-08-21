@@ -20,14 +20,16 @@ namespace Services.Impls
         private readonly IGrupoService _grupoService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IManejadorFinancieroService _financieroService;
+        private readonly IClienteOpcionesService _opcionesService;
         
-        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService, IGrupoService grupoService, ITemporizadorService temporizadorService)
+        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService, IGrupoService grupoService, ITemporizadorService temporizadorService, IClienteOpcionesService opcionesService)
         {
             _userManager = userManager;
             _estadisticasService = estadisticasService;
             _financieroService = financieroService;
             _grupoService = grupoService;
             _temporizadorService = temporizadorService;
+            _opcionesService = opcionesService;
         }
 
         public async Task<IdentityResult> AddAdmin(IdentityUser user)
@@ -79,8 +81,9 @@ namespace Services.Impls
             EstadisticaMensual mensual = await _estadisticasService.GetMensual(user);
 
             Cuenta cnt = await _financieroService.GetCuenta(user.Id);
+            ClienteOpciones opt = await _opcionesService.GetOpciones(user.Id);
 
-            ClientDashboard dashboard = new ClientDashboard(cnt, dia, semana, mensual);
+            ClientDashboard dashboard = new ClientDashboard(cnt, dia, semana, mensual, opt);
             return dashboard;
         }
 
@@ -90,7 +93,7 @@ namespace Services.Impls
             List<Task> tasksList = new List<Task>();
             foreach(string UserId in listUsers)
             {
-                tasksList.Add(_temporizadorService.SetEnable(UserId, false));
+                tasksList.Add(_temporizadorService.SetSystemEnable(UserId, false));
             }
 
             await Task.WhenAll(tasksList);
@@ -99,7 +102,7 @@ namespace Services.Impls
         public async Task RecargarCliente(RecargaDTO recargaDTO)
         {
             await _financieroService.RecargarUsuario(recargaDTO);
-            await _temporizadorService.SetEnable(recargaDTO.ClientId, true);
+            await _temporizadorService.SetSystemEnable(recargaDTO.ClientId, true);
         }
     }
 }

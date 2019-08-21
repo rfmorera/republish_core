@@ -15,14 +15,18 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Temporizador> repositoryTemporizador;
-        public TemporizadorService(ApplicationDbContext dbContext)
+        private readonly IClienteOpcionesService _opcionesService;
+        public TemporizadorService(ApplicationDbContext dbContext, IClienteOpcionesService opcionesService)
         {
             _dbContext = dbContext;
             repositoryTemporizador = new Repository<Temporizador>(dbContext);
+            _opcionesService = opcionesService;
         }
+
         public async Task AddAsync(Temporizador temporizador, bool SystemEnable)
         {
             temporizador.SystemEnable = SystemEnable;
+            temporizador.UserEnable = await _opcionesService.TemporizadorStatus(temporizador.UserId);
             await repositoryTemporizador.AddAsync(temporizador);
             await repositoryTemporizador.SaveChangesAsync();
         }
@@ -49,7 +53,7 @@ namespace Services.Impls
             return listT;
         }
 
-        public async Task SetEnable(string UserId, bool SystemEnable)
+        public async Task SetSystemEnable(string UserId, bool SystemEnable)
         {
             IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.UserId == UserId);
             foreach(Temporizador t in list)
@@ -58,6 +62,22 @@ namespace Services.Impls
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
             await repositoryTemporizador.SaveChangesAsync();
+        }
+
+        public async Task<bool> ToogleUserEnable(string UserId)
+        {
+            bool UserEnable = !(await _opcionesService.TemporizadorStatus(UserId));
+            await _opcionesService.TemporizadorStatus(UserId, UserEnable);
+
+            IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.UserId == UserId && t.UserEnable != UserEnable);
+            foreach (Temporizador t in list)
+            {
+                t.UserEnable = UserEnable;
+                await repositoryTemporizador.UpdateAsync(t, t.Id);
+            }
+            await repositoryTemporizador.SaveChangesAsync();
+
+            return UserEnable;
         }
     }
 }

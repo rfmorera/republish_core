@@ -65,7 +65,7 @@ namespace Services.DTOs
 
             t.GrupoId = GrupoId;
             t.UserId = user.Id;
-
+            t.Enable = true;
             return t;
         }
 
