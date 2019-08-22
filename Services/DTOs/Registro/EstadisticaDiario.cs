@@ -56,6 +56,7 @@ namespace Services.DTOs.Registro
         {
             int len = Horas.Length, val;
             string tmp = "[";
+
             for(int i = 0; i < len; i++)
             {
                 val = Horas[i];
