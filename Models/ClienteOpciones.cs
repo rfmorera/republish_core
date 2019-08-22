@@ -8,6 +8,11 @@ namespace Models
 {
     public class ClienteOpciones
     {
+        public ClienteOpciones(string UserId)
+        {
+            this.UserId = UserId;
+            TemporizadoresUserEnable = true;
+        }
         [Key]
         public string Id { get; set; }
 

@@ -15,6 +15,8 @@ namespace Republish.Data
         {
         }
 
+        
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -62,7 +64,7 @@ namespace Republish.Data
             builder.Entity<CaptchaKeys>(entity =>
             {
                 entity.HasKey("Id");
-
+                entity.HasData(new CaptchaKeys("none"));
             });
 
             builder.Entity<Registro>(entity =>

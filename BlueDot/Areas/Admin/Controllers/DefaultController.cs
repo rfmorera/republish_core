@@ -31,8 +31,15 @@ namespace Republish.Areas.Admin.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Init()
         {
-            await _dbContext.Roles.AddAsync(new IdentityRole(RTRoles.Admin));
-            await _dbContext.Roles.AddAsync(new IdentityRole(RTRoles.Client));
+            IdentityRole ad = new IdentityRole(RTRoles.Admin);
+            ad.NormalizedName = RTRoles.Admin.ToUpper();
+            await _dbContext.Roles.AddAsync(ad);
+
+            IdentityRole cl = new IdentityRole(RTRoles.Client);
+            cl.NormalizedName = RTRoles.Client.ToUpper();
+            await _dbContext.Roles.AddAsync(cl);
+            
+            await _dbContext.AddAsync(new CaptchaKeys("none"));
 
             IdentityUser raf = new IdentityUser("rfmorera@gmail.com");
             await _userManager.CreateAsync(raf, "Ciber*2019");
@@ -41,6 +48,7 @@ namespace Republish.Areas.Admin.Controllers
 
             await _userManager.AddToRoleAsync(raf, RTRoles.Admin);
 
+            await _dbContext.SaveChangesAsync();
             return Ok();
         }
     }

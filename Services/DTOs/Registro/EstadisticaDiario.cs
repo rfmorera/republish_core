@@ -56,22 +56,25 @@ namespace Services.DTOs.Registro
         {
             int len = Horas.Length, val;
             string tmp = "[";
-
-            for(int i = 0; i < len; i++)
+            if(len > 0)
             {
-                val = Horas[i];
-                if(val > 12)
+                for (int i = 0; i < len; i++)
                 {
-                    val -= 12;
-                    tmp += "\"" + val + "pm\",";
+                    val = Horas[i];
+                    if (val > 12)
+                    {
+                        val -= 12;
+                        tmp += "\"" + val + "pm\",";
+                    }
+                    else
+                    {
+                        tmp += "\"" + val + "am\",";
+                    }
+
                 }
-                else
-                {
-                    tmp += "\"" + val + "am\",";
-                }
-                
+                tmp = tmp.Substring(0, tmp.Length - 1);
             }
-            tmp = tmp.Substring(0, tmp.Length-1) + "]";
+            tmp += "]";
             return tmp;
         }
     }

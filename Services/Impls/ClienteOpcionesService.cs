@@ -19,6 +19,13 @@ namespace Services.Impls
             repository = new Repository<ClienteOpciones>(context);
         }
 
+        public async Task InicializarUsuario(string UserId)
+        {
+            ClienteOpciones opciones = new ClienteOpciones(UserId);
+            await repository.AddAsync(opciones);
+            await repository.SaveChangesAsync();
+        }
+
         public async Task<ClienteOpciones> GetOpciones(string UserId)
         {
             return await repository.FindAsync(o => o.UserId == UserId);

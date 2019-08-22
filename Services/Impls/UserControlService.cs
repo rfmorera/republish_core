@@ -34,12 +34,13 @@ namespace Services.Impls
 
         public async Task<IdentityResult> AddAdmin(IdentityUser user)
         {
-            IdentityResult result = await _userManager.CreateAsync(user, "Servicios*2019");
+            IdentityResult result = await _userManager.CreateAsync(user, "Ciber*2019");
             if (!result.Succeeded)
             {
                 return result;
             }
             result = await _userManager.AddToRoleAsync(user, RTRoles.Admin);
+            await _opcionesService.InicializarUsuario(user.Id);
             return result;
         }
 
@@ -51,6 +52,7 @@ namespace Services.Impls
                 return result;
             }
             await _financieroService.InicializarUsuario(user.Id);
+            await _opcionesService.InicializarUsuario(user.Id);
             result = await _userManager.AddToRoleAsync(user, RTRoles.Client);
             return result;
         }

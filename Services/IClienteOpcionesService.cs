@@ -11,5 +11,6 @@ namespace Services
         Task<ClienteOpciones> GetOpciones(string UserId);
         Task<bool> TemporizadorStatus(string UserId);
         Task<bool> TemporizadorStatus(string UserId, bool status);
+        Task InicializarUsuario(string UserId);
     }
 }
