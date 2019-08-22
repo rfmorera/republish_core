@@ -36,6 +36,7 @@ namespace Republish.Areas.Admin.Controllers
 
             IdentityUser raf = new IdentityUser("rfmorera@gmail.com");
             await _userManager.CreateAsync(raf, "Ciber*2019");
+            
             raf = await _userManager.FindByNameAsync("rfmorera@gmail.com");
 
             await _userManager.AddToRoleAsync(raf, RTRoles.Admin);
