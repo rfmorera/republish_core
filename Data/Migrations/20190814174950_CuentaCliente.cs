@@ -24,7 +24,7 @@ namespace BlueDot.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,8 +34,8 @@ namespace BlueDot.Data.Migrations
                     Id = table.Column<string>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Monto = table.Column<int>(nullable: false),
-                    ClientId = table.Column<string>(nullable: false),
-                    OperardorId = table.Column<string>(nullable: false)
+                    ClientId = table.Column<string>(nullable: true),
+                    OperardorId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,13 +45,13 @@ namespace BlueDot.Data.Migrations
                         column: x => x.ClientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Recarga_AspNetUsers_OperardorId",
                         column: x => x.OperardorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
