@@ -11,6 +11,10 @@ function onDeleteSuccess() {
 }
 
 function initializePage() {
+    $("#HideTour").on("click", function () {
+        onCookieSuccess();
+    });
+
     $('.clockpicker').clockpicker();
     initializeDataTable($("#dataTables-table"));
     initializeDataTable($("#dataTables-table-temporizador"));
@@ -64,5 +68,19 @@ function showConfirmationPopupTemporizadoresCustom(form) {
         showCancelButton: true
     }, function () {
         form.submit();
+    });
+}
+
+function onCookieSuccess() {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea ocultar el tutorial.",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        $("#TourDiv").css("display", "none");
+        document.cookie = "TourGDetails=yes";
+        onAjaxSuccess();
     });
 }

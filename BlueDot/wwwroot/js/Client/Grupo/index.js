@@ -18,6 +18,10 @@ function onDeleteSuccess() {
 function initializePage() {
     initializeDataTable($("#dataTables-table"));
 
+    $("#HideTour").on("click", function () {
+        onCookieSuccess();
+    });
+
     $('#form2').formValidation({
         framework: 'bootstrap',
         icon: {
@@ -34,5 +38,19 @@ function initializePage() {
                 }
             },
         }
+    });
+}
+
+function onCookieSuccess() {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea ocultar el tutorial.",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        $("#TourDiv").css("display", "none");
+        document.cookie = "TourGrupo=yes";
+        onAjaxSuccess();
     });
 }

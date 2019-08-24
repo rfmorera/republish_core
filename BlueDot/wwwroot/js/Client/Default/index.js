@@ -1,6 +1,9 @@
 ﻿$(document).ready(initializePage);
 
 function initializePage() {
+    $("#HideTour").on("click", function () {
+        onCookieSuccess();
+    });
     $(".btn-group.estadistica > #Diario").on("click", function () {
         ButtonCommon(this);
         InitializeDiario();
@@ -33,6 +36,20 @@ function initializePage() {
     $(".bar_dashboard").peity("bar", {
         fill: ["#1ab394", "#d7d7d7"],
         width: 100
+    });
+}
+
+function onCookieSuccess() {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea ocultar el tutorial.",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        $("#TourDiv").css("display", "none");
+        document.cookie = "TourDefault=yes";
+        onAjaxSuccess();
     });
 }
 
