@@ -1,5 +1,7 @@
 ﻿$(document).ready(initializePageCommon);
 
+var DeleteRowId;
+
 function initializePageCommon() {
     $("input.onoffswitch-checkbox").off("click").on("click", function (e) {
         e.preventDefault();
@@ -17,6 +19,7 @@ function initializePageCommon() {
     });
 
     $("a.delete-button").off("click").on("click", function (e) {
+        DeleteRowId = $(this).parent().parent().attr("id");
         e.preventDefault();
         var form = prepareForm($(this));
 

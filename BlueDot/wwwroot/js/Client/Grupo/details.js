@@ -7,17 +7,82 @@ function onAddSuccess() {
 
 function onDeleteSuccess() {
     onAjaxSuccess();
-    initializePage();
+    $("#" + DeleteRowId).remove();
 }
+var DeleteRowId;
 
 function initializePage() {
+    $(function () {
+        $('.footable').footable();
+    });
+
+    $("tr").each(function (index, element) { $(element).attr("id", index) })
+
+    // Instance the tour
+    var tour = new Tour({
+        steps: [
+            //{
+            //    element: ".startTour",
+            //    title: "Pasos Iniciales",
+            //    content: "A continuación mostraremos como configurar un grupo por primera vez, creando un temporizador y añadiendo anuncios al grupo.",
+            //    placement: "left",
+            //    backdrop: true,
+            //    backdropContainer: '#wrapper',
+            //    onShown: function (tour) {
+            //        $('body').addClass('tour-open')
+            //    },
+            //    onHidden: function (tour) {
+            //        $('body').removeClass('tour-close')
+            //    }
+            //},
+            {
+                element: "#btnAddTemporizador",
+                title: "Añadir temporizador",
+                content: "Los temporizadores controlan los horarios de actualización de los anuncios. Al dar click sobre el botón aparecerá una ventana para añadir un nuevo temporiador.",
+                placement: "bottom",
+                backdrop: true,
+                backdropContainer: '#wrapper',
+                onShown: function (tour) {
+                    $('body').addClass('tour-open')
+                },
+                onHidden: function (tour) {
+                    $('body').removeClass('tour-close')
+                }
+            },
+            {
+                element: "#btnAddAnuncios",
+                title: "Añadir anuncios",
+                content: "Al dar presionar el botón aparecerá una ventana donde debe pegar el enlace de modificar el anuncio que fue provisto por Revolico. Estos anuncios serán actualizados acorde a la configuración de los temporizadores del grupo.",
+                placement: "left",
+                backdrop: true,
+                backdropContainer: '#wrapper',
+                onShown: function (tour) {
+                    $('body').addClass('tour-open')
+                },
+                onHidden: function (tour) {
+                    $('body').removeClass('tour-close')
+                }
+            }
+        ]
+    });
+
+    // Initialize the tour
+    tour.init();
+
+    $('.startTour').click(function () {
+        tour.restart();
+
+        // Start the tour
+        // tour.start();
+    })
+
     $("#HideTour").on("click", function () {
         onCookieSuccess();
     });
 
     $('.clockpicker').clockpicker();
-    initializeDataTable($("#dataTables-table"));
-    initializeDataTable($("#dataTables-table-temporizador"));
+    //initializeDataTable($("#dataTables-table"));
+    //initializeDataTable($("#dataTables-table-temporizador"));
     $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
         e.preventDefault();
         var form = prepareFormCustom($(this));
