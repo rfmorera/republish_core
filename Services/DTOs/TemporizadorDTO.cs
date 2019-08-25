@@ -39,6 +39,20 @@ namespace Services.DTOs
 
             GrupoId = t.GrupoId;
             UserId = t.UserId;
+
+            Enable = t.Enable;
+            UserEnable = t.UserEnable;
+            SystemEnable = t.SystemEnable;
+            Ejecutandose = t.IsValidDay();
+            TimeSpan now = DateTime.Now.ToUtcCuba().TimeOfDay;
+            if (HoraInicio <= now && now <= HoraFin && Ejecutandose)
+            {
+                Ejecutandose = true;
+            }
+            else
+            {
+                Ejecutandose = false;
+            }
         }
 
         public Temporizador BuildModel(IdentityUser user)
@@ -75,59 +89,123 @@ namespace Services.DTOs
 
         public override string ToString()
         {
-            string tmp = "";
-            tmp += "Días: ";
+            string tmp = "<br>";
+            tmp += "Días Habilitados: ";
             if(Lunes && Martes && Miercoles && Jueves && Viernes && Sabado && Domingo)
-            {
-                tmp += "Todos |";
-            }
-            else
-            {
-                if (Lunes)
-                {
-                    tmp += "L, ";
-                }
-                if (Martes)
-                {
-                    tmp += "Ma, ";
-                }
-                if (Miercoles)
-                {
-                    tmp += "Mi, ";
-                }
-                if (Jueves)
-                {
-                    tmp += "J, ";
-                }
-                if (Viernes)
-                {
-                    tmp += "V, ";
-                }
-                if (Sabado)
-                {
-                    tmp += "S, ";
-                }
-                if (Domingo)
-                {
-                    tmp += "D, ";
-                }
-                tmp = tmp.Substring(0, tmp.Length - 2);
-                tmp += " | ";
-            }
-
-            tmp += string.Format("Hora Inicio {0} - Hora Fin {1} Next {2}|", HoraInicio.ToString(), HoraFin.ToString(), Next.ToString());
-            tmp += string.Format("Intervalo Horas: {0} Minutos: {1} |", IntervaloHoras, IntervaloMinutos);
-            if(Etapa == 0)
             {
                 tmp += "Todos";
             }
             else
             {
-                tmp += string.Format("{0} link/intervalo", Etapa);
+                if (Lunes)
+                {
+                    tmp += "Lunes, ";
+                }
+                if (Martes)
+                {
+                    tmp += "Martes, ";
+                }
+                if (Miercoles)
+                {
+                    tmp += "Miercoles, ";
+                }
+                if (Jueves)
+                {
+                    tmp += "Jueves, ";
+                }
+                if (Viernes)
+                {
+                    tmp += "Viernes, ";
+                }
+                if (Sabado)
+                {
+                    tmp += "Sábado, ";
+                }
+                if (Domingo)
+                {
+                    tmp += "Domingo, ";
+                }
+                tmp = tmp.Substring(0, tmp.Length - 2);
+            }
+
+            tmp += string.Format("<br>Hora Inicio {0} <br> Hora Fin {1} <br> Próxima ejecución {2}", HoraInicio.ToString(), HoraFin.ToString(), Next.ToString());
+            tmp += string.Format("<br>Intervalo Horas: {0} Minutos: {1}", IntervaloHoras, IntervaloMinutos);
+            if(Etapa == 0)
+            {
+                tmp += "<br>Todos los anuncios por ejecución";
+            }
+            else
+            {
+                tmp += string.Format("<br>{0} anuncios por ejecución", Etapa);
             }
             return tmp;
         }
         public string Id { get; set; }
+
+        public bool Enable { get; set; }
+        public bool UserEnable { get; set; }
+        public bool SystemEnable { get; set; }
+        public bool Ejecutandose { get; set; }
+
+        public string getEstadoClass
+        {
+            get
+            {
+                if (!SystemEnable)
+                {
+                    return "label-danger";
+                }
+                else if(!UserEnable)
+                {
+                    return "label-warning";
+                }
+                else if (!Enable)
+                {
+                    return "";
+                }
+                else
+                {
+                    if(Ejecutandose)
+                    {
+                        return "label-primary";
+                    }
+                    else
+                    {
+                        return "label-inverse";
+                    }
+                }
+            }
+        }
+
+        public string getEstado
+        {
+            get
+            {
+                if (!SystemEnable)
+                {
+                    return "Saldo Insuficiente";
+                }
+                else if (!UserEnable)
+                {
+                    return "Temporizadores Apagados";
+                }
+                else if (!Enable)
+                {
+                    return "Deshabilidato";
+                }
+                else
+                {
+                    if(Ejecutandose)
+                    {
+                        return "Activo";
+                    }
+                    else
+                    {
+                        return "Esperando";
+                    }
+                }
+            }
+        }
 
         [Display(Name = "Nombre", Order = 0, ShortName = "Nombre")]
         public string Nombre { get; set; }
