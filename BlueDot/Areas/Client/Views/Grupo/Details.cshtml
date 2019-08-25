@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="~/lib/clockpicker/clockpicker.min.css" asp-append-version="true" />
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.css" />
+        <link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/footable/css/footable.core.min.css" asp-append-version="true" />
     </environment>
 }
 
@@ -67,12 +70,18 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <table id="dataTables-table-temporizador" class="table table-striped table-bordered table-hover dataTables-example">
+
+                        <div class="form-group row container">
+                            <div class="col-sm-4"><input id="filterTemporizador" type="text" placeholder="Buscar" class="form-control"></div>
+                        </div>
+
+                        <table id="dataTables-table-temporizador" class="footable table demo table-bordered table-striped table-hover toggle-circle" data-filter="#filterTemporizador" @*data-page-size="2" data-page-previous-text="prev" data-page-next-text="next" *@>
                             <thead>
                                 <tr>
-                                    <th width="10%">Acciones</th>
+                                    <th width="10%" data-toggle="true" data-sort-ignore="true">Acciones</th>
                                     <th width="30%">Nombre</th>
-                                    <th width="60%">Descripcion</th>
+                                    <th width="10"> Estado</th>
+                                    <th width="50%" data-hide="all" data-sort-ignore="true">Descripcion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,19 +90,27 @@
                                     <tr class="gradeX">
                                         <td>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="disabled btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             @item.Nombre
                                         </td>
                                         <td>
-                                            @item.ToString()
+                                            <span class="label @item.getEstadoClass label-primary">@item.getEstado</span>
+                                        </td>
+                                        <td>
+                                            @Html.Raw(item.ToString())
                                         </td>
                                     </tr>
                                 }
                             </tbody>
-                            <tfoot>
-                            </tfoot>
+                            @*<tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="pagination pagination-centered hide-if-no-paging"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>*@
                         </table>
                     </div>
                 </div>
@@ -123,7 +140,7 @@
                                     <tr class="gradeX">
                                         <td>
                                             <a href="@item.Url" target="_blank" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visitar"></i></a>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         @*<td>
                                                 @if (item.Caducado)
@@ -158,6 +175,14 @@
       data-ajax-failure="onAjaxError"
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content"></form>
+
+<form id="delete-individual-form" method="post" role="form"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onDeleteSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted"></form>
 
 <!-- modal window -->
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -205,81 +230,19 @@
 @Html.Partial("TemporizadorPartial", new TemporizadorDTO())
 
 @section Scripts {
-    <partial name="~/Areas/Common/Views/_DataTables.cshtml" />
+    @*<partial name="~/Areas/Common/Views/_DataTables.cshtml" />*@
     <partial name="~/Areas/Common/Views/_ClockPicker.cshtml" />
     <environment include="Development">
         <script src="~/js/common/modal.js"></script>
         <script src="~/js/Client/Grupo/details.js"></script>
         <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"></script>
+        <script src="~/lib/footable/footable.all.min.js"></script>
+        <script src="~/lib/footable/footable.paginate.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
         <script src="~/js/Client/Grupo/details.min.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.min.js" asp-append-version="true"></script>
+        <script src="~/lib/footable/footable.all.min.js" asp-append-version="true"></script>
     </environment>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            // Instance the tour
-            var tour = new Tour({
-                steps: [
-                    //{
-                    //    element: ".startTour",
-                    //    title: "Pasos Iniciales",
-                    //    content: "A continuación mostraremos como configurar un grupo por primera vez, creando un temporizador y añadiendo anuncios al grupo.",
-                    //    placement: "left",
-                    //    backdrop: true,
-                    //    backdropContainer: '#wrapper',
-                    //    onShown: function (tour) {
-                    //        $('body').addClass('tour-open')
-                    //    },
-                    //    onHidden: function (tour) {
-                    //        $('body').removeClass('tour-close')
-                    //    }
-                    //},
-                    {
-                        element: "#btnAddTemporizador",
-                        title: "Añadir temporizador",
-                        content: "Los temporizadores controlan los horarios de actualización de los anuncios. Al dar click sobre el botón aparecerá una ventana para añadir un nuevo temporiador.",
-                        placement: "bottom",
-                        backdrop: true,
-                        backdropContainer: '#wrapper',
-                        onShown: function (tour) {
-                            $('body').addClass('tour-open')
-                        },
-                        onHidden: function (tour) {
-                            $('body').removeClass('tour-close')
-                        }
-                    },
-                    {
-                        element: "#btnAddAnuncios",
-                        title: "Añadir anuncios",
-                        content: "Al dar presionar el botón aparecerá una ventana donde debe pegar el enlace de modificar el anuncio que fue provisto por Revolico. Estos anuncios serán actualizados acorde a la configuración de los temporizadores del grupo.",
-                        placement: "left",
-                        backdrop: true,
-                        backdropContainer: '#wrapper',
-                        onShown: function (tour) {
-                            $('body').addClass('tour-open')
-                        },
-                        onHidden: function (tour) {
-                            $('body').removeClass('tour-close')
-                        }
-                    }
-                ]
-            });
-
-            // Initialize the tour
-            tour.init();
-
-            $('.startTour').click(function () {
-                tour.restart();
-
-                // Start the tour
-                // tour.start();
-            })
-
-        });
-
-    </script>
 }
