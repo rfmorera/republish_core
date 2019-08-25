@@ -81,7 +81,7 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _anuncioService.DeleteAsync(AnuncioId);
 
-            return await BuildPartialDetailsView(GrupoId);
+            return Ok();
         }
 
         [HttpPost]
@@ -107,7 +107,7 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _temporizadorService.DeleteAsync(TemporizadorId);
 
-            return await BuildPartialDetailsView(GrupoId);
+            return Ok();
         }
 
         [HttpPost]
