@@ -64,7 +64,8 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _grupoService.DeleteAsync(GrupoId);
 
-            return await BuildPartialView();
+            //return await BuildPartialView();
+            return Ok();
         }
 
         [HttpPost]
