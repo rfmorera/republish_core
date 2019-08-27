@@ -101,7 +101,7 @@ namespace Services.Impls
                     List<Task> tasksList = new List<Task>();
                     foreach(AnuncioDTO an in listAnuncios)
                     {
-                        tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Id));
+                        tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
                         idx = (idx + 1) % lenCaptchas;
                     }
                     //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
