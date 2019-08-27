@@ -1,8 +1,8 @@
-﻿@model Models.CaptchaKeys
+﻿@model IEnumerable<Models.CaptchaKeys>
 
 @{
     ViewData["Title"] = "Captcha Server";
-    
+
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -25,19 +25,36 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-content">
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-success">Actualizar ApiKey</a>
+                <div class="ibox-title">
+                    <h5>2Captcha Cuentas</h5>
                 </div>
+                <div class="ibox-content"><a href="#myModal" data-toggle="modal" data-target="#add-modal" class="btn btn-primary"><i class="fa fa-user-plus" title="Añadir"></i> &nbsp; Añadir Key-Account</a></div>
                 <div class="ibox-content">
-                    <div class="col-sm-4">
-                        <ul class="list-group m-t">
-                            <li class="list-group-item">
-                                <span class="label label-success float-left"> -</span> <strong class="float-left">&nbsp;ApiKey:&nbsp;</strong>
-                                <span class="float-left">
-                                    @Model.Id
-                                </span>
-                            </li>
-                        </ul>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="12%">Acciones</th>
+                                    <th width="31%">Cuenta</th>
+                                    <th width="34%">Key</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Models.CaptchaKeys item in Model)
+                                {
+                                    <tr class="gradeX">
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="CaptchaServer" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a href="#myModal" data-Id="@item.Id" data-Account="@item.Account" data-toggle="modal" data-target="#update-modal" class="btn btn-white btn-sm1 tooltip-demo btn-update"><i class="fa fa-refresh " data-toggle="tooltip" data-placement="top" title="Cambiar Key"></i></a>
+                                        </td>
+                                        <td>@item.Account</td>
+                                        <td>@item.Key</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -45,40 +62,108 @@
     </div>
 </div>
 
+<form id="delete-form" method="post" role="form"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onDeleteSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted"></form>
+
 <!-- modal window -->
-<div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated fadeIn">
-            <form asp-controller="CaptchaServer" asp-action="Edit" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+
+            <form asp-controller="CaptchaServer" asp-action="Add" method="post" class="form-horizontal" id="form1" form="form1" role="form"
                   data-ajax="true"
                   data-ajax-method="post"
                   data-ajax-begin="onAjaxBegin"
                   data-ajax-failure="onAjaxError"
                   data-ajax-complete="dismiss_modal"
-                  data-ajax-success="onSaveSuccess"
+                  data-ajax-success="onAddSuccess"
                   data-ajax-update="#body_content">
 
                 <div class="modal-header">
                     <div>
-                        <h3 class="modal-title">Actualizar ApiKey</h3>
-                        <small>Copie el valor de ApiKey generado por 2Captcha</small>
+                        <h3 class="modal-title">Añadir una cuenta</h3>
+                        <small>Por favor entre los detalles correspondientes</small>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="panel-body">
                     <div class="ibox float-e-margins">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">ApiKey</label>
+                            <label class="col-sm-3 col-form-label">email</label>
                             <div class="col-sm-9">
-                                <input id="ApiKey" name="ApiKey" type="text" class="form-control" placeholder="" value="" autofocus>
+                                <input id="Account" name="Account" type="email" class="form-control" placeholder="2Captcha Account" value="">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">email</label>
+                            <div class="col-sm-9">
+                                <input id="Key" name="Key" type="text" class="form-control" placeholder="Api Key" value="">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Actualizar</button>
+                    <button type="button" id="close_button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Añadir Cuenta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- modal window end -->
+
+<!-- modal window -->
+<div id="update-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+
+            <form asp-controller="CaptchaServer" asp-action="Edit" method="post" class="form-horizontal" id="form1" form="form1" role="form"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-begin="onAjaxBegin"
+                  data-ajax-failure="onAjaxError"
+                  data-ajax-complete="dismiss_modal"
+                  data-ajax-success="onAddSuccess"
+                  data-ajax-update="#body_content">
+
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title">Actualizar Key una cuenta</h3>
+                        <small>Por favor entre la nueva clave de la cuenta</small>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body">
+                    <div class="ibox float-e-margins">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input id="Account-Actualizar" name="Account" type="text" class="form-control" placeholder="2Captcha Account" value="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Api Key</label>
+                            <div class="col-sm-9">
+                                <input id="Key" name="ApiKey" type="text" class="form-control" placeholder="Api Key" value="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input id="Id" name="Id" type="hidden" />
+                    <button type="button" id="close_button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Actualizar Cuenta</button>
                 </div>
             </form>
         </div>
@@ -95,5 +180,4 @@
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
         <script src="~/js/Admin/CaptchaServer/index.min.js" asp-append-version="true"></script>
     </environment>
-
 }

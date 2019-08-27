@@ -39,7 +39,7 @@ namespace Republish.Areas.Admin.Controllers
             cl.NormalizedName = RTRoles.Client.ToUpper();
             await _dbContext.Roles.AddAsync(cl);
             
-            await _dbContext.AddAsync(new CaptchaKeys("none"));
+            await _dbContext.AddAsync(new CaptchaKeys("none", "none"));
 
             IdentityUser raf = new IdentityUser("rfmorera@gmail.com");
             await _userManager.CreateAsync(raf, "Ciber*2019");

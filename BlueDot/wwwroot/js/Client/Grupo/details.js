@@ -74,7 +74,7 @@ function initializePage() {
 
         // Start the tour
         // tour.start();
-    })
+    });
 
     $("#HideTour").on("click", function () {
         onCookieSuccess();

@@ -12,10 +12,20 @@ function onAddSuccess() {
 
 function onDeleteSuccess() {
     onAjaxSuccess();
-    initializePage();
+    $("#" + DeleteRowId).remove();
 }
 
 function initializePage() {
+    $(".btn-update").on("click", function () {
+        Id = $(this).attr("data-Id");
+        Account = $(this).attr("data-Account");
+
+        $("#Id").val(Id);
+        $("#Account-Actualizar").val(Account);
+    });
+
+    $("tr").each(function (index, element) { $(element).attr("id", index); });
+
     $('#form2').formValidation({
         framework: 'bootstrap',
         icon: {
@@ -24,13 +34,20 @@ function initializePage() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            ApiKey: {
+            Account: {
                 validators: {
                     notEmpty: {
                         message: 'Por favor entre el valor del ApiKey'
-                    },
+                    }
                 }
             },
+            Key: {
+                validators: {
+                    notEmpty: {
+                        message: 'Por favor entre el valor del ApiKey'
+                    }
+                }
+            }
         }
     });
 }
