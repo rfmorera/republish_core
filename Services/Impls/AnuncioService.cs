@@ -186,7 +186,7 @@ namespace Services.Impls
                 #region Request Captcha Solution V2
                 await Task.Delay(15000);
                 string answerUrl = "http://2captcha.com/res.php?key=" + key2captcha + "&action=get&id=" + captchaValues["identification"];
-                for (int i = 1; i < 8; i++)
+                for (int i = 1; i < 20; i++)
                 {
                     responseClient = await client.GetAsync(answerUrl);
                     responseString = await responseClient.Content.ReadAsStringAsync();
@@ -195,10 +195,10 @@ namespace Services.Impls
                     if (responseString.Substring(0, 2) == "OK")
                     {
                         captchaValues["g-recaptcha-response"] = responseString.Substring(3, responseString.Length - 3);
-                        i = 12;
+                        i = 500;
                         break;
                     }
-                    await Task.Delay(15000);
+                    await Task.Delay(10000);
                 }
 
                 #endregion

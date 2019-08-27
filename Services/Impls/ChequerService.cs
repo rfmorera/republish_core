@@ -96,11 +96,13 @@ namespace Services.Impls
 
                     _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
-                    string KeyCaptcha = (await _captchaService.GetCaptchaKeyAsync()).Id;
+                    List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
+                    int idx = 0, lenCaptchas = captchaKeys.Count;
                     List<Task> tasksList = new List<Task>();
                     foreach(AnuncioDTO an in listAnuncios)
                     {
-                        tasksList.Add(_anuncioService.Publish(an.Url, KeyCaptcha));
+                        tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Id));
+                        idx = (idx + 1) % lenCaptchas;
                     }
                     //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
                     await Task.WhenAll(tasksList);

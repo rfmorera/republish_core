@@ -21,19 +21,33 @@ namespace Services.Impls
             repositoryCaptcha = new Repository<CaptchaKeys>(dbContext);
         }
 
-        public async Task<CaptchaKeys> GetCaptchaKeyAsync()
+        public async Task Add(CaptchaKeys captcha)
         {
-            return (await repositoryCaptcha.GetAllAsync()).First();
+            await repositoryCaptcha.AddAsync(captcha);
+            await repositoryCaptcha.SaveChangesAsync();
         }
 
-        public async Task<CaptchaKeys> Update2CaptchaKey(string key)
+        public async Task Delete(string Id)
         {
-            CaptchaKeys captcha = await GetCaptchaKeyAsync();
+            CaptchaKeys captcha = await repositoryCaptcha.FindAsync(c => c.Id == Id);
+            
             repositoryCaptcha.Remove(captcha);
 
-            captcha = new CaptchaKeys(key);
+            await repositoryCaptcha.SaveChangesAsync();
+        }
 
-            await repositoryCaptcha.AddAsync(captcha);
+        public async Task<IEnumerable<CaptchaKeys>> GetCaptchaKeyAsync()
+        {
+            return (await repositoryCaptcha.GetAllAsync()).AsEnumerable();
+        }
+
+        public async Task<CaptchaKeys> Update2CaptchaKey(string Id, string Key)
+        {
+            CaptchaKeys captcha = await repositoryCaptcha.FindAsync(c => c.Id == Id);
+
+            captcha.Key = Key;
+
+            await repositoryCaptcha.UpdateAsync(captcha, captcha.Id);
             await repositoryCaptcha.SaveChangesAsync();
 
             return captcha;

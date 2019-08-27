@@ -8,7 +8,9 @@ namespace Services
 {
     public interface ICaptchaService
     {
-        Task<CaptchaKeys> Update2CaptchaKey(string key);
-        Task<CaptchaKeys> GetCaptchaKeyAsync();
+        Task<CaptchaKeys> Update2CaptchaKey(string Id, string Key);
+        Task<IEnumerable<CaptchaKeys>> GetCaptchaKeyAsync();
+        Task Delete(string Id);
+        Task Add(CaptchaKeys captcha);
     }
 }
