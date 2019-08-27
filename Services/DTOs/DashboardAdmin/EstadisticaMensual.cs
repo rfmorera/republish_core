@@ -4,20 +4,24 @@ using System.Text;
 
 namespace Services.DTOs.DashboardAdmin
 {
-    public class EstadisticaMensual : IEstadisticaAdmin
+    public class EstadisticaMensual : IEstadisticaAdmin, IComparable<EstadisticaMensual>
     {
-        public EstadisticaMensual(DateTime date, double Gasto, double Venta)
+        public EstadisticaMensual(int year, int month, double Gasto, double Venta)
         {
             this.Gasto = Gasto;
             this.Venta = Venta;
-            this.Fecha = date;
+            Year = year;
+            Month = month;
         }
 
         public double Gasto { get; }
 
         public double Venta { get; }
 
-        public DateTime Fecha { get; }
+        public int Year { get; }
+        public int Month { get; }
+
+        public string Fecha => $"{Year}-{Month}";
 
         public string ToStringGastos()
         {
@@ -32,6 +36,16 @@ namespace Services.DTOs.DashboardAdmin
         public string ToStringVentas()
         {
             throw new NotImplementedException();
+        }
+
+        public int CompareTo(EstadisticaMensual est)
+        {
+            if(Year != est.Year)
+            {
+                return Year - est.Year;
+            }
+
+            return Month - est.Month;
         }
     }
 }

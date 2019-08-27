@@ -6,7 +6,7 @@ namespace Services.DTOs.DashboardAdmin
 {
     public interface IEstadisticaAdmin
     {
-        DateTime Fecha { get; }
+        string Fecha { get; }
         double Gasto { get; }
         double Venta { get; }
         string ToStringVentas();

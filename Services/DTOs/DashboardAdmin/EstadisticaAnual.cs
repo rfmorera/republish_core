@@ -8,18 +8,20 @@ namespace Services.DTOs.DashboardAdmin
 {
     public class EstadisticaAnual : IEstadisticaAdmin
     {
-        public EstadisticaAnual(List<EstadisticaMensual> list)
+        public EstadisticaAnual(IEnumerable<EstadisticaMensual> list)
         {
-            Gasto = list.Sum(m => m.Gasto);
-            Venta = list.Sum(m => m.Venta);
-            Meses = list.OrderBy(m => m.Fecha).ToList();
+            Gasto = list.Sum(e => e.Gasto);
+            Venta = list.Sum(e => e.Venta);
+            Meses = list.OrderBy(e => e.Fecha).ToList();
         }
 
         public double Gasto { get; }
         public double Venta { get; }
         public List<EstadisticaMensual> Meses { get; }
 
-        public DateTime Fecha { get; set; }
+        public string Fecha => $"{_Fecha.Year}";
+
+        private DateTime _Fecha { get; set; }
 
         public string ToStringGastos()
         {
@@ -36,7 +38,7 @@ namespace Services.DTOs.DashboardAdmin
             string tmp = "";
             foreach (EstadisticaMensual m in Meses)
             {
-                tmp += MonthOfYear.Meses[m.Fecha.Month] + ",";
+                tmp += "\"" + MonthOfYear.Meses[m.Month - 1] + "\",";
             }
             return $"[ {tmp.Remove(tmp.Length - 1)} ]";
         }
