@@ -12,13 +12,20 @@ namespace Models
 
         }
 
-        public CaptchaKeys(string key)
+        public CaptchaKeys(string key, string Account)
         {
-            Id = key;
+            Key = key;
+            this.Account = Account;
         }
 
         [Key]
         [Required]
         public string Id { get; set; }
+
+        [Required]
+        public string Key { get; set; }
+
+        [Required]
+        public string Account { get; set; }
     }
 }
