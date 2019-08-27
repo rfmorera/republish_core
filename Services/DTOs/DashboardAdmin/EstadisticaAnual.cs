@@ -13,15 +13,16 @@ namespace Services.DTOs.DashboardAdmin
             Gasto = list.Sum(e => e.Gasto);
             Venta = list.Sum(e => e.Venta);
             Meses = list.OrderBy(e => e.Fecha).ToList();
+            Year = list.First().Year;
         }
 
         public double Gasto { get; }
         public double Venta { get; }
         public List<EstadisticaMensual> Meses { get; }
 
-        public string Fecha => $"{_Fecha.Year}";
+        public string Fecha => $"{Year}";
 
-        private DateTime _Fecha { get; set; }
+        private int Year { get; set; }
 
         public string ToStringGastos()
         {
