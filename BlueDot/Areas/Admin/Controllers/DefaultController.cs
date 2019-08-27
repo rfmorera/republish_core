@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Republish.Data;
+using Services;
+using Services.DTOs.DashboardAdmin;
 
 namespace Republish.Areas.Admin.Controllers
 {
@@ -16,16 +18,20 @@ namespace Republish.Areas.Admin.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
-        public DefaultController(UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)
+        private readonly IEstadisticaAdminService _estadisticaAdminService;
+
+        public DefaultController(UserManager<IdentityUser> userManager, ApplicationDbContext dbContext, IEstadisticaAdminService estadisticaAdminService)
         {
             _userManager = userManager;
             _dbContext = dbContext;
+            _estadisticaAdminService = estadisticaAdminService;
         }
 
         [Authorize(Roles = RTRoles.Admin)]
         public IActionResult Index()
         {
-            return View();
+            AdminDashboard model = _estadisticaAdminService.GetDashboard();
+            return View(model);
         }
 
         [AllowAnonymous]
