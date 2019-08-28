@@ -91,6 +91,7 @@ namespace Republish
             services.AddTransient<IManejadorFinancieroService, ManejadorFinancieroService>();
             services.AddTransient<IClienteOpcionesService, ClienteOpcionesService>();
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
+            services.AddTransient<IAgentService, AgentService>();
 
             services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
