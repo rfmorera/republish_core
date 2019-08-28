@@ -75,7 +75,7 @@
                             <div class="col-sm-4"><input id="filterTemporizador" type="text" placeholder="Buscar" class="form-control"></div>
                         </div>
 
-                        <table id="dataTables-table-temporizador" class="footable table demo table-bordered table-striped table-hover toggle-circle" data-filter="#filterTemporizador" @*data-page-size="2" data-page-previous-text="prev" data-page-next-text="next" *@>
+                        <table id="dataTables-table-temporizador" class="footable table demo table-bordered table-striped table-hover toggle-circle" data-filter="#filterTemporizador" data-page-size="5" data-page-previous-text="ant" data-page-next-text="sigt">
                             <thead>
                                 <tr>
                                     <th width="10%" data-toggle="true" data-sort-ignore="true">Acciones</th>
@@ -104,13 +104,13 @@
                                     </tr>
                                 }
                             </tbody>
-                            @*<tfoot>
-                                    <tr>
-                                        <td colspan="5">
-                                            <div class="pagination pagination-centered hide-if-no-paging"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>*@
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination justify-content-center"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                             </div>
                         </div>
 
-                        <table id="dataTables-table" class="footable table table-striped table-bordered table-hover dataTables-example" data-filter="#filterAnuncios">
+                        <table id="dataTables-table" class="footable table table-striped table-bordered table-hover dataTables-example" data-filter="#filterAnuncios" data-page-size="5" data-page-previous-text="ant" data-page-next-text="sigt">
                             <thead>
                                 <tr>
                                     <th width="10%" data-sort-ignore="true">Acciones</th>
@@ -167,6 +167,11 @@
                                 }
                             </tbody>
                             <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination justify-content-center"></ul>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
