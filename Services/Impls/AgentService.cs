@@ -4,7 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using Microsoft.AspNetCore.Identity;
+using Models;
 using Services.DTOs;
+using System.Linq;
 
 namespace Services.Impls
 {
@@ -29,6 +31,9 @@ namespace Services.Impls
             if (!result.Succeeded) return result;
             result = await _userManager.SetEmailAsync(agent, dto.UserName);
 
+            if (!result.Succeeded) return result;
+            result = await _userManager.AddToRoleAsync(agent, RTRoles.Agent);
+
             return result;
         }
 
@@ -37,14 +42,19 @@ namespace Services.Impls
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<AgentDTO>> GetAgents()
+        public async Task<IEnumerable<AgentDTO>> GetAgents()
         {
-            throw new NotImplementedException();
+            IEnumerable<AgentDTO> list = (await _userManager.GetUsersInRoleAsync(RTRoles.Agent)).Select(a => new AgentDTO(a.Id, a.UserName, a.PhoneNumber));
+
+            return list;
         }
 
-        public Task RemoveAgent(string Id)
+        public async Task<IdentityResult> RemoveAgent(string Id)
         {
-            throw new NotImplementedException();
+            IdentityUser agent = await _userManager.FindByIdAsync(Id);
+            IdentityResult result = await _userManager.DeleteAsync(agent);
+
+            return result;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Services
         Task<IEnumerable<AgentDTO>> GetAgents();
         Task<AgentDetailsDTO> GetAgentDetails(string Id);
         Task<IdentityResult> AddAgent(AgentDTO agent);
-        Task RemoveAgent(string Id);
+        Task<IdentityResult> RemoveAgent(string Id);
     }
 }
