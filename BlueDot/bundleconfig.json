@@ -388,5 +388,11 @@
     "inputFiles": [
       "wwwroot/lib/bootstrap/dist/js/bootstrap.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Admin/Agent/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Admin/Agent/index.js"
+    ]
   }
 ]

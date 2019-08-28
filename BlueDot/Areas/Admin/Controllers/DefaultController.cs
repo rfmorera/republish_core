@@ -44,6 +44,10 @@ namespace Republish.Areas.Admin.Controllers
             IdentityRole cl = new IdentityRole(RTRoles.Client);
             cl.NormalizedName = RTRoles.Client.ToUpper();
             await _dbContext.Roles.AddAsync(cl);
+
+            IdentityRole ag = new IdentityRole(RTRoles.Agent);
+            ag.NormalizedName = RTRoles.Agent.ToUpper();
+            await _dbContext.Roles.AddAsync(ag);
             
             await _dbContext.AddAsync(new CaptchaKeys("none", "none"));
 
