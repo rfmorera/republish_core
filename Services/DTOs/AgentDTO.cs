@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,11 +13,11 @@ namespace Services.DTOs
             this.Phone = Phone;
         }
 
-        public AgentDTO(string id, string userName, string phoneNumber)
+        public AgentDTO(IdentityUser user)
         {
-            Id = id;
-            UserName = userName;
-            Phone = phoneNumber;
+            Id = user.Id;
+            UserName = user.UserName;
+            Phone = user.PhoneNumber;
         }
 
         public string Id { get; set; }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Models;
 using Services.DTOs;
 using System.Linq;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -37,14 +38,30 @@ namespace Services.Impls
             return result;
         }
 
-        public Task<AgentDetailsDTO> GetAgentDetails(string Id)
+        public async Task<AgentDetailsDTO> GetAgentDetails(string Id)
         {
-            throw new NotImplementedException();
+            DateTime now = DateTime.Now.ToUtcCuba();
+            IdentityUser user = await _userManager.FindByIdAsync(Id);
+
+            double current = (await _unitOfWork.Recarga.FindAllAsync(r => r.OperardorId == Id 
+                                                                       && r.DateCreated.Month == now.Month 
+                                                                       && r.DateCreated.Year == now.Year))
+                                                        .Sum(t => t.Monto);
+            now = now.AddMonths(-1);
+            double last = (await _unitOfWork.Recarga.FindAllAsync(r => r.OperardorId == Id
+                                                           && r.DateCreated.Month == now.Month
+                                                           && r.DateCreated.Year == now.Year))
+                                            .Sum(t => t.Monto);
+            AgentDetailsDTO dto = new AgentDetailsDTO(user, current, last);
+            return dto;
         }
 
         public async Task<IEnumerable<AgentDTO>> GetAgents()
         {
-            IEnumerable<AgentDTO> list = (await _userManager.GetUsersInRoleAsync(RTRoles.Agent)).Select(a => new AgentDTO(a.Id, a.UserName, a.PhoneNumber));
+            IEnumerable<AgentDTO> list = (await _userManager.GetUsersInRoleAsync(RTRoles.Agent)).Select(a => new AgentDTO(a));
+            IEnumerable<AgentDTO> adminList = (await _userManager.GetUsersInRoleAsync(RTRoles.Admin)).Select(t => new AgentDTO(t));
+
+            list = list.Union(adminList);
 
             return list;
         }

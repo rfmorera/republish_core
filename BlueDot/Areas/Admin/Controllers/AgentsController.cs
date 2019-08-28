@@ -50,6 +50,13 @@ namespace RepublishTool.Areas.Admin.Controllers
             return BadRequest();
         }
 
+        public async Task<IActionResult> Details(string Id)
+        {
+            AgentDetailsDTO model = await _agentService.GetAgentDetails(Id);
+            
+            return View(model);
+        }
+
         private async Task<IActionResult> BuildPartialView()
         {
             IEnumerable<AgentDTO> model = await _agentService.GetAgents();
