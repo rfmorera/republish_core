@@ -15,6 +15,7 @@ using UAParser;
 using Republish.Data;
 using Republish.Models.Identity;
 using Services.Impls;
+using Models;
 
 namespace Republish.Areas.Identity.Pages.Account
 {
@@ -331,12 +332,16 @@ namespace Republish.Areas.Identity.Pages.Account
             IdentityUser userLogin = await _userManager.FindByNameAsync(UserName);
             
             IList<string> fg = await _userManager.GetRolesAsync(userLogin);
-            if(await _userManager.IsInRoleAsync(userLogin, "Admin")){
+            if(await _userManager.IsInRoleAsync(userLogin, RTRoles.Admin)){
                 return "/Admin/Default";
             }
-            else if(await _userManager.IsInRoleAsync(userLogin, "Client"))
+            else if(await _userManager.IsInRoleAsync(userLogin, RTRoles.Client))
             {
                 return "/Client/Default";
+            }
+            else if (await _userManager.IsInRoleAsync(userLogin, RTRoles.Agent))
+            {
+                return "/Admin/Agents/Default";
             }
 
             throw new InvalidOperationException("User: " + UserName + " has invalid user role.");

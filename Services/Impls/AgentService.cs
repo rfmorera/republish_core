@@ -24,7 +24,7 @@ namespace Services.Impls
         public async Task<IdentityResult> AddAgent(AgentDTO dto)
         {
             IdentityUser agent = new IdentityUser(dto.UserName);
-            IdentityResult result = await _userManager.CreateAsync(agent);
+            IdentityResult result = await _userManager.CreateAsync(agent, "Servicios*2019");
 
             if (!result.Succeeded) return result;
             result = await _userManager.SetPhoneNumberAsync(agent, dto.Phone);
@@ -69,9 +69,14 @@ namespace Services.Impls
         public async Task<IdentityResult> RemoveAgent(string Id)
         {
             IdentityUser agent = await _userManager.FindByIdAsync(Id);
-            IdentityResult result = await _userManager.DeleteAsync(agent);
+            if(!(await _userManager.IsInRoleAsync(agent, RTRoles.Agent)))
+            {
+                IdentityResult result = await _userManager.DeleteAsync(agent);
 
-            return result;
+                return result;
+            }
+
+            throw new Exception("Los administradores no pueden ser eliminados");
         }
     }
 }

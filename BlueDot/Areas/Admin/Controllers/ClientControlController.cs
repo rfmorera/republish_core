@@ -12,7 +12,7 @@ using Services.DTOs;
 namespace RepublishTool.Areas.Admin.Controllers 
 {
     [Area(RTRoles.Admin)]
-    [Authorize(Roles = RTRoles.Admin)]
+    [Authorize(Roles = RTRoles.Admin + "," + RTRoles.Agent)]
     public class ClientControlController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

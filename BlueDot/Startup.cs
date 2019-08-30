@@ -24,6 +24,7 @@ using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Queue;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using BlueDot.Data.UnitsOfWork;
+using Models;
 
 namespace Republish
 {
@@ -93,7 +94,13 @@ namespace Republish
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
             services.AddTransient<IAgentService, AgentService>();
 
-            services.AddMvc().AddRazorPagesOptions(opts => {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(RTPolicies.Admin, policy => policy.RequireRole(RTRoles.Admin));
+                options.AddPolicy(RTPolicies.Agent, policy => policy.RequireRole(RTRoles.Agent));
+            });
+
+                services.AddMvc().AddRazorPagesOptions(opts => {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
                 opts.Conventions.AddAreaPageRoute("Identity", "/Account/Login","");
                 opts.Conventions.AddAreaPageRoute("Identity", "/Login","");

@@ -42,15 +42,41 @@
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
-                        <div class="dropdown profile-element"><img src="~/images/common/Republish_logo_transp.png" class="img-fluid" alt="Placeholder image"></div>
+                        <div class="dropdown profile-element">
+                            @*<img alt="Imagen de Perfil" class="rounded-circle" src="/Images/profile_small.jpg">*@
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                                <span class="block m-t-xs font-bold">@Html.Raw(User.Claims.First(r => r.Type == ClaimsIdentity.DefaultNameClaimType).Value)</span>
+                                @if ((await AuthorizationService.AuthorizeAsync(User, RTPolicies.Admin)).Succeeded)
+                                {
+                                    <span class="text-muted text-xs block">Admin <b class="caret"></b></span>
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, RTPolicies.Agent)).Succeeded)
+                                {
+                                    <span class="text-muted text-xs block">Agente <b class="caret"></b></span>
+                                }
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 92px; left: 0px; will-change: top, left;" x-placement="bottom-start">
+                                <li><a class="dropdown-item" href="#">Ops!! No hay nada.</a></li>
+                            </ul>
+                        </div>
                         <div class="logo-element">
-                            Republish
+                            RT+
                         </div>
                     </li>
-                    <li is-active-route asp-area="Admin" asp-controller="Default" asp-action="Index"><a asp-area="Admin" asp-controller="Default" asp-action="Index" id="home"><i class="fa fa-home"></i> <span class="nav-label">Inicio</span></a></li>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, RTPolicies.Admin)).Succeeded)
+                    {
+                        <li is-active-route asp-area="Admin" asp-controller="Default" asp-action="Index"><a asp-area="Admin" asp-controller="Default" asp-action="Index" id="home"><i class="fa fa-home"></i> <span class="nav-label">Inicio</span></a></li>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, RTPolicies.Agent)).Succeeded)
+                    {
+                        <li is-active-route asp-area="Admin" asp-controller="Agents" asp-action="Default"><a asp-area="Admin" asp-controller="Agents" asp-action="Default" id="home"><i class="fa fa-home"></i> <span class="nav-label">Inicio</span></a></li>
+                    }
                     <li is-active-route asp-area="Admin" asp-controller="ClientControl"><a asp-area="Admin" asp-controller="ClientControl" asp-action="Index"><i class="fa fa-users"></i> <span class="nav-label">Clientes</span></a></li>
-                    <li is-active-route asp-area="Admin" asp-controller="Agents"><a asp-area="Admin" asp-controller="Agents" asp-action="Index"><i class="fa fa-briefcase"></i> <span class="nav-label">Agentes</span></a></li>
-                    <li is-active-route asp-area="Admin" asp-controller="CaptchaServer"><a asp-area="Admin" asp-controller="CaptchaServer" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">Captcha Server</span></a></li>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, RTPolicies.Admin)).Succeeded)
+                    {
+                        <li is-active-route asp-area="Admin" asp-controller="Agents"><a asp-area="Admin" asp-controller="Agents" asp-action="Index"><i class="fa fa-briefcase"></i> <span class="nav-label">Agentes</span></a></li>
+                        <li is-active-route asp-area="Admin" asp-controller="CaptchaServer"><a asp-area="Admin" asp-controller="CaptchaServer" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">Captcha Server</span></a></li>
+                    }
                     <!--<li is-active-route asp-area="Client" asp-controller="FormsMapping" asp-action="Index"><a asp-area="Client" asp-controller="FormsMapping" asp-action="Index"><i class="fa fa-database"></i> <span class="nav-label">Forms mapping</span></a></li>
                     <li is-active-route asp-area="Client" asp-controller="Apis"><a asp-area="Client" asp-controller="Apis" asp-action="Index"><i class="fa fa-plug"></i> <span class="nav-label">APIS</span></a></li>
                     <li is-active-route asp-area="Client" asp-controller="announcements"><a is-active-route asp-area="Client" asp-controller="announcements" asp-action="Index"><i class="fa fa-bullhorn"></i> <span class="nav-label">Announcements</span></a></li>
@@ -64,9 +90,10 @@
                 </ul>
             </div>
         </nav>
-        <!--#Top menu-->
-        <partial name="~/Areas/Common/Views/NavigationBar.cshtml" />
+        
         <div id="page-wrapper" class="gray-bg">
+            <!--#Top menu-->
+            <partial name="~/Areas/Common/Views/NavigationBar.cshtml" />
             <div class="row border-bottom"></div>
             <!-- Content -->
             <div id="body_content">

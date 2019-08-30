@@ -12,21 +12,34 @@ using Services.DTOs;
 namespace RepublishTool.Areas.Admin.Controllers
 {
     [Area(RTRoles.Admin)]
-    [Authorize(Roles = RTRoles.Admin)]
+    
     public class AgentsController : Controller
     {
         private readonly IAgentService _agentService;
-        public AgentsController(IAgentService agentService)
+        private readonly UserManager<IdentityUser> _userManager;
+        public AgentsController(IAgentService agentService, UserManager<IdentityUser> userManager)
         {
             _agentService = agentService;
+            _userManager = userManager;
         }
 
+        [Authorize(Roles = RTRoles.Agent)]
+        public async Task<IActionResult> Default()
+        {
+            IdentityUser user = await _userManager.GetUserAsync(User);
+            AgentDetailsDTO model = await _agentService.GetAgentDetails(user.Id);
+
+            return View(model);
+        }
+
+        [Authorize(Roles = RTRoles.Admin)]
         public async Task<IActionResult> Index()
         {
             IEnumerable<AgentDTO> model = await _agentService.GetAgents();
             return View(model);
         }
 
+        [Authorize(Roles = RTRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Add(string UserName, string Phone)
         {
@@ -39,6 +52,7 @@ namespace RepublishTool.Areas.Admin.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = RTRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Delete(string Id)
         {
@@ -50,6 +64,7 @@ namespace RepublishTool.Areas.Admin.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = RTRoles.Admin)]
         public async Task<IActionResult> Details(string Id)
         {
             AgentDetailsDTO model = await _agentService.GetAgentDetails(Id);
@@ -57,6 +72,7 @@ namespace RepublishTool.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = RTRoles.Admin)]
         private async Task<IActionResult> BuildPartialView()
         {
             IEnumerable<AgentDTO> model = await _agentService.GetAgents();
