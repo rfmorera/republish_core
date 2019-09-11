@@ -91,18 +91,18 @@ namespace Services.Impls
                 foreach (Anuncio a in listAnuncio)
                 {
                     a.Actualizado = true;
-                    //await _anuncioRepo.UpdateAsync(a, a.Id);
+                    await _anuncioRepo.UpdateAsync(a, a.Id);
 
                     list.Add(new AnuncioDTO(a));
                 }
             }
             else
             {
-                listAnuncio = await _anuncioRepo.GetAllAsync();
+                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId);
 
                 foreach (Anuncio a in listAnuncio)
                 {
-                    if (Etapa > 0 || Etapa == -1)
+                    if (Etapa > 0 )
                     {
                         list.Add(new AnuncioDTO(a));
                         Etapa--;
@@ -110,7 +110,7 @@ namespace Services.Impls
                     else
                     {
                         a.Actualizado = false;
-                        //await _anuncioRepo.UpdateAsync(a, a.Id);
+                        await _anuncioRepo.UpdateAsync(a, a.Id);
                     }
                 }
             }
