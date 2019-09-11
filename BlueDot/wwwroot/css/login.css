@@ -155,6 +155,8 @@
         height: 20vh;
     }
 
+    .hidden-xs{display:none;}
+
     .Republish-right-layout-bg {
         height: 80vh;
     }
