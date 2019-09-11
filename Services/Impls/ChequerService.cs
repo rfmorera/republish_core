@@ -74,7 +74,7 @@ namespace Services.Impls
                 
                 int len = selectTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
-                double costo = 0.017;
+                double costo = 0.006;
                 for (int i = 0; i < len; i++)
                 {
                     Task<IEnumerable<AnuncioDTO>> item = selectTasks[i];
