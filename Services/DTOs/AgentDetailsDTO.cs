@@ -7,13 +7,16 @@ namespace Services.DTOs
 {
     public class AgentDetailsDTO : AgentDTO
     {
-        public AgentDetailsDTO(IdentityUser user, double current, double last) : base(user)
+        public AgentDetailsDTO(IdentityUser user, double current, double last, IEnumerable<RecargaDetail> recargas) : base(user)
         {
             SalesCurrentMonth = current;
             SalesLastMonth = last;
+            Recargas = recargas;
         }
 
         public double SalesCurrentMonth { get; set; }
         public double SalesLastMonth { get; set; }
+
+        public IEnumerable<RecargaDetail> Recargas { get; set; }
     }
 }

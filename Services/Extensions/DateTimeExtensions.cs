@@ -27,7 +27,7 @@ namespace Republish.Extensions
 
         public static string ToDateString(this DateTime dateTime)
         {
-            return dateTime.ToString(@"MM\/dd\/yyyy");
+            return dateTime.ToString(@"dd\/MM\/yyyy");
         }
 
         public static DateTime? ToNullableDateTime(this string value)

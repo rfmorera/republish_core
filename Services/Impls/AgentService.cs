@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Models;
 using Services.DTOs;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Republish.Extensions;
 
 namespace Services.Impls
@@ -52,7 +53,15 @@ namespace Services.Impls
                                                            && r.DateCreated.Month == now.Month
                                                            && r.DateCreated.Year == now.Year))
                                             .Sum(t => t.Monto);
-            AgentDetailsDTO dto = new AgentDetailsDTO(user, current, last);
+
+            IEnumerable<RecargaDetail> recargas = await _unitOfWork.Recarga.QueryAll().Where(r => r.OperardorId == Id)
+                                                                                    .Include(o => o.Client)
+                                                                                .OrderByDescending(t => t.DateCreated)
+                                                                                .Take(50)
+                                                                                .Select(e => new RecargaDetail() { Client = e.Client.UserName, Monto = e.Monto, Fecha = e.DateCreated })
+                                                                                .ToListAsync();
+                                                                                    
+            AgentDetailsDTO dto = new AgentDetailsDTO(user, current, last, recargas);
             return dto;
         }
 
