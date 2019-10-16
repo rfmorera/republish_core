@@ -96,8 +96,9 @@ namespace Services.Impls
 
                 await Requests.PostAsync(apiRevolico, jsonForm);
             }
-            catch (Exception )
+            catch (Exception ex)
             {
+                _log.LogError("Anuncio no publicado> " + ex.Message);
                 return;
             }
         }
