@@ -25,6 +25,7 @@ using Microsoft.Azure.Storage.Queue;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using BlueDot.Data.UnitsOfWork;
 using Models;
+using Captcha2Api;
 
 namespace Republish
 {
@@ -93,6 +94,7 @@ namespace Republish
             services.AddTransient<IClienteOpcionesService, ClienteOpcionesService>();
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
             services.AddTransient<IAgentService, AgentService>();
+            services.AddTransient<Captcha2Solver, Captcha2Solver>();
 
             services.AddAuthorization(options =>
             {
