@@ -142,7 +142,7 @@ namespace Services.Impls
             tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
             formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
-            tmp = doc.DocumentNode.SelectSingleNode("//*textarea[@name='description']");
+            tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
             formAnuncio.variables.description = tmp.InnerText;
 
             formAnuncio.variables.images = new string[0];
