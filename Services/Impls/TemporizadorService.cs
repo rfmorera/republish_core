@@ -53,6 +53,14 @@ namespace Services.Impls
             return listT;
         }
 
+        public async Task<IEnumerable<Temporizador>> GetByUser(string userId)
+        {
+            IEnumerable<Temporizador> listT = (await repositoryTemporizador.FindAllAsync(t => t.UserId == userId))
+                                                                           .OrderBy(r => r.Orden)
+                                                                           .AsEnumerable();
+            return listT;
+        }
+
         public async Task SetSystemEnable(string UserId, bool SystemEnable)
         {
             IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.UserId == UserId);

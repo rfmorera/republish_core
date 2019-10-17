@@ -15,6 +15,8 @@ namespace Services
 
         Task<IEnumerable<Temporizador>> GetByGroup(string GroupId);
 
+        Task<IEnumerable<Temporizador>> GetByUser(string userId);
+
         Task DeleteAllByGroup(string GrupoId);
 
         Task SetSystemEnable(string UserId, bool SystemEnable);
