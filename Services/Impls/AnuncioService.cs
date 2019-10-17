@@ -146,6 +146,20 @@ namespace Services.Impls
             formAnuncio.variables.description = tmp.InnerText;
 
             formAnuncio.variables.images = new string[0];
+            List<string> imagesId = new List<string>();
+            int lastPos = 0, posIni = 0, posEnd;
+            posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+            while (posIni != -1)
+            {
+                posEnd = htmlAnuncio.IndexOf("urls", posIni);
+                posIni += 9;
+                posEnd -= 3;
+                string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
+                imagesId.Add(id);
+                lastPos = posEnd;
+                posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+            }
+            formAnuncio.variables.images = imagesId.ToArray();
 
             tmp = doc.DocumentNode.SelectSingleNode("//*[@name='email']");
             formAnuncio.variables.email = tmp.Attributes["value"].Value;
