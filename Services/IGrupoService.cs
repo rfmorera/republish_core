@@ -1,4 +1,5 @@
-﻿using Services.DTOs;
+﻿using Models;
+using Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +18,6 @@ namespace Services
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 
         Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);
+        Task<IEnumerable<Grupo>> GetByUser(string UserId);
     }
 }
