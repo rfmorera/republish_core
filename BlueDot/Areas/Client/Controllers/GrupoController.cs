@@ -97,6 +97,8 @@ namespace RepublishTool.Areas.Client.Controllers
         public async Task<IActionResult> AddTemporizador(TemporizadorDTO dTO)
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
+            if (dTO.IntervaloHoras + dTO.IntervaloMinutos <= 0) return BadRequest();
+
             Temporizador t = dTO.BuildModel(user);
             await _temporizadorService.AddAsync(t, await _financieroService.HasBalance(user.Id));
 
