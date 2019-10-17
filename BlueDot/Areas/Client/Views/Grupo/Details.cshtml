@@ -81,7 +81,8 @@
                                     <th width="10%" data-toggle="true" data-sort-ignore="true">Acciones</th>
                                     <th width="30%">Nombre</th>
                                     <th width="10"> Estado</th>
-                                    <th width="50%" data-hide="all" data-sort-ignore="true">Descripcion</th>
+                                    <th width="10"> Costo Mensual</th>
+                                    <th width="40%" data-hide="all" data-sort-ignore="true">Descripcion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,6 +98,9 @@
                                         </td>
                                         <td>
                                             <span class="label @item.getEstadoClass label-primary">@item.getEstado</span>
+                                        </td>
+                                        <td>
+                                            $@item.Costo
                                         </td>
                                         <td>
                                             @Html.Raw(item.ToString())
