@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs.Registro;
+using Services.Extensions;
 
 namespace Services.Impls
 {
@@ -84,8 +85,15 @@ namespace Services.Impls
 
             Cuenta cnt = await _financieroService.GetCuenta(user.Id);
             ClienteOpciones opt = await _opcionesService.GetOpciones(user.Id);
+            double costoAnuncio = await _financieroService.CostoAnuncio(user.Id);
+            double gastoEsperado = (await _grupoService.GetByUser(user.Id))
+                                                       .Sum(g => g.Temporizadores
+                                                                    .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count)));
 
-            ClientDashboard dashboard = new ClientDashboard(cnt, dia, semana, mensual, opt);
+
+            PrediccionIndicadores prediccion = new PrediccionIndicadores(cnt.Saldo, gastoEsperado);
+
+            ClientDashboard dashboard = new ClientDashboard(cnt, dia, semana, mensual, opt, prediccion);
             return dashboard;
         }
 
