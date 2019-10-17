@@ -62,7 +62,6 @@ namespace Republish.Data
             builder.Entity<CaptchaKeys>(entity =>
             {
                 entity.HasKey("Id");
-                entity.HasData(new CaptchaKeys() { Id = "none", Key = "none", Account = "none" });
             });
 
             builder.Entity<Registro>(entity =>

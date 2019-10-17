@@ -10,14 +10,14 @@ using Republish.Data;
 namespace BlueDot.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190823015420_RecargaConstrains")]
-    partial class RecargaConstrains
+    [Migration("20191017200235_UltimaUpd")]
+    partial class UltimaUpd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -219,6 +219,12 @@ namespace BlueDot.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Account")
+                        .IsRequired();
+
+                    b.Property<string>("Key")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

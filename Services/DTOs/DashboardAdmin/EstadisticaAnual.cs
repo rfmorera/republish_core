@@ -13,7 +13,14 @@ namespace Services.DTOs.DashboardAdmin
             Gasto = list.Sum(e => e.Gasto);
             Venta = list.Sum(e => e.Venta);
             Meses = list.OrderBy(e => e.Fecha).ToList();
-            Year = list.First().Year;
+            if (list.Any())
+            {
+                Year = list.First().Year;
+            }
+            else
+            {
+                Year = 0;
+            }
         }
 
         public double Gasto { get; }

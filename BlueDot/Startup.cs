@@ -41,9 +41,9 @@ namespace Republish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDataProtection()
-                    .SetApplicationName("RepublishTool")
-                    .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
+            //services.AddDataProtection()
+            //        .SetApplicationName("RepublishTool")
+            //        .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
             
             services.Configure<CookiePolicyOptions>(options =>
             {

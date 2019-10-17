@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20190330181250_AddTemporizadorName.cs" />
     <Compile Remove="Migrations\20190331163202_TemporizadorNewKeyType.cs" />
     <Compile Remove="Migrations\20190801170917_CaptchaKeys.cs" />
+    <Compile Remove="Migrations\20191017200801_RemovedCaptchaDefaultValue.cs" />
+    <Compile Remove="Migrations\20191017200801_RemovedCaptchaDefaultValue.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

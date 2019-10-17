@@ -9,7 +9,7 @@ namespace BlueDot.Data.Migrations
             migrationBuilder.InsertData(
                 table: "CaptchaKeys",
                 column: "Id",
-                value: "none");
+                value: "asdf");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace BlueDot.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "CaptchaKeys",
                 keyColumn: "Id",
-                keyValue: "none");
+                keyValue: "asdf");
         }
     }
 }

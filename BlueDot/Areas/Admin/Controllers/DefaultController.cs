@@ -48,15 +48,22 @@ namespace Republish.Areas.Admin.Controllers
             IdentityRole ag = new IdentityRole(RTRoles.Agent);
             ag.NormalizedName = RTRoles.Agent.ToUpper();
             await _dbContext.Roles.AddAsync(ag);
-            
-            await _dbContext.AddAsync(new CaptchaKeys("none", "none"));
 
             IdentityUser raf = new IdentityUser("rfmorera@gmail.com");
             await _userManager.CreateAsync(raf, "Ciber*2019");
-            
+
             raf = await _userManager.FindByNameAsync("rfmorera@gmail.com");
 
             await _userManager.AddToRoleAsync(raf, RTRoles.Admin);
+
+            Recarga rc = new Recarga() {
+                ClientId = raf.Id,
+                Monto = 0,
+                OperardorId = raf.Id,
+                DateCreated = DateTime.Now
+            };
+
+            await _dbContext.AddAsync<Recarga>(rc);
 
             await _dbContext.SaveChangesAsync();
             return Ok();

@@ -229,10 +229,6 @@ namespace BlueDot.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CaptchaKeys");
-
-                    b.HasData(
-                        new { Id = "asd", Account = "none", Key = "none" }
-                    );
                 });
 
             modelBuilder.Entity("Models.ClienteOpciones", b =>
