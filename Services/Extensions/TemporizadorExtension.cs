@@ -43,7 +43,6 @@ namespace Services.Extensions
 
             DateTime utcCuba = DateTime.Now.ToUtcCuba();
             DateTime tmp = utcCuba;
-            utcCuba = utcCuba.AddDays(1 - utcCuba.Day);
 
             for (int i = 0; i < 31; i++)
             {
