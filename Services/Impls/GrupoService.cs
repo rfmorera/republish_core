@@ -77,6 +77,19 @@ namespace Services.Impls
             return list;
         }
 
+        public async Task<IEnumerable<Grupo>> GetByUser(string UserId)
+        {
+            IEnumerable<Grupo> list = await _repository.QueryAll()
+                                        .Where(g => g.UserId == UserId)
+                                        .OrderBy(g => g.Orden)
+                                        .Include(g => g.Anuncios)
+                                        .Include(g => g.Temporizadores)
+                                        .Select(g => g)
+                                        .ToListAsync();
+            return list;
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
             IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
