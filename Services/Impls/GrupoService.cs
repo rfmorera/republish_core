@@ -22,8 +22,9 @@ namespace Services.Impls
         private readonly IAnuncioService _anuncioService;
         private readonly ITemporizadorService _temporizadorService;
         readonly ILogger<ChequerService> _log;
+        private readonly IManejadorFinancieroService _financieroService;
 
-        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService, ILogger<ChequerService> log, ITemporizadorService temporizadorService)
+        public GrupoService(ApplicationDbContext context, IAnuncioService anuncioService, ILogger<ChequerService> log, ITemporizadorService temporizadorService, IManejadorFinancieroService financieroService)
         {
             _context = context;
             _repository = new Repository<Grupo>(_context);
@@ -31,6 +32,7 @@ namespace Services.Impls
             _anuncioService = anuncioService;
             _log = log;
             _temporizadorService = temporizadorService;
+            _financieroService = financieroService;
         }
 
         public async Task AddAsync(GrupoIndexDTO grupoDTO)
@@ -56,8 +58,9 @@ namespace Services.Impls
                                                   select new AnuncioDTO(a))
                                                   .ToListAsync();
 
+            double costoAnuncio = await _financieroService.CostoAnuncio(grupo.UserId);
             IEnumerable<TemporizadorDTO> listT = (from t in (await _temporizadorService.GetByGroup(GrupoId)).AsQueryable()
-                                                select new TemporizadorDTO(t, list.Count(), 0.006)).AsEnumerable();
+                                                select new TemporizadorDTO(t, list.Count(), costoAnuncio)).AsEnumerable();
             
             GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;

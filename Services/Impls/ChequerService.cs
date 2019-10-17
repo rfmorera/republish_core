@@ -25,9 +25,10 @@ namespace Services.Impls
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
         private readonly IAnuncioService _anuncioService;
+        private readonly IManejadorFinancieroService _financieroService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService)
         {
             _context = context;
             repository = new Repository<Temporizador>(context);
@@ -37,6 +38,7 @@ namespace Services.Impls
             _captchaService = captchaService;
             _registroService = registroService;
             _anuncioService = anuncioService;
+            _financieroService = financieroService;
         }
 
         public async Task<string> CheckAllTemporizadores()
@@ -74,7 +76,7 @@ namespace Services.Impls
                 
                 int len = selectTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
-                double costo = 0.006;
+                double costo;
                 for (int i = 0; i < len; i++)
                 {
                     Task<IEnumerable<AnuncioDTO>> item = selectTasks[i];
@@ -83,6 +85,7 @@ namespace Services.Impls
                     {
                         listAnuncios.AddRange(item.Result);
 
+                        costo = await _financieroService.CostoAnuncio(temp.Grupo.UserId);
                         int CapResueltos = item.Result.Count();
                         _context.Entry(temp).Reference(s => s.Grupo).Load();
                         Registro reg = new Registro(temp.Grupo.UserId, CapResueltos, UtcCuba, costo);
