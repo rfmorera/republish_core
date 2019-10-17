@@ -6,6 +6,7 @@
     EstadisticaSemanal semanal = Model.Semanal;
     EstadisticaMensual mensual = Model.Mensual;
     OpcionesDTO opciones = Model.Opciones;
+    PrediccionIndicadores prediccion = Model.Prediccion;
 }
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/common/switch.min.css" asp-append-version="true" />
@@ -39,60 +40,73 @@
             </div>
         </div>
     }
-    <div class="row" id="IndicadoresEconomicos">
-        <div class="col-lg-3">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <span class="label label-success float-right">Hoy</span>
-                    <h5>Total Dario</h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@diario.Total</h1>
-                    <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @diario.Gasto</div>
-                    <small>Anuncios Publicados</small>
-                </div>
+<div class="row" id="IndicadoresEconomicos">
+    <div class="col-lg-3">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-success float-right">Hoy</span>
+                <h5>Total Dario</h5>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <span class="label label-info float-right">Semanal</span>
-                    <h5>Últimos 7 días</h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@semanal.Total</h1>
-                    <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @semanal.Gasto</div>
-                    <small>@semanal.Inicio.ToShortDateString() - @semanal.Fin.ToShortDateString()</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <span class="label label-primary float-right">Mensual</span>
-                    <h5>Mes actual</h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">@mensual.Total</h1>
-                    <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@mensual.Gasto</div>
-                    <small>Anuncios Publicados</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 text-muted">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    @*<span class="label label-danger float-right">Low value</span>*@
-                    <h5>Saldo</h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">$ @ct.Saldo </h1>
-                    @*<div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>*@
-                    <small>@ct.LastUpdate.ToDateTimeString()</small>
-                </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@diario.Total</h1>
+                <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @diario.Gasto</div>
+                <small>Anuncios Publicados</small>
             </div>
         </div>
     </div>
+    <div class="col-lg-3">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-info float-right">Semanal</span>
+                <h5>Últimos 7 días</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@semanal.Total</h1>
+                <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @semanal.Gasto</div>
+                <small>@semanal.Inicio.ToShortDateString() - @semanal.Fin.ToShortDateString()</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-primary float-right">Mensual</span>
+                <h5>Mes actual</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@mensual.Total</h1>
+                <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@mensual.Gasto</div>
+                <small>Anuncios Publicados</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 text-muted">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-inverse float-right">Actual</span>
+                <h5>Saldo</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins text-dark">$ @ct.Saldo </h1>
+                <div class="stat-percent font-bold ">@ct.LastUpdate.ToDateTimeString()</div>
+                <small class="text-right">Saldo suficiente para @prediccion.DiasDisponible días</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 text-muted">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-danger float-right">Valor Aproximado</span>
+                <h5>Gasto Esperado</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">$ @prediccion.GastoAproximado </h1>
+                <div class="stat-percent font-bold text-info">@DateTime.Now.ToUtcCuba().ToDateString() @*<i class="fa fa-calendar"></i>*@</div>
+                <small>Próximos @prediccion.DiasRestantes días&nbsp;</small>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row">
         <div class="col-lg-3" id="ControlTemporizadores">
             <div class="ibox ">
