@@ -7,13 +7,14 @@ namespace Services.DTOs.Registro
 {
     public class ClientDashboard
     {
-        public ClientDashboard(Cuenta ct, EstadisticaDiario dia, EstadisticaSemanal semana, EstadisticaMensual mensual, ClienteOpciones opt)
+        public ClientDashboard(Cuenta ct, EstadisticaDiario dia, EstadisticaSemanal semana, EstadisticaMensual mensual, ClienteOpciones opt, PrediccionIndicadores prediccion)
         {
             Cnt = new CuentaDTO(ct);
             Opciones = new OpcionesDTO(opt);
             Diario = dia;
             Semanal = semana;
             Mensual = mensual;
+            Prediccion = prediccion;
         }
         
         public CuentaDTO Cnt { get; }
@@ -21,5 +22,6 @@ namespace Services.DTOs.Registro
         public EstadisticaSemanal Semanal { get; }
         public EstadisticaMensual Mensual { get; }
         public OpcionesDTO Opciones { get; }
+        public PrediccionIndicadores Prediccion { get; }
     }
 }
