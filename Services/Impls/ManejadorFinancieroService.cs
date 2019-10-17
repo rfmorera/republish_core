@@ -91,5 +91,10 @@ namespace Services.Impls
             Cuenta ct = await GetCuenta(UserId);
             return ct.Saldo > 0;
         }
+
+        public Task<double> CostoAnuncio(string UserId)
+        {
+            return Task.FromResult(0.006);
+        }
     }
 }

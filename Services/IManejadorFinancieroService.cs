@@ -15,5 +15,6 @@ namespace Services
         Task<Cuenta> GetCuenta(string UserId);
         Task<IEnumerable<string>> FacturarRegistros();
         Task<bool> HasBalance(string UserId);
+        Task<double> CostoAnuncio(string UserId);
     }
 }
