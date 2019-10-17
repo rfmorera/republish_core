@@ -84,10 +84,11 @@ namespace Services.Impls
                     if (item.IsCompletedSuccessfully && item.Result.Any())
                     {
                         listAnuncios.AddRange(item.Result);
+                        _context.Entry(temp).Reference(s => s.Grupo).Load();
 
                         costo = await _financieroService.CostoAnuncio(temp.Grupo.UserId);
                         int CapResueltos = item.Result.Count();
-                        _context.Entry(temp).Reference(s => s.Grupo).Load();
+                        
                         Registro reg = new Registro(temp.Grupo.UserId, CapResueltos, UtcCuba, costo);
                         registros.Add(reg);
                     }
