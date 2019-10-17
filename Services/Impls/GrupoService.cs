@@ -1,5 +1,4 @@
-﻿
-using Models;
+﻿using Models;
 using Republish.Data;
 using Republish.Data.Repositories;
 using System;
@@ -58,7 +57,7 @@ namespace Services.Impls
                                                   .ToListAsync();
 
             IEnumerable<TemporizadorDTO> listT = (from t in (await _temporizadorService.GetByGroup(GrupoId)).AsQueryable()
-                                                select new TemporizadorDTO(t)).AsEnumerable();
+                                                select new TemporizadorDTO(t, list.Count(), 0.006)).AsEnumerable();
             
             GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;

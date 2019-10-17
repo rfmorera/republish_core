@@ -48,7 +48,7 @@ namespace Services.Impls
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
                 IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable  && t.Enable && utc <= t.HoraFin && t.NextExecution <= utc);
-                list = list.Where(t => t.IsValidDay());
+                list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 _log.LogError(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
                 

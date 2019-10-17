@@ -16,7 +16,7 @@ namespace Services.DTOs
 
         }
 
-        public TemporizadorDTO(Temporizador t)
+        public TemporizadorDTO(Temporizador t, int cantidadAnuncios, double costoAnuncio)
         {
             Id = t.Id;
             Nombre = t.Nombre;
@@ -40,11 +40,16 @@ namespace Services.DTOs
             GrupoId = t.GrupoId;
             UserId = t.UserId;
 
+            DateTime utcCuba = DateTime.Now.ToUtcCuba();
+
             Enable = t.Enable;
             UserEnable = t.UserEnable;
             SystemEnable = t.SystemEnable;
-            Ejecutandose = t.IsValidDay();
-            TimeSpan now = DateTime.Now.ToUtcCuba().TimeOfDay;
+            Ejecutandose = t.IsValidDay(utcCuba);
+
+            Costo = t.Costo(costoAnuncio, cantidadAnuncios);
+
+            TimeSpan now = utcCuba.TimeOfDay;
             if (HoraInicio <= now && now <= HoraFin && Ejecutandose)
             {
                 Ejecutandose = true;
@@ -243,5 +248,6 @@ namespace Services.DTOs
 
         public string GrupoId { get; set; }
         public string UserId { get; set; }
+        public double Costo { get; set; } 
     }
 }
