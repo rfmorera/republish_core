@@ -92,6 +92,11 @@ namespace Services.Impls
 
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
+            if(Etapa == 0)
+            {
+                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId)).Select(a => new AnuncioDTO(a));
+            }
+
             IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
 
             if (Etapa > 0)
