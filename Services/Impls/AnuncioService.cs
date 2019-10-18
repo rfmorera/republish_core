@@ -36,7 +36,7 @@ namespace Services.Impls
         public AnuncioService(ILogger log)
         {
             _log = log;
-            _captchaSolver = new Captcha2Solver("50db4358d2070f7bbfbc13cc814974ae");
+            _captchaSolver = new Captcha2Solver("e71e420eb525390484d828232867c3fa");
         }
 
         public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log)
@@ -44,7 +44,7 @@ namespace Services.Impls
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
-            _captchaSolver = new Captcha2Solver("50db4358d2070f7bbfbc13cc814974ae");
+            _captchaSolver = new Captcha2Solver("e71e420eb525390484d828232867c3fa");
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
