@@ -46,7 +46,7 @@ namespace Republish.Extensions
         {
             //TimeZoneInfo hwZone = TimeZoneInfo. FindSystemTimeZoneById("US Eastern Standard Time");
             DateTime utc = dateTime.ToUniversalTime().AddHours(-5);
-            return utc;
+            return dateTime;
         }
         public static DateTime ToDateTime(this string value)
         {
