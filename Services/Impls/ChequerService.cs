@@ -60,10 +60,10 @@ namespace Services.Impls
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
                     t.NextExecution = utc + timeSpan;
-                    if (t.NextExecution > t.HoraFin)
-                    {
-                        t.NextExecution = t.HoraInicio;
-                    }
+                    //if (t.NextExecution > t.HoraFin)
+                    //{
+                    //    t.NextExecution = t.HoraInicio;
+                    //}
                     await repository.UpdateAsync(t, t.Id);
 
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
