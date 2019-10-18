@@ -45,7 +45,7 @@ namespace Republish.Extensions
         public static DateTime ToUtcCuba(this DateTime dateTime)
         {
             //TimeZoneInfo hwZone = TimeZoneInfo. FindSystemTimeZoneById("US Eastern Standard Time");
-            DateTime utc = dateTime.AddHours(-5);
+            DateTime utc = dateTime.ToUniversalTime().AddHours(-5);
             return utc;
         }
         public static DateTime ToDateTime(this string value)
