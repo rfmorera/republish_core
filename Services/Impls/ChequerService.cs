@@ -108,12 +108,14 @@ namespace Services.Impls
                     int cnt = 0;
                     foreach(Task<string> ans in tasksList)
                     {
-                        if (!String.IsNullOrEmpty(ans.Result) && cnt < 5)
+                        if (!String.IsNullOrEmpty(ans.Result))
                         {
                             cnt++;
                             _log.LogError("Bad update> " + ans.Result);
                         }
                     }
+
+                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0}", listAnuncios.Count() - cnt));
                 }
             }
             catch(Exception ex)
