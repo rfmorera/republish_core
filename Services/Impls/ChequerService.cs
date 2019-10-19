@@ -93,7 +93,7 @@ namespace Services.Impls
                 {
                     await _registroService.AddRegistros(registros);
 
-                    _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
+                    _log.LogWarning(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                     int idx = 0, lenCaptchas = captchaKeys.Count;
