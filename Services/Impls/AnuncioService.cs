@@ -96,12 +96,8 @@ namespace Services.Impls
 
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
-                if (_uri.Contains("eB54qlqtMWuA31463328"))
-                {
-                    return answer;
-                }
-
-                if(answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
+                if(answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase)
+                 || answer.Contains("Access denied"))
                 {
                     return answer;
                 }
