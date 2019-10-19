@@ -115,7 +115,7 @@ namespace Services.Impls
                         }
                     }
 
-                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0}", listAnuncios.Count() - cnt));
+                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1}", listAnuncios.Count() - cnt, listAnuncios.Count()));
                 }
             }
             catch(Exception ex)
