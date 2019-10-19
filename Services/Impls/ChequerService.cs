@@ -51,7 +51,7 @@ namespace Services.Impls
                 IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable  && t.Enable && utc <= t.HoraFin && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
-                _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
                 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
