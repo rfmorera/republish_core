@@ -96,6 +96,11 @@ namespace Services.Impls
 
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
+                if (_uri.Contains("eB54qlqtMWuA31463328"))
+                {
+                    return answer;
+                }
+
                 if(answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return answer;
