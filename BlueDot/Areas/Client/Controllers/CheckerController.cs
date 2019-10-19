@@ -24,12 +24,12 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             try
             {
-                string log = await _chequerService.CheckAllTemporizadores();
-                return View(model: log);
+                await _chequerService.CheckAllTemporizadores();
+                return Ok();
             }
-            catch(Exception ex)
+            catch
             {
-                return View(model: ex.ToString());
+                return BadRequest();
             }
         }
 

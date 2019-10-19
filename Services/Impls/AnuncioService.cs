@@ -77,12 +77,12 @@ namespace Services.Impls
             await repositoryAnuncio.SaveChangesAsync();
         }
 
-        public async Task Publish(string url, string Key2Captcha)
+        public async Task<string> Publish(string url, string Key2Captcha)
         {
-            await StartProcess(url, Key2Captcha, true);
+            return await StartProcess(url, Key2Captcha, true);
         }
 
-        private async Task StartProcess(string _uri, string key2captcha, bool v2)
+        private async Task<string> StartProcess(string _uri, string key2captcha, bool v2)
         {
             try
             {
@@ -94,12 +94,20 @@ namespace Services.Impls
                 formAnuncio.variables.captchaResponse = captchaResponse;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                await Requests.PostAsync(apiRevolico, jsonForm);
+                string answer = await Requests.PostAsync(apiRevolico, jsonForm);
+
+                if(answer.Contains("errors", StringComparison.CurrentCultureIgnoreCase) 
+                || answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return answer;
+                }
+
+                return String.Empty;
             }
             catch (Exception ex)
             {
                 _log.LogError("Anuncio no publicado> " + ex.Message);
-                return;
+                return _uri;
             }
         }
 

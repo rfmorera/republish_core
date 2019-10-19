@@ -41,9 +41,8 @@ namespace Services.Impls
             _financieroService = financieroService;
         }
 
-        public async Task<string> CheckAllTemporizadores()
+        public async Task CheckAllTemporizadores()
         {
-            string log = "";
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
@@ -52,7 +51,7 @@ namespace Services.Impls
                 IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable  && t.Enable && utc <= t.HoraFin && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
-                _log.LogError(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+                _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
                 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
@@ -60,10 +59,6 @@ namespace Services.Impls
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
                     t.NextExecution = utc + timeSpan;
-                    //if (t.NextExecution > t.HoraFin)
-                    //{
-                    //    t.NextExecution = t.HoraInicio;
-                    //}
                     await repository.UpdateAsync(t, t.Id);
 
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
@@ -102,7 +97,7 @@ namespace Services.Impls
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                     int idx = 0, lenCaptchas = captchaKeys.Count;
-                    List<Task> tasksList = new List<Task>();
+                    List<Task<string>> tasksList = new List<Task<string>>();
                     foreach(AnuncioDTO an in listAnuncios)
                     {
                         tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
@@ -110,14 +105,21 @@ namespace Services.Impls
                     }
                     //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
                     await Task.WhenAll(tasksList);
+                    int cnt = 0;
+                    foreach(Task<string> ans in tasksList)
+                    {
+                        if (!String.IsNullOrEmpty(ans.Result) && cnt < 5)
+                        {
+                            cnt++;
+                            _log.LogError("Bad update> " + ans.Result);
+                        }
+                    }
                 }
             }
             catch(Exception ex)
             {
                 _log.LogError(ex.ToExceptionString());
             }
-            
-            return log;
         }
 
         public async Task ResetAll()
