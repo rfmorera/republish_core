@@ -96,8 +96,7 @@ namespace Services.Impls
 
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
-                if(answer.Contains("errors", StringComparison.CurrentCultureIgnoreCase) 
-                || answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
+                if(answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return answer;
                 }
@@ -106,7 +105,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Anuncio no publicado> " + ex.Message);
+                _log.LogError("Anuncio no publicado> " + ex.Message + "\n" + ex.StackTrace);
                 return _uri;
             }
         }
