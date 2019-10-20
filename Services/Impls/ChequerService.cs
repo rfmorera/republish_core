@@ -97,7 +97,7 @@ namespace Services.Impls
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                     int idx = 0, lenCaptchas = captchaKeys.Count;
-                    List<Task<string>> tasksList = new List<Task<string>>();
+                    List<Task> tasksList = new List<Task>();
                     foreach(AnuncioDTO an in listAnuncios)
                     {
                         tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
@@ -106,12 +106,12 @@ namespace Services.Impls
                     //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
                     await Task.WhenAll(tasksList);
                     int cnt = 0;
-                    foreach(Task<string> ans in tasksList)
+                    foreach(Task ans in tasksList)
                     {
-                        if (!String.IsNullOrEmpty(ans.Result) && cnt < 5)
+                        if (ans.IsFaulted)
                         {
                             cnt++;
-                            _log.LogError("Bad update> " + ans.Result);
+                            //ans.Exception
                         }
                     }
                 }
