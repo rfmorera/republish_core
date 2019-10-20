@@ -111,7 +111,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                _log.LogError("Anuncio no publicado> " + ex.Message);
+                _log.LogError("Anuncio no publicado> " + ex.Message + "\n" + ex.StackTrace);
                 throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
             }
         }

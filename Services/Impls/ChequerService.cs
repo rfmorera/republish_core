@@ -48,19 +48,20 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
-                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable  && t.Enable && utc <= t.HoraFin && t.NextExecution <= utc);
+                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable 
+                                                                              && utc <= t.HoraFin + TimeSpan.FromSeconds(11) 
+                                                                              && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
-                _log.LogInformation(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
                 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
                 foreach (Temporizador t in list)
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                    t.NextExecution = utc + timeSpan;
+                    t.NextExecution += timeSpan;
                     await repository.UpdateAsync(t, t.Id);
-
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
 
@@ -93,7 +94,7 @@ namespace Services.Impls
                 {
                     await _registroService.AddRegistros(registros);
 
-                    _log.LogInformation(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
+                    _log.LogWarning(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                     int idx = 0, lenCaptchas = captchaKeys.Count;
@@ -114,6 +115,8 @@ namespace Services.Impls
                             //ans.Exception
                         }
                     }
+
+                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1}", listAnuncios.Count() - cnt, listAnuncios.Count()));
                 }
             }
             catch(Exception ex)
