@@ -109,35 +109,38 @@ namespace Services.Impls
                         tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
                         idx = (idx + 1) % lenCaptchas;
                     }
-                    
-                    await Task.WhenAll(tasksList);
+
                     int cnt = 0;
-                    foreach(Task ans in tasksList)
+                    try
                     {
-                        if (ans.IsFaulted)
+                        Task.WaitAll(tasksList.ToArray());
+                    }
+                    catch(AggregateException exs)
+                    {
+                        foreach(Exception exModel in exs.InnerExceptions)
                         {
                             cnt++;
-                            if(ans.Exception.InnerException is BadCaptchaException)
+                            if (exModel is BadCaptchaException)
                             {
-                                BadCaptchaException ex = (BadCaptchaException) ans.Exception.InnerException;
+                                BadCaptchaException ex = (BadCaptchaException)exModel;
                                 _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
-                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri});
+                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri });
                             }
-                            else if (ans.Exception.InnerException is BanedException)
+                            else if (exModel is BanedException)
                             {
-                                BanedException ex = (BanedException)ans.Exception.InnerException;
+                                BanedException ex = (BanedException)exModel;
                                 _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                                 await repositoryLongQueue.AddAsync(new LongQueue() { Url = ex.uri });
                             }
-                            else if (ans.Exception.InnerException is GeneralException)
+                            else if (exModel is GeneralException)
                             {
-                                GeneralException ex = (GeneralException) ans.Exception.InnerException;
+                                GeneralException ex = (GeneralException)exModel;
                                 _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri });
+                                await repositoryLongQueue.AddAsync(new LongQueue() { Url = ex.uri });
                             }
-                            else 
+                            else
                             {
-                                Exception ex = ans.Exception.InnerException;
+                                Exception ex = exModel;
                                 _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
                             }
                         }
