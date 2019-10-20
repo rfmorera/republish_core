@@ -85,6 +85,16 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
             });
+
+            builder.Entity<ShortQueue>(entity =>
+            {
+                entity.HasKey("Id");
+            });
+
+            builder.Entity<LongQueue>(entity =>
+            {
+                entity.HasKey("Id");
+            });
         }
     }
 }
