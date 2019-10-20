@@ -13,6 +13,6 @@ namespace Services
 
         Task DeleteAllByGroup(string GrupoId);
 
-        Task<string> Publish(string url, string Key2Captcha);
+        Task Publish(string url, string Key2Captcha);
     }
 }

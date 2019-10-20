@@ -21,6 +21,7 @@ using Services.Utils;
 using Services.DTOs.AnuncioHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Services.Exceptions;
 
 namespace Services.Impls
 {
@@ -77,17 +78,19 @@ namespace Services.Impls
             await repositoryAnuncio.SaveChangesAsync();
         }
 
-        public async Task<string> Publish(string url, string Key2Captcha)
+        public async Task Publish(string url, string Key2Captcha)
         {
-            return await StartProcess(url, Key2Captcha, true);
+            await StartProcess(url, Key2Captcha, true);
         }
 
-        private async Task<string> StartProcess(string _uri, string key2captcha, bool v2)
+        private async Task StartProcess(string _uri, string key2captcha, bool v2)
         {
             try
             {
                 string htmlAnuncio = await Requests.GetAsync(_uri);
                 FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+
+                GetException(htmlAnuncio, _uri);
 
                 string captchaResponse = await ResolveCaptcha(_uri, htmlAnuncio);
 
@@ -96,18 +99,20 @@ namespace Services.Impls
 
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
-                if(answer.Contains("errors", StringComparison.CurrentCultureIgnoreCase) 
-                || answer.Contains("ErrorType", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return answer;
-                }
-
-                return String.Empty;
+                GetException(answer, _uri);
+            }
+            catch(BadCaptchaException ex)
+            {
+                throw ex;
+            }
+            catch (BanedException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {
                 _log.LogError("Anuncio no publicado> " + ex.Message);
-                return _uri;
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
             }
         }
 
@@ -121,7 +126,7 @@ namespace Services.Impls
             string captchaId = _captchaSolver.submit_recaptcha(_uri, siteKey);
 
             await Task.Delay(15000);
-            for(int i = 0; i < 20; i++)
+            for (int i = 0; i < 30; i++)
             {
                 string ans = _captchaSolver.retrieve(captchaId);
                 if (!String.IsNullOrEmpty(ans))
@@ -130,7 +135,7 @@ namespace Services.Impls
                 }
                 await Task.Delay(10000);
             }
-            throw new Exception("no resuelto");
+            throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
         }
 
         private FormAnuncio ParseFormAnuncio(string htmlAnuncio)
@@ -194,5 +199,16 @@ namespace Services.Impls
             return formAnuncio;
         }
 
+        private void GetException(string answer, string _uri)
+        {
+            if (answer.Contains("Error verifying reCAPTCHA"))
+            {
+                throw new BadCaptchaException(answer, _uri);
+            }
+            else if (answer.Contains("Cloudflare to restrict access"))
+            {
+                throw new BanedException(answer, _uri);
+            }
+        }
     }
 }
