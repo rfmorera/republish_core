@@ -11,6 +11,7 @@ using Models;
 using Services.Exceptions;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -37,18 +38,31 @@ namespace Services.Impls
 
         public async Task Process()
         {
-            IEnumerable<ShortQueue> list = _queuesUnit.Short.QueryAll().Take(20);
+            IEnumerable<string> list = _queuesUnit.Short.QueryAll()
+                                                            .OrderBy(l => l.Created)
+                                                            .GroupBy(l => l.Url)
+                                                            .OrderBy(l => l.Key)
+                                                            .Take(20)
+                                                            .Select(l => l.Key);
+
+            IEnumerable<ShortQueue> usedLinks = _queuesUnit.Short.QueryAll()
+                                                                 .Join(list,
+                                                                       r => r.Url,
+                                                                       s => s,
+                                                                       (a, b) => a);
+
+            DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             if (list.Any())
             {
-                _queuesUnit.Short.RemoveRange(list);
+                _queuesUnit.Short.RemoveRange(usedLinks);
                 await _queuesUnit.SaveChangesAsync();
 
                 List<Task> tasksList = new List<Task>();
                 List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                 int idx = 0, lenCaptchas = captchaKeys.Count;
-                foreach (ShortQueue item in list)
+                foreach (string item in list)
                 {
-                    tasksList.Add(_anuncioService.Publish(item.Url, captchaKeys[idx].Key));
+                    tasksList.Add(_anuncioService.Publish(item, captchaKeys[idx].Key));
                     idx = (idx + 1) % lenCaptchas;
                 }
 
@@ -66,19 +80,19 @@ namespace Services.Impls
                         {
                             BadCaptchaException ex = (BadCaptchaException)exModel;
                             _log.LogWarning($"Short Queue > Bad Captcha: {ex.uri} | {ex.Message}");
-                            await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri });
+                            await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
                         }
                         else if (exModel is BanedException)
                         {
                             BanedException ex = (BanedException)exModel;
                             _log.LogWarning($"Short Queue > Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
+                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                         }
                         else if (exModel is GeneralException)
                         {
                             GeneralException ex = (GeneralException)exModel;
                             _log.LogWarning($"Short Queue > Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
+                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                         }
                         else
                         {
