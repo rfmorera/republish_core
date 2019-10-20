@@ -20,7 +20,9 @@ namespace Services.Impls
     public class ChequerService : IChequerService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IRepository<Temporizador> repository;
+        private readonly IRepository<Temporizador> repositoryTemporizador;
+        private readonly IRepository<ShortQueue> repositoryShortQueue;
+        private readonly IRepository<LongQueue> repositoryLongQueue;
         private readonly IGrupoService _grupoService;
         private readonly IQueueService _queueService;
         private readonly ICaptchaService _captchaService;
@@ -32,7 +34,9 @@ namespace Services.Impls
         public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService)
         {
             _context = context;
-            repository = new Repository<Temporizador>(context);
+            repositoryTemporizador = new Repository<Temporizador>(context);
+            repositoryShortQueue = new Repository<ShortQueue>(context);
+            repositoryLongQueue = new Repository<LongQueue>(context);
             _grupoService = grupoService;
             _log = log;
             _queueService = queueService;
@@ -49,7 +53,7 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
-                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable 
+                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable 
                                                                               && utc <= t.HoraFin + TimeSpan.FromSeconds(11) 
                                                                               && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
@@ -62,12 +66,12 @@ namespace Services.Impls
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
                     t.NextExecution += timeSpan;
-                    await repository.UpdateAsync(t, t.Id);
+                    await repositoryTemporizador.UpdateAsync(t, t.Id);
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
 
                 await Task.WhenAll(selectTasks);
-                await repository.SaveChangesAsync();
+                await repositoryTemporizador.SaveChangesAsync();
 
                 List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
                 
@@ -117,16 +121,19 @@ namespace Services.Impls
                             {
                                 BadCaptchaException ex = (BadCaptchaException) ans.Exception.InnerException;
                                 _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
+                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri});
                             }
                             else if (ans.Exception.InnerException is BanedException)
                             {
                                 BanedException ex = (BanedException)ans.Exception.InnerException;
                                 _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                await repositoryLongQueue.AddAsync(new LongQueue() { Url = ex.uri });
                             }
                             else if (ans.Exception.InnerException is GeneralException)
                             {
                                 GeneralException ex = (GeneralException) ans.Exception.InnerException;
                                 _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri });
                             }
                             else 
                             {
@@ -135,6 +142,9 @@ namespace Services.Impls
                             }
                         }
                     }
+
+                    await _context.SaveChangesAsync();
+
                     int totalAnuncios = listAnuncios.Count();
                     int anunciosOk = totalAnuncios - cnt;
                     double pct = 100.0 * anunciosOk / totalAnuncios;
@@ -150,14 +160,14 @@ namespace Services.Impls
 
         public async Task ResetAll()
         {
-            IEnumerable<Temporizador> list = repository.QueryAll().ToList();
+            IEnumerable<Temporizador> list = repositoryTemporizador.QueryAll().ToList();
 
             foreach (Temporizador t in list)
             {
                 t.NextExecution = t.HoraInicio;
-                await repository.UpdateAsync(t, t.Id);
+                await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
-            await repository.SaveChangesAsync();
+            await repositoryTemporizador.SaveChangesAsync();
         }
     }
 }
