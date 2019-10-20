@@ -52,19 +52,27 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
-                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable 
-                                                                              && utc <= t.HoraFin + TimeSpan.FromSeconds(11) 
+                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
+                                                                              && utc <= t.HoraFin + TimeSpan.FromSeconds(11)
                                                                               && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
-                
+
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
                 foreach (Temporizador t in list)
                 {
-                    TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                    t.NextExecution += timeSpan;
+                    TimeSpan intervalo = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
+                    TimeSpan nxT = t.NextExecution + intervalo;
+                    if (nxT < utc)
+                    {
+                        int expectedMin = (int)(utc - t.HoraInicio).TotalMinutes;
+                        int diff = expectedMin % ((int)intervalo.TotalMinutes);
+                        t.NextExecution = utc - TimeSpan.FromMinutes(diff);
+                    }
+
+                    t.NextExecution += intervalo;
                     await repositoryTemporizador.UpdateAsync(t, t.Id);
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
@@ -73,7 +81,7 @@ namespace Services.Impls
                 await repositoryTemporizador.SaveChangesAsync();
 
                 List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
-                
+
                 int len = selectTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
                 double costo;
@@ -88,12 +96,12 @@ namespace Services.Impls
 
                         costo = await _financieroService.CostoAnuncio(temp.Grupo.UserId);
                         int CapResueltos = item.Result.Count();
-                        
+
                         Registro reg = new Registro(temp.Grupo.UserId, CapResueltos, UtcCuba, costo);
                         registros.Add(reg);
                     }
                 }
-                
+
                 if (listAnuncios.Any())
                 {
                     await _registroService.AddRegistros(registros);
@@ -103,7 +111,7 @@ namespace Services.Impls
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
                     int idx = 0, lenCaptchas = captchaKeys.Count;
                     List<Task> tasksList = new List<Task>();
-                    foreach(AnuncioDTO an in listAnuncios)
+                    foreach (AnuncioDTO an in listAnuncios)
                     {
                         tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
                         idx = (idx + 1) % lenCaptchas;
@@ -114,9 +122,9 @@ namespace Services.Impls
                     {
                         Task.WaitAll(tasksList.ToArray());
                     }
-                    catch(AggregateException exs)
+                    catch (AggregateException exs)
                     {
-                        foreach(Exception exModel in exs.InnerExceptions)
+                        foreach (Exception exModel in exs.InnerExceptions)
                         {
                             cnt++;
                             if (exModel is BadCaptchaException)
@@ -134,7 +142,7 @@ namespace Services.Impls
                             else if (exModel is GeneralException)
                             {
                                 GeneralException ex = (GeneralException)exModel;
-                                _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                _log.LogWarning($"General Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
                             }
                             else
@@ -153,7 +161,7 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _log.LogError(ex.ToExceptionString());
             }
