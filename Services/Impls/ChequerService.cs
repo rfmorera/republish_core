@@ -14,6 +14,7 @@ using System.Threading;
 using Microsoft.Extensions.Logging;
 using Republish.Extensions;
 using Services.Exceptions;
+using BlueDot.Data.UnitsOfWorkInterfaces;
 
 namespace Services.Impls
 {
@@ -21,8 +22,7 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
-        private readonly IRepository<ShortQueue> repositoryShortQueue;
-        private readonly IRepository<LongQueue> repositoryLongQueue;
+        private readonly IQueuesUnitOfWork _queuesUnit;
         private readonly IGrupoService _grupoService;
         private readonly IQueueService _queueService;
         private readonly ICaptchaService _captchaService;
@@ -31,12 +31,11 @@ namespace Services.Impls
         private readonly IManejadorFinancieroService _financieroService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
-            repositoryShortQueue = new Repository<ShortQueue>(context);
-            repositoryLongQueue = new Repository<LongQueue>(context);
+            _queuesUnit = queuesUnit;
             _grupoService = grupoService;
             _log = log;
             _queueService = queueService;
@@ -124,19 +123,19 @@ namespace Services.Impls
                             {
                                 BadCaptchaException ex = (BadCaptchaException)exModel;
                                 _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
-                                await repositoryShortQueue.AddAsync(new ShortQueue() { Url = ex.uri });
+                                await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri });
                             }
                             else if (exModel is BanedException)
                             {
                                 BanedException ex = (BanedException)exModel;
                                 _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                                await repositoryLongQueue.AddAsync(new LongQueue() { Url = ex.uri });
+                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
                             }
                             else if (exModel is GeneralException)
                             {
                                 GeneralException ex = (GeneralException)exModel;
                                 _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                                await repositoryLongQueue.AddAsync(new LongQueue() { Url = ex.uri });
+                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
                             }
                             else
                             {
@@ -144,9 +143,8 @@ namespace Services.Impls
                                 _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
                             }
                         }
+                        await _queuesUnit.SaveChangesAsync();
                     }
-
-                    await _context.SaveChangesAsync();
 
                     int totalAnuncios = listAnuncios.Count();
                     int anunciosOk = totalAnuncios - cnt;
