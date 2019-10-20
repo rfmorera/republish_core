@@ -72,6 +72,7 @@ namespace Republish
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
+            services.AddHostedService<ShortQueueTimer>();
 
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -95,6 +96,8 @@ namespace Republish
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
             services.AddTransient<IAgentService, AgentService>();
             services.AddTransient<Captcha2Solver, Captcha2Solver>();
+            services.AddTransient<IShortQueueService, ShortQueueService>();
+            services.AddScoped<IQueuesUnitOfWork, QueuesUnitOfWork>();
 
             services.AddAuthorization(options =>
             {
