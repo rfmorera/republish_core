@@ -13,5 +13,7 @@ namespace Models
 
         [Required]
         public string Url { get; set; }
+
+        public DateTime? Created { get; set; }
     }
 }
