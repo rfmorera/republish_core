@@ -48,7 +48,9 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
-                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable  && t.Enable && utc <= t.HoraFin && t.NextExecution <= utc);
+                IEnumerable<Temporizador> list = await repository.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable 
+                                                                              && utc <= t.HoraFin + TimeSpan.FromSeconds(11) 
+                                                                              && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
@@ -58,9 +60,8 @@ namespace Services.Impls
                 foreach (Temporizador t in list)
                 {
                     TimeSpan timeSpan = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                    t.NextExecution = utc + timeSpan;
+                    t.NextExecution += timeSpan;
                     await repository.UpdateAsync(t, t.Id);
-
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
 
