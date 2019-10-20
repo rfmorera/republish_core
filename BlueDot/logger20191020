@@ -1,0 +1,558 @@
+2019-10-20T17:04:09.7175535-04:00  [ERR] Error en ShortQueueTimer (5ecae951)
+System.InvalidOperationException: No service for type 'Services.IShortQueueService' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Services.BackgroundTasks.ShortQueueTimer.DoWork(Object state) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\BackgroundTasks\ShortQueueTimer.cs:line 45
+2019-10-20T17:04:10.0357384-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:10.0390829-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:10.0431428-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:10.1857973-04:00  [WRN] The LINQ expression '"where ((([t].SystemEnable AndAlso [t].UserEnable) AndAlso [t].Enable) AndAlso (__utc_0 <= ([t].HoraFin + __FromSeconds_1)))"' could not be translated and will be evaluated locally. (011792c6)
+2019-10-20T17:04:10.4216169-04:00  [WRN] Hora 17:04:09.6470863 cantidad de temporizadores 1 (88a0602c)
+2019-10-20T17:04:10.6235789-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:04:11.8686361-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:04:11.8797515-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:04:11.8913676-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:04:11.9074227-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:04:37.3560952-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:37.3693110-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:37.3726510-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:04:37.4828595-04:00  [WRN] Query: '"(from ShortQueue <generated>_1 in DbSet<ShortQueue> select [<generated>_1]).Take(__p_0)"' uses a row limiting operation (Skip/Take) without OrderBy which may lead to unpredictable results. (32148ccc)
+2019-10-20T17:04:37.5260559-04:00  [WRN] The LINQ expression '"where ((([t].SystemEnable AndAlso [t].UserEnable) AndAlso [t].Enable) AndAlso (__utc_0 <= ([t].HoraFin + __FromSeconds_1)))"' could not be translated and will be evaluated locally. (011792c6)
+2019-10-20T17:04:37.7374903-04:00  [WRN] !!! Short Queue ---- Actualizados correctamente 0 de 0 | NaN% (dc26eb37)
+2019-10-20T17:04:37.8089679-04:00  [WRN] Hora 17:04:36.9381848 cantidad de temporizadores 1 (fc1071e1)
+2019-10-20T17:04:38.0560255-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:04:46.9473122-04:00  [WRN] Hora 17:04:46.9294211 cantidad de temporizadores 1 (a1f6a956)
+2019-10-20T17:04:46.9729634-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:04:49.8413774-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:04:49.8434027-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:04:49.8521967-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:04:49.8541097-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:04:49.8566717-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:04:49.8585790-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:04:49.8648096-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:04:49.8688882-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:04:56.9274526-04:00  [WRN] Hora 17:04:56.9224177 cantidad de temporizadores 1 (8a18e1ff)
+2019-10-20T17:04:57.0448126-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:04:57.4170180-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:04:57.4191065-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:04:57.4212954-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:04:57.4286987-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:05:06.9351823-04:00  [WRN] Hora 17:05:06.9247432 cantidad de temporizadores 1 (ffdfd0c5)
+2019-10-20T17:05:06.9629082-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:05:08.4890903-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:05:08.4915765-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:05:08.4938836-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:05:08.5005153-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:05:16.9355083-04:00  [WRN] Hora 17:05:16.9238054 cantidad de temporizadores 1 (1ca30466)
+2019-10-20T17:05:16.9496536-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:05:17.2978339-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:05:17.3001176-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:05:17.3023970-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:05:17.3087118-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:08:33.3503157-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:08:33.3566139-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:08:33.3580795-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T17:08:33.4660173-04:00  [WRN] Query: '"(from ShortQueue <generated>_1 in DbSet<ShortQueue> select [<generated>_1]).Take(__p_0)"' uses a row limiting operation (Skip/Take) without OrderBy which may lead to unpredictable results. (32148ccc)
+2019-10-20T17:08:33.5044332-04:00  [WRN] The LINQ expression '"where ((([t].SystemEnable AndAlso [t].UserEnable) AndAlso [t].Enable) AndAlso (__utc_0 <= ([t].HoraFin + __FromSeconds_1)))"' could not be translated and will be evaluated locally. (011792c6)
+2019-10-20T17:08:33.7095025-04:00  [WRN] Hora 17:08:32.9931530 cantidad de temporizadores 1 (44950d60)
+2019-10-20T17:08:33.9424141-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:08:42.9865079-04:00  [WRN] Hora 17:08:42.9712710 cantidad de temporizadores 1 (520c6efb)
+2019-10-20T17:08:43.0078962-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:08:45.7628529-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:08:45.7644570-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:08:45.7745005-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:08:45.7763811-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:08:45.7784074-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:08:45.7801209-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:08:45.7883560-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:08:45.7899333-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:08:52.9707496-04:00  [WRN] Hora 17:08:52.9667815 cantidad de temporizadores 1 (c2cd9a31)
+2019-10-20T17:08:52.9802373-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:02.9744993-04:00  [WRN] Hora 17:09:02.9693998 cantidad de temporizadores 1 (79378375)
+2019-10-20T17:09:02.9838000-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:04.5926318-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:04.6558895-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:04.6906043-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:04.7252611-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:04.7291771-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:04.7343509-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:04.7365905-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:04.7418701-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:12.9745882-04:00  [WRN] Hora 17:09:12.9709612 cantidad de temporizadores 1 (f04d4706)
+2019-10-20T17:09:12.9825223-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:22.9727618-04:00  [WRN] Hora 17:09:22.9690754 cantidad de temporizadores 1 (1601f4aa)
+2019-10-20T17:09:22.9803707-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:24.6768029-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:24.7085054-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:24.7103975-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:24.7125530-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:24.7142834-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:24.7166126-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:24.7211800-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:24.7244162-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:32.9744222-04:00  [WRN] Hora 17:09:32.9677484 cantidad de temporizadores 1 (4237d0c3)
+2019-10-20T17:09:32.9843853-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:42.9724957-04:00  [WRN] Hora 17:09:42.9686329 cantidad de temporizadores 1 (4493a12b)
+2019-10-20T17:09:42.9808595-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:09:44.6627238-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:44.6639390-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:09:44.6668814-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:44.6685078-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:09:44.6716840-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:44.6739133-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:09:44.6801915-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:44.6815995-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:09:52.9723112-04:00  [WRN] Hora 17:09:52.9685099 cantidad de temporizadores 1 (1fdc9a5e)
+2019-10-20T17:09:52.9852526-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:10:02.9764863-04:00  [WRN] Hora 17:10:02.9695419 cantidad de temporizadores 0 (0f6af149)
+2019-10-20T17:10:04.4594400-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:10:04.4625527-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:10:04.4652015-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:10:04.4719467-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:10:12.9738662-04:00  [WRN] Hora 17:10:12.9696968 cantidad de temporizadores 0 (5e935f2b)
+2019-10-20T17:10:22.9735515-04:00  [WRN] Hora 17:10:22.9705150 cantidad de temporizadores 0 (846037bb)
+2019-10-20T17:10:32.9723669-04:00  [WRN] Hora 17:10:32.9689236 cantidad de temporizadores 1 (fe863ab8)
+2019-10-20T17:10:32.9804606-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T17:10:42.9832445-04:00  [WRN] Hora 17:10:42.9697309 cantidad de temporizadores 0 (05a52d36)
+2019-10-20T17:10:44.4538805-04:00  [WRN] Custom Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (cf33e607)
+2019-10-20T17:10:44.4563388-04:00  [WRN] Custom Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | No such host is known
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d50c71a)
+2019-10-20T17:10:44.4587687-04:00  [WRN] Custom Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (f3e99896)
+2019-10-20T17:10:44.4654094-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2019-10-20T17:10:52.9786812-04:00  [WRN] Hora 17:10:52.9713553 cantidad de temporizadores 0 (69beef0f)
+2019-10-20T17:11:02.9736407-04:00  [WRN] Hora 17:11:02.9699608 cantidad de temporizadores 0 (86612206)
+2019-10-20T17:11:12.9732461-04:00  [WRN] Hora 17:11:12.9694329 cantidad de temporizadores 0 (4affe99e)
+2019-10-20T17:11:22.9733312-04:00  [WRN] Hora 17:11:22.9681485 cantidad de temporizadores 0 (7341782d)
+2019-10-20T17:11:32.9842999-04:00  [WRN] Hora 17:11:32.9699456 cantidad de temporizadores 0 (0e09806b)
+2019-10-20T17:11:42.9760659-04:00  [WRN] Hora 17:11:42.9700725 cantidad de temporizadores 0 (5eddf828)
