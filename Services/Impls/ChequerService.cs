@@ -123,15 +123,23 @@ namespace Services.Impls
                                 BanedException ex = (BanedException)ans.Exception.InnerException;
                                 _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                             }
-                            else
+                            else if (ans.Exception.InnerException is GeneralException)
                             {
                                 GeneralException ex = (GeneralException) ans.Exception.InnerException;
                                 _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                             }
+                            else 
+                            {
+                                Exception ex = ans.Exception.InnerException;
+                                _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
+                            }
                         }
                     }
+                    int totalAnuncios = listAnuncios.Count();
+                    int anunciosOk = totalAnuncios - cnt;
+                    double pct = 100.0 * anunciosOk / totalAnuncios;
 
-                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1}", listAnuncios.Count() - cnt, listAnuncios.Count()));
+                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
                 }
             }
             catch(Exception ex)
