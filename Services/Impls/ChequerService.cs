@@ -122,13 +122,13 @@ namespace Services.Impls
                             if (exModel is BadCaptchaException)
                             {
                                 BadCaptchaException ex = (BadCaptchaException)exModel;
-                                _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
+                                _log.LogWarning($"Bad Captcha: {ex.uri}");
                                 await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri });
                             }
                             else if (exModel is BanedException)
                             {
                                 BanedException ex = (BanedException)exModel;
-                                _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                _log.LogWarning($"Baned Page: {ex.uri}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri });
                             }
                             else if (exModel is GeneralException)
