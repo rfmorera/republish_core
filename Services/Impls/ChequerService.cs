@@ -13,6 +13,7 @@ using Services.Extensions;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Republish.Extensions;
+using Services.Exceptions;
 
 namespace Services.Impls
 {
@@ -104,7 +105,7 @@ namespace Services.Impls
                         tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
                         idx = (idx + 1) % lenCaptchas;
                     }
-                    //await _queueService.AddMessageAsync(KeyCaptcha, listAnuncios);
+                    
                     await Task.WhenAll(tasksList);
                     int cnt = 0;
                     foreach(Task ans in tasksList)
@@ -112,7 +113,21 @@ namespace Services.Impls
                         if (ans.IsFaulted)
                         {
                             cnt++;
-                            //ans.Exception
+                            if(ans.Exception.InnerException is BadCaptchaException)
+                            {
+                                BadCaptchaException ex = (BadCaptchaException) ans.Exception.InnerException;
+                                _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
+                            }
+                            else if (ans.Exception.InnerException is BanedException)
+                            {
+                                BanedException ex = (BanedException)ans.Exception.InnerException;
+                                _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                            }
+                            else
+                            {
+                                GeneralException ex = (GeneralException) ans.Exception.InnerException;
+                                _log.LogWarning($"Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                            }
                         }
                     }
 
