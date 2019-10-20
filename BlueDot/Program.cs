@@ -21,7 +21,7 @@ namespace Republish
             
             // Upper Limit of Connections
             ServicePointManager.DefaultConnectionLimit = 250;
-            ServicePointManager.MaxServicePoints = 25;
+            ServicePointManager.MaxServicePoints = 60;
             Uri uriRevolico = new Uri("https://www.revolico.com");
             Uri uri2Captcha = new Uri("https://www.2captcha.com");
 
@@ -30,11 +30,11 @@ namespace Republish
 
             // Configuration ServicePoint Revolico
             sp1.ConnectionLimit = 200;
-            sp1.ConnectionLeaseTimeout = 6000;
+            sp1.ConnectionLeaseTimeout = 15000;
 
             // Configuration ServicePoint 2Captcha
             sp2.ConnectionLimit = 200;
-            sp2.ConnectionLeaseTimeout = 6000;
+            sp2.ConnectionLeaseTimeout = 15000;
 
             CreateWebHostBuilder(args).Build().Run();
         }
