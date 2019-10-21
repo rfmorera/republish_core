@@ -88,7 +88,7 @@ namespace Services.Impls
                             else if (exModel is BanedException)
                             {
                                 BanedException ex = (BanedException)exModel;
-                                _log.LogWarning($"Short Queue > Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                _log.LogWarning($"Short Queue > Baned Page: {ex.uri}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is GeneralException)
