@@ -138,8 +138,7 @@ namespace Captcha2Api
         /// <returns></returns>
         public string set_captcha_bad(string captchaid)
         {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            var url = string.Format("/{0}res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
+            var url = string.Format("{0}/res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             dynamic d = JObject.Parse(resp);
             return d.ToString();
@@ -152,8 +151,7 @@ namespace Captcha2Api
         /// <returns></returns>
         public string set_captcha_good(string captchaid)
         {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            var url = string.Format("/{0}res.php?key={1}&action=reportgood&id={2}", BASE_URL, this._access_token, captchaid);
+            var url = string.Format("{0}/res.php?key={1}&action=reportgood&id={2}", BASE_URL, this._access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             dynamic d = JObject.Parse(resp);
             return d.ToString();
