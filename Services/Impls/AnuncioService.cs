@@ -101,7 +101,7 @@ namespace Services.Impls
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
                 GetException(answer, _uri, captchaResponse);
-                _captchaSolver.set_captcha_good(captchaResponse.Id);
+                //_captchaSolver.set_captcha_good(captchaResponse.Id);
             }
             catch(BadCaptchaException ex)
             {
@@ -204,7 +204,7 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                _captchaSolver.set_captcha_bad(captchaResponse.Id);
+                //_captchaSolver.set_captcha_bad(captchaResponse.Id);
                 throw new BadCaptchaException(answer, _uri);
             }
             else if (answer.Contains("Cloudflare to restrict access"))
