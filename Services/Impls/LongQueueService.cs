@@ -44,7 +44,7 @@ namespace Services.Impls
                                                             .OrderBy(l => l.Created)
                                                             .GroupBy(l => l.Url)
                                                             .OrderBy(l => l.Key)
-                                                            .Take(20)
+                                                            .Take(8)
                                                             .Select(l => l.Key);
 
                 IEnumerable<LongQueue> usedLinks = _queuesUnit.Long.QueryAll()
