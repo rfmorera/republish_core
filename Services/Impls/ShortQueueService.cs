@@ -38,77 +38,84 @@ namespace Services.Impls
 
         public async Task Process()
         {
-            IEnumerable<string> list = _queuesUnit.Short.QueryAll()
+            try
+            {
+                IEnumerable<string> list = _queuesUnit.Short.QueryAll()
                                                             .OrderBy(l => l.Created)
                                                             .GroupBy(l => l.Url)
                                                             .OrderBy(l => l.Key)
                                                             .Take(20)
                                                             .Select(l => l.Key);
 
-            IEnumerable<ShortQueue> usedLinks = _queuesUnit.Short.QueryAll()
-                                                                 .Join(list,
-                                                                       r => r.Url,
-                                                                       s => s,
-                                                                       (a, b) => a);
+                IEnumerable<ShortQueue> usedLinks = _queuesUnit.Short.QueryAll()
+                                                                     .Join(list,
+                                                                           r => r.Url,
+                                                                           s => s,
+                                                                           (a, b) => a);
 
-            DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-            if (list.Any())
-            {
-                _queuesUnit.Short.RemoveRange(usedLinks);
-                await _queuesUnit.SaveChangesAsync();
-
-                List<Task> tasksList = new List<Task>();
-                List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
-                int idx = 0, lenCaptchas = captchaKeys.Count;
-                foreach (string item in list)
+                DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+                if (list.Any())
                 {
-                    tasksList.Add(_anuncioService.Publish(item, captchaKeys[idx].Key));
-                    idx = (idx + 1) % lenCaptchas;
-                }
-
-                int cnt = 0;
-                try
-                {
-                    Task.WaitAll(tasksList.ToArray());
-                }
-                catch (AggregateException exs)
-                {
-                    foreach (Exception exModel in exs.InnerExceptions)
+                    
+                    List<Task> tasksList = new List<Task>();
+                    List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
+                    int idx = 0, lenCaptchas = captchaKeys.Count;
+                    foreach (string item in list)
                     {
-                        cnt++;
-                        if (exModel is BadCaptchaException)
+                        tasksList.Add(_anuncioService.Publish(item, captchaKeys[idx].Key));
+                        idx = (idx + 1) % lenCaptchas;
+                    }
+                    int totalAnuncios = list.Count();
+
+                    _queuesUnit.Short.RemoveRange(usedLinks);
+                    Task save = _queuesUnit.SaveChangesAsync();
+                    int cnt = 0;
+                    try
+                    {
+                        Task.WaitAll(tasksList.ToArray());
+                    }
+                    catch (AggregateException exs)
+                    {
+                        foreach (Exception exModel in exs.InnerExceptions)
                         {
-                            BadCaptchaException ex = (BadCaptchaException)exModel;
-                            _log.LogWarning($"Short Queue > Bad Captcha: {ex.uri} | {ex.Message}");
-                            await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
-                        }
-                        else if (exModel is BanedException)
-                        {
-                            BanedException ex = (BanedException)exModel;
-                            _log.LogWarning($"Short Queue > Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
-                        }
-                        else if (exModel is GeneralException)
-                        {
-                            GeneralException ex = (GeneralException)exModel;
-                            _log.LogWarning($"Short Queue > Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                            await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
-                        }
-                        else
-                        {
-                            Exception ex = exModel;
-                            _log.LogWarning($"Short Queue > Unkown Error: {ex.Message} | {ex.StackTrace}");
+                            cnt++;
+                            if (exModel is BadCaptchaException)
+                            {
+                                BadCaptchaException ex = (BadCaptchaException)exModel;
+                                _log.LogWarning($"Short Queue > Bad Captcha: {ex.uri} | {ex.Message}");
+                                await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
+                            }
+                            else if (exModel is BanedException)
+                            {
+                                BanedException ex = (BanedException)exModel;
+                                _log.LogWarning($"Short Queue > Baned Page: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
+                            }
+                            else if (exModel is GeneralException)
+                            {
+                                GeneralException ex = (GeneralException)exModel;
+                                _log.LogWarning($"Short Queue > Custom Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
+                            }
+                            else
+                            {
+                                Exception ex = exModel;
+                                _log.LogWarning($"Short Queue > Unkown Error: {ex.Message} | {ex.StackTrace}");
+                            }
                         }
                     }
+                    Task.WaitAll(save);
+                    await _queuesUnit.SaveChangesAsync();
+
+                    int anunciosOk = totalAnuncios - cnt;
+                    double pct = 100.0 * anunciosOk / totalAnuncios;
+
+                    _log.LogWarning(string.Format("!!! Short Queue ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
                 }
-
-                await _queuesUnit.SaveChangesAsync();
-
-                int totalAnuncios = list.Count();
-                int anunciosOk = totalAnuncios - cnt;
-                double pct = 100.0 * anunciosOk / totalAnuncios;
-
-                _log.LogWarning(string.Format("!!! Short Queue ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.Message + "\n" + ex.StackTrace);
             }
         }
     }
