@@ -13,11 +13,14 @@ namespace Services
 
         Task DeleteAsync(string Id);
 
+        Task<Grupo> UpdateAsync(Grupo grupo);
+
         Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string Id, int Etapa, string t);
         
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 
         Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);
         Task<IEnumerable<Grupo>> GetByUser(string UserId);
+        Task<Grupo> GetAsync(string GrupoId);
     }
 }

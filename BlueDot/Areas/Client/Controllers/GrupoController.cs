@@ -60,6 +60,17 @@ namespace RepublishTool.Areas.Client.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Edit(GrupoEditDTO dto)
+        {
+            Grupo grupo = await _grupoService.GetAsync(dto.Id);
+            grupo = dto.UpdateModel(grupo);
+
+            await _grupoService.UpdateAsync(grupo);
+
+            return Json(dto);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Delete(string GrupoId)
         {
             await _grupoService.DeleteAsync(GrupoId);

@@ -44,7 +44,7 @@ namespace Services.Impls
 
         public async Task DeleteAsync(string Id)
         {
-            Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
+            Grupo grupo = await GetAsync(Id);
             _repository.Remove(grupo);
             await _repository.SaveChangesAsync();
         }
@@ -75,6 +75,11 @@ namespace Services.Impls
                                                     .Select(g => new GrupoIndexDTO(g))
                                                     .ToListAsync();
             return list;
+        }
+
+        public async Task<Grupo> GetAsync(string GrupoId)
+        {
+            return await _repository.FindAsync(g => g.Id == GrupoId);
         }
 
         public async Task<IEnumerable<Grupo>> GetByUser(string UserId)
@@ -135,6 +140,11 @@ namespace Services.Impls
             }
 
             return list;
+        }
+
+        public async Task<Grupo> UpdateAsync(Grupo grupo)
+        {
+            return await _repository.UpdateAsync(grupo, grupo.Id);
         }
     }
 }

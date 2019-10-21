@@ -22,8 +22,9 @@ function initializePage() {
         $('.footable').footable();
     });
 
-    $("tr").each(function (index, element) { $(element).attr("id", index) })
+    //$("tr").each(function (index, element) { $(element).attr("id", index) });
 
+    initializeDataTablesEditor("#dataTables-table");
 
     $("#HideTour").on("click", function () {
         onCookieSuccess();
