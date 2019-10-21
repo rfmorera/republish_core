@@ -556,3 +556,34 @@ System.InvalidOperationException: No service for type 'Services.IShortQueueServi
 2019-10-20T17:11:22.9733312-04:00  [WRN] Hora 17:11:22.9681485 cantidad de temporizadores 0 (7341782d)
 2019-10-20T17:11:32.9842999-04:00  [WRN] Hora 17:11:32.9699456 cantidad de temporizadores 0 (0e09806b)
 2019-10-20T17:11:42.9760659-04:00  [WRN] Hora 17:11:42.9700725 cantidad de temporizadores 0 (5eddf828)
+2019-10-20T21:15:14.2630041-04:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T21:15:14.2738475-04:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T21:15:14.2759452-04:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-10-20T21:15:14.4059310-04:00  [WRN] The LINQ expression '"where ((([t].SystemEnable AndAlso [t].UserEnable) AndAlso [t].Enable) AndAlso (__utc_0 <= ([t].HoraFin + __FromSeconds_1)))"' could not be translated and will be evaluated locally. (011792c6)
+2019-10-20T21:15:14.6010612-04:00  [WRN] Hora 21:15:13.9042725 cantidad de temporizadores 1 (e18f362e)
+2019-10-20T21:15:15.1062550-04:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2019-10-20T21:15:23.9002270-04:00  [WRN] Hora 21:15:23.8931045 cantidad de temporizadores 0 (04e3f67c)
+2019-10-20T21:15:28.9689534-04:00  [WRN] The LINQ expression '"join String b in {from IGrouping`2 l in {from LongQueue l in value(Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1[Models.LongQueue]) orderby [l].Created asc select [l] => GroupBy([l].Url, [l])} orderby [l].Key asc select [l].Key => Take(__p_0)} on [r].Url equals [b]"' could not be translated and will be evaluated locally. (011792c6)
+2019-10-20T21:15:33.9006786-04:00  [WRN] Hora 21:15:33.8939138 cantidad de temporizadores 0 (0fd57832)
+2019-10-20T21:15:35.3978392-04:00  [WRN] General Error: https://www.revolico.com/modificar-anuncio.html?key=eB54qlqtMWuA31463328 | The operation was canceled.
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 49
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 90 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (ac334c4e)
+2019-10-20T21:15:35.4032441-04:00  [WRN] General Error: http://www.revolico.com/modificar-anuncio.html?key=8KutaLlVPl7331891337 | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (ae50ca3d)
+2019-10-20T21:15:35.4061568-04:00  [WRN] General Error: https://localhost:44307/ | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 151
+   at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 91 |    at Services.Impls.AnuncioService.StartProcess(String _uri, String key2captcha, Boolean v2) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 114
+   at Services.Impls.AnuncioService.Publish(String url, String Key2Captcha) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 83 (1d1154e9)
+2019-10-20T21:15:35.4236740-04:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)

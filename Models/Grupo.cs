@@ -16,6 +16,8 @@ namespace Models
         [Required]
         public string Nombre { get; set; }
 
+        public string Descripcion { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Orden { get; set; }
 

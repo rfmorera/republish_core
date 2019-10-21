@@ -16,6 +16,7 @@ namespace Services.DTOs
         {
             Id = grupo.Id;
             Nombre = grupo.Nombre;
+            Descripcion = grupo.Descripcion;
             CantidadAnuncios = grupo.Anuncios.Count;
             UserId = grupo.UserId;
             Activo = grupo.Activo;
@@ -23,6 +24,7 @@ namespace Services.DTOs
 
         public string Id { get; set; }
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
         public int CantidadAnuncios { get; set; }
         public bool Activo { get; set; }
         public string UserId { get; set; }
@@ -32,6 +34,7 @@ namespace Services.DTOs
             Grupo grupo = new Grupo();
             grupo.Nombre = Nombre;
             grupo.UserId = UserId;
+            grupo.Descripcion = Descripcion;
             return grupo;
         }
     }

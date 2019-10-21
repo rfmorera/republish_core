@@ -87,7 +87,6 @@ namespace Services.Impls
                                         .Select(g => g)
                                         .ToListAsync();
             return list;
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
