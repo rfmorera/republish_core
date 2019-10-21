@@ -139,9 +139,21 @@ namespace Captcha2Api
         public string set_captcha_bad(string captchaid)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
-            var url = string.Format("{0}?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
-            dict.Add("access_token", this._access_token);
-            var data = JsonConvert.SerializeObject(dict);
+            var url = string.Format("/{0}res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
+            var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
+            dynamic d = JObject.Parse(resp);
+            return d.ToString();
+        }
+
+        /// <summary>
+        /// Set captcha good
+        /// </summary>
+        /// <param name="captchaid"></param>
+        /// <returns></returns>
+        public string set_captcha_good(string captchaid)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            var url = string.Format("/{0}res.php?key={1}&action=reportgood&id={2}", BASE_URL, this._access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             dynamic d = JObject.Parse(resp);
             return d.ToString();

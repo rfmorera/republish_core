@@ -22,6 +22,7 @@ using Services.DTOs.AnuncioHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Services.Exceptions;
+using Services.DTOs;
 
 namespace Services.Impls
 {
@@ -92,14 +93,15 @@ namespace Services.Impls
 
                 GetException(htmlAnuncio, _uri);
 
-                string captchaResponse = await ResolveCaptcha(_uri, htmlAnuncio);
+                CaptchaAnswer captchaResponse = await ResolveCaptcha(_uri, htmlAnuncio);
 
-                formAnuncio.variables.captchaResponse = captchaResponse;
+                formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
                 string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
-                GetException(answer, _uri);
+                GetException(answer, _uri, captchaResponse);
+                _captchaSolver.set_captcha_good(captchaResponse.Id);
             }
             catch(BadCaptchaException ex)
             {
@@ -115,7 +117,7 @@ namespace Services.Impls
             }
         }
 
-        private async Task<string> ResolveCaptcha(string _uri, string htmlAnuncio)
+        private async Task<CaptchaAnswer> ResolveCaptcha(string _uri, string htmlAnuncio)
         {
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
@@ -130,7 +132,7 @@ namespace Services.Impls
                 string ans = _captchaSolver.retrieve(captchaId);
                 if (!String.IsNullOrEmpty(ans))
                 {
-                    return ans;
+                    return new CaptchaAnswer(captchaId, ans);
                 }
                 await Task.Delay(10000);
             }
@@ -198,10 +200,11 @@ namespace Services.Impls
             return formAnuncio;
         }
 
-        private void GetException(string answer, string _uri)
+        private void GetException(string answer, string _uri, CaptchaAnswer captchaResponse = null)
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
+                _captchaSolver.set_captcha_bad(captchaResponse.Id);
                 throw new BadCaptchaException(answer, _uri);
             }
             else if (answer.Contains("Cloudflare to restrict access"))
