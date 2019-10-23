@@ -38,7 +38,7 @@ namespace Services.BackgroundTasks
             try
             {
                 _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is working.");
+                "LongQueue is working.");
 
                 using (var scope = Services.CreateScope())
                 {
@@ -51,7 +51,7 @@ namespace Services.BackgroundTasks
                     waitHandle.WaitOne();
                 }
                 _logger.LogInformation(
-                    "Completed - Consume Scoped Service Hosted Service is completed.");
+                    "Completed - LongQueue is completed.");
             }
             catch(Exception ex)
             {
@@ -62,7 +62,7 @@ namespace Services.BackgroundTasks
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is stopping.");
+                "LongQueue is stopping.");
 
             return Task.CompletedTask;
         }

@@ -26,7 +26,7 @@ namespace Services.BackgroundTasks
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is starting.");
+                "Check Temporizadores  is starting.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
 
@@ -38,7 +38,7 @@ namespace Services.BackgroundTasks
             try
             {
                 _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is working.");
+                "Check Temporizadores is working.");
 
                 using (var scope = Services.CreateScope())
                 {
@@ -51,7 +51,7 @@ namespace Services.BackgroundTasks
                     waitHandle.WaitOne();
                 }
                 _logger.LogInformation(
-                    "Completed - Consume Scoped Service Hosted Service is completed.");
+                    "Completed - Check Temporizadores  is completed.");
             }
             catch(Exception ex)
             {
@@ -62,7 +62,7 @@ namespace Services.BackgroundTasks
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is stopping.");
+                "Check Temporizadores is stopping.");
 
             return Task.CompletedTask;
         }

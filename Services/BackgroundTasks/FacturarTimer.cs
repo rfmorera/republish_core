@@ -31,7 +31,7 @@ namespace Services.BackgroundTasks
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "FacturarTimer Service Hosted Service is starting.");
+                "FacturarTimer Service is starting.");
 
             _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(45), TimeSpan.FromMinutes(2));
 
@@ -43,7 +43,7 @@ namespace Services.BackgroundTasks
             try
             {
                 _logger.LogInformation(
-                "Consume Scoped Service Hosted Service is working.");
+                "FacturarTimer Service is working.");
 
                 using (var scope = Services.CreateScope())
                 {
@@ -56,7 +56,7 @@ namespace Services.BackgroundTasks
                     waitHandle.WaitOne();
                 }
                 _logger.LogInformation(
-                    "Completed - Consume Scoped Service Hosted Service is completed.");
+                    "Completed - FacturarTimer Service is completed.");
             }
             catch(Exception ex)
             {
@@ -67,7 +67,7 @@ namespace Services.BackgroundTasks
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "FacturarTimer Service Hosted Service is stopping.");
+                "FacturarTimer Service is stopping.");
 
             return Task.CompletedTask;
         }
