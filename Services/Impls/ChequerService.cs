@@ -54,7 +54,7 @@ namespace Services.Impls
 
                 IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
                                                                               && utc <= t.HoraFin + TimeSpan.FromSeconds(11)
-                                                                              && t.NextExecution <= utc);
+                                                                              && t.NextExecution <= utc + TimeSpan.FromSeconds(11));
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 if (list.Any())

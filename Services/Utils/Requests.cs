@@ -30,7 +30,7 @@ namespace Services.Utils
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(20);
+                client.Timeout = TimeSpan.FromSeconds(35);
                 HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
                 return await responseHttp.Content?.ReadAsStringAsync();
             }
@@ -45,7 +45,7 @@ namespace Services.Utils
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(20);
+                client.Timeout = TimeSpan.FromSeconds(35);
                 HttpResponseMessage responseHttp = await client.GetAsync(requestUri);
                 return await responseHttp.Content?.ReadAsStringAsync();
             }
