@@ -28,7 +28,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "ShortQueue Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(3));
+            _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(2), TimeSpan.FromMinutes(3));
 
             return Task.CompletedTask;
         }

@@ -28,7 +28,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "LongQueue Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(15), TimeSpan.FromMinutes(4));
+            _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(3), TimeSpan.FromMinutes(4));
 
             return Task.CompletedTask;
         }

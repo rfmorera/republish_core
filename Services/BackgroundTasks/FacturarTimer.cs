@@ -33,7 +33,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "FacturarTimer Service Hosted Service is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(45), TimeSpan.FromSeconds(45));
+            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(45), TimeSpan.FromMinutes(2));
 
             return Task.CompletedTask;
         }

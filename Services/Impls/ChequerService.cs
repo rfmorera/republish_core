@@ -53,8 +53,8 @@ namespace Services.Impls
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
                 IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
-                                                                              && utc <= t.HoraFin + TimeSpan.FromSeconds(11)
-                                                                              && t.NextExecution <= utc + TimeSpan.FromSeconds(11));
+                                                                              && utc <= t.HoraFin.Add(TimeSpan.FromSeconds(10)) 
+                                                                              && t.NextExecution <= utc.Add(TimeSpan.FromSeconds(10)));
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 if (list.Any())
@@ -72,7 +72,7 @@ namespace Services.Impls
                     {
                         int expectedMin = (int)(utc - t.HoraInicio).TotalMinutes;
                         int diff = expectedMin % ((int)intervalo.TotalMinutes);
-                        t.NextExecution = utc - TimeSpan.FromMinutes(diff);
+                        t.NextExecution = utc.Subtract(TimeSpan.FromMinutes(diff));
                     }
 
                     t.NextExecution += intervalo;
