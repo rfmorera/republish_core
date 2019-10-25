@@ -204,12 +204,16 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                //_captchaSolver.set_captcha_bad(captchaResponse.Id);
+                _captchaSolver.set_captcha_bad(captchaResponse.Id);
                 throw new BadCaptchaException(answer, _uri);
             }
             else if (answer.Contains("Cloudflare to restrict access"))
             {
-                throw new BanedException(answer, _uri);
+                throw new BanedException("First Attempt", _uri);
+            }
+            else if (answer.Contains("Attention Required! | Cloudflare"))
+            {
+                throw new BanedException("api.revolico ask for Captcha", _uri);
             }
         }
     }

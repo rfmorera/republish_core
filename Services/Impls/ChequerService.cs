@@ -1,4 +1,5 @@
-﻿using Models;
+﻿
+using Models;
 using Republish.Data;
 using Republish.Data.Repositories;
 using Republish.Data.RepositoriesInterfaces;
@@ -53,7 +54,7 @@ namespace Services.Impls
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
                 IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
-                                                                              && utc <= t.HoraFin.Add(TimeSpan.FromSeconds(10)) 
+                                                                              && utc <= t.HoraFin.Add(TimeSpan.FromSeconds(10))
                                                                               && t.NextExecution <= utc.Add(TimeSpan.FromSeconds(10)));
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
@@ -139,7 +140,7 @@ namespace Services.Impls
                             else if (exModel is BanedException)
                             {
                                 BanedException ex = (BanedException)exModel;
-                                _log.LogWarning($"Baned Page: {ex.uri}");
+                                _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is GeneralException)
