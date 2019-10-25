@@ -215,6 +215,12 @@ namespace Services.Impls
             {
                 throw new BanedException("api.revolico ask for Captcha", _uri);
             }
+            else if (!answer.Contains("\"status\":200") && 
+                     !answer.Contains("\"errors\":null") &&
+                     !answer.Contains("updateAdWithoutUser"))
+            {
+                throw new GeneralException("Non updated | " + answer, _uri);
+            }
         }
     }
 }
