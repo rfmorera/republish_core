@@ -58,10 +58,8 @@ namespace Services.Impls
                                                                               && t.NextExecution <= utc.Add(TimeSpan.FromSeconds(10)));
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
-                if (list.Any())
-                {
-                    _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
-                }
+                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+
 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
