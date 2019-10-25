@@ -91,14 +91,14 @@ namespace Services.Impls
                 string htmlAnuncio = await Requests.GetAsync(_uri);
                 FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
 
-                GetException(htmlAnuncio, _uri);
+                GetException(htmlAnuncio, _uri, false);
 
                 CaptchaAnswer captchaResponse = await ResolveCaptcha(_uri, htmlAnuncio);
 
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(apiRevolico, jsonForm);
+                string answer = await Requests.PostAsync(apiRevolico, jsonForm, true);
 
                 GetException(answer, _uri, captchaResponse);
                 //_captchaSolver.set_captcha_good(captchaResponse.Id);
@@ -200,7 +200,7 @@ namespace Services.Impls
             return formAnuncio;
         }
 
-        private void GetException(string answer, string _uri, CaptchaAnswer captchaResponse = null)
+        private void GetException(string answer, string _uri, CaptchaAnswer captchaResponse = null, bool ff)
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
@@ -215,7 +215,8 @@ namespace Services.Impls
             {
                 throw new BanedException("api.revolico ask for Captcha", _uri);
             }
-            else if (!answer.Contains("\"status\":200") && 
+            else if ( ff &&
+                     !answer.Contains("\"status\":200") && 
                      !answer.Contains("\"errors\":null") &&
                      !answer.Contains("updateAdWithoutUser"))
             {
