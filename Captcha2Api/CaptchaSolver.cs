@@ -140,8 +140,9 @@ namespace Captcha2Api
         {
             var url = string.Format("{0}/res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
-            dynamic d = JObject.Parse(resp);
-            return d.ToString();
+            //dynamic d = JObject.Parse(resp);
+            //return d.ToString();
+            return resp;
         }
 
         /// <summary>
