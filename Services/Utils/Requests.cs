@@ -31,6 +31,7 @@ namespace Services.Utils
             using (HttpClient client = new HttpClient())
             {
                 client.Timeout = TimeSpan.FromSeconds(35);
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");
                 HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
                 return await responseHttp.Content?.ReadAsStringAsync();
             }
