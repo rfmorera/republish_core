@@ -98,9 +98,9 @@ namespace Services.Impls
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(apiRevolico, jsonForm, true);
+                string answer = await Requests.PostAsync(apiRevolico, jsonForm);
 
-                GetException(answer, _uri, captchaResponse);
+                GetException(answer, _uri, true, captchaResponse);
                 //_captchaSolver.set_captcha_good(captchaResponse.Id);
             }
             catch(BadCaptchaException ex)
@@ -200,7 +200,7 @@ namespace Services.Impls
             return formAnuncio;
         }
 
-        private void GetException(string answer, string _uri, CaptchaAnswer captchaResponse = null, bool ff)
+        private void GetException(string answer, string _uri, bool ff, CaptchaAnswer captchaResponse = null)
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
