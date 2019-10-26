@@ -138,7 +138,7 @@ namespace Captcha2Api
         /// <returns></returns>
         public string set_captcha_bad(string captchaid)
         {
-            var url = string.Format("{0}/res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
+            string url = "http://2captcha.com/res.php?key=" + _access_token + "&action=reportbad&id="+ captchaid;
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             //dynamic d = JObject.Parse(resp);
             //return d.ToString();
@@ -154,8 +154,9 @@ namespace Captcha2Api
         {
             var url = string.Format("{0}/res.php?key={1}&action=reportgood&id={2}", BASE_URL, this._access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
-            dynamic d = JObject.Parse(resp);
-            return d.ToString();
+            //dynamic d = JObject.Parse(resp);
+            //return d.ToString();
+            return resp;
         }
     }
 }
