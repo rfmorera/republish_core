@@ -93,9 +93,9 @@ namespace Services.Impls
             try
             {
                 string htmlAnuncio = await Requests.GetAsync(_uri);
-                FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
-
                 GetException(htmlAnuncio, _uri, false);
+
+                FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
 
                 CaptchaAnswer captchaResponse = await ResolveCaptcha(key2captcha, _uri, htmlAnuncio);
 
