@@ -50,6 +50,11 @@ namespace Services.Utils
                         client.Timeout = TimeSpan.FromSeconds(35);
                         client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
                         HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
+                        if(responseHttp.StatusCode == HttpStatusCode.InternalServerError)
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(30));
+                            continue;
+                        }
                         return await responseHttp.Content?.ReadAsStringAsync();
                     }
                 }
