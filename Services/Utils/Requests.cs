@@ -10,10 +10,8 @@ namespace Services.Utils
     static class Requests
     {
         static string[] User_Agents = {
-            "Mozilla//5.0 (Windows NT 6.1) AppleWebKit//537.36 (KHTML, like Gecko) Chrome//41.0.2228.0 Safari//537.36",
             "Mozilla//5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit//525.13 (KHTML, like Gecko) Chrome//0.2.149.30 Safari//525.13",
             "Mozilla//5.0 (Macintosh; U; Intel Mac OS X 10_6_0; en-US) AppleWebKit//528.10 (KHTML, like Gecko) Chrome//2.0.157.2 Safari//528.10",
-            "Mozilla//5.0 (X11; U; Linux x86_64; en-US) AppleWebKit//532.0 (KHTML, like Gecko) Chrome//3.0.195.24 Safari//532.0",
             "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)",
             "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; Media Center PC 6.0; InfoPath.2; MS-RTC LM 8",
             "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-gb) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27",
@@ -48,7 +46,7 @@ namespace Services.Utils
                     {
                         int pUa = DateTime.Now.Millisecond % User_Agents.Length;
                         client.Timeout = TimeSpan.FromSeconds(35);
-                        client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
+                        client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");
                         HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
                         if(responseHttp.StatusCode == HttpStatusCode.InternalServerError)
                         {
