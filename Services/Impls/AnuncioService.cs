@@ -128,7 +128,7 @@ namespace Services.Impls
 
             string siteKey = htmlAnuncio.Substring(p1, p2 - p1);
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
-            string captchaId = Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
+            string captchaId = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
 
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
