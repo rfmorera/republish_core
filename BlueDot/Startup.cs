@@ -41,10 +41,12 @@ namespace Republish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureConnections(services);
+
             //services.AddDataProtection()
             //        .SetApplicationName("RepublishTool")
             //        .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
-            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -68,7 +70,7 @@ namespace Republish
                 options.LogoutPath = new PathString("/Identity/Account/Logout");
             });
 
-            ConfigureConnections(services);
+            
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
@@ -86,7 +88,6 @@ namespace Republish
             services.AddTransient<IGrupoService, GrupoService>();
             services.AddTransient<IAnuncioService, AnuncioService>();
             services.AddTransient<ITemporizadorService, TemporizadorService>();
-            services.AddTransient<IQueueService, QueueService>();
             services.AddTransient<IChequerService, ChequerService>();
             services.AddTransient<ICaptchaService, CaptchaService>();
             services.AddTransient<IRegistroService, RegistroService>();
@@ -159,13 +160,7 @@ namespace Republish
         }
 
         private void ConfigureConnections(IServiceCollection services)
-        {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureWebJobsStorage"));
-            
-            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-
-            services.AddSingleton(queueClient);
-            
+        {  
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("RepublishContextConnection")));

@@ -26,21 +26,19 @@ namespace Services.Impls
         private readonly IRepository<Temporizador> repositoryTemporizador;
         private readonly IQueuesUnitOfWork _queuesUnit;
         private readonly IGrupoService _grupoService;
-        private readonly IQueueService _queueService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
         private readonly IAnuncioService _anuncioService;
         private readonly IManejadorFinancieroService _financieroService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, IQueueService queueService, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
             _queuesUnit = queuesUnit;
             _grupoService = grupoService;
             _log = log;
-            _queueService = queueService;
             _captchaService = captchaService;
             _registroService = registroService;
             _anuncioService = anuncioService;

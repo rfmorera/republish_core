@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.2</LangVersion>
     <UserSecretsId>cea6a88d-c207-4c3f-b0e5-eb17690ff524</UserSecretsId>
+    <StartupObject>Republish.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
