@@ -134,7 +134,7 @@ namespace Services.Impls
                             if (exModel is BadCaptchaException)
                             {
                                 BadCaptchaException ex = (BadCaptchaException)exModel;
-                                _log.LogWarning($"Bad Captcha: {ex.uri}");
+                                _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
                                 await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is BanedException)

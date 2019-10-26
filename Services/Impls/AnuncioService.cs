@@ -212,8 +212,8 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
-                throw new BadCaptchaException(answer, _uri);
+                string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
+                throw new BadCaptchaException(ans, _uri);
             }
             else if (answer.Contains("Cloudflare to restrict access"))
             {
