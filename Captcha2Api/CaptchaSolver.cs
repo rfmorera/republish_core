@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Captcha2Api
 {
@@ -74,40 +75,57 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="opts"></param>
         /// <returns>captchaID</returns>
-        public string submit_recaptcha(string _uri, string siteKey)
+        public async Task<string> submit_recaptcha(string _uri, string siteKey)
         {
-            var uri2Captcha = string.Format("{0}/in.php", BASE_URL);
-            var postData = "";
-            postData += "key=" + _access_token;
-            postData += "&method=userrecaptcha";
-            postData += "&googlekey=" + siteKey;
-            postData += "&pageurl=" + _uri;
-
-            var data = Encoding.ASCII.GetBytes(postData);
-
-            WebRequest request = WebRequest.Create(uri2Captcha);
-
-            request.Method = "POST";
-
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
-
-            using (var stream = request.GetRequestStream())
+            WebException last = null;
+            for (int i = 0; i < 2; i++)
             {
-                stream.Write(data, 0, data.Length);
+                try
+                {
+                    var uri2Captcha = string.Format("{0}/in.php", BASE_URL);
+                    var postData = "";
+                    postData += "key=" + _access_token;
+                    postData += "&method=userrecaptcha";
+                    postData += "&googlekey=" + siteKey;
+                    postData += "&pageurl=" + _uri;
+
+                    var data = Encoding.ASCII.GetBytes(postData);
+
+                    WebRequest request = WebRequest.Create(uri2Captcha);
+
+                    request.Method = "POST";
+
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    request.ContentLength = data.Length;
+
+                    using (var stream = request.GetRequestStream())
+                    {
+                        stream.Write(data, 0, data.Length);
+                    }
+
+                    HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
+                    StreamReader streamReader = new StreamReader(response.GetResponseStream());
+
+                    var responseString = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    // streamReader.Dispose();
+
+                    response.Close();
+                    //response.Dispose();
+
+                    return responseString.Substring(3, responseString.Length - 3);
+                }
+                catch(WebException ex)
+                {
+                    last = ex;
+                    if(ex.Status != WebExceptionStatus.ConnectFailure)
+                    {
+                        break;
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                }
             }
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().GetAwaiter().GetResult();
-            StreamReader streamReader = new StreamReader(response.GetResponseStream());
-
-            var responseString = streamReader.ReadToEnd();
-            streamReader.Close();
-            // streamReader.Dispose();
-
-            response.Close();
-            //response.Dispose();
-
-            return responseString.Substring(3, responseString.Length - 3);
+            throw last;
         }
 
         /// <summary>
