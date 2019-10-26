@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Republish.Extensions;
 using Services.Exceptions;
 using BlueDot.Data.UnitsOfWorkInterfaces;
+using System.Net;
 
 namespace Services.Impls
 {
@@ -147,6 +148,11 @@ namespace Services.Impls
                                 GeneralException ex = (GeneralException)exModel;
                                 _log.LogWarning($"General Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
+                            }
+                            else if (exModel is WebException)
+                            {
+                                WebException ex = (WebException)exModel;
+                                _log.LogWarning($"Web Exception: {ex.Message} |\n {ex.Status} |\n {ex.Response} |\n {ex.StackTrace} |\n");
                             }
                             else if (exModel is AnuncioEliminadoException)
                             {

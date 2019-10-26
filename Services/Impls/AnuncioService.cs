@@ -115,6 +115,10 @@ namespace Services.Impls
             {
                 throw ex;
             }
+            catch(WebException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
                 throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
