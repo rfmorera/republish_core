@@ -61,7 +61,7 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="opts"></param>
         /// <returns>captchaID</returns>
-        public async Task<string> submit_recaptcha(string _access_token, string _uri, string siteKey)
+        public static async Task<string> submit_recaptcha(string _access_token, string _uri, string siteKey)
         {
             WebException last = null;
             for (int i = 0; i < 2; i++)
