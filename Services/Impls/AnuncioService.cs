@@ -32,13 +32,11 @@ namespace Services.Impls
 
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
-        private readonly Captcha2Solver _captchaSolver;
         readonly ILogger _log;
 
         public AnuncioService(ILogger log)
         {
             _log = log;
-            _captchaSolver = new Captcha2Solver("e71e420eb525390484d828232867c3fa");
         }
 
         public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log)
@@ -46,7 +44,6 @@ namespace Services.Impls
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
-            _captchaSolver = new Captcha2Solver("e71e420eb525390484d828232867c3fa");
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
@@ -100,7 +97,7 @@ namespace Services.Impls
 
                 GetException(htmlAnuncio, _uri, false);
 
-                CaptchaAnswer captchaResponse = await ResolveCaptcha(_uri, htmlAnuncio);
+                CaptchaAnswer captchaResponse = await ResolveCaptcha(key2captcha, _uri, htmlAnuncio);
 
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
@@ -124,22 +121,22 @@ namespace Services.Impls
             }
         }
 
-        private async Task<CaptchaAnswer> ResolveCaptcha(string _uri, string htmlAnuncio)
+        private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
         {
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
 
             string siteKey = htmlAnuncio.Substring(p1, p2 - p1);
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
-            string captchaId = _captchaSolver.submit_recaptcha(_uri, siteKey);
+            string captchaId = Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
 
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
             {
-                string ans = _captchaSolver.retrieve(captchaId);
+                string ans = Captcha2Solver.retrieve(key2captcha, captchaId);
                 if (!String.IsNullOrEmpty(ans))
                 {
-                    return new CaptchaAnswer(captchaId, ans);
+                    return new CaptchaAnswer(key2captcha, captchaId, ans);
                 }
                 await Task.Delay(10000);
             }
@@ -211,7 +208,7 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                _captchaSolver.set_captcha_bad(captchaResponse.Id);
+                Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
                 throw new BadCaptchaException(answer, _uri);
             }
             else if (answer.Contains("Cloudflare to restrict access"))

@@ -10,33 +10,19 @@ using System.Net.Http;
 
 namespace Captcha2Api
 {
-    public class Captcha2Solver
+    public static class Captcha2Solver
     {
         private const string BASE_URL = "http://2captcha.com";
         private const string USER_AGENT = "csharpClient1.0";
         private const int TIMEOUT = 30000;
 
-        private string _access_token;
-        private int _timeout;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="access_token"></param>
-        /// <param name="timeout"></param>
-        public Captcha2Solver(string access_token, int timeout = 30000)
-        {
-            this._access_token = access_token;
-            this._timeout = timeout;
-        }
-
         /// <summary>
         /// Get account's balance
         /// </summary>
         /// <returns></returns>
-        public string account_balance()
+        public static string account_balance(string _access_token)
         {
-            var url = string.Format("{0}/user/balance?access_token={1}", BASE_URL, this._access_token);
+            var url = string.Format("{0}/user/balance?access_token={1}", BASE_URL, _access_token);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             dynamic d = JObject.Parse(resp);
             return string.Format("${0}", d.balance.ToString());
@@ -47,11 +33,11 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="opts"></param>
         /// <returns>captchaID</returns>
-        public string submit_image_captcha(Dictionary<string, string> opts)
+        public static string submit_image_captcha(string _access_token, Dictionary<string, string> opts)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             var url = string.Format("{0}/captcha/image", BASE_URL);
-            dict.Add("access_token", this._access_token);
+            dict.Add("access_token", _access_token);
             var image = "";
             // if no b64 string was given, but image path instead
             if (File.Exists(opts["image"])) image = Utils.read_captcha_image(opts["image"]);
@@ -74,7 +60,7 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="opts"></param>
         /// <returns>captchaID</returns>
-        public string submit_recaptcha(string _uri, string siteKey)
+        public static string submit_recaptcha(string _access_token, string _uri, string siteKey)
         {
             var uri2Captcha = string.Format("{0}/in.php", BASE_URL);
             var postData = "";
@@ -115,7 +101,7 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="captchaid"></param>
         /// <returns></returns>
-        public string retrieve(string captchaid)
+        public static string retrieve(string _access_token, string captchaid)
         {
             string answerUrl = "http://2captcha.com/res.php?key=" + _access_token + "&action=get&id=" + captchaid;
 
@@ -136,9 +122,9 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="captchaid"></param>
         /// <returns></returns>
-        public string set_captcha_bad(string captchaid)
+        public static string set_captcha_bad(string _access_token, string captchaid)
         {
-            var url = string.Format("{0}/res.php?key={1}&action=reportbad&id={2}", BASE_URL, this._access_token, captchaid);
+            var url = string.Format("{0}/res.php?key={1}&action=reportbad&id={2}", BASE_URL, _access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             //dynamic d = JObject.Parse(resp);
             //return d.ToString();
@@ -150,9 +136,9 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="captchaid"></param>
         /// <returns></returns>
-        public string set_captcha_good(string captchaid)
+        public static string set_captcha_good(string _access_token, string captchaid)
         {
-            var url = string.Format("{0}/res.php?key={1}&action=reportgood&id={2}", BASE_URL, this._access_token, captchaid);
+            var url = string.Format("{0}/res.php?key={1}&action=reportgood&id={2}", BASE_URL, _access_token, captchaid);
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             dynamic d = JObject.Parse(resp);
             return d.ToString();

@@ -96,7 +96,6 @@ namespace Republish
             services.AddTransient<IClienteOpcionesService, ClienteOpcionesService>();
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
             services.AddTransient<IAgentService, AgentService>();
-            services.AddTransient<Captcha2Solver, Captcha2Solver>();
             services.AddTransient<IShortQueueService, ShortQueueService>();
             services.AddTransient<ILongQueueService, LongQueueService>();
             services.AddScoped<IQueuesUnitOfWork, QueuesUnitOfWork>();
