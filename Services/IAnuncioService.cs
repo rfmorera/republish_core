@@ -10,6 +10,7 @@ namespace Services
         Task AddAsync(string GrupoId, string[] links);
 
         Task DeleteAsync(string Id);
+        Task DeleteAsync(List<string> list);
 
         Task DeleteAllByGroup(string GrupoId);
 

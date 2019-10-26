@@ -126,6 +126,7 @@ namespace Services.Impls
                     }
                     catch (AggregateException exs)
                     {
+                        List<string> anunciosEliminados = new List<string>();
                         foreach (Exception exModel in exs.InnerExceptions)
                         {
                             cnt++;
@@ -147,12 +148,19 @@ namespace Services.Impls
                                 _log.LogWarning($"General Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                             }
+                            else if (exModel is AnuncioEliminadoException)
+                            {
+                                AnuncioEliminadoException ex = (AnuncioEliminadoException)exModel;
+                                _log.LogWarning($"Anuncio Eliminado Error: {ex.Uri}");
+                                anunciosEliminados.Add(ex.Uri);
+                            }
                             else
                             {
                                 Exception ex = exModel;
                                 _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
                             }
                         }
+                        await _anuncioService.DeleteAsync(anunciosEliminados);
                         await _queuesUnit.SaveChangesAsync();
                     }
 

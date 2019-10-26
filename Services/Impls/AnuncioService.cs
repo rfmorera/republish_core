@@ -79,6 +79,13 @@ namespace Services.Impls
             await repositoryAnuncio.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(List<string> list)
+        {
+            IEnumerable<Anuncio> anuncios = (await repositoryAnuncio.FindAllAsync(a => list.Contains(a.Url))).AsEnumerable();
+            repositoryAnuncio.RemoveRange(anuncios);
+            await repositoryAnuncio.SaveChangesAsync();
+        }
+
         public async Task Publish(string url, string Key2Captcha)
         {
             await StartProcess(url, Key2Captcha, true);
@@ -214,6 +221,10 @@ namespace Services.Impls
             else if (answer.Contains("Attention Required! | Cloudflare"))
             {
                 throw new BanedException("api.revolico ask for Captcha", _uri);
+            }
+            else if (answer.Contains("Has eliminado este anuncio."))
+            {
+                throw new BanedException("Deteccion Anuncio Eliminado", _uri);
             }
             else if ( ff &&
                      !answer.Contains("\"status\":200") && 
