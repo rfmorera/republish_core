@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,14 +39,37 @@ namespace Services.Utils
         /// <returns></returns>
         public static async Task<string> PostAsync(string requestUri, StringContent httpContent)
         {
-            using (HttpClient client = new HttpClient())
+            WebException last = null;
+            for (int i = 0; i < 2; i++)
             {
-                int pUa = DateTime.Now.Millisecond % User_Agents.Length;
-                client.Timeout = TimeSpan.FromSeconds(35);
-                client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
-                HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
-                return await responseHttp.Content?.ReadAsStringAsync();
+                try
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        int pUa = DateTime.Now.Millisecond % User_Agents.Length;
+                        client.Timeout = TimeSpan.FromSeconds(35);
+                        client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
+                        HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
+                        return await responseHttp.Content?.ReadAsStringAsync();
+                    }
+                }
+                catch (WebException ex)
+                {
+                    last = ex;
+                    if (ex.Status == WebExceptionStatus.ConnectFailure ||
+                        ex.Status == WebExceptionStatus.RequestCanceled ||
+                        ex.Status == WebExceptionStatus.Timeout ||
+                        ex.Status == WebExceptionStatus.ConnectionClosed ||
+                        ex.Status == WebExceptionStatus.UnknownError ||
+                        ex.Message.Contains("The operation was canceled"))
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(30));
+                        continue;
+                    }
+                    break;
+                }
             }
+            throw last;
         }
 
         /// <summary>
