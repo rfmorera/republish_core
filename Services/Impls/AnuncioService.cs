@@ -133,16 +133,28 @@ namespace Services.Impls
             string siteKey = htmlAnuncio.Substring(p1, p2 - p1);
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
             string captchaId = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
+            WebException last = null;
 
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
             {
-                string ans = await Captcha2Solver.retrieve(key2captcha, captchaId);
-                if (!String.IsNullOrEmpty(ans))
+                try
                 {
-                    return new CaptchaAnswer(key2captcha, captchaId, ans);
+                    string ans = await Captcha2Solver.retrieve(key2captcha, captchaId);
+                    if (!String.IsNullOrEmpty(ans))
+                    {
+                        return new CaptchaAnswer(key2captcha, captchaId, ans);
+                    }
+                    await Task.Delay(10000);
                 }
-                await Task.Delay(10000);
+                catch(WebException ex)
+                {
+                    last = ex;
+                }
+            }
+            if(last != null)
+            {
+                throw last;
             }
             throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
         }
