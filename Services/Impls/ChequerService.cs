@@ -68,7 +68,7 @@ namespace Services.Impls
                     TimeSpan nxT = t.NextExecution.Add(intervalo);
                     if (nxT < utc)
                     {
-                        int expectedMin = (int)(utc - t.HoraInicio).TotalMinutes;
+                        int expectedMin = (int)(utc.Subtract(t.HoraInicio)).TotalMinutes;
                         int diff = expectedMin % ((int)intervalo.TotalMinutes);
                         t.NextExecution = utc.Subtract(TimeSpan.FromMinutes(diff));
                     }
