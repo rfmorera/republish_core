@@ -64,8 +64,8 @@ namespace Services.Impls
 
                 foreach (Temporizador t in list)
                 {
-                    TimeSpan intervalo = TimeSpan.FromHours(t.IntervaloHoras) + TimeSpan.FromMinutes(t.IntervaloMinutos);
-                    TimeSpan nxT = t.NextExecution + intervalo;
+                    TimeSpan intervalo = TimeSpan.FromHours(t.IntervaloHoras).Add(TimeSpan.FromMinutes(t.IntervaloMinutos));
+                    TimeSpan nxT = t.NextExecution.Add(intervalo);
                     if (nxT < utc)
                     {
                         int expectedMin = (int)(utc - t.HoraInicio).TotalMinutes;
@@ -73,7 +73,7 @@ namespace Services.Impls
                         t.NextExecution = utc.Subtract(TimeSpan.FromMinutes(diff));
                     }
 
-                    t.NextExecution += intervalo;
+                    t.NextExecution = t.NextExecution.Add(intervalo);
                     await repositoryTemporizador.UpdateAsync(t, t.Id);
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
