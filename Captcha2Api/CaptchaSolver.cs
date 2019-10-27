@@ -101,10 +101,10 @@ namespace Captcha2Api
 
                     return responseString.Substring(3, responseString.Length - 3);
                 }
-                catch(WebException ex)
+                catch (WebException ex)
                 {
                     last = ex;
-                    if(ex.Status != WebExceptionStatus.ConnectFailure)
+                    if (ex.Status != WebExceptionStatus.ConnectFailure)
                     {
                         break;
                     }
@@ -122,33 +122,17 @@ namespace Captcha2Api
         public static async Task<string> retrieve(string _access_token, string captchaid)
         {
             string answerUrl = "http://2captcha.com/res.php?key=" + _access_token + "&action=get&id=" + captchaid;
-            WebException last = null;
-            for(int i = 0; i < 2; i++)
+
+            HttpClient client = new HttpClient();
+            HttpResponseMessage responseClient = await client.GetAsync(answerUrl);
+            string responseString = await responseClient.Content.ReadAsStringAsync();
+            responseClient.Dispose();
+
+            if (responseString.Substring(0, 2) == "OK")
             {
-                try
-                {
-                    HttpClient client = new HttpClient();
-                    HttpResponseMessage responseClient = await client.GetAsync(answerUrl);
-                    string responseString = await responseClient.Content.ReadAsStringAsync();
-                    responseClient.Dispose();
-
-                    if (responseString.Substring(0, 2) == "OK")
-                    {
-                        return responseString.Substring(3, responseString.Length - 3);
-                    }
-                }
-                catch (WebException ex)
-                {
-                    last = ex;
-                    if (ex.Status != WebExceptionStatus.ConnectFailure)
-                    {
-                        break;
-                    }
-                    await Task.Delay(TimeSpan.FromSeconds(30));
-                }
+                return responseString.Substring(3, responseString.Length - 3);
             }
-
-            throw last;
+            return null;
         }
 
         /// <summary>
@@ -158,7 +142,7 @@ namespace Captcha2Api
         /// <returns></returns>
         public static string set_captcha_bad(string _access_token, string captchaid)
         {
-            string url = "http://2captcha.com/res.php?key=" + _access_token + "&action=reportbad&id="+ captchaid;
+            string url = "http://2captcha.com/res.php?key=" + _access_token + "&action=reportbad&id=" + captchaid;
             var resp = Utils.GET(url, USER_AGENT, TIMEOUT);
             //dynamic d = JObject.Parse(resp);
             //return d.ToString();
