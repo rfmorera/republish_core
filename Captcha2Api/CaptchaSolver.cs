@@ -119,20 +119,36 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="captchaid"></param>
         /// <returns></returns>
-        public static string retrieve(string _access_token, string captchaid)
+        public static async Task<string> retrieve(string _access_token, string captchaid)
         {
             string answerUrl = "http://2captcha.com/res.php?key=" + _access_token + "&action=get&id=" + captchaid;
-
-            HttpClient client = new HttpClient();
-            HttpResponseMessage responseClient = client.GetAsync(answerUrl).GetAwaiter().GetResult();
-            string responseString = responseClient.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            responseClient.Dispose();
-
-            if (responseString.Substring(0, 2) == "OK")
+            WebException last = null;
+            for(int i = 0; i < 2; i++)
             {
-                return responseString.Substring(3, responseString.Length - 3);
+                try
+                {
+                    HttpClient client = new HttpClient();
+                    HttpResponseMessage responseClient = await client.GetAsync(answerUrl);
+                    string responseString = await responseClient.Content.ReadAsStringAsync();
+                    responseClient.Dispose();
+
+                    if (responseString.Substring(0, 2) == "OK")
+                    {
+                        return responseString.Substring(3, responseString.Length - 3);
+                    }
+                }
+                catch (WebException ex)
+                {
+                    last = ex;
+                    if (ex.Status != WebExceptionStatus.ConnectFailure)
+                    {
+                        break;
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                }
             }
-            return null;
+
+            throw last;
         }
 
         /// <summary>
