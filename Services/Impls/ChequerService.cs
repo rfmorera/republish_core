@@ -74,6 +74,12 @@ namespace Services.Impls
                     }
 
                     t.NextExecution = t.NextExecution.Add(intervalo);
+
+                    if(t.NextExecution.TotalDays >= 1.0)
+                    {
+                        t.NextExecution = new TimeSpan(23, 59, 55);
+                    }
+
                     await repositoryTemporizador.UpdateAsync(t, t.Id);
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
