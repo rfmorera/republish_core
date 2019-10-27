@@ -137,7 +137,7 @@ namespace Services.Impls
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
             {
-                string ans = Captcha2Solver.retrieve(key2captcha, captchaId);
+                string ans = await Captcha2Solver.retrieve(key2captcha, captchaId);
                 if (!String.IsNullOrEmpty(ans))
                 {
                     return new CaptchaAnswer(key2captcha, captchaId, ans);
