@@ -144,7 +144,9 @@ namespace Services.Impls
 
         public async Task<Grupo> UpdateAsync(Grupo grupo)
         {
-            return await _repository.UpdateAsync(grupo, grupo.Id);
+            await _repository.UpdateAsync(grupo, grupo.Id);
+            await _repository.SaveChangesAsync();
+            return grupo;
         }
     }
 }

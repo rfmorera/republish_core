@@ -31,6 +31,7 @@ function initializeDataTablesEditor(dataTablesSelectorString) {
                                     cell.data(response[columnName]);
                                 }
                             });
+                            onAjaxSuccess();
                         }                        
                     },
                     error: handleEditorError
