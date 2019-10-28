@@ -59,7 +59,13 @@ namespace Services.Utils
                             await Task.Delay(TimeSpan.FromSeconds(30));
                             continue;
                         }
-                        return await responseHttp.Content?.ReadAsStringAsync();
+                        string answer = await responseHttp.Content?.ReadAsStringAsync();
+                        if(answer.Contains("The web server reported a bad gateway error."))
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(30));
+                            continue;
+                        }
+                        return answer;
                     }
                 }
                 catch (WebException ex)
@@ -70,8 +76,7 @@ namespace Services.Utils
                         ex.Status == WebExceptionStatus.Timeout ||
                         ex.Status == WebExceptionStatus.ConnectionClosed ||
                         ex.Status == WebExceptionStatus.UnknownError ||
-                        ex.Message.Contains("The operation was canceled") ||
-                        ex.Message.Contains("The web server reported a bad gateway error."))
+                        ex.Message.Contains("The operation was canceled"))
                     {
                         await Task.Delay(TimeSpan.FromSeconds(30));
                         continue;
