@@ -44,7 +44,7 @@ namespace Services.Impls
 
         public async Task DeleteAsync(string Id)
         {
-            Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
+            Grupo grupo = await GetAsync(Id);
             _repository.Remove(grupo);
             await _repository.SaveChangesAsync();
         }
@@ -77,6 +77,11 @@ namespace Services.Impls
             return list;
         }
 
+        public async Task<Grupo> GetAsync(string GrupoId)
+        {
+            return await _repository.FindAsync(g => g.Id == GrupoId);
+        }
+
         public async Task<IEnumerable<Grupo>> GetByUser(string UserId)
         {
             IEnumerable<Grupo> list = await _repository.QueryAll()
@@ -87,7 +92,6 @@ namespace Services.Impls
                                         .Select(g => g)
                                         .ToListAsync();
             return list;
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
@@ -136,6 +140,13 @@ namespace Services.Impls
             }
 
             return list;
+        }
+
+        public async Task<Grupo> UpdateAsync(Grupo grupo)
+        {
+            await _repository.UpdateAsync(grupo, grupo.Id);
+            await _repository.SaveChangesAsync();
+            return grupo;
         }
     }
 }

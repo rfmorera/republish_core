@@ -13,17 +13,12 @@ var DeleteRowId;
 
 function onDeleteSuccess() {
     onAjaxSuccess();
-    //initializePage();
     $("#" + DeleteRowId).remove();
 }
 
 function initializePage() {
-    $(function () {
-        $('.footable').footable();
-    });
-
-    $("tr").each(function (index, element) { $(element).attr("id", index) })
-
+    initializeDataTable($("#dataTables-table"));
+    initializeDataTablesEditor("#dataTables-table");
 
     $("#HideTour").on("click", function () {
         onCookieSuccess();
