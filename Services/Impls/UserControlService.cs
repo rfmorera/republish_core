@@ -11,6 +11,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs.Registro;
 using Services.Extensions;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -96,10 +97,11 @@ namespace Services.Impls
 
             Cuenta cnt = await _financieroService.GetCuenta(clientId);
             ClienteOpciones opt = await _opcionesService.GetOpciones(clientId);
+
+            DateTime utcCuba = DateTime.Now.ToUtcCuba();
+
             double costoAnuncio = await _financieroService.CostoAnuncio(clientId);
-            double gastoEsperado = (await _grupoService.GetByUser(clientId))
-                                                       .Sum(g => g.Temporizadores
-                                                                    .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count)));
+            double gastoEsperado = await _financieroService.GetGastoEsperadoByClient(clientId, utcCuba);
 
 
             PrediccionIndicadores prediccion = new PrediccionIndicadores(cnt.Saldo, gastoEsperado);
