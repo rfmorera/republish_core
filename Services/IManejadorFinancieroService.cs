@@ -13,12 +13,12 @@ namespace Services
         Task RecargarUsuario(RecargaDTO recargaDTO);
         Task<double> GetSaldo(string UserId);
         Task<Cuenta> GetCuenta(string UserId);
+        Task<Cuenta> GetCuentaIncludeAll(string UserId);
         Task<IEnumerable<string>> FacturarRegistros();
         Task<bool> HasBalance(string UserId);
         Task<double> CostoAnuncio(string UserId);
         Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId);
         Task<double> GetMontoMesByAgente(string agentId, DateTime date);
         Task<IEnumerable<RecargaDetail>> GetRecargasByClient(string clientId);
-        Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime);
     }
 }

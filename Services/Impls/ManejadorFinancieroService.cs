@@ -15,12 +15,10 @@ namespace Services.Impls
     public class ManejadorFinancieroService : IManejadorFinancieroService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGrupoService _grupoService;
 
-        public ManejadorFinancieroService(IUnitOfWork unitOfWork, IGrupoService grupoService)
+        public ManejadorFinancieroService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _grupoService = grupoService;
         }
 
         public async Task RecargarUsuario(RecargaDTO recargaDTO)
@@ -90,6 +88,15 @@ namespace Services.Impls
             return (await _unitOfWork.Cuenta.FindAsync(t => t.UserId == UserId));
         }
 
+        public async Task<Cuenta> GetCuentaIncludeAll(string UserId)
+        {
+            return await _unitOfWork.Cuenta.QueryAll()
+                                            .Where(t => t.UserId == UserId)
+                                            .Include(t => t.User)
+                                            .Select(s => s)
+                                            .SingleAsync();
+        }
+
         public async Task<bool> HasBalance(string UserId)
         {
             Cuenta ct = await GetCuenta(UserId);
@@ -129,14 +136,6 @@ namespace Services.Impls
                                                            && r.DateCreated.Month == date.Month
                                                            && r.DateCreated.Year == date.Year))
                                             .Sum(t => t.Monto);
-        }
-
-        public async Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime)
-        {
-            double costoAnuncio = await CostoAnuncio(clientId);
-            return (await _grupoService.GetByUser(clientId))
-                                       .Sum(g => g.Temporizadores
-                                       .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count, dateTime)));
         }
     }
 }
