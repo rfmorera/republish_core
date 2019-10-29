@@ -81,6 +81,7 @@ namespace RepublishTool.Areas.Admin.Controllers
             double GastoEsperadoActual = await _userControlService.GetGastoEsperadoByClient(ClientId, date);
 
             date = date.AddMonths(1);
+            date = new DateTime(date.Year, date.Month, 1);
             double GastoEsperadoProximo = await _userControlService.GetGastoEsperadoByClient(ClientId, date); ;
 
             ClientDetalles model = new ClientDetalles(clientUser, recargas, cuenta, 
