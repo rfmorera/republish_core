@@ -12,7 +12,7 @@ namespace Services.DTOs.DashboardAdmin
         {
             Gasto = list.Sum(e => e.Gasto);
             Venta = list.Sum(e => e.Venta);
-            Meses = list.OrderBy(e => e.Fecha).ToList();
+            Meses = list.OrderBy(o => o.Year).OrderBy(o => o.Month).ToList();
             if (list.Any())
             {
                 Year = list.First().Year;
