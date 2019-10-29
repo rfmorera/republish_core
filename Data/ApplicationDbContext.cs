@@ -15,6 +15,8 @@ namespace Republish.Data
         {
         }
 
+        public DbSet<Cuenta> Cuenta { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
