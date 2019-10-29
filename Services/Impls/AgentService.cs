@@ -16,10 +16,12 @@ namespace Services.Impls
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<IdentityUser> _userManager;
-        public AgentService(UserManager<IdentityUser> userManager, IUnitOfWork unitOfWork)
+        private readonly IManejadorFinancieroService _financieroService;
+        public AgentService(UserManager<IdentityUser> userManager, IUnitOfWork unitOfWork, IManejadorFinancieroService financieroService)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
+            _financieroService = financieroService;
         }
 
         public async Task<IdentityResult> AddAgent(AgentDTO dto)
@@ -44,23 +46,15 @@ namespace Services.Impls
             DateTime now = DateTime.Now.ToUtcCuba();
             IdentityUser user = await _userManager.FindByIdAsync(Id);
 
-            double current = (await _unitOfWork.Recarga.FindAllAsync(r => r.OperardorId == Id 
-                                                                       && r.DateCreated.Month == now.Month 
-                                                                       && r.DateCreated.Year == now.Year))
-                                                        .Sum(t => t.Monto);
-            now = now.AddMonths(-1);
-            double last = (await _unitOfWork.Recarga.FindAllAsync(r => r.OperardorId == Id
-                                                           && r.DateCreated.Month == now.Month
-                                                           && r.DateCreated.Year == now.Year))
-                                            .Sum(t => t.Monto);
+            double current = await _financieroService.GetMontoMesByAgente(Id, now);
 
-            IEnumerable<RecargaDetail> recargas = await _unitOfWork.Recarga.QueryAll().Where(r => r.OperardorId == Id)
-                                                                                    .Include(o => o.Client)
-                                                                                .OrderByDescending(t => t.DateCreated)
-                                                                                .Take(50)
-                                                                                .Select(e => new RecargaDetail() { Client = e.Client.UserName, Monto = e.Monto, Fecha = e.DateCreated })
-                                                                                .ToListAsync();
-                                                                                    
+            now = now.AddMonths(-1);
+
+            double last = await _financieroService.GetMontoMesByAgente(Id, now);
+
+            IEnumerable<RecargaDetail> recargas = await _financieroService.GetRecargasByAgente(Id);
+
+
             AgentDetailsDTO dto = new AgentDetailsDTO(user, current, last, recargas);
             return dto;
         }

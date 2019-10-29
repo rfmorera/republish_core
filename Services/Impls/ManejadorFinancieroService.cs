@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Impls
 {
@@ -57,10 +58,10 @@ namespace Services.Impls
             Cuenta ct = null;
             List<string> CeroBalanceUsers = new List<string>();
             bool flag = false;
-            
-            foreach(Registro rg in lst)
+
+            foreach (Registro rg in lst)
             {
-                if(ct is null || ct.UserId != rg.UserId)
+                if (ct is null || ct.UserId != rg.UserId)
                 {
                     flag = false;
                     ct = await _unitOfWork.Cuenta.FindAsync(c => c.UserId == rg.UserId);
@@ -70,7 +71,7 @@ namespace Services.Impls
                 rg.Facturado = true;
                 ct.LastUpdate = UtcCuba;
 
-                if(!flag && ct.Saldo < 0)
+                if (!flag && ct.Saldo < 0)
                 {
                     CeroBalanceUsers.Add(ct.UserId);
                     flag = true;
@@ -95,6 +96,36 @@ namespace Services.Impls
         public Task<double> CostoAnuncio(string UserId)
         {
             return Task.FromResult(0.006);
+        }
+
+        public async Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId)
+        {
+            return await _unitOfWork.Recarga.QueryAll().Where(r => r.OperardorId == agentId)
+                                                                    .Include(o => o.Client)
+                                                                    .Include(a => a.Operardor)
+                                                                    .OrderByDescending(t => t.DateCreated)
+                                                                    .Take(50)
+                                                                    .Select(e => new RecargaDetail(e.Client.UserName, e.Operardor.UserName, e.Monto, e.DateCreated))
+                                                                    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<RecargaDetail>> GetRecargasByClient(string clientId)
+        {
+            return await _unitOfWork.Recarga.QueryAll().Where(r => r.ClientId == clientId)
+                                                                    .Include(o => o.Client)
+                                                                    .Include(a => a.Operardor)
+                                                                    .OrderByDescending(t => t.DateCreated)
+                                                                    .Take(50)
+                                                                    .Select(e => new RecargaDetail(e.Client.UserName, e.Operardor.UserName, e.Monto, e.DateCreated))
+                                                                    .ToListAsync();
+        }
+
+        public async Task<double> GetMontoMesByAgente(string agentId, DateTime date)
+        {
+            return (await _unitOfWork.Recarga.FindAllAsync(r => r.OperardorId == agentId
+                                                           && r.DateCreated.Month == date.Month
+                                                           && r.DateCreated.Year == date.Year))
+                                            .Sum(t => t.Monto);
         }
     }
 }
