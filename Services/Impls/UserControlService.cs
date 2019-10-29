@@ -16,6 +16,7 @@ namespace Services.Impls
 {
     public class UserControlService : IUserControlService
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEstadisticasService _estadisticasService;
         private readonly IGrupoService _grupoService;
@@ -23,8 +24,9 @@ namespace Services.Impls
         private readonly IManejadorFinancieroService _financieroService;
         private readonly IClienteOpcionesService _opcionesService;
         
-        public UserControlService(UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService, IGrupoService grupoService, ITemporizadorService temporizadorService, IClienteOpcionesService opcionesService)
+        public UserControlService(ApplicationDbContext context, UserManager<IdentityUser> userManager, IEstadisticasService estadisticasService, IManejadorFinancieroService financieroService, IGrupoService grupoService, ITemporizadorService temporizadorService, IClienteOpcionesService opcionesService)
         {
+            _context = context;
             _userManager = userManager;
             _estadisticasService = estadisticasService;
             _financieroService = financieroService;
@@ -72,7 +74,11 @@ namespace Services.Impls
         public async Task<IEnumerable<UserDTO>> GetClientList()
         {
             IEnumerable<UserDTO> list = (await _userManager.GetUsersInRoleAsync(RTRoles.Client))
-                                                .Select(t => new UserDTO(t.Id, t.UserName, t.Email, RTRoles.Client));
+                                                .Join(_context.Cuenta,
+                                                      u => u.Id,
+                                                      c => c.UserId,
+                                                      (u, c) => new UserDTO(u.Id, u.UserName, u.Email, RTRoles.Client, c.Saldo));
+
 
             return list;
         }
