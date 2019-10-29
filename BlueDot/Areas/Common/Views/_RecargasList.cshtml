@@ -1,0 +1,51 @@
+﻿@using Services.DTOs
+@model IEnumerable<RecargaDetail>
+<div class="ibox ">
+    <div class="ibox-title">
+        <h5>Recargas</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a href="#" class="dropdown-item">Config option 1</a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-item">Config option 2</a>
+                </li>
+            </ul>
+            <a class="close-link">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div>
+            <div class="feed-activity-list">
+                @foreach (RecargaDetail item in Model)
+                {
+                    <div class="feed-element">
+                        <div class="float-left">
+
+                        </div>
+                        <div class="media-body ">
+                            <small class="float-right text-navy">@item.FechaAsString</small>
+                            De: <strong>@item.Agente</strong> A: <strong>@item.Client</strong> por el valor de <strong>$ @item.Monto</strong>. <br>
+                            @*<small class="text-muted">Today 4:21 pm - 12.06.2014</small>*@
+                            @*<div class="actions">
+                                    <a href="" class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                    <a href="" class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> Love</a>
+                                </div>*@
+                        </div>
+                    </div>
+                }
+
+            </div>
+            @*<button class="btn btn-primary btn-block m disabled"><i class="fa fa-arrow-down"></i> Mostrar Más</button>*@
+        </div>
+    </div>
+</div>
