@@ -16,6 +16,7 @@ namespace Republish.Data
         }
 
         public DbSet<Cuenta> Cuenta { get; set; }
+        public DbSet<Grupo> Grupo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
