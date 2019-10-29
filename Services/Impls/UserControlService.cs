@@ -101,7 +101,7 @@ namespace Services.Impls
             DateTime utcCuba = DateTime.Now.ToUtcCuba();
 
             double costoAnuncio = await _financieroService.CostoAnuncio(clientId);
-            double gastoEsperado = await _financieroService.GetGastoEsperadoByClient(clientId, utcCuba);
+            double gastoEsperado = await GetGastoEsperadoByClient(clientId, utcCuba);
 
 
             PrediccionIndicadores prediccion = new PrediccionIndicadores(cnt.Saldo, gastoEsperado);
@@ -126,6 +126,14 @@ namespace Services.Impls
         {
             await _financieroService.RecargarUsuario(recargaDTO);
             await _temporizadorService.SetSystemEnable(recargaDTO.ClientId, true);
+        }
+
+        public async Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime)
+        {
+            double costoAnuncio = await _financieroService.CostoAnuncio(clientId);
+            return (await _grupoService.GetByUser(clientId))
+                                       .Sum(g => g.Temporizadores
+                                       .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count, dateTime)));
         }
     }
 }

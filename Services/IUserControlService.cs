@@ -24,5 +24,6 @@ namespace Services
 
         Task RecargarCliente(RecargaDTO recargaDTO);
         Task CheckOutCeroBalanceAccount();
+        Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime);
     }
 }
