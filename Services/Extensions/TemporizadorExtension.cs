@@ -31,7 +31,7 @@ namespace Services.Extensions
             throw new Exception("Invalid day of week");
         }
 
-        public static double Costo(this Temporizador value, double costoAnuncio, int cantidadAnuncios)
+        public static double Costo(this Temporizador value, double costoAnuncio, int cantidadAnuncios, DateTime utcCuba)
         {
             double val = 0;
             int etapa = value.Etapa == 0 ? cantidadAnuncios : value.Etapa;
@@ -41,7 +41,6 @@ namespace Services.Extensions
             int cantidadEjecuciones = minutosEjecucion / intervaloMinutosTotal;
             double costoDiario = costoAnuncio * cantidadEjecuciones * etapa;
 
-            DateTime utcCuba = DateTime.Now.ToUtcCuba();
             DateTime tmp = utcCuba;
 
             for (int i = 0; i < 31; i++)
