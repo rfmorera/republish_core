@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Republish.Extensions;
 using Services;
 using Services.DTOs;
+using Services.DTOs.Admin;
+using Services.DTOs.Registro;
 
-namespace RepublishTool.Areas.Admin.Controllers 
+namespace RepublishTool.Areas.Admin.Controllers
 {
     [Area(RTRoles.Admin)]
     [Authorize(Roles = RTRoles.Admin + "," + RTRoles.Agent)]
@@ -17,11 +20,13 @@ namespace RepublishTool.Areas.Admin.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserControlService _userControlService;
+        private readonly IManejadorFinancieroService _financieroService;
 
-        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService)
+        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService)
         {
             _userControlService = userControlService;
             _userManager = userManager;
+            _financieroService = financieroService;
         }
 
         public async Task<IActionResult> Index()
@@ -48,7 +53,7 @@ namespace RepublishTool.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Recargar(string ClientId, int ValorRecarga)
         {
-            if(ValorRecarga <= 0)
+            if (ValorRecarga <= 0)
             {
                 return BadRequest();
             }
@@ -63,6 +68,25 @@ namespace RepublishTool.Areas.Admin.Controllers
         {
             IEnumerable<UserDTO> model = await _userControlService.GetClientList();
             return PartialView(nameof(Index), model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detalles(string ClientId)
+        {
+            Cuenta cuenta = await _financieroService.GetCuentaIncludeAll(ClientId);
+            IdentityUser clientUser = cuenta.User;
+            IEnumerable<RecargaDetail> recargas = await _financieroService.GetRecargasByClient(ClientId);
+
+            DateTime date = DateTime.Now.ToUtcCuba();
+            double GastoEsperadoActual = await _userControlService.GetGastoEsperadoByClient(ClientId, date);
+
+            date = date.AddMonths(1);
+            double GastoEsperadoProximo = await _userControlService.GetGastoEsperadoByClient(ClientId, date); ;
+
+            ClientDetalles model = new ClientDetalles(clientUser, recargas, cuenta, 
+                                                      GastoEsperadoActual, GastoEsperadoProximo);
+
+            return View(model);
         }
     }
 }
