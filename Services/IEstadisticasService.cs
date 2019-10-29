@@ -9,8 +9,8 @@ namespace Services
 {
     public interface IEstadisticasService
     {
-        Task<EstadisticaDiario> GetDiario(IdentityUser user);
-        Task<EstadisticaSemanal> GetSemanal(IdentityUser user);
-        Task<EstadisticaMensual> GetMensual(IdentityUser user);
+        Task<EstadisticaDiario> GetDiario(string clientId);
+        Task<EstadisticaSemanal> GetSemanal(string clientId);
+        Task<EstadisticaMensual> GetMensual(string clientId);
     }
 }

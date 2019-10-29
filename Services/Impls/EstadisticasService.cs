@@ -24,33 +24,33 @@ namespace Services.Impls
             repositoryRegistro = new Repository<Registro>(dbContext);
         }
         
-        public async Task<EstadisticaDiario> GetDiario(IdentityUser user)
+        public async Task<EstadisticaDiario> GetDiario(string clientId)
         {
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             
-            return await GetDiarioDetail(user, UtcCuba);
+            return await GetDiarioDetail(clientId, UtcCuba);
         }
 
-        private async Task<EstadisticaDiario> GetDiarioDetail(IdentityUser user, DateTime UtcCuba)
+        private async Task<EstadisticaDiario> GetDiarioDetail(string clientId, DateTime UtcCuba)
         {
             IEnumerable<Registro> registros = await repositoryRegistro.FindAllAsync(r => 
                                                                                     (r.DateCreated.DayOfYear == UtcCuba.DayOfYear 
                                                                                     && r.DateCreated.Year == UtcCuba.Year
-                                                                                    && r.UserId == user.Id));
+                                                                                    && r.UserId == clientId));
             EstadisticaDiario dia = new EstadisticaDiario(registros, UtcCuba);
             return dia;
         }
 
-        public async Task<EstadisticaMensual> GetMensual(IdentityUser user)
+        public async Task<EstadisticaMensual> GetMensual(string clientId)
         {
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             List<EstadisticaDiario> days = new List<EstadisticaDiario>();
             while(UtcCuba.Day > 1)
             {
-                days.Add(await GetDiarioDetail(user, UtcCuba));
+                days.Add(await GetDiarioDetail(clientId, UtcCuba));
                 UtcCuba = UtcCuba.AddDays(-1);
             }
-            days.Add(await GetDiarioDetail(user, UtcCuba));
+            days.Add(await GetDiarioDetail(clientId, UtcCuba));
 
             int tot = days.Sum(r => r.Total);
             double gasto = Math.Round(days.Sum(r => r.Gasto), 3);
@@ -58,13 +58,13 @@ namespace Services.Impls
             return mes;
         }
 
-        public async Task<EstadisticaSemanal> GetSemanal(IdentityUser user)
+        public async Task<EstadisticaSemanal> GetSemanal(string clientId)
         {
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             List<EstadisticaDiario> last7Days = new List<EstadisticaDiario>(7);
             for(int i = 6; i >= 0; i--)
             {
-                last7Days.Add(await GetDiarioDetail(user, UtcCuba.AddDays(-i)));
+                last7Days.Add(await GetDiarioDetail(clientId, UtcCuba.AddDays(-i)));
             }
 
             int total = last7Days.Sum(d => d.Total);
