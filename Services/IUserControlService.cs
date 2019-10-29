@@ -19,6 +19,7 @@ namespace Services
 
         Task<IEnumerable<UserDTO>> GetClientList();
 
+        Task<ClientDashboard> GetDashboard(string clientId);
         Task<ClientDashboard> GetDashboard(IdentityUser user);
 
         Task RecargarCliente(RecargaDTO recargaDTO);

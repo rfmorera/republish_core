@@ -85,14 +85,19 @@ namespace Services.Impls
 
         public async Task<ClientDashboard> GetDashboard(IdentityUser user)
         {
-            EstadisticaDiario dia = await _estadisticasService.GetDiario(user);
-            EstadisticaSemanal semana = await _estadisticasService.GetSemanal(user);
-            EstadisticaMensual mensual = await _estadisticasService.GetMensual(user);
+            return await GetDashboard(user.Id);
+        }
 
-            Cuenta cnt = await _financieroService.GetCuenta(user.Id);
-            ClienteOpciones opt = await _opcionesService.GetOpciones(user.Id);
-            double costoAnuncio = await _financieroService.CostoAnuncio(user.Id);
-            double gastoEsperado = (await _grupoService.GetByUser(user.Id))
+        public async Task<ClientDashboard> GetDashboard(string clientId)
+        {
+            EstadisticaDiario dia = await _estadisticasService.GetDiario(clientId);
+            EstadisticaSemanal semana = await _estadisticasService.GetSemanal(clientId);
+            EstadisticaMensual mensual = await _estadisticasService.GetMensual(clientId);
+
+            Cuenta cnt = await _financieroService.GetCuenta(clientId);
+            ClienteOpciones opt = await _opcionesService.GetOpciones(clientId);
+            double costoAnuncio = await _financieroService.CostoAnuncio(clientId);
+            double gastoEsperado = (await _grupoService.GetByUser(clientId))
                                                        .Sum(g => g.Temporizadores
                                                                     .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count)));
 
