@@ -47,7 +47,7 @@ namespace Services.DTOs
             SystemEnable = t.SystemEnable;
             Ejecutandose = t.IsValidDay(utcCuba);
 
-            Costo = t.Costo(costoAnuncio, cantidadAnuncios);
+            Costo = t.Costo(costoAnuncio, cantidadAnuncios, utcCuba);
 
             TimeSpan now = utcCuba.TimeOfDay;
             if (HoraInicio <= now && now <= HoraFin && Ejecutandose)
