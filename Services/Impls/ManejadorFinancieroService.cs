@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Services.Extensions;
 
 namespace Services.Impls
 {
     public class ManejadorFinancieroService : IManejadorFinancieroService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGrupoService _grupoService;
 
-        public ManejadorFinancieroService(IUnitOfWork unitOfWork)
+        public ManejadorFinancieroService(IUnitOfWork unitOfWork, IGrupoService grupoService)
         {
             _unitOfWork = unitOfWork;
+            _grupoService = grupoService;
         }
 
         public async Task RecargarUsuario(RecargaDTO recargaDTO)
@@ -126,6 +129,14 @@ namespace Services.Impls
                                                            && r.DateCreated.Month == date.Month
                                                            && r.DateCreated.Year == date.Year))
                                             .Sum(t => t.Monto);
+        }
+
+        public async Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime)
+        {
+            double costoAnuncio = await CostoAnuncio(clientId);
+            return (await _grupoService.GetByUser(clientId))
+                                       .Sum(g => g.Temporizadores
+                                       .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count, dateTime)));
         }
     }
 }

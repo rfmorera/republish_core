@@ -18,6 +18,7 @@ namespace Services
         Task<double> CostoAnuncio(string UserId);
         Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId);
         Task<double> GetMontoMesByAgente(string agentId, DateTime date);
-        Task<IEnumerable<RecargaDetail>> GetByClient(string clientId);
+        Task<IEnumerable<RecargaDetail>> GetRecargasByClient(string clientId);
+        Task<double> GetGastoEsperadoByClient(string clientId, DateTime dateTime);
     }
 }
