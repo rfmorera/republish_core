@@ -119,6 +119,11 @@ namespace Services.Impls
             {
                 throw ex;
             }
+            catch(GeneralException ex)
+            {
+                ex.uri = _uri;
+                throw ex;
+            }
             catch (Exception ex)
             {
                 throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
@@ -161,63 +166,70 @@ namespace Services.Impls
 
         private FormAnuncio ParseFormAnuncio(string htmlAnuncio)
         {
-            FormAnuncio formAnuncio = new FormAnuncio();
-            HtmlDocument doc = new HtmlDocument();
-
-            // Load the html from a string
-            doc.LoadHtml(htmlAnuncio);
-
-            var tmp = doc.DocumentNode.SelectSingleNode("//*[@name='price']");
-
-            int price;
-            _ = int.TryParse(tmp.Attributes["value"].Value, out price);
-            formAnuncio.variables.price = price;
-
-            tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
-            formAnuncio.variables.title = tmp.Attributes["value"].Value;
-
-            tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-            formAnuncio.variables.description = tmp.InnerText;
-
-            formAnuncio.variables.images = new string[0];
-            List<string> imagesId = new List<string>();
-            int lastPos = 0, posIni = 0, posEnd;
-            posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
-            while (posIni != -1)
+            try
             {
-                posEnd = htmlAnuncio.IndexOf("urls", posIni);
-                posIni += 9;
-                posEnd -= 3;
-                string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
-                imagesId.Add(id);
-                lastPos = posEnd;
+                FormAnuncio formAnuncio = new FormAnuncio();
+                HtmlDocument doc = new HtmlDocument();
+
+                // Load the html from a string
+                doc.LoadHtml(htmlAnuncio);
+
+                var tmp = doc.DocumentNode.SelectSingleNode("//*[@name='price']");
+
+                int price;
+                _ = int.TryParse(tmp.Attributes["value"].Value, out price);
+                formAnuncio.variables.price = price;
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
+                formAnuncio.variables.title = tmp.Attributes["value"].Value;
+
+                tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
+                formAnuncio.variables.description = tmp.InnerText;
+
+                formAnuncio.variables.images = new string[0];
+                List<string> imagesId = new List<string>();
+                int lastPos = 0, posIni = 0, posEnd;
                 posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                while (posIni != -1)
+                {
+                    posEnd = htmlAnuncio.IndexOf("urls", posIni);
+                    posIni += 9;
+                    posEnd -= 3;
+                    string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
+                    imagesId.Add(id);
+                    lastPos = posEnd;
+                    posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                }
+                formAnuncio.variables.images = imagesId.ToArray();
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@name='email']");
+                formAnuncio.variables.email = tmp.Attributes["value"].Value;
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@name='name']");
+                formAnuncio.variables.name = tmp.Attributes["value"].Value;
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@name='phone']");
+                formAnuncio.variables.phone = tmp.Attributes["value"].Value;
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@name='subcategory']");
+                formAnuncio.variables.subcategory = tmp.FirstChild.Attributes["value"].Value;
+
+                formAnuncio.variables.contactInfo = "EMAIL_PHONE";
+                formAnuncio.variables.botScore = "";
+
+                int p1 = htmlAnuncio.IndexOf("pageProps") + "pageProps".Length + 2;
+                int p2 = htmlAnuncio.IndexOf("apolloState") - 2;
+                string substr = htmlAnuncio.Substring(p1, p2 - p1);
+                dynamic prop = JObject.Parse(substr);
+                formAnuncio.variables.token = prop.token;
+                formAnuncio.variables.id = prop.id;
+
+                return formAnuncio;
             }
-            formAnuncio.variables.images = imagesId.ToArray();
-
-            tmp = doc.DocumentNode.SelectSingleNode("//*[@name='email']");
-            formAnuncio.variables.email = tmp.Attributes["value"].Value;
-
-            tmp = doc.DocumentNode.SelectSingleNode("//*[@name='name']");
-            formAnuncio.variables.name = tmp.Attributes["value"].Value;
-
-            tmp = doc.DocumentNode.SelectSingleNode("//*[@name='phone']");
-            formAnuncio.variables.phone = tmp.Attributes["value"].Value;
-
-            tmp = doc.DocumentNode.SelectSingleNode("//*[@name='subcategory']");
-            formAnuncio.variables.subcategory = tmp.FirstChild.Attributes["value"].Value;
-
-            formAnuncio.variables.contactInfo = "EMAIL_PHONE";
-            formAnuncio.variables.botScore = "";
-
-            int p1 = htmlAnuncio.IndexOf("pageProps") + "pageProps".Length + 2;
-            int p2 = htmlAnuncio.IndexOf("apolloState") - 2;
-            string substr = htmlAnuncio.Substring(p1, p2 - p1);
-            dynamic prop = JObject.Parse(substr);
-            formAnuncio.variables.token = prop.token;
-            formAnuncio.variables.id = prop.id;
-
-            return formAnuncio;
+            catch(Exception ex)
+            {
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+            }
         }
 
         private void GetException(string answer, string _uri, bool ff, CaptchaAnswer captchaResponse = null)
