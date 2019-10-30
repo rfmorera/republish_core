@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -18,18 +19,29 @@ namespace Republish.Areas.Admin.Controllers
     [Authorize(Roles = RTRoles.Admin)]
     public class LogController : Controller
     {
-        public LogController()
+        private readonly IHostingEnvironment _env;
+        public LogController(IHostingEnvironment env)
         {
+            _env = env;
         }
 
         public IActionResult Index()
         {
-            DateTime now = DateTime.Now.ToUtcCuba();
-            using (FileStream logFileStream = new FileStream($"logger{now.Year}{now.Month}{now.Day}", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (StreamReader logFileReader = new StreamReader(logFileStream))
+            try
             {
-                string text = logFileReader.ReadToEnd();
-                string[] model = text.Split("\n");
+                DateTime now = DateTime.Now.ToUtcCuba();
+                string filePath = System.IO.Path.Combine(_env.ContentRootPath, $"logger{now.Year}{now.Month}{now.Day}");
+                using (FileStream logFileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (StreamReader logFileReader = new StreamReader(logFileStream))
+                {
+                    string text = logFileReader.ReadToEnd();
+                    string[] model = text.Split("\n");
+                    return View(model);
+                }
+            }
+            catch(Exception ex)
+            {
+                string[] model = { ex.Message, ex.StackTrace, ex.Source };
                 return View(model);
             }
         }
