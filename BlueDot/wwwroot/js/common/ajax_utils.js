@@ -3,21 +3,6 @@
 var DeleteRowId;
 
 function initializePageCommon() {
-    $("input.onoffswitch-checkbox").off("click").on("click", function (e) {
-        e.preventDefault();
-        var form = prepareForm($(this));
-
-        if (form) {
-            var val = $("input.onoffswitch-checkbox").attr("checked");
-            if (val === undefined) {
-                showTemporizadoresConfirmationPopup(form, "encender", "\nAcorde a su configuración sus anuncios comenzarán a actualizarse.");
-            }
-            else {
-                showTemporizadoresConfirmationPopup(form, "apagar", "\nSus anuncios dejarán de actualizarse!!");
-            }
-        }
-    });
-
     $("a.delete-button").off("click").on("click", function (e) {
         DeleteRowId = $(this).parent().parent().attr("id");
         e.preventDefault();

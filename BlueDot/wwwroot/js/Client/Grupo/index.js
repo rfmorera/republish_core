@@ -94,7 +94,7 @@ function initializePage() {
 
         // Start the tour
         // tour.start();
-    })
+    });
 
     $('#form2').formValidation({
         framework: 'bootstrap',

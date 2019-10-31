@@ -1,6 +1,21 @@
 ﻿$(document).ready(initializePage);
 
 function initializePage() {
+    $("input.onoffswitch-checkbox").off("click").on("click", function (e) {
+        e.preventDefault();
+        var form = prepareForm($(this));
+
+        if (form) {
+            var val = $("input.onoffswitch-checkbox").attr("checked");
+            if (val === undefined) {
+                showTemporizadoresConfirmationPopup(form, "encender", "\nAcorde a su configuración sus anuncios comenzarán a actualizarse.");
+            }
+            else {
+                showTemporizadoresConfirmationPopup(form, "apagar", "\nSus anuncios dejarán de actualizarse!!");
+            }
+        }
+    });
+
     $("#HideTour").on("click", function () {
         onCookieSuccess();
     });
