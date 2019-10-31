@@ -153,7 +153,7 @@ namespace Services.Impls
         public async Task<Grupo> Enable(string Id, bool enable)
         {
             Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
-            grupo.Enable = enable;
+            grupo.Activo = enable;
             return await UpdateAsync(grupo);
         }
 
