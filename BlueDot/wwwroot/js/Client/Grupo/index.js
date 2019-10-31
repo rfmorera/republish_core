@@ -19,6 +19,26 @@ function initializePage() {
     initializeDataTable($("#dataTables-table"));
     initializeDataTablesEditor("#dataTables-table");
 
+    $(".switch").off("click").on("click", function (e) {
+        var input = $(this).find("input.onoffswitch-checkbox");
+        e.preventDefault();
+        var form = prepareForm(input);
+
+        var grupoId = $(this).closest("tr").attr('id');
+        EditRowId = grupoId;
+
+        if (form) {
+            $("#ToogleId").val(grupoId);
+            var val = $("input.onoffswitch-checkbox").attr("checked");
+            if (val === undefined) {
+                showTemporizadoresConfirmationPopup(form, "encender", "\nAcorde a su configuración sus anuncios comenzarán a actualizarse.");
+            }
+            else {
+                showTemporizadoresConfirmationPopup(form, "apagar", "\nSus anuncios dejarán de actualizarse!!");
+            }
+        }
+    });
+
     $("#HideTour").on("click", function () {
         onCookieSuccess();
     });
@@ -126,4 +146,21 @@ function onCookieSuccess() {
         document.cookie = "TourGrupo=yes";
         onAjaxSuccess();
     });
+}
+
+
+function showTemporizadoresConfirmationPopup(form, estado, detail) {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea " + estado + " el grupo. " + detail,
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        form.submit();
+    });
+}
+
+function onToogleSuccess(data, status, xhr) {
+    $("#" + EditRowId + " .switch").html(data);
 }

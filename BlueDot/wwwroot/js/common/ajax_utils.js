@@ -1,6 +1,7 @@
 ﻿$(document).ready(initializePageCommon);
 
 var DeleteRowId;
+var EditRowId;
 
 function initializePageCommon() {
     $("a.delete-button").off("click").on("click", function (e) {
