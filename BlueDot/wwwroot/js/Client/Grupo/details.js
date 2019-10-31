@@ -9,7 +9,6 @@ function onDeleteSuccess() {
     onAjaxSuccess();
     $("#" + DeleteRowId).remove();
 }
-var DeleteRowId;
 
 function initializePage() {
     $(function () {

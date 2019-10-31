@@ -9,7 +9,6 @@ function onAddSuccess() {
     clean_modal();
     initializePage();
 }
-var DeleteRowId;
 
 function onDeleteSuccess() {
     onAjaxSuccess();
