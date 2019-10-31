@@ -1,0 +1,25 @@
+﻿@model bool
+
+@{
+    bool? status = null;
+    if (Model)
+    {
+        status = true;
+    }
+}
+
+<div class="onoffswitch">
+    <input type="checkbox" checked="@(status)" class="onoffswitch-checkbox" id="TemporizadoresEnable" data-form-id="temporizadores-form" />
+    <label class="onoffswitch-label" for="TemporizadoresEnable">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>
+@if (status.HasValue)
+{
+    <h5>Los temporizadores están habilitados para ejecutarse.</h5>
+}
+else
+{
+    <h5>La ejecución de los temporizadores se encuentra interrumpida.</h5>
+}

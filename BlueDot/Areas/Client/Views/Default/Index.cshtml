@@ -115,7 +115,7 @@
                 </div>
                 <div class="ibox-content">
                     <div id="switch">
-                        @Html.Partial("~/Areas/Common/Views/onoffswitch.cshtml", opciones.TemporizadoresUserEnable)
+                        <partial name="~/Areas/Client/Views/Common/_onoffswitch.cshtml" for="@opciones.TemporizadoresUserEnable" />
                     </div>
                 </div>
             </div>

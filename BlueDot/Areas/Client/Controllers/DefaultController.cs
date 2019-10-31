@@ -39,7 +39,7 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             IdentityUser user = await _userManager.GetUserAsync(User);
             bool UserEnable = await _temporizadorService.ToogleUserEnable(user.Id);
-            return PartialView("~/Areas/Common/Views/onoffswitch.cshtml", UserEnable);
+            return PartialView("~/Areas/Client/Views/Common/_onoffswitch.cshtml", UserEnable);
         }
     }
 }
