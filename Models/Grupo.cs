@@ -27,6 +27,8 @@ namespace Models
         [ConcurrencyCheck]
         public string ConcurrencyStamp { get; set; }
 
+        public bool Enable { get; set; }
+
         [Required]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }

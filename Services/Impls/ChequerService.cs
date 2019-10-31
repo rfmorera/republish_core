@@ -52,7 +52,7 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
 
-                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
+                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable && t.GrupoEnable
                                                                               && utc <= t.HoraFin.Add(TimeSpan.FromMinutes(3))
                                                                               && t.NextExecution <= utc);
                 list = list.Where(t => t.IsValidDay(UtcCuba));

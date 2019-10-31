@@ -94,6 +94,14 @@ namespace Services.Impls
             return list;
         }
 
+        /// <summary>
+        /// Devuelve los anuncios a actualizar
+        /// Quien llama debe guardar cambios en la DB
+        /// </summary>
+        /// <param name="GrupoId"></param>
+        /// <param name="Etapa"></param>
+        /// <param name="TempNombre"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
         {
             if(Etapa == 0)
@@ -140,6 +148,13 @@ namespace Services.Impls
             }
 
             return list;
+        }
+
+        public async Task<Grupo> Enable(string Id, bool enable)
+        {
+            Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
+            grupo.Enable = enable;
+            return await UpdateAsync(grupo);
         }
 
         public async Task<Grupo> UpdateAsync(Grupo grupo)
