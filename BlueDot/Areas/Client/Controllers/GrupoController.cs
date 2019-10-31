@@ -71,6 +71,13 @@ namespace RepublishTool.Areas.Client.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> EnableGrupo(string Id)
+        {
+            Grupo grupo = await _grupoService.ToogleEnable(Id);
+            return PartialView("_grupoonoffswitch", grupo.Activo);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Delete(string GrupoId)
         {
             await _grupoService.DeleteAsync(GrupoId);
