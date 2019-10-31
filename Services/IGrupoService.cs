@@ -22,5 +22,7 @@ namespace Services
         Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);
         Task<IEnumerable<Grupo>> GetByUser(string UserId);
         Task<Grupo> GetAsync(string GrupoId);
+
+        Task<Grupo> ToogleEnable(string Id);
     }
 }

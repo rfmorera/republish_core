@@ -150,10 +150,10 @@ namespace Services.Impls
             return list;
         }
 
-        public async Task<Grupo> Enable(string Id, bool enable)
+        public async Task<Grupo> ToogleEnable(string Id)
         {
             Grupo grupo = await _repository.FindAsync(g => g.Id == Id);
-            grupo.Activo = enable;
+            grupo.Activo = !grupo.Activo;
             return await UpdateAsync(grupo);
         }
 
