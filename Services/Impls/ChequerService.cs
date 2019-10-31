@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Services.DTOs;
 using System.IO;
 using Services.Extensions;
@@ -50,11 +51,17 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-                TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay;
+                TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay.Subtract(TimeSpan.FromMinutes(3));
 
-                IEnumerable<Temporizador> list = await repositoryTemporizador.FindAllAsync(t => t.SystemEnable && t.UserEnable && t.Enable
-                                                                              && utc <= t.HoraFin.Add(TimeSpan.FromMinutes(3))
-                                                                              && t.NextExecution <= utc);
+                IEnumerable<Temporizador> list = repositoryTemporizador.QueryAll()
+                                                                       .Include(t => t.Grupo)
+                                                                       .Where(t => t.SystemEnable 
+                                                                                && t.UserEnable 
+                                                                                && t.Enable
+                                                                                && t.Grupo.Activo
+                                                                                && utc <= t.HoraFin
+                                                                                && t.NextExecution <= utc);
+
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
                 _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
@@ -75,7 +82,7 @@ namespace Services.Impls
 
                     t.NextExecution = t.NextExecution.Add(intervalo);
 
-                    if(t.NextExecution.TotalDays >= 1.0)
+                    if (t.NextExecution.TotalDays >= 1.0)
                     {
                         t.NextExecution = new TimeSpan(23, 59, 55);
                     }
