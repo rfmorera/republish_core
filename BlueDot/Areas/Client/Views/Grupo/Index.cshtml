@@ -93,13 +93,7 @@
                                         </td>
                                         <td>
                                             <div class="switch">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" checked="" class="onoffswitch-checkbox" id="example1">
-                                                    <label class="onoffswitch-label" for="example1">
-                                                        <span class="onoffswitch-inner"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-                                                </div>
+                                                <partial name="_grupoonoffswitch.cshtml" for="@item.Activo" />
                                             </div>
                                         </td>
                                         <td data-column-name="@nameof(GrupoEditDTO.Nombre)">
@@ -134,7 +128,8 @@
       data-ajax-begin="onAjaxBegin"
       data-ajax-success="onDeleteSuccess"
       data-ajax-failure="onAjaxError"
-      data-ajax-complete="onAjaxCompleted"></form>
+      data-ajax-complete="onAjaxCompleted">
+</form>
 
 <!-- modal window -->
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -183,6 +178,18 @@
 </div>
 <!-- modal window end -->
 
+<form id="grupo-form" method="post" role="form"
+      asp-area="Client" asp-controller="Grupo" asp-action="EnableGrupo"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onToogleSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted">
+
+    <input id="ToogleId" name="Id" type="hidden" />
+</form>
+
 @section Scripts {
     <partial name="~/Areas/Common/Views/_DataTables.cshtml" />
     <partial name="~/Areas/Common/Views/_DataTablesEditor.cshtml" />
@@ -190,8 +197,6 @@
         <script src="~/js/common/modal.js"></script>
         <script src="~/js/Client/Grupo/index.js"></script>
         <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"></script>
-        @*<script src="~/lib/footable/footable.all.min.js"></script>
-            <script src="~/lib/footable/footable.paginate.min.js"></script>*@
     </environment>
     <environment exclude="Development">
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
