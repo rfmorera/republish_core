@@ -25,7 +25,6 @@ namespace Models
         public bool Enable { get; set; }
         public bool UserEnable { get; set; }
         public bool SystemEnable { get; set; }
-        public bool GrupoEnable { get; set; }
 
         public bool Lunes { get; set; }
         public bool Martes { get; set; }
