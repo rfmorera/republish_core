@@ -30,7 +30,9 @@ namespace Republish.Areas.Admin.Controllers
             try
             {
                 DateTime now = DateTime.Now.ToUtcCuba();
-                string filePath = System.IO.Path.Combine(_env.ContentRootPath, $"logger{now.Year}{now.Month}{now.Day}");
+                string day = now.Day < 10 ? "0" : String.Empty + now.Day;
+                string month = now.Month < 10 ? "0" : String.Empty + now.Month;
+                string filePath = System.IO.Path.Combine(_env.ContentRootPath, $"logger{now.Year}{month}{day}");
                 using (FileStream logFileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (StreamReader logFileReader = new StreamReader(logFileStream))
                 {
