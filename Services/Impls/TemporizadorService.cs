@@ -8,6 +8,7 @@ using Republish.Data.Repositories;
 using Republish.Data.RepositoriesInterfaces;
 using Services.DTOs;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Impls
 {
@@ -47,9 +48,11 @@ namespace Services.Impls
 
         public async Task<IEnumerable<Temporizador>> GetByGroup(string GrupoId)
         {
-            IEnumerable<Temporizador> listT = (await repositoryTemporizador.FindAllAsync(t => t.GrupoId == GrupoId))
-                                                                           .OrderBy(r => r.Orden)
-                                                                           .AsEnumerable();
+            IEnumerable<Temporizador> listT = await  repositoryTemporizador.QueryAll()
+                                                                    .Where(t => t.GrupoId == GrupoId)
+                                                                    .Include(t => t.Grupo)
+                                                                    .OrderBy(r => r.Orden)
+                                                                    .ToListAsync();
             return listT;
         }
 

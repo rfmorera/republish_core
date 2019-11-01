@@ -46,6 +46,7 @@ namespace Services.DTOs
             UserEnable = t.UserEnable;
             SystemEnable = t.SystemEnable;
             Ejecutandose = t.IsValidDay(utcCuba);
+            GrupoActivo = t.Grupo.Activo;
 
             Costo = t.Costo(costoAnuncio, cantidadAnuncios, utcCuba);
 
@@ -151,6 +152,7 @@ namespace Services.DTOs
         public bool UserEnable { get; set; }
         public bool SystemEnable { get; set; }
         public bool Ejecutandose { get; set; }
+        public bool GrupoActivo { get; set; }
 
         public string getEstadoClass
         {
@@ -160,7 +162,7 @@ namespace Services.DTOs
                 {
                     return "label-danger";
                 }
-                else if(!UserEnable)
+                else if(!UserEnable || !GrupoActivo)
                 {
                     return "label-warning";
                 }
@@ -197,6 +199,10 @@ namespace Services.DTOs
                 else if (!Enable)
                 {
                     return "Deshabilidato";
+                }
+                else if (!GrupoActivo)
+                {
+                    return "Grupo Desactivado";
                 }
                 else
                 {
