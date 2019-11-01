@@ -53,14 +53,15 @@ namespace Services.Impls
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
                 TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay.Subtract(TimeSpan.FromMinutes(3));
 
-                IEnumerable<Temporizador> list = repositoryTemporizador.QueryAll()
-                                                                       .Include(t => t.Grupo)
-                                                                       .Where(t => t.SystemEnable 
-                                                                                && t.UserEnable 
-                                                                                && t.Enable
-                                                                                && t.Grupo.Activo
-                                                                                && utc <= t.HoraFin
-                                                                                && t.NextExecution <= utc);
+                IEnumerable<Temporizador> list = await repositoryTemporizador.QueryAll()
+                                                                           .Include(t => t.Grupo)
+                                                                           .Where(t => t.SystemEnable
+                                                                                    && t.UserEnable
+                                                                                    && t.Enable
+                                                                                    && t.Grupo.Activo
+                                                                                    && utc <= t.HoraFin
+                                                                                    && t.NextExecution <= utc)
+                                                                           .ToListAsync();  
 
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
