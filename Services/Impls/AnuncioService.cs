@@ -46,17 +46,80 @@ namespace Services.Impls
 
         public async Task AddAsync(string GrupoId, string[] links)
         {
-            foreach (string st in links)
+            int len = links.Length;
+            for(int i = 0; i < len; i++)
             {
                 try
                 {
-                    Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(st), GroupId = GrupoId };
+                    Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(links[i]), GroupId = GrupoId };
                     repositoryAnuncio.Add(anuncio);
                 }
                 catch (Exception) { }
-
             }
             await repositoryAnuncio.SaveChangesAsync();
+            await UpdateTitle(GrupoId);
+        }
+
+        public async Task UpdateTitle(string GrupoId)
+        {
+            IEnumerable<Anuncio> anuncios = await GetByGroup(GrupoId);
+            IEnumerable<string> titles = GetTitulo(anuncios.Select(a => a.Url).ToArray());
+
+            int len = anuncios.Count();
+            for (int i = 0; i < len; i++)
+            {
+                try
+                {
+                    string t = titles.ElementAt(i);
+                    if (String.IsNullOrEmpty(t) && String.IsNullOrEmpty(anuncios.ElementAt(i).Titulo))
+                    {
+                        anuncios.ElementAt(i).Titulo = "-- título no actualizado -- ";
+                    }
+                    else if(!String.IsNullOrEmpty(t))
+                    {
+                        anuncios.ElementAt(i).Titulo = t;
+                    }
+                    
+                }
+                catch (Exception) { }
+            }
+
+            await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Anuncio>> GetByGroup(string GrupoId)
+        {
+            return (await repositoryAnuncio.FindAllAsync(a => a.GroupId == GrupoId)).AsEnumerable();
+        }
+
+        private IEnumerable<string> GetTitulo(string[] links)
+        {
+            List<Task<string>> body = new List<Task<string>>();
+            foreach (string st in links)
+            {
+                body.Add(Requests.GetAsync(st));
+            }
+
+            try
+            {
+                Task.WaitAll(body.ToArray());
+            }
+            catch (Exception) { }
+
+            List<string> ans = new List<string>();
+
+            int len = links.Length;
+            for (int i = 0; i < len; i++)
+            {
+                try
+                {
+                    FormAnuncio formAnuncio = ParseFormAnuncio(body[i].Result);
+                    ans.Add(formAnuncio.variables.title);
+                }
+                catch (Exception) { ans.Add(String.Empty); }
+            }
+
+            return ans;
         }
 
         public async Task DeleteAllByGroup(string GrupoId)

@@ -14,6 +14,8 @@ namespace Services
         Task DeleteAsync(List<string> list);
         Task DeleteAsync(IEnumerable<Anuncio> anuncios);
 
+        Task UpdateTitle(string GrupoId);
+        Task<IEnumerable<Anuncio>> GetByGroup(string GrupoId);
         Task DeleteAllByGroup(string GrupoId);
 
         Task NotifyDelete(List<string> list);
