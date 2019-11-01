@@ -99,13 +99,21 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _anuncioService.DeleteAsync(AnuncioId);
 
-            return Ok();
+            return Ok(AnuncioId);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteAllAnuncios(string GrupoId)
         {
             await _anuncioService.DeleteAllByGroup(GrupoId);
+
+            return await BuildPartialDetailsView(GrupoId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAnuncioTitle(string GrupoId)
+        {
+            await _anuncioService.UpdateTitle(GrupoId);
 
             return await BuildPartialDetailsView(GrupoId);
         }
