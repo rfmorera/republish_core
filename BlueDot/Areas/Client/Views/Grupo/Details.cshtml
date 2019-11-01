@@ -67,12 +67,14 @@
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
                     <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary" id="btnAddTemporizador">Añadir Temporizador</a>
+                    <div class="bg-info p-xs float-right m-r-lg">Gasto Esperado: $@Model.Costo</div>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
 
                         <div class="form-group row container">
                             <div class="col-sm-4"><input id="filterTemporizador" type="text" placeholder="Buscar" class="form-control"></div>
+                            
                         </div>
 
                         <table id="dataTables-table-temporizador" class="footable table demo table-bordered table-striped table-hover toggle-circle" data-filter="#filterTemporizador" data-page-size="5" data-page-previous-text="ant" data-page-next-text="sigt">
