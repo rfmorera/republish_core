@@ -75,6 +75,15 @@ namespace Services.Impls
             await repositoryTemporizador.SaveChangesAsync();
         }
 
+        public async Task<Temporizador> TooggleEnable(string Id)
+        {
+            Temporizador t = await repositoryTemporizador.FindAsync(e => e.Id == Id);
+            t.Enable = !t.Enable;
+            await repositoryTemporizador.UpdateAsync(t, t.Id);
+            await repositoryTemporizador.SaveChangesAsync();
+            return t;
+        }
+
         public async Task<bool> ToogleUserEnable(string UserId)
         {
             bool UserEnable = !(await _opcionesService.TemporizadorStatus(UserId));
