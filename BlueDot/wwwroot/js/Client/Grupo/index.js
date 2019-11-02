@@ -10,9 +10,9 @@ function onAddSuccess() {
     initializePage();
 }
 
-function onDeleteSuccess() {
+function onDeleteSuccess(data, status, xhr) {
     onAjaxSuccess();
-    $("#" + DeleteRowId).remove();
+    $("#" + data).remove();
 }
 
 function initializePage() {

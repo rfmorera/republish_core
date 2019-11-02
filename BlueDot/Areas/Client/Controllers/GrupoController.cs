@@ -73,8 +73,8 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> EnableGrupo(string Id)
         {
-            Grupo grupo = await _grupoService.ToogleEnable(Id);
-            return PartialView("_grupoonoffswitch", grupo.Activo);
+            await _grupoService.ToogleEnable(Id);
+            return await BuildPartialView();
         }
 
         [HttpPost]
@@ -82,8 +82,7 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _grupoService.DeleteAsync(GrupoId);
 
-            //return await BuildPartialView();
-            return Ok();
+            return Ok(GrupoId);
         }
 
         [HttpPost]
@@ -128,7 +127,14 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _temporizadorService.DeleteAsync(TemporizadorId);
 
-            return Ok();
+            return Ok(TemporizadorId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ToogleTemporizador(string Id, string GrupoId)
+        {
+            Temporizador t = await _temporizadorService.TooggleEnable(Id);
+            return await BuildPartialDetailsView(GrupoId);
         }
 
         [HttpPost]
