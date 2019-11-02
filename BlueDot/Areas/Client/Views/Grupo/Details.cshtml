@@ -79,19 +79,25 @@
                             <thead>
                                 <tr>
                                     <th width="10%" data-toggle="true" data-sort-ignore="true">Acciones</th>
+                                    <th width="10"></th>
                                     <th width="30%">Nombre</th>
                                     <th width="10"> Estado</th>
                                     <th width="10"> Costo Mensual</th>
-                                    <th width="40%" data-hide="all" data-sort-ignore="true">Descripcion</th>
+                                    <th width="30%" data-hide="all" data-sort-ignore="true">Descripcion</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (TemporizadorDTO item in Model.Temporizadores)
                                 {
-                                    <tr class="gradeX">
+                                    <tr class="gradeX" id="@item.Id">
                                         <td>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="disabled btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                        </td>
+                                        <td>
+                                            <div class="switch">
+                                                <partial name="_onoffswitch.cshtml" for="@item.Enable" />
+                                            </div>
                                         </td>
                                         <td>
                                             @item.Nombre
@@ -149,7 +155,7 @@
                             <tbody>
                                 @foreach (AnuncioDTO item in Model.Anuncios)
                                 {
-                                    <tr class="gradeX">
+                                    <tr class="gradeX" id="@item.Id">
                                         <td>
                                             <a href="@item.Url" target="_blank" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visitar"></i></a>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
@@ -200,6 +206,20 @@
       data-ajax-success="onDeleteSuccess"
       data-ajax-failure="onAjaxError"
       data-ajax-complete="onAjaxCompleted"></form>
+
+<form id="toogle-form" method="post" role="form"
+      asp-area="Client" asp-controller="Grupo" asp-action="ToogleTemporizador"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onToogleSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted"
+      data-ajax-update="#body_content">
+
+    <input id="ToogleId" name="Id" type="hidden" />
+    <input id="GrupoId" name="GrupoId" type="hidden" value="@Model.Id"/>
+</form>
 
 <!-- modal window -->
 <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

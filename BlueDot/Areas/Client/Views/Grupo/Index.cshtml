@@ -12,12 +12,10 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/css/common/dataTables.editor_custom.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.css" />
-        <link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/common/dataTables.editor_custom.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/bootstrap-tour/css/bootstrap-tour-standalone.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/lib/footable/css/footable.core.min.css" asp-append-version="true" />
     </environment>
 }
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -69,10 +67,6 @@
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
-                        <div class="form-group row container">
-                            <div class="col-sm-4"><input id="filterGrupos" type="text" placeholder="Buscar" class="form-control"></div>
-                        </div>
-
                         <table id="dataTables-table" class="footable table demo table-bordered table-striped table-hover dataTables-example" data-filter="#filterGrupos" data-edit-url="@Url.Action("Edit", "Grupo")" data-row-id-property-name="@nameof(GrupoEditDTO.Id)">
                             <thead>
                                 <tr>
@@ -93,7 +87,7 @@
                                         </td>
                                         <td>
                                             <div class="switch">
-                                                <partial name="_grupoonoffswitch.cshtml" for="@item.Activo" />
+                                                <partial name="_onoffswitch.cshtml" for="@item.Activo" />
                                             </div>
                                         </td>
                                         <td data-column-name="@nameof(GrupoEditDTO.Nombre)">
@@ -178,14 +172,15 @@
 </div>
 <!-- modal window end -->
 
-<form id="grupo-form" method="post" role="form"
+<form id="toogle-form" method="post" role="form"
       asp-area="Client" asp-controller="Grupo" asp-action="EnableGrupo"
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
       data-ajax-success="onToogleSuccess"
       data-ajax-failure="onAjaxError"
-      data-ajax-complete="onAjaxCompleted">
+      data-ajax-complete="onAjaxCompleted"
+      data-ajax-update="#body_content">
 
     <input id="ToogleId" name="Id" type="hidden" />
 </form>
