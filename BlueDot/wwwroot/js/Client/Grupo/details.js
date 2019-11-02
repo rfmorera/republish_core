@@ -5,17 +5,55 @@ function onAddSuccess() {
     initializePage();
 }
 
-function onDeleteSuccess() {
+function onDeleteSuccess(data, status, xhr) {
+    $("#" + data).remove();
     onAjaxSuccess();
-    $("#" + DeleteRowId).remove();
 }
 
 function initializePage() {
+    $('.clockpicker').clockpicker();
+
     $(function () {
         $('.footable').footable();
     });
 
-    $("tr").each(function (index, element) { $(element).attr("id", index) })
+    $(".switch").off("click").on("click", function (e) {
+        var input = $(this).find("input.onoffswitch-checkbox");
+        e.preventDefault();
+        var form = prepareForm(input);
+
+        var temporizadorId = $(this).closest("tr").attr('id');
+        EditRowId = temporizadorId;
+
+        if (form) {
+            $("#ToogleId").val(temporizadorId);
+            var val = $("input.onoffswitch-checkbox").attr("checked");
+            if (val === undefined) {
+                showTemporizadoresConfirmationPopup(form, "encender", "");
+            }
+            else {
+                showTemporizadoresConfirmationPopup(form, "apagar", "");
+            }
+        }
+    });
+
+    $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
+        e.preventDefault();
+        var form = prepareFormCustom($(this));
+
+        if (form) {
+            showConfirmationPopupCustom(form);
+        }
+    });
+
+    $("a.delete-all-temporizadores-button").off("click").on("click", function (e) {
+        e.preventDefault();
+        var form = prepareFormCustom($(this));
+
+        if (form) {
+            showConfirmationPopupTemporizadoresCustom(form);
+        }
+    });
 
     // Instance the tour
     var tour = new Tour({
@@ -70,33 +108,10 @@ function initializePage() {
 
     $('.startTour').click(function () {
         tour.restart();
-
-        // Start the tour
-        // tour.start();
     });
 
     $("#HideTour").on("click", function () {
         onCookieSuccess();
-    });
-
-    $('.clockpicker').clockpicker();
-    //initializeDataTable($("#dataTables-table"));
-    //initializeDataTable($("#dataTables-table-temporizador"));
-    $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
-        e.preventDefault();
-        var form = prepareFormCustom($(this));
-
-        if (form) {
-            showConfirmationPopupCustom(form);
-        }
-    });
-    $("a.delete-all-temporizadores-button").off("click").on("click", function (e) {
-        e.preventDefault();
-        var form = prepareFormCustom($(this));
-
-        if (form) {
-            showConfirmationPopupTemporizadoresCustom(form);
-        }
     });
 }
 
@@ -147,4 +162,21 @@ function onCookieSuccess() {
         document.cookie = "TourGDetails=yes";
         onAjaxSuccess();
     });
+}
+
+function showTemporizadoresConfirmationPopup(form, estado, detail) {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea " + estado + " el temporizador. " + detail,
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        form.submit();
+    });
+}
+
+function onToogleSuccess() {
+    initializePage();
+    onAjaxSuccess();
 }

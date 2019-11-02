@@ -19,23 +19,27 @@ function initializePage() {
     initializeDataTable($("#dataTables-table"));
     initializeDataTablesEditor("#dataTables-table");
 
-    $(".switch").off("click").on("click", function (e) {
-        var input = $(this).find("input.onoffswitch-checkbox");
-        e.preventDefault();
-        var form = prepareForm(input);
+    $('.pagination > li').on('click', function () {
+        initializeSwitch();
+    });
 
-        var grupoId = $(this).closest("tr").attr('id');
-        EditRowId = grupoId;
+    initializeSwitch();
 
-        if (form) {
-            $("#ToogleId").val(grupoId);
-            var val = $("input.onoffswitch-checkbox").attr("checked");
-            if (val === undefined) {
-                showTemporizadoresConfirmationPopup(form, "encender", "\nAcorde a su configuración sus anuncios comenzarán a actualizarse.");
-            }
-            else {
-                showTemporizadoresConfirmationPopup(form, "apagar", "\nSus anuncios dejarán de actualizarse!!");
-            }
+    $('#form2').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            Nombre: {
+                validators: {
+                    notEmpty: {
+                        message: 'Por favor escriba el nombre'
+                    },
+                }
+            },
         }
     });
 
@@ -114,22 +118,26 @@ function initializePage() {
         // Start the tour
         // tour.start();
     });
+}
 
-    $('#form2').formValidation({
-        framework: 'bootstrap',
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            Nombre: {
-                validators: {
-                    notEmpty: {
-                        message: 'Por favor escriba el nombre'
-                    },
-                }
-            },
+function initializeSwitch() {
+    $(".switch").off("click").on("click", function (e) {
+        var input = $(this).find("input.onoffswitch-checkbox");
+        e.preventDefault();
+        var form = prepareForm(input);
+
+        var grupoId = $(this).closest("tr").attr('id');
+        EditRowId = grupoId;
+
+        if (form) {
+            $("#ToogleId").val(grupoId);
+            var val = $("input.onoffswitch-checkbox").attr("checked");
+            if (val === undefined) {
+                showTemporizadoresConfirmationPopup(form, "encender", "\nAcorde a su configuración sus anuncios comenzarán a actualizarse.");
+            }
+            else {
+                showTemporizadoresConfirmationPopup(form, "apagar", "\nSus anuncios dejarán de actualizarse!!");
+            }
         }
     });
 }
@@ -148,7 +156,6 @@ function onCookieSuccess() {
     });
 }
 
-
 function showTemporizadoresConfirmationPopup(form, estado, detail) {
     swal({
         title: "¿Está seguro?",
@@ -161,6 +168,7 @@ function showTemporizadoresConfirmationPopup(form, estado, detail) {
     });
 }
 
-function onToogleSuccess(data, status, xhr) {
-    $("#" + EditRowId + " .switch").html(data);
+function onToogleSuccess() {
+    initializePage();
+    onAjaxSuccess();
 }

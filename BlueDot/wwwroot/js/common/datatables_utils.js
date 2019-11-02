@@ -23,25 +23,25 @@
         });
 
         selector.DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "lengthMenu": [[ 25, 50, -1], [ 25, 50, "All"]],
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
-                { extend: 'copy' },
-                { extend: 'csv', title: 'Report' },
-                { extend: 'excel', title: 'Report' },
-                { extend: 'pdf', title: 'Report' },
-                {
-                    extend: 'print',
-                    title: "",
-                    customize: function (win) {
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
+                //{ extend: 'copy' },
+                //{ extend: 'csv', title: 'Report' },
+                //{ extend: 'excel', title: 'Report' },
+                //{ extend: 'pdf', title: 'Report' },
+                //{
+                //    extend: 'print',
+                //    title: "",
+                //    customize: function (win) {
+                //        $(win.document.body).addClass('white-bg');
+                //        $(win.document.body).css('font-size', '10px');
 
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
-                }
+                //        $(win.document.body).find('table')
+                //            .addClass('compact')
+                //            .css('font-size', 'inherit');
+                //    }
+                //}
             ],
             "columns": columnArray
         });
