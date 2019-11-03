@@ -51,7 +51,8 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-                TimeSpan utc = DateTime.Now.ToUtcCuba().TimeOfDay.Subtract(TimeSpan.FromMinutes(3));
+                TimeSpan utc1 = DateTime.Now.ToUtcCuba().TimeOfDay.Subtract(TimeSpan.FromSeconds(80));
+                TimeSpan utcReal = DateTime.Now.ToUtcCuba().TimeOfDay;
 
                 IEnumerable<Temporizador> list = await repositoryTemporizador.QueryAll()
                                                                            .Include(t => t.Grupo)
@@ -59,13 +60,13 @@ namespace Services.Impls
                                                                                     && t.UserEnable
                                                                                     && t.Enable
                                                                                     && t.Grupo.Activo
-                                                                                    && utc <= t.HoraFin
-                                                                                    && t.NextExecution <= utc)
+                                                                                    && utc1 <= t.HoraFin
+                                                                                    && t.NextExecution <= utcReal)
                                                                            .ToListAsync();  
 
                 list = list.Where(t => t.IsValidDay(UtcCuba));
 
-                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utc.ToString(), list.Count()));
+                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utcReal.ToString(), list.Count()));
 
 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
@@ -74,11 +75,11 @@ namespace Services.Impls
                 {
                     TimeSpan intervalo = TimeSpan.FromHours(t.IntervaloHoras).Add(TimeSpan.FromMinutes(t.IntervaloMinutos));
                     TimeSpan nxT = t.NextExecution.Add(intervalo);
-                    if (nxT < utc)
+                    if (nxT < utcReal)
                     {
-                        int expectedMin = (int)(utc.Subtract(t.HoraInicio)).TotalMinutes;
+                        int expectedMin = (int)(utcReal.Subtract(t.HoraInicio)).TotalMinutes;
                         int diff = expectedMin % ((int)intervalo.TotalMinutes);
-                        t.NextExecution = utc.Subtract(TimeSpan.FromMinutes(diff));
+                        t.NextExecution = utcReal.Subtract(TimeSpan.FromMinutes(diff));
                     }
 
                     t.NextExecution = t.NextExecution.Add(intervalo);
