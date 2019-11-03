@@ -100,6 +100,7 @@ namespace Republish
             services.AddTransient<IShortQueueService, ShortQueueService>();
             services.AddTransient<ILongQueueService, LongQueueService>();
             services.AddScoped<IQueuesUnitOfWork, QueuesUnitOfWork>();
+            services.AddScoped<INotificationsService, NotificationsService>();
 
             services.AddAuthorization(options =>
             {
