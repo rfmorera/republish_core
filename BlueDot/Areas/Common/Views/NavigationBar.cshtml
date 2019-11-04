@@ -1,4 +1,11 @@
-﻿<!--#Navigation bar-->
+﻿@using Services
+@using Models
+@inject INotificationsService notificationsService
+@{
+    int cnt = await notificationsService.GetCountNotReadedByCurrentUser();
+    IEnumerable<Notificacion> notifications = (await notificationsService.GetNotReadedByCurrentUser()).Take(3);
+}
+<!--#Navigation bar-->
 <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -11,47 +18,40 @@
             <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Bienvenido a Republish Tool.</span>
         </li>
         <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-bell"></i>  <span class="label label-primary">!</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        @*<li>
-                            <a href="mailbox.html" class="dropdown-item">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                    <span class="float-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="dropdown-divider"></li>
-                        <li>
-                            <a href="profile.html" class="dropdown-item">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="float-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="dropdown-divider"></li>
-                        <li>
-                            <a href="grid_options.html" class="dropdown-item">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="float-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="dropdown-divider"></li>*@
-                        <li>
-                            <div class="text-center link-block">
-                                <a asp-controller="Notifications" asp-action="Index" class="dropdown-item">
-                                    <strong>Ver notificaciones</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
+            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false">
+                <i class="fa fa-bell"></i>  @if (cnt > 0){<span class="label label-primary">@cnt</span>}
+            </a>
+            <ul class="dropdown-menu dropdown-alerts">
+                @if (cnt > 0)
+                {
+                    <li>
+                        <a asp-controller="Notifications" asp-action="Index" class="dropdown-item">
+                            <div>
+                                <i class="fa fa-bell"></i> Usted tiene @cnt notificaciones sin leer
                             </div>
+                        </a>
+                    </li>
+                    @foreach (Notificacion item in notifications)
+                    {
+                        <li>
+                            <a asp-controller="Notifications" asp-action="Index" class="dropdown-item">
+                                <div>
+                                    <i class="fa fa-bullhorn fa-fw"></i> @item.Mensaje.Substring(0, Math.Min(25, item.Mensaje.Length))
+                                </div>
+                            </a>
                         </li>
-                    </ul>
+                    }
+                }
+                <li>
+                    <div class="text-center link-block">
+                        <a asp-controller="Notifications" asp-action="Index" class="dropdown-item">
+                            <strong>Ver notificaciones</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
                 </li>
+            </ul>
+        </li>
         <li id="CerrarSesion">
             <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
                 <button type="submit" class="form-link"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
