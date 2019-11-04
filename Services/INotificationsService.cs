@@ -9,6 +9,11 @@ namespace Services
     public interface INotificationsService
     {
         Task<IEnumerable<Notificacion>> GetByUser(string Id);
+        Task<IEnumerable<Notificacion>> GetNotReadedByUser(string Id);
+        Task<int> GetCountNotReadedByUser(string Id);
+        Task<IEnumerable<Notificacion>> GetByCurrentUser();
+        Task<IEnumerable<Notificacion>> GetNotReadedByCurrentUser();
+        Task<int> GetCountNotReadedByCurrentUser();
         Task SetReadedByUser(string Id);
     }
 }
