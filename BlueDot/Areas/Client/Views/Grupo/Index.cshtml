@@ -1,9 +1,6 @@
 ﻿@model IEnumerable<GrupoIndexDTO>
 @{
     ViewData["Title"] = "Grupos";
-    TimeZoneInfo hwZone = TimeZoneInfo.FindSystemTimeZoneById("US Eastern Standard Time");
-    DateTime now = DateTime.Now;
-    DateTime utc = TimeZoneInfo.ConvertTime(now, hwZone);
 }
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/common/switch.min.css" asp-append-version="true" />
