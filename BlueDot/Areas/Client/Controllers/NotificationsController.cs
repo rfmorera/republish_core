@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
 using Services;
+using Services.DTOs;
+using Services.Extensions;
 
 namespace RepublishTool.Areas.Client.Controllers
 {
@@ -27,7 +29,7 @@ namespace RepublishTool.Areas.Client.Controllers
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            IEnumerable<Notificacion> notificacions = await _notificationsService.GetByUser(user.Id);
+            IEnumerable<NotificacionDTO> notificacions = (await _notificationsService.GetByUser(user.Id)).ToNotificacionDTO();
             await _notificationsService.SetReadedByUser(user.Id);
             return View(notificacions);
         }
