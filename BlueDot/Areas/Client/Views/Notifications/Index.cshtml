@@ -1,5 +1,5 @@
 ﻿@using  Models
-@model IEnumerable<Notificacion>
+@model IEnumerable<NotificacionDTO>
 @{
     ViewData["Title"] = "Notificaciones";
 }
@@ -29,22 +29,19 @@
                     <h5>Notificaciones</h5>
                 </div>
                 <div class="ibox-content">
-                    @foreach (Notificacion item in Model)
+                    @foreach (NotificacionDTO item in Model)
                     {
-                        if (item.Readed)
+
+                    <div class="alert @item.Status">
+                        @if (!item.Readed)
                         {
-                            <div class="alert alert-warning">
-                                @item.Mensaje
-                                <span class="float-right text-muted small">@item.DateCreated.ToDateString()</span>
-                            </div>
+                            <i class="fa fa-bullhorn fa-fw"></i>
+                            <small>Nueva</small>
                         }
-                        else
-                        {
-                            <div class="alert alert-success">
-                                @item.Mensaje
-                                <span class="float-right text-muted small">@item.DateCreated.ToDateString()</span>
-                            </div>
-                        }
+                        @item.Mensaje
+                        <span class="float-right text-muted small">@item.DateCreated.ToDateString()</span>
+                    </div>
+
                     }
                 </div>
             </div>

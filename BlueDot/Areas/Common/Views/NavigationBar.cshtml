@@ -1,9 +1,10 @@
 ﻿@using Services
 @using Models
+@using Republish.Extensions
 @inject INotificationsService notificationsService
 @{
     int cnt = await notificationsService.GetCountNotReadedByCurrentUser();
-    IEnumerable<Notificacion> notifications = (await notificationsService.GetNotReadedByCurrentUser()).Take(3);
+    IEnumerable<Notificacion> notifications = (await notificationsService.GetNotReadedByCurrentUser()).Take(10);
 }
 <!--#Navigation bar-->
 <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
@@ -36,7 +37,8 @@
                         <li>
                             <a asp-controller="Notifications" asp-action="Index" class="dropdown-item">
                                 <div>
-                                    <i class="fa fa-bullhorn fa-fw"></i> @item.Mensaje.Substring(0, Math.Min(25, item.Mensaje.Length))
+                                    <i class="fa fa-bullhorn fa-fw"></i> @item.Mensaje.Substring(0, Math.Min(30, item.Mensaje.Length))
+                                    <span class="float-right text-muted small">@item.DateCreated.ToDateString()</span>
                                 </div>
                             </a>
                         </li>
