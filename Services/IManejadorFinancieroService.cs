@@ -17,8 +17,10 @@ namespace Services
         Task<IEnumerable<string>> FacturarRegistros();
         Task<bool> HasBalance(string UserId);
         Task<double> CostoAnuncio(string UserId);
+        Task<double> SetCostoAnuncio(string UserId, double CostoAnuncio);
         Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId);
         Task<double> GetMontoMesByAgente(string agentId, DateTime date);
         Task<IEnumerable<RecargaDetail>> GetRecargasByClient(string clientId);
+        Task<Cuenta> UpdateCuenta(Cuenta cuenta);
     }
 }

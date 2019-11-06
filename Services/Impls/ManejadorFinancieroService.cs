@@ -120,6 +120,14 @@ namespace Services.Impls
             return (await GetCuenta(UserId)).CostoAnuncio;
         }
 
+        public async Task<double> SetCostoAnuncio(string UserId, double CostoAnuncio)
+        {
+            Cuenta cnt = await GetCuenta(UserId);
+            cnt.CostoAnuncio = CostoAnuncio;
+            await UpdateCuenta(cnt);
+            return CostoAnuncio;
+        }
+
         public async Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId)
         {
             return await _unitOfWork.Recarga.QueryAll().Where(r => r.OperardorId == agentId)
@@ -148,6 +156,13 @@ namespace Services.Impls
                                                            && r.DateCreated.Month == date.Month
                                                            && r.DateCreated.Year == date.Year))
                                             .Sum(t => t.Monto);
+        }
+
+        public async Task<Cuenta> UpdateCuenta(Cuenta cuenta)
+        {
+            await _unitOfWork.Cuenta.UpdateAsync(cuenta, cuenta.Id);
+            await _unitOfWork.SaveChangesAsync();
+            return cuenta;
         }
     }
 }
