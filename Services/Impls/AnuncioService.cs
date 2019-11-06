@@ -105,7 +105,8 @@ namespace Services.Impls
                 {
                     UserId = item.Grupo.UserId,
                     DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {1} el anuncio {0} a caducado/eliminado por tanto se ha eliminado del sistema: {0}", item.Url, item.Grupo.Nombre)
+                    Mensaje = String.Format("Del grupo {1} el anuncio {0} a caducado/eliminado por tanto se ha eliminado del sistema: {0}", item.Url, item.Grupo.Nombre),
+                    Readed = false
                 });
             }
 

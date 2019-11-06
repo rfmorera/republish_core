@@ -15,10 +15,12 @@ namespace Services.Impls
     public class ManejadorFinancieroService : IManejadorFinancieroService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotificationsService _notificationsService;
 
-        public ManejadorFinancieroService(IUnitOfWork unitOfWork)
+        public ManejadorFinancieroService(IUnitOfWork unitOfWork, INotificationsService notificationsService)
         {
             _unitOfWork = unitOfWork;
+            _notificationsService = notificationsService;
         }
 
         public async Task RecargarUsuario(RecargaDTO recargaDTO)
@@ -29,6 +31,15 @@ namespace Services.Impls
 
             Cuenta c = await _unitOfWork.Cuenta.FindAsync(t => t.UserId == r.ClientId);
             c.Saldo += r.Monto;
+            Notificacion notificacion = new Notificacion()
+            {
+                UserId = recargaDTO.ClientId,
+                DateCreated = now,
+                Mensaje = String.Format("Cuenta recargada: ${0}. Su saldo actual es de {1}", recargaDTO.Monto, c.Saldo),
+                Readed = false
+            };
+
+            await _notificationsService.Add(notificacion);
 
             await _unitOfWork.Cuenta.UpdateAsync(c, c.Id);
 
