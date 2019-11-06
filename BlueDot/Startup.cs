@@ -47,6 +47,10 @@ namespace Republish
             //        .SetApplicationName("RepublishTool")
             //        .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
 
+            services.AddDataProtection()
+                .SetApplicationName("RepublishTool")
+                .PersistKeysToFileSystem(new System.IO.DirectoryInfo(@"/var/dpkeys/"));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
