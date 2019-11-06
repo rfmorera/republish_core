@@ -36,17 +36,12 @@ namespace Services.Impls
         private readonly INotificationsService _notificationsService;
         readonly ILogger _log;
 
-        public AnuncioService(ILogger log, INotificationsService notificationsService)
-        {
-            _log = log;
-            _notificationsService = notificationsService;
-        }
-
-        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
+            _notificationsService = notificationsService;
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
