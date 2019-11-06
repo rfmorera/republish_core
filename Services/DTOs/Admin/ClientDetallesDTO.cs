@@ -23,6 +23,7 @@ namespace Services.DTOs.Admin
                              double GastoEsperadoActual, 
                              double GastoEsperadoProximo)
         {
+            Id = client.Id;
             UserName = client.UserName;
             Phone = client.PhoneNumber;
             this.Recargas = Recargas;
@@ -33,6 +34,7 @@ namespace Services.DTOs.Admin
 
         public IEnumerable<RecargaDetail> Recargas { get; set; }
         public CuentaDTO Cuenta { get; set; }
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Phone { get; set; }
         public double GastoEsperadoActual { get; set; }
