@@ -11,8 +11,10 @@ namespace Services.DTOs.Registro
         {
             Saldo = Math.Round(ct.Saldo, 3);
             LastUpdate = ct.LastUpdate;
+            CostoAnuncio = ct.CostoAnuncio;
         }
         public double Saldo { get; }
+        public double CostoAnuncio { get; }
         public DateTime? LastUpdate { get; }
     }
 }
