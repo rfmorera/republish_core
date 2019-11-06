@@ -179,7 +179,7 @@ namespace Services.Impls
                                 _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
                             }
                         }
-                        await _anuncioService.DeleteAsync(anunciosEliminados);
+                        await _anuncioService.NotifyDelete(anunciosEliminados);
                         await _queuesUnit.SaveChangesAsync();
                     }
 
