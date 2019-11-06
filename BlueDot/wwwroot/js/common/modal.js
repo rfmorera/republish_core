@@ -1,5 +1,6 @@
 ﻿function dismiss_modal() {
     $("#close_button").click();
+    $(".close_button").click();
     onAjaxCompleted();
 }
 
