@@ -10,8 +10,6 @@ function onDeleteSuccess() {
     initializePage();
 }
 
-
-
 function initializePage() {
     $(".btn-recargar").on("click", function () {
         id = $(this).attr("data-Id");
