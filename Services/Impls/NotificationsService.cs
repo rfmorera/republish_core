@@ -82,5 +82,17 @@ namespace Services.Impls
             }
             await repositoryNotificacion.SaveChangesAsync();
         }
+
+        public async Task Add(Notificacion notificacion)
+        {
+            await repositoryNotificacion.AddAsync(notificacion);
+            await repositoryNotificacion.SaveChangesAsync();
+        }
+
+        public async Task Add(IEnumerable<Notificacion> notificacions)
+        {
+            await repositoryNotificacion.AddAllAsync(notificacions);
+            await repositoryNotificacion.SaveChangesAsync();
+        }
     }
 }

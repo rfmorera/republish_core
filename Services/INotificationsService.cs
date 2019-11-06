@@ -15,5 +15,7 @@ namespace Services
         Task<IEnumerable<Notificacion>> GetNotReadedByCurrentUser();
         Task<int> GetCountNotReadedByCurrentUser();
         Task SetReadedByUser(string Id);
+        Task Add(Notificacion notificacion);
+        Task Add(IEnumerable<Notificacion> notificacions);
     }
 }
