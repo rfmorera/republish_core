@@ -56,7 +56,8 @@ namespace Services.Impls
             Cuenta c = new Cuenta
             {
                 UserId = UserId,
-                Saldo = 0
+                Saldo = 0,
+                CostoAnuncio = 0.006
             };
 
             await _unitOfWork.Cuenta.AddAsync(c);
@@ -114,9 +115,9 @@ namespace Services.Impls
             return ct.Saldo > 0;
         }
 
-        public Task<double> CostoAnuncio(string UserId)
+        public async Task<double> CostoAnuncio(string UserId)
         {
-            return Task.FromResult(0.006);
+            return (await GetCuenta(UserId)).CostoAnuncio;
         }
 
         public async Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId)
