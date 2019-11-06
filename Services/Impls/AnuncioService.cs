@@ -161,6 +161,10 @@ namespace Services.Impls
                 ex.uri = _uri;
                 throw ex;
             }
+            catch(AnuncioEliminadoException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
                 throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
