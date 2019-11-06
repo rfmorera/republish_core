@@ -394,5 +394,11 @@
     "inputFiles": [
       "wwwroot/js/Admin/Agent/index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Admin/ClientControl/detalles.min.js",
+    "inputFiles": [
+      "wwwroot/js/Admin/ClientControl/detalles.js"
+    ]
   }
 ]
