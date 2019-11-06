@@ -94,6 +94,11 @@ namespace Services.Impls
 
         public async Task NotifyDelete(List<string> list)
         {
+            if (!list.Any())
+            {
+                return;
+            }
+
             IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
                                                                     .Where(a => list.Contains(a.Url))
                                                                     .Include(a => a.Grupo)
