@@ -112,7 +112,7 @@ namespace Services.Impls
                         }
                         try
                         {
-                            await _anuncioService.DeleteAsync(anunciosEliminados);
+                            await _anuncioService.NotifyDelete(anunciosEliminados);
                         }
                         catch (Exception)
                         {

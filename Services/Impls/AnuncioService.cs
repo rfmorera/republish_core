@@ -286,7 +286,7 @@ namespace Services.Impls
             }
             else if (answer.Contains("Has eliminado este anuncio."))
             {
-                throw new BanedException("Deteccion Anuncio Eliminado", _uri);
+                throw new AnuncioEliminadoException("Deteccion Anuncio Eliminado", _uri);
             }
             else if (ff &&
                      !answer.Contains("\"status\":200") &&
