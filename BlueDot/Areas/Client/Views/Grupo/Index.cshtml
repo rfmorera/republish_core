@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<GrupoIndexDTO>
 @{
     ViewData["Title"] = "Grupos";
-    DateTime nowCuba = DateTime.Now.ToUtcCuba();
-    DateTime now = DateTime.Now.ToUtcCuba();
 }
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/common/switch.min.css" asp-append-version="true" />
@@ -65,11 +63,6 @@
                     <a id="btnAddGrupo" href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary">Añadir Grupo</a>
                 </div>
                 <div class="ibox-content">
-                    <div>
-                        @now.ToString();
-                        <br />
-                        @nowCuba.ToString();
-                    </div>
                     <div class="table-responsive">
                         <table id="dataTables-table" class="footable table demo table-bordered table-striped table-hover dataTables-example" data-filter="#filterGrupos" data-edit-url="@Url.Action("Edit", "Grupo")" data-row-id-property-name="@nameof(GrupoEditDTO.Id)">
                             <thead>
