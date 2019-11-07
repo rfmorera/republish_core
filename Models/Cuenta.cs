@@ -15,6 +15,8 @@ namespace Models
         [Required]
         public double Saldo { get; set; }
 
+        public double CostoAnuncio { get; set; }
+
         [Required]
         public DateTime UltimaRecarga { get; set; }
 

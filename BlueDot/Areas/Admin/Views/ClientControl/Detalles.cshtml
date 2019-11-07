@@ -39,53 +39,42 @@
                         <h4><strong>@Model.UserName</strong></h4>
                         <p><i class="fa fa-envelope"></i> @Model.UserName</p>
                         <p><i class="fa fa-phone"></i> @Model.Phone</p>
-                        @*<h5>
-                                About me
-                            </h5>
-                            <p>
+                        <h3 class="text-center text-capitalize">
+                            Cuenta
+                        </h3>
+                        @*<p>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.
-                            </p>
-                            <div class="row m-t-lg">
-                                <div class="col-md-4">
-                                    <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                                    <h5><strong>169</strong> Posts</h5>
-                                </div>
-                                <div class="col-md-4">
-                                    <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-                                    <h5><strong>28</strong> Following</h5>
-                                </div>
-                                <div class="col-md-4">
-                                    <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-                                    <h5><strong>240</strong> Followers</h5>
-                                </div>
+                            </p>*@
+                        <div class="row m-t-lg">
+                            <div class="col-md-4 text-center">
+                                <i class="fa fa-bank"></i>
+                                <h5><strong>$ @Model.Cuenta.Saldo</strong> Saldo</h5>
                             </div>
-                            <div class="user-button">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> Send Message</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-default btn-sm btn-block"><i class="fa fa-coffee"></i> Buy a coffee</button>
-                                    </div>
+                            <div class="col-md-4 text-center">
+                                <i class="fa fa-balance-scale"></i>
+                                <h5><strong>$ @Model.GastoEsperadoActual</strong> Mes Actual</h5>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="fa fa-step-forward"></i>
+                                <h5><strong>$ @Model.GastoEsperadoProximo</strong> Mes próximo</h5>
+                            </div>
+                            <div class="col-md-4 text-center offset-md-4 mt-3">
+                                <i class="fa fa-dollar"></i>
+                                <h5><strong>$ @Model.Cuenta.CostoAnuncio</strong> Costo x Anuncio</h5>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="user-button">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="#myModal" data-toggle="modal" data-target="#notificacion-modal" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope "></i>&nbsp; Enviar notificación</a>
                                 </div>
-                            </div>*@
-                    </div>
-                    <div class="ibox-content">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <h3>Cuenta</h3>
-                            </div>
-                            <div class="col-12 text-left">
-                                <span> Estado </span>
-                                <h4>$ @Model.Cuenta.Saldo</h4>
-                            </div>
-                            <div class="col-12 text-left">
-                                <span>Consumo esperado | Actual</span>
-                                <h4>$ @Model.GastoEsperadoActual</h4>
-                            </div>
-                            <div class="col-12 text-left">
-                                <span>Consumo esperado | Próximo</span>
-                                <h4>$ @Model.GastoEsperadoProximo</h4>
+                                <div class="col-md-6">
+                                    <a href="#myModal" data-toggle="modal" data-target="#recargar-modal" class="btn btn-secondary btn-sm btn-block"><i class="fa fa-credit-card "></i>&nbsp; Recargar</a>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <a href="#myModal" data-toggle="modal" data-target="#precio-modal" class="btn btn-warning btn-sm btn-block"><i class="fa fa-dollar "></i>&nbsp; Precio x anuncio</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,11 +86,135 @@
         </div>
     </div>
 </div>
+
+<div id="recargar-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+
+            <form asp-controller="ClientControl" asp-action="Recargar" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-begin="onAjaxBegin"
+                  data-ajax-failure="onAjaxError"
+                  data-ajax-complete="dismiss_modal"
+                  data-ajax-success="clean_modal"
+                  data-ajax-update="#body_content">
+
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title">Recargar saldo</h3>
+                        <small>Por favor entre el monto a recargar</small>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body">
+                    <div class="ibox float-e-margins">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Cantidad a recargar</label>
+                            <div class="col-sm-9">
+                                <input id="ValorRecarga" name="ValorRecarga" type="number" class="form-control" value="5" min="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input asp-for="Id" name="ClientId" type="hidden" required />
+                <input id="ClientId" name="detallesView" type="hidden" value="true" required />
+                <div class="modal-footer">
+                    <button type="button" class="close_button btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Recargar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="precio-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+
+            <form asp-controller="ClientControl" asp-action="CostoAnuncio" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-begin="onAjaxBegin"
+                  data-ajax-failure="onAjaxError"
+                  data-ajax-complete="dismiss_modal"
+                  data-ajax-success="clean_modal"
+                  data-ajax-update="#body_content">
+
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title">Costo por anuncio</h3>
+                        <small>Por favor entre el costo por anuncio</small>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body">
+                    <div class="ibox float-e-margins">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Costo por anuncio</label>
+                            <div class="col-sm-9">
+                                <input id="CostoAnuncio" name="CostoAnuncio" type="text" class="form-control" value="0.006">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input asp-for="Id" name="ClientId" type="hidden" required />
+                <div class="modal-footer">
+                    <button type="button" class="close_button btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="notificacion-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+
+            <form asp-controller="ClientControl" asp-action="AddNotificacion" method="post" class="form-horizontal" id="form2" form="form2" role="form"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-begin="onAjaxBegin"
+                  data-ajax-failure="onAjaxError"
+                  data-ajax-complete="dismiss_modal"
+                  data-ajax-success="onNotificacionSuccess">
+
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title">Notificación</h3>
+                        <small>Escriba el mensaje de notificación a enviar</small>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="panel-body">
+                    <div class="ibox float-e-margins">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Mensaje</label>
+                            <div class="col-sm-9">
+                                <textarea id="Mensaje" name="Mensaje" type="text" class="form-control" placeholder="Escriba el mensaje"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input asp-for="Id" name="ClientId" type="hidden" required />
+                <div class="modal-footer">
+                    <button type="button" class="close_button btn btn-white" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary ladda-button" id="mdlsave" name="mdlsave" data-style="expand-right">Notificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <environment names="Development">
+        <script src="~/js/common/modal.js"></script>
+        <script src="~/js/Admin/ClientControl/detalles.js"></script>
         <script src="~/lib/peity/jquery.peity.js"></script>
     </environment>
     <environment names="Staging,Production">
+        <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
+        <script src="~/js/Admin/ClientControl/detalles.min.js"></script>
         <script src="~/lib/peity/jquery.peity.min.js"></script>
     </environment>
     <script type="text/javascript">

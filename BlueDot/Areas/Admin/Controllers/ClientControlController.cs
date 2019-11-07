@@ -21,12 +21,14 @@ namespace RepublishTool.Areas.Admin.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserControlService _userControlService;
         private readonly IManejadorFinancieroService _financieroService;
+        private readonly INotificationsService _notificationsService;
 
-        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService)
+        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService, INotificationsService notificationsService)
         {
             _userControlService = userControlService;
             _userManager = userManager;
             _financieroService = financieroService;
+            _notificationsService = notificationsService;
         }
 
         public async Task<IActionResult> Index()
@@ -51,7 +53,7 @@ namespace RepublishTool.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Recargar(string ClientId, int ValorRecarga)
+        public async Task<IActionResult> Recargar(string ClientId, int ValorRecarga, bool detallesView)
         {
             if (ValorRecarga <= 0)
             {
@@ -61,6 +63,11 @@ namespace RepublishTool.Areas.Admin.Controllers
 
             RecargaDTO r = new RecargaDTO(user.Id, ClientId, ValorRecarga);
             await _userControlService.RecargarCliente(r);
+            if (detallesView)
+            {
+                ClientDetalles model = await BuildDetallesModel(ClientId);
+                return PartialView(nameof(Detalles), model);
+            }
             return await BuildPartialView();
         }
 
@@ -73,6 +80,47 @@ namespace RepublishTool.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Detalles(string ClientId)
         {
+            ClientDetalles model = await BuildDetallesModel(ClientId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CostoAnuncio(string ClientId, double CostoAnuncio)
+        {
+            if (CostoAnuncio < 0.003)
+            {
+                return BadRequest();
+            }
+
+            await _financieroService.SetCostoAnuncio(ClientId, CostoAnuncio);
+
+            ClientDetalles model = await BuildDetallesModel(ClientId);
+            return PartialView(nameof(Detalles), model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNotificacion(string ClientId, string Mensaje)
+        {
+            if (Mensaje.Length < 5)
+            {
+                return BadRequest();
+            }
+
+            Notificacion notificacion = new Notificacion()
+            {
+                UserId = ClientId,
+                Mensaje = Mensaje,
+                Readed = false,
+                DateCreated = DateTime.Now.ToUtcCuba()
+            };
+
+            await _notificationsService.Add(notificacion);
+
+            return Ok();
+        }
+
+        private async Task<ClientDetalles> BuildDetallesModel(string ClientId)
+        {
             Cuenta cuenta = await _financieroService.GetCuentaIncludeAll(ClientId);
             IdentityUser clientUser = cuenta.User;
             IEnumerable<RecargaDetail> recargas = await _financieroService.GetRecargasByClient(ClientId);
@@ -84,10 +132,9 @@ namespace RepublishTool.Areas.Admin.Controllers
             date = new DateTime(date.Year, date.Month, 1);
             double GastoEsperadoProximo = await _userControlService.GetGastoEsperadoByClient(ClientId, date); ;
 
-            ClientDetalles model = new ClientDetalles(clientUser, recargas, cuenta, 
+            ClientDetalles model = new ClientDetalles(clientUser, recargas, cuenta,
                                                       GastoEsperadoActual, GastoEsperadoProximo);
-
-            return View(model);
+            return model;
         }
     }
 }

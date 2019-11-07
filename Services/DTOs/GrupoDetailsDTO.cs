@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.DTOs
 {
@@ -16,10 +18,12 @@ namespace Services.DTOs
             Nombre = grupo.Nombre;
             Anuncios = list;
             Temporizadores = listT;
+            Costo = listT.Sum(t => t.Costo);
         }
 
         public string Id { get; set; }
         public string Nombre { get; set; }
+        public double Costo { get; set; }
 
         public IEnumerable<TemporizadorDTO> Temporizadores { get; set; }
         public IEnumerable<AnuncioDTO> Anuncios { get; set; }

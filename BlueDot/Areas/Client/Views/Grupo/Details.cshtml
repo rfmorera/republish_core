@@ -67,12 +67,14 @@
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
                     <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary" id="btnAddTemporizador">Añadir Temporizador</a>
+                    <div class="bg-info p-xs float-right m-r-lg">Gasto Esperado: $@Model.Costo</div>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
 
                         <div class="form-group row container">
                             <div class="col-sm-4"><input id="filterTemporizador" type="text" placeholder="Buscar" class="form-control"></div>
+                            
                         </div>
 
                         <table id="dataTables-table-temporizador" class="footable table demo table-bordered table-striped table-hover toggle-circle" data-filter="#filterTemporizador" data-page-size="5" data-page-previous-text="ant" data-page-next-text="sigt">
@@ -131,6 +133,7 @@
                 <div class="ibox-title">
                     <h3>Anuncios</h3><br>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
+                    <button class="btn btn-info update-title">Actualizar Titulos</button>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-anuncios-button" data-form-id="delete-form">Eliminar Anuncios</a>
                     <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary" id="btnAddAnuncios">Añadir Anuncios</a>
                 </div>
@@ -149,7 +152,7 @@
                                 <tr>
                                     <th width="10%" data-sort-ignore="true">Acciones</th>
                                     @*<th width="5%">Estado</th>*@
-                                    <th width="50%">Url</th>
+                                    <th width="50%">Titulo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,7 +174,7 @@
                             }
                         </td>*@
                                         <td>
-                                            @item.Url
+                                            @item.Title
                                         </td>
                                     </tr>
                                 }
@@ -219,6 +222,19 @@
 
     <input id="ToogleId" name="Id" type="hidden" />
     <input id="GrupoId" name="GrupoId" type="hidden" value="@Model.Id"/>
+</form>
+
+<form id="title-form" method="post" role="form"
+      asp-area="Client" asp-controller="Grupo" asp-action="UpdateAnuncioTitle"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-begin="onAjaxBegin"
+      data-ajax-success="onUpdateTitleSuccess"
+      data-ajax-failure="onAjaxError"
+      data-ajax-complete="onAjaxCompleted"
+      data-ajax-update="#body_content">
+
+    <input id="GrupoId" name="GrupoId" type="hidden" value="@Model.Id" />
 </form>
 
 <!-- modal window -->

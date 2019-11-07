@@ -16,6 +16,8 @@ namespace Models
         [Required]
         public string Url { get; set; }
 
+        public string Titulo { get; set; }
+
         [NotMapped]
         public Uri UrlFormat { get
             {

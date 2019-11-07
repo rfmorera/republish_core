@@ -15,10 +15,12 @@ namespace Services.Impls
     public class ManejadorFinancieroService : IManejadorFinancieroService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotificationsService _notificationsService;
 
-        public ManejadorFinancieroService(IUnitOfWork unitOfWork)
+        public ManejadorFinancieroService(IUnitOfWork unitOfWork, INotificationsService notificationsService)
         {
             _unitOfWork = unitOfWork;
+            _notificationsService = notificationsService;
         }
 
         public async Task RecargarUsuario(RecargaDTO recargaDTO)
@@ -29,6 +31,15 @@ namespace Services.Impls
 
             Cuenta c = await _unitOfWork.Cuenta.FindAsync(t => t.UserId == r.ClientId);
             c.Saldo += r.Monto;
+            Notificacion notificacion = new Notificacion()
+            {
+                UserId = recargaDTO.ClientId,
+                DateCreated = now,
+                Mensaje = String.Format("Cuenta recargada: ${0}. Su saldo actual es de {1}", recargaDTO.Monto, c.Saldo),
+                Readed = false
+            };
+
+            await _notificationsService.Add(notificacion);
 
             await _unitOfWork.Cuenta.UpdateAsync(c, c.Id);
 
@@ -45,7 +56,8 @@ namespace Services.Impls
             Cuenta c = new Cuenta
             {
                 UserId = UserId,
-                Saldo = 0
+                Saldo = 0,
+                CostoAnuncio = 0.006
             };
 
             await _unitOfWork.Cuenta.AddAsync(c);
@@ -103,9 +115,17 @@ namespace Services.Impls
             return ct.Saldo > 0;
         }
 
-        public Task<double> CostoAnuncio(string UserId)
+        public async Task<double> CostoAnuncio(string UserId)
         {
-            return Task.FromResult(0.006);
+            return (await GetCuenta(UserId)).CostoAnuncio;
+        }
+
+        public async Task<double> SetCostoAnuncio(string UserId, double CostoAnuncio)
+        {
+            Cuenta cnt = await GetCuenta(UserId);
+            cnt.CostoAnuncio = CostoAnuncio;
+            await UpdateCuenta(cnt);
+            return CostoAnuncio;
         }
 
         public async Task<IEnumerable<RecargaDetail>> GetRecargasByAgente(string agentId)
@@ -136,6 +156,13 @@ namespace Services.Impls
                                                            && r.DateCreated.Month == date.Month
                                                            && r.DateCreated.Year == date.Year))
                                             .Sum(t => t.Monto);
+        }
+
+        public async Task<Cuenta> UpdateCuenta(Cuenta cuenta)
+        {
+            await _unitOfWork.Cuenta.UpdateAsync(cuenta, cuenta.Id);
+            await _unitOfWork.SaveChangesAsync();
+            return cuenta;
         }
     }
 }

@@ -55,6 +55,14 @@ function initializePage() {
         }
     });
 
+    $(".update-title").off('click').on('click', function (e) {
+        form = $("#title-form");
+
+        if (form) {
+            showConfirmationPopupActualizarTitulo(form);
+        }
+    });
+
     // Instance the tour
     var tour = new Tour({
         steps: [
@@ -179,4 +187,21 @@ function showTemporizadoresConfirmationPopup(form, estado, detail) {
 function onToogleSuccess() {
     initializePage();
     onAjaxSuccess();
+}
+
+function onUpdateTitleSuccess() {
+    initializePage();
+    onAjaxSuccess();
+}
+
+function showConfirmationPopupActualizarTitulo(form) {
+    swal({
+        title: "¿Está seguro?",
+        text: "Por favor confirme que usted desea actualizar los títulos de los anuncios de este grupo",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        showCancelButton: true
+    }, function () {
+        form.submit();
+    });
 }
