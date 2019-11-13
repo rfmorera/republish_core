@@ -47,9 +47,9 @@ namespace Republish
             //        .SetApplicationName("RepublishTool")
             //        .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
 
-            services.AddDataProtection()
-                .SetApplicationName("RepublishTool")
-                .PersistKeysToFileSystem(new System.IO.DirectoryInfo(@"/var/dpkeys/"));
+            //services.AddDataProtection()  
+            //    .SetApplicationName("RepublishTool")
+            //    .PersistKeysToFileSystem(new System.IO.DirectoryInfo(@"/var/dpkeys/"));
 
             services.Configure<CookiePolicyOptions>(options =>
             {
