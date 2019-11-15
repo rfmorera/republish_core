@@ -101,6 +101,7 @@ namespace Republish
             services.AddTransient<ILongQueueService, LongQueueService>();
             services.AddScoped<IQueuesUnitOfWork, QueuesUnitOfWork>();
             services.AddScoped<INotificationsService, NotificationsService>();
+            services.AddScoped<IValidationService, ValidationService>();
 
             services.AddAuthorization(options =>
             {
