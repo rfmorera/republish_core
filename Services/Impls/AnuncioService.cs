@@ -31,6 +31,8 @@ namespace Services.Impls
     {
         private const string apiRevolico = "https://api.revolico.com/graphql/";
 
+        private const string noiseData = "-----------Raw Text-------------------\nqwertyuiopasnbghnhfntgy,lopkjhmgymikonbvfvbcyh\n xcvxbztfdwqerasfvtyrfjguioyhiopujdfghjklzxcvbm\nzqxswcedvfrbtgnhymju,ik.lo\n123456789-+.0\n??|?|?|?|?|?||?||?|??|?|?|?|?|?|?|?|?||?|?|?\n_____________________________________________________\n///////////////////////////////////////////////////////////////////////\n";
+
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
         private readonly INotificationsService _notificationsService;
@@ -168,7 +170,7 @@ namespace Services.Impls
                 {
                     UserId = item.Grupo.UserId,
                     DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {1} el anuncio {0} a caducado/eliminado por tanto se ha eliminado del sistema: {0}", item.Url, item.Grupo.Nombre),
+                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha eliminado del sistema. Url {0}", item.Grupo.Nombre, item.Titulo, item.Url),
                     Readed = false
                 });
             }
@@ -283,7 +285,15 @@ namespace Services.Impls
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-                formAnuncio.variables.description = tmp.InnerText;
+                if(tmp.InnerText.EndsWith( noiseData.Substring(noiseData.Length - 40)))
+                {
+                    formAnuncio.variables.description = tmp.InnerText + noiseData;
+                }
+                else
+                {
+                    formAnuncio.variables.description = tmp.InnerText.Substring(0, tmp.InnerText.Length - noiseData.Length);
+                }
+                
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
@@ -315,6 +325,8 @@ namespace Services.Impls
 
                 formAnuncio.variables.contactInfo = "EMAIL_PHONE";
                 formAnuncio.variables.botScore = "";
+
+                formAnuncio.variables.categoria = GetCategoria(htmlAnuncio);
 
                 int p1 = htmlAnuncio.IndexOf("pageProps") + "pageProps".Length + 2;
                 int p2 = htmlAnuncio.IndexOf("apolloState") - 2;
@@ -350,13 +362,26 @@ namespace Services.Impls
             {
                 throw new AnuncioEliminadoException("Deteccion Anuncio Eliminado", _uri);
             }
-            else if (ff &&
-                     !answer.Contains("\"status\":200") &&
-                     !answer.Contains("\"errors\":null") &&
-                     !answer.Contains("updateAdWithoutUser"))
+            else if (ff && (
+                     !answer.Contains("\"status\":200") ||
+                     !answer.Contains("\"errors\":null") ||
+                     !answer.Contains("updateAdWithoutUser")))
             {
                 throw new GeneralException("Non updated | " + answer, _uri);
             }
+        }
+
+        private string GetCategoria(string content)
+        {
+            int posIni = content.IndexOf("breadcrumb"), cnt = 3, posEnd;
+            while(cnt > 0)
+            {
+                posIni = content.IndexOf("<a href", posIni + 1);
+                cnt--;
+            }
+            posIni += 9;
+            posEnd = content.IndexOf("\"", posIni);
+            return content.Substring(posIni, posEnd - posIni);
         }
     }
 }

@@ -31,9 +31,10 @@ namespace Services.Impls
         private readonly IRegistroService _registroService;
         private readonly IAnuncioService _anuncioService;
         private readonly IManejadorFinancieroService _financieroService;
+        private readonly ITemporizadorService _temporizadorService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit, ITemporizadorService temporizadorService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
@@ -44,6 +45,7 @@ namespace Services.Impls
             _registroService = registroService;
             _anuncioService = anuncioService;
             _financieroService = financieroService;
+            _temporizadorService = temporizadorService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -51,45 +53,12 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-                TimeSpan utc1 = DateTime.Now.ToUtcCuba().TimeOfDay.Subtract(TimeSpan.FromSeconds(80));
-                TimeSpan utcReal = DateTime.Now.ToUtcCuba().TimeOfDay;
-
-                IEnumerable<Temporizador> list = await repositoryTemporizador.QueryAll()
-                                                                           .Include(t => t.Grupo)
-                                                                           .Where(t => t.SystemEnable
-                                                                                    && t.UserEnable
-                                                                                    && t.Enable
-                                                                                    && t.Grupo.Activo
-                                                                                    && utc1 <= t.HoraFin
-                                                                                    && t.NextExecution <= utcReal)
-                                                                           .ToListAsync();  
-
-                list = list.Where(t => t.IsValidDay(UtcCuba));
-
-                _log.LogWarning(string.Format("Hora {0} cantidad de temporizadores {1}", utcReal.ToString(), list.Count()));
-
+                IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
 
                 List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
 
                 foreach (Temporizador t in list)
                 {
-                    TimeSpan intervalo = TimeSpan.FromHours(t.IntervaloHoras).Add(TimeSpan.FromMinutes(t.IntervaloMinutos));
-                    TimeSpan nxT = t.NextExecution.Add(intervalo);
-                    if (nxT < utcReal)
-                    {
-                        int expectedMin = (int)(utcReal.Subtract(t.HoraInicio)).TotalMinutes;
-                        int diff = expectedMin % ((int)intervalo.TotalMinutes);
-                        t.NextExecution = utcReal.Subtract(TimeSpan.FromMinutes(diff));
-                    }
-
-                    t.NextExecution = t.NextExecution.Add(intervalo);
-
-                    if (t.NextExecution.TotalDays >= 1.0)
-                    {
-                        t.NextExecution = new TimeSpan(23, 59, 55);
-                    }
-
-                    await repositoryTemporizador.UpdateAsync(t, t.Id);
                     selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
                 }
 
