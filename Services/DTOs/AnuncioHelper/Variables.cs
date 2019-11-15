@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,5 +20,8 @@ namespace Services.DTOs.AnuncioHelper
         public string description { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
+
+        [JsonIgnore]
+        public string categoria { get; set; }
     }
 }
