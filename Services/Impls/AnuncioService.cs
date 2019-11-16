@@ -198,48 +198,20 @@ namespace Services.Impls
 
         private async Task StartProcess(string _uri, string key2captcha, bool v2)
         {
-            try
-            {
-                string htmlAnuncio = await Requests.GetAsync(_uri);
-                GetException(htmlAnuncio, _uri, false);
+            string htmlAnuncio = await Requests.GetAsync(_uri);
+            GetException(htmlAnuncio, _uri, false);
 
-                FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+            FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
 
-                CaptchaAnswer captchaResponse = await ResolveCaptcha(key2captcha, _uri, htmlAnuncio);
+            CaptchaAnswer captchaResponse = await ResolveCaptcha(key2captcha, _uri, htmlAnuncio);
 
-                formAnuncio.variables.captchaResponse = captchaResponse.Answer;
-                string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
+            formAnuncio.variables.captchaResponse = captchaResponse.Answer;
+            string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+            string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
 
-                GetException(answer, _uri, true, captchaResponse);
-                //_captchaSolver.set_captcha_good(captchaResponse.Id);
-            }
-            catch (BadCaptchaException ex)
-            {
-                throw ex;
-            }
-            catch (BanedException ex)
-            {
-                throw ex;
-            }
-            catch (WebException ex)
-            {
-                throw ex;
-            }
-            catch (GeneralException ex)
-            {
-                ex.uri = _uri;
-                throw ex;
-            }
-            catch (AnuncioEliminadoException ex)
-            {
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
-            }
+            GetException(answer, _uri, true, captchaResponse);
+            //_captchaSolver.set_captcha_good(captchaResponse.Id);
         }
 
         private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
@@ -296,7 +268,7 @@ namespace Services.Impls
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-                if (tmp.InnerText.EndsWith(noiseData.Substring(noiseData.Length - 40)))
+                if (tmp.InnerText.Contains(noiseData))
                 {
                     formAnuncio.variables.description = tmp.InnerText.Substring(0, tmp.InnerText.Length - noiseData.Length);
                 }
@@ -304,7 +276,6 @@ namespace Services.Impls
                 {
                     formAnuncio.variables.description = tmp.InnerText + noiseData;
                 }
-
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
