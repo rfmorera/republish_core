@@ -1,4 +1,5 @@
 ﻿using Models;
+using Services.DTOs.AnuncioHelper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,6 @@ namespace Services
         Task NotifyDelete(List<string> list);
 
         Task Publish(string url, string Key2Captcha);
+        FormAnuncio ParseFormAnuncio(string htmlAnuncio);
     }
 }

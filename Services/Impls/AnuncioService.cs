@@ -47,14 +47,17 @@ namespace Services.Impls
         public async Task AddAsync(string GrupoId, string[] links)
         {
             int len = links.Length;
-            for(int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++)
             {
                 try
                 {
                     Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(links[i]), GroupId = GrupoId };
                     repositoryAnuncio.Add(anuncio);
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex.ToExceptionString());
+                }
             }
             await repositoryAnuncio.SaveChangesAsync();
             await UpdateTitle(GrupoId);
@@ -76,7 +79,7 @@ namespace Services.Impls
                     {
                         anuncios.ElementAt(i).Titulo = "-- título no actualizado -- ";
                     }
-                    else if(!String.IsNullOrEmpty(t))
+                    else if (!String.IsNullOrEmpty(t))
                     {
                         anuncios.ElementAt(i).Titulo = t;
                     }
@@ -85,7 +88,10 @@ namespace Services.Impls
                         anuncios.ElementAt(i).Categoria = c;
                     }
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex.ToExceptionString());
+                }
             }
 
             await repositoryAnuncio.SaveChangesAsync();
@@ -108,7 +114,10 @@ namespace Services.Impls
             {
                 Task.WaitAll(body.ToArray());
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.ToExceptionString());
+            }
 
             List<FormAnuncio> ans = new List<FormAnuncio>();
 
@@ -223,7 +232,7 @@ namespace Services.Impls
                 ex.uri = _uri;
                 throw ex;
             }
-            catch(AnuncioEliminadoException ex)
+            catch (AnuncioEliminadoException ex)
             {
                 throw ex;
             }
@@ -267,7 +276,7 @@ namespace Services.Impls
             throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
         }
 
-        private FormAnuncio ParseFormAnuncio(string htmlAnuncio)
+        public FormAnuncio ParseFormAnuncio(string htmlAnuncio)
         {
             try
             {
@@ -287,15 +296,15 @@ namespace Services.Impls
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-                if(tmp.InnerText.EndsWith( noiseData.Substring(noiseData.Length - 40)))
-                {
-                    formAnuncio.variables.description = tmp.InnerText + noiseData;
-                }
-                else
+                if (tmp.InnerText.EndsWith(noiseData.Substring(noiseData.Length - 40)))
                 {
                     formAnuncio.variables.description = tmp.InnerText.Substring(0, tmp.InnerText.Length - noiseData.Length);
                 }
-                
+                else
+                {
+                    formAnuncio.variables.description = tmp.InnerText + noiseData;
+                }
+
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
@@ -375,8 +384,8 @@ namespace Services.Impls
 
         private string GetCategoria(string content)
         {
-            int posIni = content.IndexOf("breadcrumb"), cnt = 3, posEnd;
-            while(cnt > 0)
+            int posIni = content.IndexOf("breadcrumb"), cnt = 2, posEnd;
+            while (cnt > 0)
             {
                 posIni = content.IndexOf("<a href", posIni + 1);
                 cnt--;
