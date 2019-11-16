@@ -70,7 +70,7 @@ namespace Services.Impls
                 string anuncioContent = await Requests.GetAsync(anuncio.Url);
                 FormAnuncio formAnuncio = _anuncioService.ParseFormAnuncio(anuncioContent);
 
-                int cnt = 4;
+                int cnt = 10;
                 string url = $"{Requests.RevolicoBaseUrl}/{formAnuncio.variables.categoria}";
                 string urlPage2 = $"{url}pagina-2.html?";
                 string html;
