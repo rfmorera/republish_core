@@ -13,7 +13,14 @@ namespace Services.DTOs
             Url = a.Url;
             Enable = a.Enable;
             Title = a.Titulo ?? string.Empty;
-            Categoria = a.Categoria?.ToUpper() ?? string.Empty;
+            if (!String.IsNullOrEmpty(a.Categoria))
+            {
+                Categoria = a.Categoria?.ToUpper() ?? string.Empty;
+            }
+            else
+            {
+                Categoria = String.Empty;
+            }
         }
 
         public string Id { get; set; }
