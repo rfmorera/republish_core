@@ -105,6 +105,7 @@ namespace Services.Impls
                     }
 
                     int cnt = 0;
+                    List<string> anunciosProcesados = new List<string>();
                     try
                     {
                         Task.WaitAll(tasksList.ToArray());
@@ -119,18 +120,21 @@ namespace Services.Impls
                             {
                                 BadCaptchaException ex = (BadCaptchaException)exModel;
                                 _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
+                                anunciosProcesados.Add(ex.uri);
                                 await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is BanedException)
                             {
                                 BanedException ex = (BanedException)exModel;
                                 _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message}");
+                                anunciosProcesados.Add(ex.uri);
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is GeneralException)
                             {
                                 GeneralException ex = (GeneralException)exModel;
                                 _log.LogWarning($"General Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
+                                anunciosProcesados.Add(ex.uri);
                                 await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
                             }
                             else if (exModel is WebException)
@@ -142,6 +146,7 @@ namespace Services.Impls
                             {
                                 AnuncioEliminadoException ex = (AnuncioEliminadoException)exModel;
                                 _log.LogWarning($"Anuncio Eliminado Error: {ex.Uri}");
+                                anunciosProcesados.Add(ex.Uri);
                                 anunciosEliminados.Add(ex.Uri);
                             }
                             else
@@ -160,7 +165,7 @@ namespace Services.Impls
 
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Select(a => a.Url).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Where(a => !anunciosProcesados.Contains(a.Url)).Select(a => a.Url).ToList());
                     double pctVerify = 100.0 * verifyPub / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
                 }
