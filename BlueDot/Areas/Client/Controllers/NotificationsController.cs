@@ -27,11 +27,12 @@ namespace RepublishTool.Areas.Client.Controllers
             _notificationsService = notificationsService;
         }
         
-        public async Task<IActionResult> Index(int pagina = 0)
+        public async Task<IActionResult> Index(int? page)
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            IndexDTO model = await _notificationsService.GetByUser(user.Id, pagina);
+            IndexDTO model = await _notificationsService.GetByUser(user.Id, page);
             await _notificationsService.SetReadedByUser(user.Id);
+
             return View(model);
         }
     }

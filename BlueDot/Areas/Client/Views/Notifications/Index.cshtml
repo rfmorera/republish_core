@@ -1,4 +1,5 @@
 ﻿@using Services.DTOs.Notification
+@using Services.DTOs.Common
 @model IndexDTO
 @{
     ViewData["Title"] = "Notificaciones";
@@ -43,7 +44,7 @@
                         </div>
 
                     }
-                    <partial name="~/Areas/Common/Views/_Pagination.cshtml" model="Model.Pager" />
+                    <partial name="~/Areas/Common/Views/_Pagination.cshtml" model="@(new PaginationDTO(Model.Pager, "Notifications", "Index") )" />
                 </div>
             </div>
         </div>
