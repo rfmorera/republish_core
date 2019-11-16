@@ -17,7 +17,7 @@ function initializePage() {
         $('.footable').footable();
     });
 
-    $(".switch").off("click").on("click", function (e) {
+    $(".switch-temporizador").off("click").on("click", function (e) {
         var input = $(this).find("input.onoffswitch-checkbox");
         e.preventDefault();
         var form = prepareForm(input);
@@ -36,6 +36,7 @@ function initializePage() {
             }
         }
     });
+
 
     $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
         e.preventDefault();
@@ -121,18 +122,6 @@ function initializePage() {
     $("#HideTour").on("click", function () {
         onCookieSuccess();
     });
-}
-
-function prepareFormCustom(anchorSelector) {
-    var form;
-    var formId = anchorSelector.attr("data-form-id");
-
-    if (formId) {
-        form = $("#" + formId);
-        form.attr("action", anchorSelector.attr("href"));
-    }
-
-    return form;
 }
 
 function showConfirmationPopupCustom(form) {
