@@ -11,13 +11,15 @@ namespace Services.DTOs
         {
             Id = a.Id;
             Url = a.Url;
-            Caducado = a.Actualizado;
+            Enable = a.Enable;
             Title = a.Titulo ?? string.Empty;
+            Categoria = a.Categoria.ToUpper();
         }
 
         public string Id { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
-        public bool Caducado { get; set; }
+        public string Categoria { get; set; }
+        public bool Enable { get; set; }
     }
 }
