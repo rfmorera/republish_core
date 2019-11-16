@@ -1,4 +1,5 @@
 ﻿using Models;
+using Services.DTOs.Notification;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Services
     public interface INotificationsService
     {
         Task<IEnumerable<Notificacion>> GetByUser(string Id);
+        Task<IndexDTO> GetByUser(string Id, int pagina);
         Task<IEnumerable<Notificacion>> GetNotReadedByUser(string Id);
         Task<int> GetCountNotReadedByUser(string Id);
         Task<IEnumerable<Notificacion>> GetByCurrentUser();

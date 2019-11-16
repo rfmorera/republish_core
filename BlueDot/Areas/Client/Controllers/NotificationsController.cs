@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Services;
 using Services.DTOs;
+using Services.DTOs.Notification;
 using Services.Extensions;
 
 namespace RepublishTool.Areas.Client.Controllers
@@ -26,12 +27,12 @@ namespace RepublishTool.Areas.Client.Controllers
             _notificationsService = notificationsService;
         }
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pagina = 0)
         {
             IdentityUser user = await _userManager.GetUserAsync(HttpContext.User);
-            IEnumerable<NotificacionDTO> notificacions = (await _notificationsService.GetByUser(user.Id)).ToNotificacionDTO();
+            IndexDTO model = await _notificationsService.GetByUser(user.Id, pagina);
             await _notificationsService.SetReadedByUser(user.Id);
-            return View(notificacions);
+            return View(model);
         }
     }
 }
