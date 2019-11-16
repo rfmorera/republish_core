@@ -49,9 +49,9 @@ namespace Services.Impls
                 if (!verifyTask[i].Result)
                 {
                     Anuncio a = list.ElementAt(i);
-                    string message = String.Format("Anuncio escondido: Revolico no está listando el anuncio <a href='{2}' target='_blank' >\"{0}\" </a> en la categoría {1}.\nContacte a Revolico para que lo habiliten, luego eliminelo y vuelvalo a añadir al sistema.", a.Titulo, a.Categoria.ToUpper(), a.Url);
+                    string message = String.Format("Anuncio escondido: Revolico no está listando el anuncio <a href='{2}' target='_blank' >\"{0}\" </a> en la categoría {1}.\nContacte a Revolico para que lo habiliten.", a.Titulo, a.Categoria.ToUpper(), a.Url);
                     await _notificationsService.SendNotification(a.Grupo.UserId, message);
-                    a.Enable = false;
+                    //a.Enable = false;
                 }
                 else
                 {
