@@ -77,7 +77,7 @@ namespace Services.Impls
 
                 while (cnt > 0)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(25));
+                    await Task.Delay(TimeSpan.FromSeconds(30));
                     html = await Requests.GetAsync(url);
                     if (html.Contains(formAnuncio.variables.title)) return true;
 
