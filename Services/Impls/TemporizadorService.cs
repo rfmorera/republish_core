@@ -146,7 +146,6 @@ namespace Services.Impls
                 }
 
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
-                selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
             }
 
             return list;
