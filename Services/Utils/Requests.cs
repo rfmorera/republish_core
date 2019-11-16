@@ -21,8 +21,11 @@ namespace Services.Utils
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
             "Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
             "Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-
         };
+
+        public static string RevolicoBaseUrl = "https://www.revolico.com/";
+        public static string apiRevolico = "https://api.revolico.com/graphql/";
+
         /// <summary>
         /// Post a formated json string
         /// </summary>
