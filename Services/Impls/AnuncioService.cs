@@ -29,8 +29,6 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string apiRevolico = "https://api.revolico.com/graphql/";
-
         private const string noiseData = "-----------Raw Text-------------------\nqwertyuiopasnbghnhfntgy,lopkjhmgymikonbvfvbcyh\n xcvxbztfdwqerasfvtyrfjguioyhiopujdfghjklzxcvbm\nzqxswcedvfrbtgnhymju,ik.lo\n123456789-+.0\n??|?|?|?|?|?||?||?|??|?|?|?|?|?|?|?|?||?|?|?\n_____________________________________________________\n///////////////////////////////////////////////////////////////////////\n";
 
         private readonly ApplicationDbContext _dbContext;
@@ -199,7 +197,7 @@ namespace Services.Impls
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(apiRevolico, jsonForm);
+                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
 
                 GetException(answer, _uri, true, captchaResponse);
                 //_captchaSolver.set_captcha_good(captchaResponse.Id);
