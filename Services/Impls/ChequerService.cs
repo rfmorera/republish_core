@@ -32,9 +32,10 @@ namespace Services.Impls
         private readonly IAnuncioService _anuncioService;
         private readonly IManejadorFinancieroService _financieroService;
         private readonly ITemporizadorService _temporizadorService;
+        private readonly IValidationService _validationService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit, ITemporizadorService temporizadorService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit, ITemporizadorService temporizadorService, IValidationService validationService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
@@ -46,6 +47,7 @@ namespace Services.Impls
             _anuncioService = anuncioService;
             _financieroService = financieroService;
             _temporizadorService = temporizadorService;
+            _validationService = validationService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -157,6 +159,10 @@ namespace Services.Impls
                     double pct = 100.0 * anunciosOk / totalAnuncios;
 
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
+
+                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Select(a => a.Url).ToList());
+                    double pctVerify = 100.0 * verifyPub / totalAnuncios;
+                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
                 }
             }
             catch (Exception ex)
