@@ -29,7 +29,7 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string apiRevolico = "https://api.revolico.com/graphql/";
+        private const string noiseData = "\n\n\n\n\n\n\n\n\n-----------Raw Text-------------------\nqwertyuiopas nbghnhfntgy,lop kjhmgymikonbvfvbcyh\n xcvxb ztfdwqerasfvtyrfjguioyhio pujdfghjklzxcvbm\nzqxswcedvfrb tgnhymju,ik.lo\n123456789-+.0\n??|?|?|?| ?|?||?||?|? ?|?|?|?|?|?|?| ?|?||?|?|?\n___________________ ____________________ ______________\n//////////////////////////// ///////////////// /////////////// ///////////\n";
 
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
@@ -47,14 +47,17 @@ namespace Services.Impls
         public async Task AddAsync(string GrupoId, string[] links)
         {
             int len = links.Length;
-            for(int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++)
             {
                 try
                 {
                     Anuncio anuncio = new Anuncio() { UrlFormat = new Uri(links[i]), GroupId = GrupoId };
                     repositoryAnuncio.Add(anuncio);
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex.ToExceptionString());
+                }
             }
             await repositoryAnuncio.SaveChangesAsync();
             await UpdateTitle(GrupoId);
@@ -63,25 +66,32 @@ namespace Services.Impls
         public async Task UpdateTitle(string GrupoId)
         {
             IEnumerable<Anuncio> anuncios = await GetByGroup(GrupoId);
-            IEnumerable<string> titles = GetTitulo(anuncios.Select(a => a.Url).ToArray());
+            IEnumerable<FormAnuncio> dataAnuncios = GetData(anuncios.Select(a => a.Url).ToArray());
 
             int len = anuncios.Count();
             for (int i = 0; i < len; i++)
             {
                 try
                 {
-                    string t = titles.ElementAt(i);
+                    FormAnuncio d = dataAnuncios.ElementAt(i);
+                    string t = d.variables.title, c = d.variables.categoria;
                     if (String.IsNullOrEmpty(t) && String.IsNullOrEmpty(anuncios.ElementAt(i).Titulo))
                     {
                         anuncios.ElementAt(i).Titulo = "-- título no actualizado -- ";
                     }
-                    else if(!String.IsNullOrEmpty(t))
+                    else if (!String.IsNullOrEmpty(t))
                     {
                         anuncios.ElementAt(i).Titulo = t;
                     }
-                    
+                    if (!String.IsNullOrEmpty(c))
+                    {
+                        anuncios.ElementAt(i).Categoria = c;
+                    }
                 }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex.ToExceptionString());
+                }
             }
 
             await repositoryAnuncio.SaveChangesAsync();
@@ -92,7 +102,7 @@ namespace Services.Impls
             return (await repositoryAnuncio.FindAllAsync(a => a.GroupId == GrupoId)).AsEnumerable();
         }
 
-        private IEnumerable<string> GetTitulo(string[] links)
+        private IEnumerable<FormAnuncio> GetData(string[] links)
         {
             List<Task<string>> body = new List<Task<string>>();
             foreach (string st in links)
@@ -104,9 +114,12 @@ namespace Services.Impls
             {
                 Task.WaitAll(body.ToArray());
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.ToExceptionString());
+            }
 
-            List<string> ans = new List<string>();
+            List<FormAnuncio> ans = new List<FormAnuncio>();
 
             int len = links.Length;
             for (int i = 0; i < len; i++)
@@ -114,9 +127,9 @@ namespace Services.Impls
                 try
                 {
                     FormAnuncio formAnuncio = ParseFormAnuncio(body[i].Result);
-                    ans.Add(formAnuncio.variables.title);
+                    ans.Add(formAnuncio);
                 }
-                catch (Exception) { ans.Add(String.Empty); }
+                catch (Exception) { ans.Add(null); }
             }
 
             return ans;
@@ -168,7 +181,7 @@ namespace Services.Impls
                 {
                     UserId = item.Grupo.UserId,
                     DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {1} el anuncio {0} a caducado/eliminado por tanto se ha eliminado del sistema: {0}", item.Url, item.Grupo.Nombre),
+                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha eliminado del sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
                     Readed = false
                 });
             }
@@ -197,7 +210,7 @@ namespace Services.Impls
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
                 string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(apiRevolico, jsonForm);
+                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
 
                 GetException(answer, _uri, true, captchaResponse);
                 //_captchaSolver.set_captcha_good(captchaResponse.Id);
@@ -219,7 +232,7 @@ namespace Services.Impls
                 ex.uri = _uri;
                 throw ex;
             }
-            catch(AnuncioEliminadoException ex)
+            catch (AnuncioEliminadoException ex)
             {
                 throw ex;
             }
@@ -263,7 +276,7 @@ namespace Services.Impls
             throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
         }
 
-        private FormAnuncio ParseFormAnuncio(string htmlAnuncio)
+        public FormAnuncio ParseFormAnuncio(string htmlAnuncio)
         {
             try
             {
@@ -283,7 +296,15 @@ namespace Services.Impls
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-                formAnuncio.variables.description = tmp.InnerText;
+                if (tmp.InnerText.EndsWith(noiseData.Substring(noiseData.Length - 40)))
+                {
+                    formAnuncio.variables.description = tmp.InnerText.Substring(0, tmp.InnerText.Length - noiseData.Length);
+                }
+                else
+                {
+                    formAnuncio.variables.description = tmp.InnerText + noiseData;
+                }
+
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
@@ -315,6 +336,8 @@ namespace Services.Impls
 
                 formAnuncio.variables.contactInfo = "EMAIL_PHONE";
                 formAnuncio.variables.botScore = "";
+
+                formAnuncio.variables.categoria = GetCategoria(htmlAnuncio);
 
                 int p1 = htmlAnuncio.IndexOf("pageProps") + "pageProps".Length + 2;
                 int p2 = htmlAnuncio.IndexOf("apolloState") - 2;
@@ -350,13 +373,26 @@ namespace Services.Impls
             {
                 throw new AnuncioEliminadoException("Deteccion Anuncio Eliminado", _uri);
             }
-            else if (ff &&
-                     !answer.Contains("\"status\":200") &&
-                     !answer.Contains("\"errors\":null") &&
-                     !answer.Contains("updateAdWithoutUser"))
+            else if (ff && (
+                     !answer.Contains("\"status\":200") ||
+                     !answer.Contains("\"errors\":null") ||
+                     !answer.Contains("updateAdWithoutUser")))
             {
                 throw new GeneralException("Non updated | " + answer, _uri);
             }
+        }
+
+        private string GetCategoria(string content)
+        {
+            int posIni = content.IndexOf("breadcrumb"), cnt = 2, posEnd;
+            while (cnt > 0)
+            {
+                posIni = content.IndexOf("<a href", posIni + 1);
+                cnt--;
+            }
+            posIni += 9;
+            posEnd = content.IndexOf("\"", posIni);
+            return content.Substring(posIni, posEnd - posIni);
         }
     }
 }

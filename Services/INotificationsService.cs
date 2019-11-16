@@ -17,5 +17,6 @@ namespace Services
         Task SetReadedByUser(string Id);
         Task Add(Notificacion notificacion);
         Task Add(IEnumerable<Notificacion> notificacions);
+        Task SendNotification(string UserId, string message);
     }
 }

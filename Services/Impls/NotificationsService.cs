@@ -10,6 +10,7 @@ using Republish.Data.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -93,6 +94,18 @@ namespace Services.Impls
         {
             await repositoryNotificacion.AddAllAsync(notificacions);
             await repositoryNotificacion.SaveChangesAsync();
+        }
+
+        public async Task SendNotification(string UserId, string message)
+        {
+            Notificacion notificacion = new Notificacion()
+            {
+                UserId = UserId,
+                Mensaje = message,
+                DateCreated = DateTime.Now.ToUtcCuba(),
+                Readed = false,
+            };
+            await Add(notificacion);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace Models
         public string Url { get; set; }
 
         public string Titulo { get; set; }
+        public string Categoria { get; set; }
+
+        public bool Enable { get; set; } = true;
 
         [NotMapped]
         public Uri UrlFormat { get

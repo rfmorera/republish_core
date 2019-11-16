@@ -22,5 +22,6 @@ namespace Services
         Task SetSystemEnable(string UserId, bool SystemEnable);
         Task<bool> ToogleUserEnable(string UserId);
         Task<Temporizador> TooggleEnable(string Id);
+        Task<IEnumerable<Temporizador>> GetRunning();
     }
 }

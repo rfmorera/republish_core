@@ -106,10 +106,10 @@ namespace Services.Impls
         {
             if(Etapa == 0)
             {
-                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId)).Select(a => new AnuncioDTO(a));
+                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable)).Select(a => new AnuncioDTO(a));
             }
 
-            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Actualizado == false));
+            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable && a.Actualizado == false));
 
             if (Etapa > 0)
             {
@@ -130,7 +130,7 @@ namespace Services.Impls
             }
             else
             {
-                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId);
+                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable);
 
                 foreach (Anuncio a in listAnuncio)
                 {
