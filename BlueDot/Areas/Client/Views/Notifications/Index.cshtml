@@ -1,5 +1,6 @@
-﻿@using  Models
-@model IEnumerable<NotificacionDTO>
+﻿@using Services.DTOs.Notification
+@using Services.DTOs.Common
+@model IndexDTO
 @{
     ViewData["Title"] = "Notificaciones";
 }
@@ -29,20 +30,21 @@
                     <h5>Notificaciones</h5>
                 </div>
                 <div class="ibox-content">
-                    @foreach (NotificacionDTO item in Model)
+                    @foreach (NotificacionDTO item in Model.Notificacions)
                     {
 
-                    <div class="alert @item.Status">
-                        @if (!item.Readed)
-                        {
-                            <i class="fa fa-bullhorn fa-fw"></i>
-                            <small>Nueva</small>
-                        }
-                        @Html.Raw(item.Mensaje)
-                        <span class="float-right text-muted small">@item.DateCreated.ToDateTimeString()</span>
-                    </div>
+                        <div class="alert @item.Status">
+                            @if (!item.Readed)
+                            {
+                                <i class="fa fa-bullhorn fa-fw"></i>
+                                <small>Nueva</small>
+                            }
+                            @Html.Raw(item.Mensaje)
+                            <span class="float-right text-muted small">@item.DateCreated.ToDateTimeString()</span>
+                        </div>
 
                     }
+                    <partial name="~/Areas/Common/Views/_Pagination.cshtml" model="@(new PaginationDTO(Model.Pager, "Notifications", "Index") )" />
                 </div>
             </div>
         </div>
