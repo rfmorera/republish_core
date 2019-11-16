@@ -38,7 +38,7 @@
                             <i class="fa fa-bullhorn fa-fw"></i>
                             <small>Nueva</small>
                         }
-                        @item.Mensaje
+                        @Html.Raw(item.Mensaje)
                         <span class="float-right text-muted small">@item.DateCreated.ToDateString()</span>
                     </div>
 
