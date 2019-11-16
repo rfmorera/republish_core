@@ -29,7 +29,7 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string noiseData = "-----------Raw Text-------------------\nqwertyuiopasnbghnhfntgy,lopkjhmgymikonbvfvbcyh\n xcvxbztfdwqerasfvtyrfjguioyhiopujdfghjklzxcvbm\nzqxswcedvfrbtgnhymju,ik.lo\n123456789-+.0\n??|?|?|?|?|?||?||?|??|?|?|?|?|?|?|?|?||?|?|?\n_____________________________________________________\n///////////////////////////////////////////////////////////////////////\n";
+        private const string noiseData = "\n\n\n\n\n\n\n\n\n-----------Raw Text-------------------\nqwertyuiopas nbghnhfntgy,lop kjhmgymikonbvfvbcyh\n xcvxb ztfdwqerasfvtyrfjguioyhio pujdfghjklzxcvbm\nzqxswcedvfrb tgnhymju,ik.lo\n123456789-+.0\n??|?|?|?| ?|?||?||?|? ?|?|?|?|?|?|?| ?|?||?|?|?\n___________________ ____________________ ______________\n//////////////////////////// ///////////////// /////////////// ///////////\n";
 
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
@@ -63,14 +63,15 @@ namespace Services.Impls
         public async Task UpdateTitle(string GrupoId)
         {
             IEnumerable<Anuncio> anuncios = await GetByGroup(GrupoId);
-            IEnumerable<string> titles = GetTitulo(anuncios.Select(a => a.Url).ToArray());
+            IEnumerable<FormAnuncio> dataAnuncios = GetData(anuncios.Select(a => a.Url).ToArray());
 
             int len = anuncios.Count();
             for (int i = 0; i < len; i++)
             {
                 try
                 {
-                    string t = titles.ElementAt(i);
+                    FormAnuncio d = dataAnuncios.ElementAt(i);
+                    string t = d.variables.title, c = d.variables.categoria;
                     if (String.IsNullOrEmpty(t) && String.IsNullOrEmpty(anuncios.ElementAt(i).Titulo))
                     {
                         anuncios.ElementAt(i).Titulo = "-- título no actualizado -- ";
@@ -79,7 +80,10 @@ namespace Services.Impls
                     {
                         anuncios.ElementAt(i).Titulo = t;
                     }
-                    
+                    if (!String.IsNullOrEmpty(c))
+                    {
+                        anuncios.ElementAt(i).Categoria = c;
+                    }
                 }
                 catch (Exception) { }
             }
@@ -92,7 +96,7 @@ namespace Services.Impls
             return (await repositoryAnuncio.FindAllAsync(a => a.GroupId == GrupoId)).AsEnumerable();
         }
 
-        private IEnumerable<string> GetTitulo(string[] links)
+        private IEnumerable<FormAnuncio> GetData(string[] links)
         {
             List<Task<string>> body = new List<Task<string>>();
             foreach (string st in links)
@@ -106,7 +110,7 @@ namespace Services.Impls
             }
             catch (Exception) { }
 
-            List<string> ans = new List<string>();
+            List<FormAnuncio> ans = new List<FormAnuncio>();
 
             int len = links.Length;
             for (int i = 0; i < len; i++)
@@ -114,9 +118,9 @@ namespace Services.Impls
                 try
                 {
                     FormAnuncio formAnuncio = ParseFormAnuncio(body[i].Result);
-                    ans.Add(formAnuncio.variables.title);
+                    ans.Add(formAnuncio);
                 }
-                catch (Exception) { ans.Add(String.Empty); }
+                catch (Exception) { ans.Add(null); }
             }
 
             return ans;
