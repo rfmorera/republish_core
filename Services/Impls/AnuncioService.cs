@@ -24,6 +24,7 @@ using Newtonsoft.Json.Linq;
 using Services.Exceptions;
 using Services.DTOs;
 using Republish.Extensions;
+using System.Web;
 
 namespace Services.Impls
 {
@@ -276,6 +277,9 @@ namespace Services.Impls
                 {
                     formAnuncio.variables.description = tmp.InnerText + noiseData;
                 }
+
+                // Decode the encoded string.
+                formAnuncio.variables.description = HttpUtility.HtmlDecode(formAnuncio.variables.description);
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
