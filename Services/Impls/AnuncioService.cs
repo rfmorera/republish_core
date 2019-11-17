@@ -269,17 +269,17 @@ namespace Services.Impls
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
-                if (tmp.InnerText.Contains(noiseData))
+                // Decode the encoded string.
+                formAnuncio.variables.description = HttpUtility.HtmlDecode(tmp.InnerText);
+                if (formAnuncio.variables.description.Contains(noiseData))
                 {
-                    formAnuncio.variables.description = tmp.InnerText.Substring(0, tmp.InnerText.Length - noiseData.Length);
+                    formAnuncio.variables.description = formAnuncio.variables.description.Substring(0, tmp.InnerText.Length - noiseData.Length);
                 }
                 else
                 {
-                    formAnuncio.variables.description = tmp.InnerText + noiseData;
+                    formAnuncio.variables.description = formAnuncio.variables.description + noiseData;
                 }
 
-                // Decode the encoded string.
-                formAnuncio.variables.description = HttpUtility.HtmlDecode(formAnuncio.variables.description);
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
