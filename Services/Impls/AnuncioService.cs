@@ -271,14 +271,15 @@ namespace Services.Impls
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
                 // Decode the encoded string.
                 formAnuncio.variables.description = HttpUtility.HtmlDecode(tmp.InnerText);
-                if (formAnuncio.variables.description.Contains(noiseData))
-                {
-                    formAnuncio.variables.description = formAnuncio.variables.description.Substring(0, tmp.InnerText.Length - noiseData.Length);
-                }
-                else
-                {
-                    formAnuncio.variables.description = formAnuncio.variables.description + noiseData;
-                }
+                //string noiseDataDecoded = HttpUtility.HtmlDecode(noiseData);
+                //if (formAnuncio.variables.description.Contains(noiseDataDecoded))
+                //{
+                //    formAnuncio.variables.description = formAnuncio.variables.description.Substring(0, tmp.InnerText.Length - noiseDataDecoded.Length);
+                //}
+                //else
+                //{
+                //    formAnuncio.variables.description = formAnuncio.variables.description + noiseDataDecoded;
+                //}
 
 
                 formAnuncio.variables.images = new string[0];
