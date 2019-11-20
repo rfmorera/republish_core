@@ -19,17 +19,23 @@ namespace Services.DTOs.Admin
         /// <param name="GastoEsperadoProximo">Gasto esperado para el mes próximo</param>
         public ClientDetalles(IdentityUser client, 
                              IEnumerable<RecargaDetail> Recargas, 
-                             Cuenta cuenta, 
-                             double GastoEsperadoActual, 
-                             double GastoEsperadoProximo)
+                             Cuenta cuenta,
+                             PrediccionIndicadores prediccionIndicadores, 
+                             double GastoEsperadoProximo,
+                             EstadisticaDiario Diario,
+                             EstadisticaSemanal Semanal,
+                             EstadisticaMensual Mensual)
         {
             Id = client.Id;
             UserName = client.UserName;
             Phone = client.PhoneNumber;
             this.Recargas = Recargas;
             Cuenta = new CuentaDTO(cuenta);
-            this.GastoEsperadoActual = GastoEsperadoActual;
+            this.PrediccionIndicadores = prediccionIndicadores;
             this.GastoEsperadoProximo = GastoEsperadoProximo;
+            this.Diario = Diario;
+            this.Semanal = Semanal;
+            this.Mensual = Mensual;
         }
 
         public IEnumerable<RecargaDetail> Recargas { get; set; }
@@ -37,7 +43,11 @@ namespace Services.DTOs.Admin
         public string Id { get; set; }
         public string UserName { get; set; }
         public string Phone { get; set; }
-        public double GastoEsperadoActual { get; set; }
+        public PrediccionIndicadores PrediccionIndicadores { get; set; }
         public double GastoEsperadoProximo { get; set; }
+
+        public EstadisticaDiario Diario { get; }
+        public EstadisticaSemanal Semanal { get; }
+        public EstadisticaMensual Mensual { get; }
     }
 }

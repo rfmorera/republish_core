@@ -40,73 +40,73 @@
             </div>
         </div>
     }
-<div class="row" id="IndicadoresEconomicos">
-    <div class="col-lg-3">
-        <div class="ibox ">
-            <div class="ibox-title">
-                <span class="label label-success float-right">Hoy</span>
-                <h5>Total Dario</h5>
+    <div class="row" id="IndicadoresEconomicos">
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-success float-right">Hoy</span>
+                    <h5>Total Dario</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@diario.Total</h1>
+                    <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @diario.Gasto</div>
+                    <small>Anuncios Publicados</small>
+                </div>
             </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">@diario.Total</h1>
-                <div class="stat-percent font-bold text-success"><i class="fa fa-dollar"></i> @diario.Gasto</div>
-                <small>Anuncios Publicados</small>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Semanal</span>
+                    <h5>Últimos 7 días</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@semanal.Total</h1>
+                    <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @semanal.Gasto</div>
+                    <small>@semanal.Inicio.ToShortDateString() - @semanal.Fin.ToShortDateString()</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-primary float-right">Mensual</span>
+                    <h5>Mes actual</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@mensual.Total</h1>
+                    <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@mensual.Gasto</div>
+                    <small>Anuncios Publicados</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 text-muted">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-inverse float-right">Actual</span>
+                    <h5>Saldo</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins text-dark">$ @ct.Saldo </h1>
+                    <div class="stat-percent font-bold ">@ct.LastUpdate.ToDateTimeString()</div>
+                    <small class="text-right">Saldo suficiente para @prediccion.DiasDisponible días</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 text-muted">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-danger float-right">Valor Aproximado</span>
+                    <h5>Gasto Esperado</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">$ @prediccion.GastoAproximado </h1>
+                    <div class="stat-percent font-bold text-info">@DateTime.Now.ToUtcCuba().ToDateString() @*<i class="fa fa-calendar"></i>*@</div>
+                    <small>Próximos @prediccion.DiasRestantes días&nbsp;</small>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="ibox ">
-            <div class="ibox-title">
-                <span class="label label-info float-right">Semanal</span>
-                <h5>Últimos 7 días</h5>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">@semanal.Total</h1>
-                <div class="stat-percent font-bold text-info"><i class="fa fa-dollar"></i> @semanal.Gasto</div>
-                <small>@semanal.Inicio.ToShortDateString() - @semanal.Fin.ToShortDateString()</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="ibox ">
-            <div class="ibox-title">
-                <span class="label label-primary float-right">Mensual</span>
-                <h5>Mes actual</h5>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">@mensual.Total</h1>
-                <div class="stat-percent font-bold text-navy"><i class="fa fa-dollar"></i>@mensual.Gasto</div>
-                <small>Anuncios Publicados</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 text-muted">
-        <div class="ibox ">
-            <div class="ibox-title">
-                <span class="label label-inverse float-right">Actual</span>
-                <h5>Saldo</h5>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins text-dark">$ @ct.Saldo </h1>
-                <div class="stat-percent font-bold ">@ct.LastUpdate.ToDateTimeString()</div>
-                <small class="text-right">Saldo suficiente para @prediccion.DiasDisponible días</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 text-muted">
-        <div class="ibox ">
-            <div class="ibox-title">
-                <span class="label label-danger float-right">Valor Aproximado</span>
-                <h5>Gasto Esperado</h5>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">$ @prediccion.GastoAproximado </h1>
-                <div class="stat-percent font-bold text-info">@DateTime.Now.ToUtcCuba().ToDateString() @*<i class="fa fa-calendar"></i>*@</div>
-                <small>Próximos @prediccion.DiasRestantes días&nbsp;</small>
-            </div>
-        </div>
-    </div>
-</div>
     <div class="row">
         <div class="col-lg-3" id="ControlTemporizadores">
             <div class="ibox ">
@@ -132,52 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="row" style="overflow:auto">
-        <div class="row" >
-            <div class="col-lg-12" id="GraficosEstadisticos">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5>Resumen Detallado</h5>
-                        <div class="float-right">
-                            <div class="btn-group estadistica" id="SelectorGraficosEstadisticos">
-                                <button id="Diario" type="button" class="btn btn-xs btn-white active">Hoy</button>
-                                <button id="Semanal" type="button" class="btn btn-xs btn-white">Últimos 7 días</button>
-                                <button id="Mensual" type="button" class="btn btn-xs btn-white">Mensual</button>
-                                <button id="Anual" type="button" class="btn btn-xs btn-white disabled">Anual</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div>
-                            <span class="float-right text-right">
-                                <small>Actualizado: @DateTime.Now.ToDateTimeString()</small>
-                                <br>
-                                @*All sales: 162,862*@
-                            </span>
-                            <h1 id="GastoTotalResumen" class="m-b-xs">$ @diario.Gasto</h1>
-                            @*<h3 class="font-bold no-margins">
-                                    Half-year revenue margin
-                                </h3>
-                                <small>Sales marketing.</small>*@
-                        </div>
-                        <div>
-                            @*<iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px none; height: 0px; margin: 0px; position: absolute; inset: 0px;"></iframe>*@
-                            <canvas id="lineChart" height="287" style="display: block; width: 989px; height: 230px;" width="1236"></canvas>
-                        </div>
-                        <div class="m-t-md">
-                            @*<small class="float-right">
-                                    <i class="fa fa-clock-o"> </i>
-                                    Update on 16.07.2015
-                                </small>*@
-                            @*<small>
-                                    <strong>Analysis of sales:</strong> The value has been changed over time, and last month reached a level over $50,000.
-                                </small>*@
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <partial name="~/Areas/Common/Views/_GraficosEstadisticos.cshtml" model="@Model.Diario.Gasto" />
 </div>
 
 <form id="temporizadores-form" method="post" role="form"
@@ -193,158 +148,34 @@
 @section Scripts {
     <environment names="Development">
         <script src="~/js/Client/Default/index.js"></script>
+        <script src="~/js/common/grafico_estadistico.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.js"></script>
         <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/Client/Default/index.min.js"></script>
+        <script src="~/js/common/grafico_estadistico.min.js"></script>
         <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.min.js"></script>
         <script src="~/lib/bootstrap-tour/js/bootstrap-tour-standalone.min.js" asp-append-version="true"></script>
     </environment>
 
-
     <script type="text/javascript">
-        $(document).ready(function () {
-            InitializeDiario();
-        });
-
         function InitializeDiario() {
-            initializeChart(@diario.Gasto, @Html.Raw(diario.ToStringLabels()), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+            setChartData(@diario.Gasto, @Html.Raw(diario.ToStringLabels()), @diario.ToStringGastos(), @diario.ToStringAnuncios());
         }
 
         function InitializeSemanal() {
-            initializeChart(@semanal.Gasto, @semanal.ToStringLabels(), @semanal.ToStringGastos(), @semanal.ToStringAnuncios());
+            setChartData(@semanal.Gasto, @semanal.ToStringLabels(), @semanal.ToStringGastos(), @semanal.ToStringAnuncios());
         }
 
         function InitializeMensual() {
-            initializeChart(@mensual.Gasto, @mensual.ToStringLabels(), @mensual.ToStringGastos(), @mensual.ToStringAnuncios());
+            setChartData(@mensual.Gasto, @mensual.ToStringLabels(), @mensual.ToStringGastos(), @mensual.ToStringAnuncios());
         }
 
         @*function InitializeAnual() {
-            initializeChart(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+            setChartData(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
         }*@
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            // Instance the tour
-            var tour = new Tour({
-                steps: [{
-
-                    element: "#IndicadoresEconomicos",
-                    title: "Indicadores Económicos",
-                    content: "Muestra el resumen de gasto y anuncios publicados.<br>Además muestra el balance actual de su cuenta.",
-                    placement: "bottom",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#ControlTemporizadores",
-                    title: "Control de Temporizadores",
-                    content: "Permite controlar todos los temporizadores, habilitando&deshabilitando la ejecución de los mismos.",
-                    placement: "right",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#AccesoGrupo",
-                    title: "Acceso a Grupos",
-                    content: "Los grupos están formados por anuncios y temporizadores. La función de los temporizadores es determinar los horarios en que se actualizarán los anuncios.<br><p class=\"text-primary\">En la página Grupos podrá encontrar más información.</p>",
-                    placement: "right",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#GraficosEstadisticos",
-                    title: "Gráficos estadísticos",
-                    content: "Permite conocer de forma más detallada y a lo largo del tiempo el consumo del sistema en diferentes intervalos de tiempo.",
-                    placement: "top",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#SelectorGraficosEstadisticos",
-                    title: "Selector",
-                    content: "Seleccione el intervalo de tiempo del cual desea obtener las estadísticas hoy, últimos 7 días, mensual y anual.",
-                    placement: "left",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: ".sidebar-collapse",
-                    title: "Menú de Navegación",
-                    content: "Inicio es la página inicial donde nos encontramos, en Grupos podrá añadir y configurar la publicación de sus anuncios.<br>Explore el resto de los enlaces.",
-                    placement: "right",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                },
-                {
-                    element: "#CerrarSesion",
-                    title: "Cerrar Sesión",
-                    content: "Cuando finalice su trabajo cierre la sesión para mayor seguridad.",
-                    placement: "left",
-                    backdrop: true,
-                    backdropContainer: '#wrapper',
-                    onShown: function (tour) {
-                        $('body').addClass('tour-open')
-                    },
-                    onHidden: function (tour) {
-                        $('body').removeClass('tour-close')
-                    }
-                }
-                ]
-            });
-
-            // Initialize the tour
-            tour.init();
-
-            $('.startTour').click(function () {
-                tour.restart();
-
-                // Start the tour
-                // tour.start();
-            })
-
-        });
-
     </script>
 }
