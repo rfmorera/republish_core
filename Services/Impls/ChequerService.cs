@@ -165,7 +165,9 @@ namespace Services.Impls
 
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Where(a => !anunciosProcesados.Contains(a.Url)).Select(a => a.Url).ToList());
+                    listAnuncios = listAnuncios.Where(a => !anunciosProcesados.Contains(a.Url)).ToList();
+                    totalAnuncios = listAnuncios.Count;
+                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Select(a => a.Url).ToList());
                     double pctVerify = 100.0 * verifyPub / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
                 }
