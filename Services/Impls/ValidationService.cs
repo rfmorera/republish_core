@@ -78,6 +78,7 @@ namespace Services.Impls
                     }
                     catch (Exception)
                     {
+                        await Task.Delay(TimeSpan.FromSeconds(15));
                         continue;
                     }
                 }
