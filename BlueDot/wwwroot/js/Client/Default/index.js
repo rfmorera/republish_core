@@ -19,38 +19,119 @@ function initializePage() {
     $("#HideTour").on("click", function () {
         onCookieSuccess();
     });
-    $(".btn-group.estadistica > #Diario").on("click", function () {
-        ButtonCommon(this);
-        InitializeDiario();
+
+    // Instance the tour
+    var tour = new Tour({
+        steps: [{
+
+            element: "#IndicadoresEconomicos",
+            title: "Indicadores Económicos",
+            content: "Muestra el resumen de gasto y anuncios publicados.<br>Además muestra el balance actual de su cuenta.",
+            placement: "bottom",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: "#ControlTemporizadores",
+            title: "Control de Temporizadores",
+            content: "Permite controlar todos los temporizadores, habilitando&deshabilitando la ejecución de los mismos.",
+            placement: "right",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: "#AccesoGrupo",
+            title: "Acceso a Grupos",
+            content: "Los grupos están formados por anuncios y temporizadores. La función de los temporizadores es determinar los horarios en que se actualizarán los anuncios.<br><p class=\"text-primary\">En la página Grupos podrá encontrar más información.</p>",
+            placement: "right",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: "#GraficosEstadisticos",
+            title: "Gráficos estadísticos",
+            content: "Permite conocer de forma más detallada y a lo largo del tiempo el consumo del sistema en diferentes intervalos de tiempo.",
+            placement: "top",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: "#SelectorGraficosEstadisticos",
+            title: "Selector",
+            content: "Seleccione el intervalo de tiempo del cual desea obtener las estadísticas hoy, últimos 7 días, mensual y anual.",
+            placement: "left",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: ".sidebar-collapse",
+            title: "Menú de Navegación",
+            content: "Inicio es la página inicial donde nos encontramos, en Grupos podrá añadir y configurar la publicación de sus anuncios.<br>Explore el resto de los enlaces.",
+            placement: "right",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        },
+        {
+            element: "#CerrarSesion",
+            title: "Cerrar Sesión",
+            content: "Cuando finalice su trabajo cierre la sesión para mayor seguridad.",
+            placement: "left",
+            backdrop: true,
+            backdropContainer: '#wrapper',
+            onShown: function (tour) {
+                $('body').addClass('tour-open')
+            },
+            onHidden: function (tour) {
+                $('body').removeClass('tour-close')
+            }
+        }
+        ]
     });
 
-    $(".btn-group.estadistica > #Semanal").on("click", function () {
-        ButtonCommon(this);
-        InitializeSemanal();
-    });
+    // Initialize the tour
+    tour.init();
 
-    $(".btn-group.estadistica > #Mensual").on("click", function () {
-        ButtonCommon(this);
-        InitializeMensual();
-    });
+    $('.startTour').click(function () {
+        tour.restart();
 
-    //$(".btn-group.estadistica > #Anual").on("click", function () {
-    //    ButtonCommon(this);
-    //    InitializeAnual();
-    //});
-
-    $(".line").peity("line", {
-        fill: '#1ab394',
-        stroke: '#169c81'
-    });
-
-    $(".bar").peity("bar", {
-        fill: ["#1ab394", "#d7d7d7"]
-    });
-
-    $(".bar_dashboard").peity("bar", {
-        fill: ["#1ab394", "#d7d7d7"],
-        width: 100
+        // Start the tour
+        // tour.start();
     });
 }
 
@@ -66,52 +147,6 @@ function onCookieSuccess() {
         document.cookie = "TourDefault=yes";
         onAjaxSuccess();
     });
-}
-
-function ButtonCommon(t) {
-    $(".btn-group.estadistica > .active").removeClass("active");
-    $(t).addClass("active");
-    $(".chartjs-hidden-iframe").remove();
-    var canvas = document.getElementById("lineChart");
-    var parent = $(canvas).parent();
-    canvas.remove();
-    parent.append("<canvas id=\"lineChart\" height=\"287\" style=\"display: block; width: 989px; height: 230px; \" width=\"1236\"></canvas>");
-    //var ctx = canvas.getContext('2d');
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function initializeChart(gastoTotal, labels, gastos, anuncios) {
-
-    $("#GastoTotalResumen").text("$ "+gastoTotal);
-
-    var data = {
-        labels: labels,
-        datasets: [
-            {
-                label: "Gasto",
-                backgroundColor: "rgba(26,179,148,0.5)",
-                borderColor: "rgba(26,179,148,0.7)",
-                pointBackgroundColor: "rgba(26,179,148,1)",
-                pointBorderColor: "#fff",
-                data: gastos
-            },
-            {
-                label: "Anuncios Publicados",
-                backgroundColor: "rgba(220,220,220,0.5)",
-                borderColor: "rgba(220,220,220,1)",
-                pointBackgroundColor: "rgba(220,220,220,1)",
-                pointBorderColor: "#fff",
-                data: anuncios
-            }
-        ]
-    };
-
-    var lineOptions = {
-        responsive: true
-    };
-    
-    var ctx = document.getElementById("lineChart").getContext("2d");
-    new Chart(ctx, { type: 'line', data: data, options: lineOptions });
 }
 
 function showTemporizadoresConfirmationPopup(form, estado, detail) {

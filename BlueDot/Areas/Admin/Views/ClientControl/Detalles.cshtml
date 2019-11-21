@@ -3,6 +3,9 @@
 
 @{
     ViewData["Title"] = "Detalles Cliente";
+    Services.DTOs.Registro.EstadisticaDiario diario = Model.Diario;
+    Services.DTOs.Registro.EstadisticaSemanal semanal = Model.Semanal;
+    Services.DTOs.Registro.EstadisticaMensual mensual = Model.Mensual;
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -48,11 +51,11 @@
                         <div class="row m-t-lg">
                             <div class="col-md-4 text-center">
                                 <i class="fa fa-bank"></i>
-                                <h5><strong>$ @Model.Cuenta.Saldo</strong> Saldo</h5>
+                                <h5><strong>$ @Model.Cuenta.Saldo</strong> Saldo. Hasta <small>@Model.PrediccionIndicadores.DiasDisponible días</small></h5>
                             </div>
                             <div class="col-md-4 text-center">
                                 <i class="fa fa-balance-scale"></i>
-                                <h5><strong>$ @Model.GastoEsperadoActual</strong> Mes Actual</h5>
+                                <h5><strong>$ @Model.PrediccionIndicadores.GastoAproximado</strong> Mes Actual</h5>
                             </div>
                             <div class="col-md-4 text-center">
                                 <i class="fa fa-step-forward"></i>
@@ -66,10 +69,10 @@
                         <br />
                         <div class="user-button">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-3">
                                     <a href="#myModal" data-toggle="modal" data-target="#notificacion-modal" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope "></i>&nbsp; Enviar notificación</a>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-3">
                                     <a href="#myModal" data-toggle="modal" data-target="#recargar-modal" class="btn btn-secondary btn-sm btn-block"><i class="fa fa-credit-card "></i>&nbsp; Recargar</a>
                                 </div>
                                 <div class="col-md-6 mt-3">
@@ -85,6 +88,7 @@
             <partial name="~/Areas/Common/Views/_RecargasList.cshtml" for="Recargas" />
         </div>
     </div>
+    <partial name="~/Areas/Common/Views/_GraficosEstadisticos.cshtml" model="@Model.Diario.Gasto" />
 </div>
 
 <div id="recargar-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -206,33 +210,37 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
     <environment names="Development">
         <script src="~/js/common/modal.js"></script>
+        <script src="~/js/common/grafico_estadistico.js"></script>
         <script src="~/js/Admin/ClientControl/detalles.js"></script>
+        <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/common/modal.min.js" asp-append-version="true"></script>
+        <script src="~/js/common/grafico_estadistico.min.js"></script>
         <script src="~/js/Admin/ClientControl/detalles.min.js"></script>
+        <script src="~/lib/chartJs/Chart.min.js"></script>
         <script src="~/lib/peity/jquery.peity.min.js"></script>
     </environment>
     <script type="text/javascript">
-        $(document).ready(function () {
+        function InitializeDiario() {
+            setChartData(@diario.Gasto, @Html.Raw(diario.ToStringLabels()), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+        }
 
-            $("span.pie").peity("pie", {
-                fill: ['#1ab394', '#d7d7d7', '#ffffff']
-            })
+        function InitializeSemanal() {
+            setChartData(@semanal.Gasto, @semanal.ToStringLabels(), @semanal.ToStringGastos(), @semanal.ToStringAnuncios());
+        }
 
-            $(".line").peity("line", {
-                fill: '#1ab394',
-                stroke: '#169c81',
-            })
+        function InitializeMensual() {
+            setChartData(@mensual.Gasto, @mensual.ToStringLabels(), @mensual.ToStringGastos(), @mensual.ToStringAnuncios());
+        }
 
-            $(".bar").peity("bar", {
-                fill: ["#1ab394", "#d7d7d7"]
-            })
-
-
-        });</script>
+        @*function InitializeAnual() {
+            setChartData(@diario.Gasto, @diario.ToStringLabels(), @diario.ToStringGastos(), @diario.ToStringAnuncios());
+        }*@
+    </script>
 }

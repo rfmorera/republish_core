@@ -22,13 +22,15 @@ namespace RepublishTool.Areas.Admin.Controllers
         private readonly IUserControlService _userControlService;
         private readonly IManejadorFinancieroService _financieroService;
         private readonly INotificationsService _notificationsService;
+        private readonly IEstadisticasService _estadisticasService;
 
-        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService, INotificationsService notificationsService)
+        public ClientControlController(UserManager<IdentityUser> userManager, IUserControlService userControlService, IManejadorFinancieroService financieroService, INotificationsService notificationsService, IEstadisticasService estadisticasService)
         {
             _userControlService = userControlService;
             _userManager = userManager;
             _financieroService = financieroService;
             _notificationsService = notificationsService;
+            _estadisticasService = estadisticasService;
         }
 
         public async Task<IActionResult> Index()
@@ -127,13 +129,19 @@ namespace RepublishTool.Areas.Admin.Controllers
 
             DateTime date = DateTime.Now.ToUtcCuba();
             double GastoEsperadoActual = await _userControlService.GetGastoEsperadoByClient(ClientId, date);
+            PrediccionIndicadores prediccion = new PrediccionIndicadores(cuenta.Saldo, GastoEsperadoActual);
 
             date = date.AddMonths(1);
             date = new DateTime(date.Year, date.Month, 1);
             double GastoEsperadoProximo = await _userControlService.GetGastoEsperadoByClient(ClientId, date); ;
 
+            EstadisticaDiario dia = await _estadisticasService.GetDiario(ClientId);
+            EstadisticaSemanal semana = await _estadisticasService.GetSemanal(ClientId);
+            EstadisticaMensual mensual = await _estadisticasService.GetMensual(ClientId);
+
             ClientDetalles model = new ClientDetalles(clientUser, recargas, cuenta,
-                                                      GastoEsperadoActual, GastoEsperadoProximo);
+                                                      prediccion, GastoEsperadoProximo,
+                                                      dia, semana, mensual);
             return model;
         }
     }

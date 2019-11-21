@@ -400,5 +400,11 @@
     "inputFiles": [
       "wwwroot/js/Admin/ClientControl/detalles.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/common/grafico_estadistico.min.js",
+    "inputFiles": [
+      "wwwroot/js/common/grafico_estadistico.js"
+    ]
   }
 ]

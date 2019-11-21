@@ -68,7 +68,20 @@ namespace Services.Impls
             try
             {
                 string anuncioContent = await Requests.GetAsync(anuncio.Url);
-                FormAnuncio formAnuncio = _anuncioService.ParseFormAnuncio(anuncioContent);
+                FormAnuncio formAnuncio = null;
+                for(int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        formAnuncio = _anuncioService.ParseFormAnuncio(anuncioContent);
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(15));
+                        continue;
+                    }
+                }
 
                 int cnt = 10;
                 string url = $"{Requests.RevolicoBaseUrl}/{formAnuncio.variables.categoria}";
