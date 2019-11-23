@@ -32,6 +32,16 @@ namespace Models
             }
         }
 
+        [NotMapped]
+        public string GetUriId
+        {
+            get
+            {
+                int pos = Url.IndexOf("=") + 1;
+                return Url.Substring(pos);
+            }
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Orden { get; set; }
 
