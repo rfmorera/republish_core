@@ -6,7 +6,7 @@ namespace Services.Exceptions
 {
     public class BaseException : Exception
     {
-        public BaseException(string Title)
+        public BaseException(string Title):base(string.Empty)
         {
             this.Title = Title;
         }
