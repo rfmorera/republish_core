@@ -25,6 +25,7 @@ using Services.Exceptions;
 using Services.DTOs;
 using Republish.Extensions;
 using System.Web;
+using Services.Results;
 
 namespace Services.Impls
 {
@@ -192,7 +193,7 @@ namespace Services.Impls
             await DeleteAsync(anuncios);
         }
 
-        public async Task Publish(string url, string Key2Captcha)
+        public async Task ReInsert(string url, string Key2Captcha)
         {
             await StartProcess(url, Key2Captcha, true);
         }
@@ -292,23 +293,13 @@ namespace Services.Impls
                 int price;
                 _ = int.TryParse(tmp.Attributes["value"].Value, out price);
                 formAnuncio.variables.price = price;
-
+                
                 tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
                 formAnuncio.variables.title = tmp.Attributes["value"].Value;
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
                 // Decode the encoded string.
                 formAnuncio.variables.description = HttpUtility.HtmlDecode(tmp.InnerText);
-                //string noiseDataDecoded = HttpUtility.HtmlDecode(noiseData);
-                //if (formAnuncio.variables.description.Contains(noiseDataDecoded))
-                //{
-                //    formAnuncio.variables.description = formAnuncio.variables.description.Substring(0, tmp.InnerText.Length - noiseDataDecoded.Length);
-                //}
-                //else
-                //{
-                //    formAnuncio.variables.description = formAnuncio.variables.description + noiseDataDecoded;
-                //}
-
 
                 formAnuncio.variables.images = new string[0];
                 List<string> imagesId = new List<string>();
@@ -397,6 +388,11 @@ namespace Services.Impls
             posIni += 9;
             posEnd = content.IndexOf("\"", posIni);
             return content.Substring(posIni, posEnd - posIni);
+        }
+
+        Task<ReinsertResult> IAnuncioService.ReInsert(string url, string Key2Captcha)
+        {
+            throw new NotImplementedException();
         }
     }
 }
