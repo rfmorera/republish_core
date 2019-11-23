@@ -95,28 +95,26 @@ namespace Services.Impls
         }
 
         /// <summary>
-        /// Devuelve los anuncios a actualizar
-        /// Quien llama debe guardar cambios en la DB
+        /// Get All anuncios to ReInsert
         /// </summary>
-        /// <param name="GrupoId"></param>
-        /// <param name="Etapa"></param>
-        /// <param name="TempNombre"></param>
+        /// <param name="GroupId">Group to get Anuncios from</param>
+        /// <param name="Etapa">Number of anuncios to retrieve</param>
         /// <returns></returns>
-        public async Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string GrupoId, int Etapa, string TempNombre)
+        public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
         {
             if(Etapa == 0)
             {
-                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable)).Select(a => new AnuncioDTO(a));
+                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable)).Select(a => a);
             }
 
-            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable && a.Actualizado == false));
+            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable && a.Actualizado == false));
 
             if (Etapa > 0)
             {
                 listAnuncio = listAnuncio.Take(Etapa);
             }
 
-            List<AnuncioDTO> list = new List<AnuncioDTO>();
+            List<Anuncio> list = new List<Anuncio>();
 
             if (listAnuncio.Any())
             {
@@ -125,18 +123,18 @@ namespace Services.Impls
                     a.Actualizado = true;
                     await _anuncioRepo.UpdateAsync(a, a.Id);
 
-                    list.Add(new AnuncioDTO(a));
+                    list.Add(a);
                 }
             }
             else
             {
-                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GrupoId && a.Enable);
+                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable);
 
                 foreach (Anuncio a in listAnuncio)
                 {
                     if (Etapa > 0 )
                     {
-                        list.Add(new AnuncioDTO(a));
+                        list.Add(a);
                         Etapa--;
                     }
                     else
