@@ -22,7 +22,9 @@ namespace Services
 
         Task NotifyDelete(List<string> list);
 
-        Task<ReinsertResult> ReInsert(string url, string Key2Captcha);
-        FormAnuncio ParseFormAnuncio(string htmlAnuncio);
+        Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha);
+        Task<string> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio);
+        FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio);
+        Task Update(List<Anuncio> anunciosProcesados);
     }
 }

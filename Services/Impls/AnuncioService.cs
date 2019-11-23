@@ -68,14 +68,14 @@ namespace Services.Impls
         public async Task UpdateTitle(string GrupoId)
         {
             IEnumerable<Anuncio> anuncios = await GetByGroup(GrupoId);
-            IEnumerable<FormAnuncio> dataAnuncios = GetData(anuncios.Select(a => a.Url).ToArray());
+            IEnumerable<FormUpdateAnuncio> dataAnuncios = GetData(anuncios.Select(a => a.Url).ToArray());
 
             int len = anuncios.Count();
             for (int i = 0; i < len; i++)
             {
                 try
                 {
-                    FormAnuncio d = dataAnuncios.ElementAt(i);
+                    FormUpdateAnuncio d = dataAnuncios.ElementAt(i);
                     string t = d.variables.title, c = d.variables.categoria;
                     if (String.IsNullOrEmpty(t) && String.IsNullOrEmpty(anuncios.ElementAt(i).Titulo))
                     {
@@ -104,7 +104,7 @@ namespace Services.Impls
             return (await repositoryAnuncio.FindAllAsync(a => a.GroupId == GrupoId)).AsEnumerable();
         }
 
-        private IEnumerable<FormAnuncio> GetData(string[] links)
+        private IEnumerable<FormUpdateAnuncio> GetData(string[] links)
         {
             List<Task<string>> body = new List<Task<string>>();
             foreach (string st in links)
@@ -121,14 +121,14 @@ namespace Services.Impls
                 _log.LogError(ex.ToExceptionString());
             }
 
-            List<FormAnuncio> ans = new List<FormAnuncio>();
+            List<FormUpdateAnuncio> ans = new List<FormUpdateAnuncio>();
 
             int len = links.Length;
             for (int i = 0; i < len; i++)
             {
                 try
                 {
-                    FormAnuncio formAnuncio = ParseFormAnuncio(body[i].Result);
+                    FormUpdateAnuncio formAnuncio = ParseFormAnuncio(body[i].Result);
                     ans.Add(formAnuncio);
                 }
                 catch (Exception) { ans.Add(null); }
@@ -193,55 +193,68 @@ namespace Services.Impls
             await DeleteAsync(anuncios);
         }
 
-        public async Task ReInsert(string url, string Key2Captcha)
+        public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha)
         {
-            await StartProcess(url, Key2Captcha, true);
-        }
-
-        private async Task StartProcess(string _uri, string key2captcha, bool v2)
-        {
+            ReinsertResult result;
             try
             {
-                string htmlAnuncio = await Requests.GetAsync(_uri);
-                GetException(htmlAnuncio, _uri, false);
+                string htmlAnuncio = await Requests.GetAsync(anuncio.Url);
+                GetException(htmlAnuncio, anuncio.Url, false);
 
-                FormAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+                FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
 
-                CaptchaAnswer captchaResponse = await ResolveCaptcha(key2captcha, _uri, htmlAnuncio);
-
+                CaptchaAnswer captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
-                string jsonForm = $"[{JsonConvert.SerializeObject(formAnuncio)}]";
 
-                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+                FormInsertAnuncio formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
+                string answer = await FormInsertAnuncio(formInsertAnuncio);
 
-                GetException(answer, _uri, true, captchaResponse);
-                //_captchaSolver.set_captcha_good(captchaResponse.Id);
+                GetException(answer, anuncio.Url, true, captchaResponse);
+
+                FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
+                await DeleteFromRevolico(formDeleteAnuncio);
+
+                InsertResult insertResult = ParseInsertResult(answer);
+                UpdateAuncioUrl(insertResult, anuncio);
+
+                result = new ReinsertResult(anuncio);
             }
-            catch (BadCaptchaException ex)
+            catch(Exception ex)
             {
-                throw ex;
+                result = new ReinsertResult(anuncio, ex);
             }
-            catch (BanedException ex)
-            {
-                throw ex;
-            }
-            catch (WebException ex)
-            {
-                throw ex;
-            }
-            catch (GeneralException ex)
-            {
-                ex.uri = _uri;
-                throw ex;
-            }
-            catch (AnuncioEliminadoException ex)
-            {
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, _uri);
-            }
+            return result;
+        }
+
+        private async Task<string> FormInsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        {
+            string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
+
+            return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+        }
+
+        private void UpdateAuncioUrl(InsertResult insertResult, Anuncio anuncio)
+        {
+            anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
+        }
+
+        private InsertResult ParseInsertResult(string answer)
+        {
+            int posIni = answer.IndexOf("id\":\"") + "id\":\"".Length;
+            int posNex = answer.IndexOf("\"", posIni);
+            string Id = answer.Substring(posIni, posNex - posIni);
+
+            posIni = answer.IndexOf("token\":\"") + "token\":\"".Length;
+            posNex = answer.IndexOf("\"", posIni);
+            string Token = answer.Substring(posIni, posNex - posIni);
+            return new InsertResult(Id, Token);
+        }
+
+        public async Task<string> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
+        {
+            string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+
+            return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
         }
 
         private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
@@ -278,11 +291,11 @@ namespace Services.Impls
             throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
         }
 
-        public FormAnuncio ParseFormAnuncio(string htmlAnuncio)
+        public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)
         {
             try
             {
-                FormAnuncio formAnuncio = new FormAnuncio();
+                FormUpdateAnuncio formAnuncio = new FormUpdateAnuncio();
                 HtmlDocument doc = new HtmlDocument();
 
                 // Load the html from a string
@@ -354,26 +367,26 @@ namespace Services.Impls
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
                 string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
-                throw new BadCaptchaException(ans, _uri);
+                throw new BaseException("Bad Captcha", "Bad Captcha " + ans);
             }
             else if (answer.Contains("Cloudflare to restrict access"))
             {
-                throw new BanedException("First Attempt", _uri);
+                throw new BaseException(string.Empty, "Baned CloudFlare");
             }
             else if (answer.Contains("Attention Required! | Cloudflare"))
             {
-                throw new BanedException("api.revolico ask for Captcha", _uri);
+                throw new BaseException(string.Empty, "api.revolico ask for Captcha");
             }
             else if (answer.Contains("Has eliminado este anuncio."))
             {
-                throw new AnuncioEliminadoException("Deteccion Anuncio Eliminado", _uri);
+                throw new BaseException(string.Empty, "Deteccion Anuncio Eliminado");
             }
             else if (ff && (
                      !answer.Contains("\"status\":200") ||
                      !answer.Contains("\"errors\":null") ||
-                     !answer.Contains("updateAdWithoutUser")))
+                     !answer.Contains("createAdWithoutUser")))
             {
-                throw new GeneralException("Non updated | " + answer, _uri);
+                throw new BaseException(string.Empty, "Non updated " + answer);
             }
         }
 
@@ -390,9 +403,13 @@ namespace Services.Impls
             return content.Substring(posIni, posEnd - posIni);
         }
 
-        Task<ReinsertResult> IAnuncioService.ReInsert(string url, string Key2Captcha)
+        public async Task Update(List<Anuncio> anunciosProcesados)
         {
-            throw new NotImplementedException();
+            foreach(Anuncio a in anunciosProcesados)
+            {
+                await repositoryAnuncio.UpdateAsync(a, a.Id);
+            }
+            await repositoryAnuncio.SaveChangesAsync();
         }
     }
 }
