@@ -74,9 +74,7 @@ namespace Republish
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
-            services.AddHostedService<ShortQueueTimer>();
-            services.AddHostedService<LongQueueTimer>();
-
+            
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -97,7 +95,6 @@ namespace Republish
             services.AddTransient<IClienteOpcionesService, ClienteOpcionesService>();
             services.AddTransient<IEstadisticaAdminService, EstadisticaAdminService>();
             services.AddTransient<IAgentService, AgentService>();
-            services.AddScoped<IQueuesUnitOfWork, QueuesUnitOfWork>();
             services.AddScoped<INotificationsService, NotificationsService>();
             services.AddScoped<IValidationService, ValidationService>();
 
