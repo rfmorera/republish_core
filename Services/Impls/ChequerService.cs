@@ -95,25 +95,26 @@ namespace Services.Impls
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
                     {
-                        reinsertTask.Add(_anuncioService.ReInsert(an.Url, captchaKeys[idx].Key));
+                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idx].Key));
                         idx = (idx + 1) % lenCaptchas;
                     }
 
                     await Task.WhenAll(reinsertTask);
 
-                    List<string> anunciosEliminados = new List<string>(), anunciosProcesados = new List<string>();
+                    List<string> anunciosEliminados = new List<string>();
+                    List<Anuncio> anunciosProcesados = new List<Anuncio>();
                     foreach (Task<ReinsertResult> taskResult in reinsertTask)
                     {
                         ReinsertResult result = taskResult.Result;
                         if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
-                            anunciosProcesados.Add(result.Anuncio.Url);
+                            anunciosProcesados.Add(result.Anuncio);
                         }
                         else
                         {
                             if (result.HasException)
                             {
-                                _log.LogWarning($"{result.Exception.Title}: {result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTraceIfNeeded}");
+                                _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
                             if (result.IsDeleted)
                             {
@@ -124,14 +125,14 @@ namespace Services.Impls
                     }
 
                     await _anuncioService.NotifyDelete(anunciosEliminados);
+                    await _anuncioService.Update(anunciosProcesados);
 
                     int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
                     double pctVerify = 100.0 * verifyPub / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
                 }
