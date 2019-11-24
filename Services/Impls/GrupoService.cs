@@ -102,7 +102,7 @@ namespace Services.Impls
         /// <returns></returns>
         public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
         {
-            if(Etapa == 0)
+            if (Etapa == 0)
             {
                 return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable)).Select(a => a);
             }

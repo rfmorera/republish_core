@@ -15,9 +15,11 @@ namespace Republish.Data
         {
         }
 
+        public DbSet<Anuncio> Anuncio { get; set; }
         public DbSet<Cuenta> Cuenta { get; set; }
         public DbSet<Grupo> Grupo { get; set; }
         public DbSet<Notificacion> Notificacion { get; set; }
+        public DbSet<ShortQueue> ShortQueue { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

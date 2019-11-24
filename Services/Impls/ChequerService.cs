@@ -25,6 +25,7 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
+        private readonly IRepository<ShortQueue> _queueRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
@@ -38,6 +39,7 @@ namespace Services.Impls
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
+            _queueRepository = new Repository<ShortQueue>(context);
             _grupoService = grupoService;
             _log = log;
             _captchaService = captchaService;
@@ -53,6 +55,7 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+                DateTime UtcCubaMinus3 = UtcCuba.AddMinutes(-2);
                 IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
                 
                 List<Task<IEnumerable<Anuncio>>> getAnunciosTasks = new List<Task<IEnumerable<Anuncio>>>();
@@ -83,6 +86,16 @@ namespace Services.Impls
                         registros.Add(reg);
                     }
                 }
+
+                IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
+                                                                where q.Created >= UtcCubaMinus3
+                                                                join a in _context.Anuncio on q.Url equals a.Url
+                                                                select a).ToListAsync();
+
+                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created >= UtcCubaMinus3));
+                await _queueRepository.SaveChangesAsync();
+
+                listAnuncios.AddRange(anunciosFromQueue);
 
                 if (listAnuncios.Any())
                 {
@@ -120,10 +133,11 @@ namespace Services.Impls
                             {
                                 anunciosEliminados.Add(result.Anuncio.Id);
                             }
-                            // Add to requeue
+                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = DateTime.Now.ToUtcCuba()});
                         }
                     }
 
+                    await _queueRepository.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
 
