@@ -250,11 +250,20 @@ namespace Services.Impls
             return new InsertResult(Id, Token);
         }
 
-        public async Task<string> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
+        public async Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
         {
-            string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+            for(int i = 0; i < 4; i++)
+            {
+                string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+                if (answer.Contains("Tu anuncio ha sido eliminado satisfactoriamente."))
+                {
+                    return true;
+                }
+                await Task.Delay(TimeSpan.FromSeconds(20));
+            }
 
-            return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+            return false;
         }
 
         private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
