@@ -33,9 +33,10 @@ namespace Services.Impls
         private readonly IManejadorFinancieroService _financieroService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IValidationService _validationService;
+        private readonly IEmailRandomService _emailRandomService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
@@ -48,6 +49,7 @@ namespace Services.Impls
             _financieroService = financieroService;
             _temporizadorService = temporizadorService;
             _validationService = validationService;
+            _emailRandomService = emailRandomService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -104,12 +106,16 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
-                    int idx = 0, lenCaptchas = captchaKeys.Count;
+                    List<Emails> randomEmails = (await _emailRandomService.GetList()).ToList();
+
+                    int idxCaptcha = 0, 
+                        idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
+                        lenCaptchas = captchaKeys.Count;
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
                     {
-                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idx].Key));
-                        idx = (idx + 1) % lenCaptchas;
+                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
+                        idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
                     }
 
                     await Task.WhenAll(reinsertTask);

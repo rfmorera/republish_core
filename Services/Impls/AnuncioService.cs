@@ -193,7 +193,7 @@ namespace Services.Impls
             await DeleteAsync(anuncios);
         }
 
-        public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha)
+        public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
         {
             ReinsertResult result;
             try
@@ -202,6 +202,7 @@ namespace Services.Impls
                 GetException(htmlAnuncio, anuncio.Url, false);
 
                 FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+                formAnuncio.variables.email = email;
 
                 CaptchaAnswer captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
