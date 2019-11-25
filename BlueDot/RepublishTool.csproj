@@ -4,14 +4,17 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.2</LangVersion>
     <UserSecretsId>cea6a88d-c207-4c3f-b0e5-eb17690ff524</UserSecretsId>
-    <StartupObject>Republish.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Interfaces\**" />
+    <Compile Remove="PasswordMigrationTool\**" />
     <Content Remove="Interfaces\**" />
+    <Content Remove="PasswordMigrationTool\**" />
     <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="PasswordMigrationTool\**" />
     <None Remove="Interfaces\**" />
+    <None Remove="PasswordMigrationTool\**" />
   </ItemGroup>
 
   <ItemGroup>
