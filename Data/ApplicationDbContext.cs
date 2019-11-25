@@ -101,6 +101,11 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
             });
+
+            builder.Entity<Emails>(entity =>
+            {
+                entity.HasKey("Id");
+            });
         }
     }
 }
