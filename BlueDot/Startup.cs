@@ -97,6 +97,7 @@ namespace Republish
             services.AddTransient<IAgentService, AgentService>();
             services.AddScoped<INotificationsService, NotificationsService>();
             services.AddScoped<IValidationService, ValidationService>();
+            services.AddScoped<IEmailRandomService, EmailRandomService>();
 
             services.AddAuthorization(options =>
             {
