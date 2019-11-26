@@ -90,11 +90,11 @@ namespace Services.Impls
                 }
 
                 IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
-                                                                where q.Created >= UtcCubaMinus3
+                                                                where q.Created <= UtcCubaMinus3
                                                                 join a in _context.Anuncio on q.Url equals a.Url
                                                                 select a).ToListAsync();
 
-                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created >= UtcCubaMinus3));
+                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created <= UtcCubaMinus3));
                 await _queueRepository.SaveChangesAsync();
 
                 listAnuncios.AddRange(anunciosFromQueue);
@@ -110,12 +110,19 @@ namespace Services.Impls
 
                     int idxCaptcha = 0, 
                         idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
-                        lenCaptchas = captchaKeys.Count;
+                        lenCaptchas = captchaKeys.Count,
+                        cntAnuncios = 0;
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
                     {
+                        cntAnuncios++;
                         reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
                         idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
+                        if(cntAnuncios == 30)
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(30));
+                            cntAnuncios = 0;
+                        }
                     }
 
                     await Task.WhenAll(reinsertTask);
@@ -131,15 +138,21 @@ namespace Services.Impls
                         }
                         else
                         {
+                            DateTime dateTime = DateTime.Now.ToUtcCuba();
                             if (result.HasException)
                             {
                                 _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
+                            if(result.Exception.Message.Contains("Non updated error code: 1015"))
+                            {
+                                dateTime = dateTime.AddMinutes(2);
+                            }
                             if (result.IsDeleted)
                             {
                                 anunciosEliminados.Add(result.Anuncio.Id);
+                                continue;
                             }
-                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = DateTime.Now.ToUtcCuba()});
+                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = dateTime});
                         }
                     }
 
