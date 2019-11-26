@@ -99,6 +99,7 @@ namespace Services.Impls
 
                 listAnuncios.AddRange(anunciosFromQueue);
 
+                listAnuncios = listAnuncios.GroupBy(a => a.GetUriId).Select(b => b.First()).ToList();
                 if (listAnuncios.Any())
                 {
                     await _registroService.AddRegistros(registros);
