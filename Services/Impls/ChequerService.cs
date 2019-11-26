@@ -172,6 +172,7 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
+            _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
             await repositoryTemporizador.SaveChangesAsync();
         }
     }
