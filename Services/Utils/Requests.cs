@@ -24,6 +24,8 @@ namespace Services.Utils
         };
 
         public static string RevolicoBaseUrl = "https://www.revolico.com/";
+        public static string RevolicoInserrUrl = $"{RevolicoBaseUrl}{"insertar-anuncio.html"}";
+        public static string RevolicoModifyUrl = $"{RevolicoBaseUrl}{"modificar-anuncio.html"}";
         public static string apiRevolico = "https://api.revolico.com/graphql/";
 
         /// <summary>

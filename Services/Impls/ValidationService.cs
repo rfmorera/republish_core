@@ -68,7 +68,7 @@ namespace Services.Impls
             try
             {
                 string anuncioContent = await Requests.GetAsync(anuncio.Url);
-                FormAnuncio formAnuncio = null;
+                FormUpdateAnuncio formAnuncio = null;
                 for(int i = 0; i < 5; i++)
                 {
                     try

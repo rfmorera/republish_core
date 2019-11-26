@@ -148,6 +148,8 @@ namespace Services.Impls
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
 
+            await repositoryTemporizador.SaveChangesAsync();
+
             return list;
         }
     }

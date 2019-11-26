@@ -1,5 +1,4 @@
-﻿
-using Models;
+﻿using Models;
 using Republish.Data;
 using Republish.Data.Repositories;
 using Republish.Data.RepositoriesInterfaces;
@@ -18,6 +17,7 @@ using Republish.Extensions;
 using Services.Exceptions;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using System.Net;
+using Services.Results;
 
 namespace Services.Impls
 {
@@ -25,7 +25,7 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
-        private readonly IQueuesUnitOfWork _queuesUnit;
+        private readonly IRepository<ShortQueue> _queueRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
@@ -33,13 +33,14 @@ namespace Services.Impls
         private readonly IManejadorFinancieroService _financieroService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IValidationService _validationService;
+        private readonly IEmailRandomService _emailRandomService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, IQueuesUnitOfWork queuesUnit, ITemporizadorService temporizadorService, IValidationService validationService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
-            _queuesUnit = queuesUnit;
+            _queueRepository = new Repository<ShortQueue>(context);
             _grupoService = grupoService;
             _log = log;
             _captchaService = captchaService;
@@ -48,6 +49,7 @@ namespace Services.Impls
             _financieroService = financieroService;
             _temporizadorService = temporizadorService;
             _validationService = validationService;
+            _emailRandomService = emailRandomService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -55,39 +57,47 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+                DateTime UtcCubaMinus3 = UtcCuba.AddMinutes(-2);
                 IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
-
-                List<Task<IEnumerable<AnuncioDTO>>> selectTasks = new List<Task<IEnumerable<AnuncioDTO>>>();
+                
+                List<Task<IEnumerable<Anuncio>>> getAnunciosTasks = new List<Task<IEnumerable<Anuncio>>>();
 
                 foreach (Temporizador t in list)
                 {
-                    selectTasks.Add(_grupoService.SelectAnuncios(t.GrupoId, t.Etapa, ""));
+                    getAnunciosTasks.Add(_grupoService.GetAnunciosToUpdate(t.GrupoId, t.Etapa));
                 }
 
-                await Task.WhenAll(selectTasks);
-                await repositoryTemporizador.SaveChangesAsync();
-
-                List<AnuncioDTO> listAnuncios = new List<AnuncioDTO>();
-
-                int len = selectTasks.Count;
+                await Task.WhenAll(getAnunciosTasks);
+                
+                List<Anuncio> listAnuncios = new List<Anuncio>();
+                int len = getAnunciosTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
                 double costo;
                 for (int i = 0; i < len; i++)
                 {
-                    Task<IEnumerable<AnuncioDTO>> item = selectTasks[i];
+                    Task<IEnumerable<Anuncio>> item = getAnunciosTasks[i];
                     Temporizador temp = list.ElementAt(i);
                     if (item.IsCompletedSuccessfully && item.Result.Any())
                     {
                         listAnuncios.AddRange(item.Result);
-                        _context.Entry(temp).Reference(s => s.Grupo).Load();
 
-                        costo = await _financieroService.CostoAnuncio(temp.Grupo.UserId);
+                        costo = await _financieroService.CostoAnuncio(temp.UserId);
                         int CapResueltos = item.Result.Count();
 
-                        Registro reg = new Registro(temp.Grupo.UserId, CapResueltos, UtcCuba, costo);
+                        Registro reg = new Registro(temp.UserId, CapResueltos, UtcCuba, costo);
                         registros.Add(reg);
                     }
                 }
+
+                IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
+                                                                where q.Created >= UtcCubaMinus3
+                                                                join a in _context.Anuncio on q.Url equals a.Url
+                                                                select a).ToListAsync();
+
+                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created >= UtcCubaMinus3));
+                await _queueRepository.SaveChangesAsync();
+
+                listAnuncios.AddRange(anunciosFromQueue);
 
                 if (listAnuncios.Any())
                 {
@@ -96,78 +106,53 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
-                    int idx = 0, lenCaptchas = captchaKeys.Count;
-                    List<Task> tasksList = new List<Task>();
-                    foreach (AnuncioDTO an in listAnuncios)
+                    List<Emails> randomEmails = (await _emailRandomService.GetList()).ToList();
+
+                    int idxCaptcha = 0, 
+                        idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
+                        lenCaptchas = captchaKeys.Count;
+                    List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
+                    foreach (Anuncio an in listAnuncios)
                     {
-                        tasksList.Add(_anuncioService.Publish(an.Url, captchaKeys[idx].Key));
-                        idx = (idx + 1) % lenCaptchas;
+                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
+                        idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
                     }
 
-                    int cnt = 0;
-                    List<string> anunciosProcesados = new List<string>();
-                    try
+                    await Task.WhenAll(reinsertTask);
+
+                    List<string> anunciosEliminados = new List<string>();
+                    List<Anuncio> anunciosProcesados = new List<Anuncio>();
+                    foreach (Task<ReinsertResult> taskResult in reinsertTask)
                     {
-                        Task.WaitAll(tasksList.ToArray());
-                    }
-                    catch (AggregateException exs)
-                    {
-                        List<string> anunciosEliminados = new List<string>();
-                        foreach (Exception exModel in exs.InnerExceptions)
+                        ReinsertResult result = taskResult.Result;
+                        if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
-                            cnt++;
-                            if (exModel is BadCaptchaException)
-                            {
-                                BadCaptchaException ex = (BadCaptchaException)exModel;
-                                _log.LogWarning($"Bad Captcha: {ex.uri} | {ex.Message}");
-                                anunciosProcesados.Add(ex.uri);
-                                await _queuesUnit.Short.AddAsync(new ShortQueue() { Url = ex.uri, Created = UtcCuba });
-                            }
-                            else if (exModel is BanedException)
-                            {
-                                BanedException ex = (BanedException)exModel;
-                                _log.LogWarning($"Baned Page: {ex.uri} | {ex.Message}");
-                                anunciosProcesados.Add(ex.uri);
-                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
-                            }
-                            else if (exModel is GeneralException)
-                            {
-                                GeneralException ex = (GeneralException)exModel;
-                                _log.LogWarning($"General Error: {ex.uri} | {ex.Message} | {ex.StackTrace}");
-                                anunciosProcesados.Add(ex.uri);
-                                await _queuesUnit.Long.AddAsync(new LongQueue() { Url = ex.uri, Created = UtcCuba });
-                            }
-                            else if (exModel is WebException)
-                            {
-                                WebException ex = (WebException)exModel;
-                                _log.LogWarning($"Web Exception: {ex.Message} |\n {ex.Status} |\n {ex.Response} |\n {ex.StackTrace} |\n");
-                            }
-                            else if (exModel is AnuncioEliminadoException)
-                            {
-                                AnuncioEliminadoException ex = (AnuncioEliminadoException)exModel;
-                                _log.LogWarning($"Anuncio Eliminado Error: {ex.Uri}");
-                                anunciosProcesados.Add(ex.Uri);
-                                anunciosEliminados.Add(ex.Uri);
-                            }
-                            else
-                            {
-                                Exception ex = exModel;
-                                _log.LogWarning($"Unkown Error: {ex.Message} | {ex.StackTrace}");
-                            }
+                            anunciosProcesados.Add(result.Anuncio);
                         }
-                        await _anuncioService.NotifyDelete(anunciosEliminados);
-                        await _queuesUnit.SaveChangesAsync();
+                        else
+                        {
+                            if (result.HasException)
+                            {
+                                _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
+                            }
+                            if (result.IsDeleted)
+                            {
+                                anunciosEliminados.Add(result.Anuncio.Id);
+                            }
+                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = DateTime.Now.ToUtcCuba()});
+                        }
                     }
 
+                    await _queueRepository.SaveChangesAsync();
+                    await _anuncioService.NotifyDelete(anunciosEliminados);
+                    await _anuncioService.Update(anunciosProcesados);
+
+                    int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
-                    int anunciosOk = totalAnuncios - cnt;
-                    double pct = 100.0 * anunciosOk / totalAnuncios;
+                    double pct = 100.0 * totalProcesados / totalAnuncios;
+                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", anunciosOk, totalAnuncios, pct));
-
-                    listAnuncios = listAnuncios.Where(a => !anunciosProcesados.Contains(a.Url)).ToList();
-                    totalAnuncios = listAnuncios.Count;
-                    int verifyPub = await _validationService.VerifyPublication(listAnuncios.Select(a => a.Url).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
                     double pctVerify = 100.0 * verifyPub / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
                 }

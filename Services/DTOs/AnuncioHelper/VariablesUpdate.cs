@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Services.DTOs.AnuncioHelper
 {
-    public class Variables
+    public class VariablesUpdate
     {
         public string token { get; set; }
         public string id { get; set; }

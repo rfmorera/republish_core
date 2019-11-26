@@ -1,5 +1,6 @@
 ﻿using Models;
 using Services.DTOs.AnuncioHelper;
+using Services.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,10 @@ namespace Services
 
         Task NotifyDelete(List<string> list);
 
-        Task Publish(string url, string Key2Captcha);
-        FormAnuncio ParseFormAnuncio(string htmlAnuncio);
+        Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email);
+        Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio);
+        Task Update(List<Anuncio> anunciosProcesados);
+
+        FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio);
     }
 }

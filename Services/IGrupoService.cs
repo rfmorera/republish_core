@@ -14,9 +14,6 @@ namespace Services
         Task DeleteAsync(string Id);
 
         Task<Grupo> UpdateAsync(Grupo grupo);
-
-        Task<IEnumerable<AnuncioDTO>> SelectAnuncios(string Id, int Etapa, string t);
-        
         Task<GrupoDetailsDTO> DetailsAsync(string Id);
 
         Task<IEnumerable<GrupoIndexDTO>> GetAllAsync(string UserId);
@@ -24,5 +21,6 @@ namespace Services
         Task<Grupo> GetAsync(string GrupoId);
 
         Task<Grupo> ToogleEnable(string Id);
+        Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa);
     }
 }
