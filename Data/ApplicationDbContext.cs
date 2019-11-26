@@ -106,6 +106,11 @@ namespace Republish.Data
             {
                 entity.HasKey("Id");
             });
+
+            builder.Entity<RemoveQueue>(entity =>
+            {
+                entity.HasKey("Id");
+            });
         }
     }
 }

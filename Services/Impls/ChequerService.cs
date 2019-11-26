@@ -144,9 +144,13 @@ namespace Services.Impls
                             {
                                 _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
-                            if(result.Exception.Message.Contains("Non updated error code: 1015"))
+                            if (result.Exception.Message.Contains("Non updated error code: 1015"))
                             {
                                 dateTime = dateTime.AddMinutes(2);
+                            }
+                            if(result.Exception.Message.Contains("Error Removing from Revolico"))
+                            {
+                                anunciosProcesados.Add(result.Anuncio);
                             }
                             if (result.IsDeleted)
                             {

@@ -212,11 +212,11 @@ namespace Services.Impls
 
                 GetException(answer, anuncio.Url, true, captchaResponse);
 
-                FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
-                await DeleteFromRevolico(formDeleteAnuncio);
-
                 InsertResult insertResult = ParseInsertResult(answer);
                 UpdateAuncioUrl(insertResult, anuncio);
+
+                FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
+                await DeleteFromRevolico(formDeleteAnuncio);
 
                 result = new ReinsertResult(anuncio);
             }
@@ -253,7 +253,7 @@ namespace Services.Impls
 
         public async Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
         {
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < 6; i++)
             {
                 string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
                 string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
@@ -264,7 +264,7 @@ namespace Services.Impls
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
 
-            return false;
+            throw new Exception("Error Removing from Revolico");
         }
 
         private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
