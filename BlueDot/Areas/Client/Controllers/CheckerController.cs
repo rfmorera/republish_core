@@ -14,12 +14,10 @@ namespace RepublishTool.Areas.Client.Controllers
     public class CheckerController : Controller
     {
         private readonly IChequerService _chequerService;
-        private readonly IShortQueueService _shortQueueService;
         
-        public CheckerController(IChequerService chequerService, IShortQueueService shortQueueService)
+        public CheckerController(IChequerService chequerService)
         {
             _chequerService = chequerService;
-            _shortQueueService = shortQueueService;
         }
         
         public async Task<IActionResult> Check()
