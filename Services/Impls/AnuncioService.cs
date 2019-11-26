@@ -318,7 +318,7 @@ namespace Services.Impls
                 formAnuncio.variables.price = price;
                 
                 tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
-                formAnuncio.variables.title = tmp.Attributes["value"].Value;
+                formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.Attributes["value"].Value);
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
                 // Decode the encoded string.
