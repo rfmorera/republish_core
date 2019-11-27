@@ -23,9 +23,9 @@ namespace Services.Impls
             await UserManager.GetTwoFactorEnabledAsync(user) &&
             (await UserManager.GetValidTwoFactorProvidersAsync(user)).Count > 0;
 
-        public override Task SignInAsync(IdentityUser user, bool isPersistent, string authenticationMethod = null)
+        public Task SignInAsync(IdentityUser user)
         {
-            return base.SignInAsync(user, isPersistent, authenticationMethod);
+            return base.SignInAsync(user, false);
         }
 
         public async Task<SignInResult> SignInAsync(IdentityUser user, bool isPersistent)
