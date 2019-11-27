@@ -131,9 +131,12 @@ namespace Services.Impls
                     await Task.WhenAll(reinsertTask);
 
                     List<string> anunciosEliminados = new List<string>();
-                    List<Anuncio> anunciosProcesados = new List<Anuncio>();
-                    foreach (Task<ReinsertResult> taskResult in reinsertTask)
+                    List<Anuncio> anunciosProcesados = new List<Anuncio>(),
+                                  anunciosExceptions = new List<Anuncio>();
+                    len = reinsertTask.Count;
+                    for (int i = 0; i < len; i++)
                     {
+                        Task<ReinsertResult> taskResult = reinsertTask[i];
                         ReinsertResult result = taskResult.Result;
                         if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
@@ -146,21 +149,27 @@ namespace Services.Impls
                             {
                                 _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
+
                             if (result.IsBaned)
                             {
                                 dateTime = dateTime.AddMinutes(2);
                             }
+
                             if(result.NonRemoved)
                             {
                                 int pos = result.Exception.Message.IndexOf("https");
                                 string url = result.Exception.Message.Substring(pos);
                                 await _removeRepository.AddAsync(new RemoveQueue() { Url = url});
+                                anunciosExceptions.Add(result.Anuncio);
+                                dateTime = dateTime.AddMinutes(2);
                             }
+
                             if (result.IsDeleted)
                             {
                                 anunciosEliminados.Add(result.Anuncio.Id);
                                 continue;
                             }
+
                             await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = dateTime});
                         }
                     }
@@ -169,6 +178,7 @@ namespace Services.Impls
                     await _removeRepository.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
+                    await _anuncioService.Update(anunciosExceptions);
 
                     int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
