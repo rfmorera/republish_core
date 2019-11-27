@@ -23,6 +23,11 @@ namespace Services.Impls
             await UserManager.GetTwoFactorEnabledAsync(user) &&
             (await UserManager.GetValidTwoFactorProvidersAsync(user)).Count > 0;
 
+        public override Task SignInAsync(IdentityUser user, bool isPersistent, string authenticationMethod = null)
+        {
+            return base.SignInAsync(user, isPersistent, authenticationMethod);
+        }
+
         public async Task<SignInResult> SignInAsync(IdentityUser user, bool isPersistent)
         {
             string userName = user.UserName;
