@@ -196,26 +196,38 @@ namespace Services.Impls
         public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
         {
             ReinsertResult result;
+            CaptchaAnswer captchaResponse;
+            FormInsertAnuncio formInsertAnuncio;
+            FormDeleteAnuncio formDeleteAnuncio;
             try
             {
+                // Get Anuncio
                 string htmlAnuncio = await Requests.GetAsync(anuncio.Url);
                 GetException(htmlAnuncio, anuncio.Url, false);
 
+                // Parse All Data
                 FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
                 formAnuncio.variables.email = email;
 
-                CaptchaAnswer captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
+                //Solve Captcha
+                captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
 
-                FormInsertAnuncio formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
-                string answer = await FormInsertAnuncio(formInsertAnuncio);
+                // Parse Insert and Delete Forms
+                formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
+                formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
 
+                // Insert new Announce
+                string answer = await InsertAnuncio(formInsertAnuncio);
+
+                // Verify Insertion
                 GetException(answer, anuncio.Url, true, captchaResponse);
 
+                // Update new Anuncio URL
                 InsertResult insertResult = ParseInsertResult(answer);
-                UpdateAuncioUrl(insertResult, anuncio);
+                anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
 
-                FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
+                // Delete from Revolico
                 await DeleteFromRevolico(formDeleteAnuncio);
 
                 result = new ReinsertResult(anuncio);
@@ -224,19 +236,15 @@ namespace Services.Impls
             {
                 result = new ReinsertResult(anuncio, ex);
             }
+
             return result;
         }
 
-        private async Task<string> FormInsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        private async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
             string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
             return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
-        }
-
-        private void UpdateAuncioUrl(InsertResult insertResult, Anuncio anuncio)
-        {
-            anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
         }
 
         private InsertResult ParseInsertResult(string answer)
@@ -263,19 +271,29 @@ namespace Services.Impls
 
         public async Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
         {
-            for(int i = 0; i < 6; i++)
+            string Url;
+            try
             {
-                string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
-                string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
-                if (answer.Contains("\"status\":200") ||
-                     answer.Contains("\"errors\":null") ||
-                     answer.Contains("DeleteAdWithoutUserMutationPayload"))
+                for (int i = 0; i < 6; i++)
                 {
-                    return true;
+                    string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+                    string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+                    if (answer.Contains("\"status\":200") ||
+                         answer.Contains("\"errors\":null") ||
+                         answer.Contains("DeleteAdWithoutUserMutationPayload"))
+                    {
+                        return true;
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(20));
                 }
-                await Task.Delay(TimeSpan.FromSeconds(20));
             }
-            string Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
+            catch(Exception)
+            {
+                Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
+                throw new Exception("Error Removing from Revolico " + Url);
+            }
+
+            Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
             throw new Exception("Error Removing from Revolico " + Url);
         }
 
