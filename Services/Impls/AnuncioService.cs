@@ -267,7 +267,9 @@ namespace Services.Impls
             {
                 string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
                 string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
-                if (answer.Contains("Tu anuncio ha sido eliminado satisfactoriamente."))
+                if (answer.Contains("\"status\":200") ||
+                     answer.Contains("\"errors\":null") ||
+                     answer.Contains("DeleteAdWithoutUserMutationPayload"))
                 {
                     return true;
                 }
