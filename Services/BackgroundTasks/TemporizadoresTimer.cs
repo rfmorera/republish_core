@@ -28,7 +28,7 @@ namespace Services.BackgroundTasks
             _logger.LogInformation(
                 "Check Temporizadores  is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(15), TimeSpan.FromMinutes(1));
 
             return Task.CompletedTask;
         }
