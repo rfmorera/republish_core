@@ -173,7 +173,7 @@ namespace Services.Impls
             }
 
             IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
-                                                                    .Where(a => list.Contains(a.Url))
+                                                                    .Where(a => list.Contains(a.Id))
                                                                     .Include(a => a.Grupo)
                                                                     .ToListAsync();
             List<Notificacion> notificacions = new List<Notificacion>();
