@@ -251,6 +251,16 @@ namespace Services.Impls
             return new InsertResult(Id, Token);
         }
 
+        public async Task<bool> DeleteFromRevolico(string url)
+        {
+            string htmlAnuncio = await Requests.GetAsync(url);
+            FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+
+            FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
+
+            return await DeleteFromRevolico(formDeleteAnuncio);
+        }
+
         public async Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
         {
             for(int i = 0; i < 6; i++)
@@ -263,8 +273,8 @@ namespace Services.Impls
                 }
                 await Task.Delay(TimeSpan.FromSeconds(20));
             }
-
-            throw new Exception("Error Removing from Revolico");
+            string Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
+            throw new Exception("Error Removing from Revolico " + Url);
         }
 
         private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)

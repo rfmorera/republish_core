@@ -26,6 +26,7 @@ namespace Services.Impls
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
         private readonly IRepository<ShortQueue> _queueRepository;
+        private readonly IRepository<RemoveQueue> _removeRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
@@ -41,6 +42,7 @@ namespace Services.Impls
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
             _queueRepository = new Repository<ShortQueue>(context);
+            _removeRepository = new Repository<RemoveQueue>(context);
             _grupoService = grupoService;
             _log = log;
             _captchaService = captchaService;
@@ -150,7 +152,9 @@ namespace Services.Impls
                             }
                             if(result.Exception.Message.Contains("Error Removing from Revolico"))
                             {
-                                anunciosProcesados.Add(result.Anuncio);
+                                int pos = result.Exception.Message.IndexOf("https");
+                                string url = result.Exception.Message.Substring(pos);
+                                await _removeRepository.AddAsync(new RemoveQueue() { Url = url});
                             }
                             if (result.IsDeleted)
                             {
@@ -162,6 +166,7 @@ namespace Services.Impls
                     }
 
                     await _queueRepository.SaveChangesAsync();
+                    await _removeRepository.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
 
@@ -171,8 +176,8 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
                     int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
-                    double pctVerify = 100.0 * verifyPub / totalAnuncios;
-                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
+                    double pctVerify = 100.0 * verifyPub / totalProcesados;
+                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
             }
             catch (Exception ex)
@@ -192,6 +197,31 @@ namespace Services.Impls
             }
             _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
             await repositoryTemporizador.SaveChangesAsync();
+        }
+
+        public async Task ResetRemoveQueue()
+        {
+            List<RemoveQueue> list = _removeRepository.QueryAll().ToList();
+            List<string> urlList = list.Select(e => e.Url).ToList();
+            _removeRepository.RemoveRange(list);
+            await _removeRepository.SaveChangesAsync();
+
+            List<Task<bool>> tasks = new List<Task<bool>>();
+            foreach (string t in urlList)
+            {
+                tasks.Add(_anuncioService.DeleteFromRevolico(t));
+            }
+            Task.WaitAll(tasks.ToArray());
+
+            int len = list.Count;
+            for(int i = 0; i < len; i++)
+            {
+                if(tasks[i].IsFaulted)
+                {
+                    await _removeRepository.AddAsync(new RemoveQueue() { Url = urlList[i] });
+                }
+            }
+            await _removeRepository.SaveChangesAsync();
         }
     }
 }

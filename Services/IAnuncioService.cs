@@ -24,6 +24,7 @@ namespace Services
 
         Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email);
         Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio);
+        Task<bool> DeleteFromRevolico(string url);
         Task Update(List<Anuncio> anunciosProcesados);
 
         FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio);
