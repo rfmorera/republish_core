@@ -187,7 +187,8 @@ namespace Republish.Areas.Identity.Pages.Account
                 {
                     UserName = (string)TempData.Peek("UserName");
                     IdentityUser identityUser = await _userManager.FindByNameAsync(UserName);
-                    result = await _signInManager.SignInAsync(identityUser, false);
+                    await _signInManager.SignInAsync(identityUser);
+                    result = Microsoft.AspNetCore.Identity.SignInResult.Success;
                     await UrlRedirect(UserName);
                 }
                 else if (user == null)

@@ -25,7 +25,7 @@ namespace Services.Impls
 
         public Task SignInAsync(IdentityUser user)
         {
-            return base.SignInAsync(user, false);
+            return base.SignInAsync(user, true);
         }
 
         public async Task<SignInResult> SignInAsync(IdentityUser user, bool isPersistent)
