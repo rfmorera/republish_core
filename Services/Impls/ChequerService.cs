@@ -146,11 +146,11 @@ namespace Services.Impls
                             {
                                 _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
-                            if (result.Exception.Message.Contains("Non updated error code: 1015"))
+                            if (result.IsBaned)
                             {
                                 dateTime = dateTime.AddMinutes(2);
                             }
-                            if(result.Exception.Message.Contains("Error Removing from Revolico"))
+                            if(result.NonRemoved)
                             {
                                 int pos = result.Exception.Message.IndexOf("https");
                                 string url = result.Exception.Message.Substring(pos);

@@ -18,7 +18,19 @@ namespace Services.Results
         {
             Anuncio = anuncio;
             Exception = ex;
-            Success = false;
+            Success = IsDeleted = NonRemoved = IsBaned = false;
+            if(ex.Message.Contains("Deteccion Anuncio Eliminado"))
+            {
+                IsDeleted = true;
+            }
+            else if (ex.Message.Contains("Non updated error code: 1015"))
+            {
+                IsBaned = true;
+            }
+            else if (ex.Message.Contains("Error Removing from Revolico"))
+            {
+                NonRemoved = true;
+            }
         }
 
         public Anuncio Anuncio { get; set; }
@@ -32,5 +44,7 @@ namespace Services.Results
         public Exception Exception { get; set; }
         public bool Success { get; set; }
         public bool IsDeleted { get; set; }
+        public bool NonRemoved { get; set; }
+        public bool IsBaned { get; set; }
     }
 }
