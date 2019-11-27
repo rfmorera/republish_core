@@ -74,6 +74,7 @@ namespace Republish
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
+            services.AddHostedService<CleanerTemporizador>();
             
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
