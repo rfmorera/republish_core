@@ -226,6 +226,7 @@ namespace Services.Impls
                 // Update new Anuncio URL
                 InsertResult insertResult = ParseInsertResult(answer);
                 anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
+                _log.LogWarning($"ReplaceInsert {anuncio.Id} {insertResult.FullId}");
 
                 // Delete from Revolico
                 await DeleteFromRevolico(formDeleteAnuncio);
