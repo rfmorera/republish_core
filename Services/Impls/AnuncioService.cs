@@ -44,6 +44,7 @@ namespace Services.Impls
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
             _notificationsService = notificationsService;
+            initCat();
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
@@ -233,7 +234,7 @@ namespace Services.Impls
 
                 result = new ReinsertResult(anuncio);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result = new ReinsertResult(anuncio, ex);
             }
@@ -241,14 +242,14 @@ namespace Services.Impls
             return result;
         }
 
-        private async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        public async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
             string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
             return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
         }
 
-        private InsertResult ParseInsertResult(string answer)
+        public InsertResult ParseInsertResult(string answer)
         {
             int posIni = answer.IndexOf("id\":\"") + "id\":\"".Length;
             int posNex = answer.IndexOf("\"", posIni);
@@ -288,7 +289,7 @@ namespace Services.Impls
                     await Task.Delay(TimeSpan.FromSeconds(20));
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
                 throw new Exception("Error Removing from Revolico " + Url);
@@ -298,7 +299,7 @@ namespace Services.Impls
             throw new Exception("Error Removing from Revolico " + Url);
         }
 
-        private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
+        public async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
         {
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
@@ -347,7 +348,7 @@ namespace Services.Impls
                 int price;
                 _ = int.TryParse(tmp.Attributes["value"].Value, out price);
                 formAnuncio.variables.price = price;
-                
+
                 tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
                 formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.Attributes["value"].Value);
 
@@ -446,11 +447,133 @@ namespace Services.Impls
 
         public async Task Update(List<Anuncio> anunciosProcesados)
         {
-            foreach(Anuncio a in anunciosProcesados)
+            foreach (Anuncio a in anunciosProcesados)
             {
                 await repositoryAnuncio.UpdateAsync(a, a.Id);
             }
             await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<FormInsertAnuncio> Retrieve(string url)
+        {
+            // Get Anuncio
+            string htmlAnuncio = await Requests.GetAsync(url);
+            FormInsertAnuncio formInsert = ParseFormReadUrl(htmlAnuncio);
+            return formInsert;
+        }
+
+        public FormInsertAnuncio ParseFormReadUrl(string htmlAnuncio)
+        {
+            try
+            {
+                FormInsertAnuncio formAnuncio = new FormInsertAnuncio();
+                HtmlDocument doc = new HtmlDocument();
+
+                // Load the html from a string
+                doc.LoadHtml(htmlAnuncio);
+                HtmlNode tmp;
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPrice']");
+
+                    int price;
+                    _ = int.TryParse(tmp.InnerText, out price);
+                    formAnuncio.variables.price = price;
+                }
+                catch (Exception) { }
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adTitle']");
+                formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.InnerText);
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adDescription']");
+                int p1 = htmlAnuncio.LastIndexOf("description\":\"") + "description\":\"".Length;
+                int p2 = htmlAnuncio.IndexOf("\",\"price", p1);
+                // Decode the encoded string.
+                formAnuncio.variables.description = HttpUtility.HtmlDecode(htmlAnuncio).Substring(p1, p2 - p1);
+
+                formAnuncio.variables.images = new string[0];
+                List<string> imagesId = new List<string>();
+                int lastPos = 0, posIni = 0, posEnd;
+                posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                while (posIni != -1)
+                while (posIni != -1)
+                {
+                    posEnd = htmlAnuncio.IndexOf("urls", posIni);
+                    posIni += 9;
+                    posEnd -= 3;
+                    string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
+                    imagesId.Add(id);
+                    lastPos = posEnd;
+                    posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                }
+                formAnuncio.variables.images = imagesId.ToArray();
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adEmail']");
+                    formAnuncio.variables.email = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adName']");
+                    formAnuncio.variables.name = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPhone']");
+                    formAnuncio.variables.phone = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                //int p2 = htmlAnuncio.LastIndexOf("\",\"typename\":\"CategoryType\"");
+                //int p1 = p2;
+                //for (int i = 1; i <= 3; i++)
+                //{
+                //    if (htmlAnuncio.ElementAt(p2 - i) == ':')
+                //    {
+                //        p1 = p2 - i + 1;
+                //        break;
+                //    }
+                //}
+                string cat = GetCategoria(htmlAnuncio);
+                formAnuncio.variables.subcategory = Cat[cat];
+
+                formAnuncio.variables.contactInfo = "EMAIL_PHONE";
+                formAnuncio.variables.botScore = "";
+
+                Console.WriteLine(cat);
+
+                return formAnuncio;
+            }
+            catch (Exception ex)
+            {
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+            }
+        }
+
+        NameValueCollection Cat;
+        void initCat()
+        {
+            Cat = new NameValueCollection();
+            Cat.Add("/vivienda/alquiler-a-cubanos/", "103");
+            Cat.Add("/vivienda/alquiler-a-extranjeros/", "104");
+            Cat.Add("/servicios/gimnasio-masaje-entrenador/", "220");
+            Cat.Add("/vivienda/compra-venta/", "101");
+            Cat.Add("/vivienda/casa-en-la-playa/", "105");
+            Cat.Add("/compra-venta/electrodomesticos/", "35");
+            Cat.Add("/servicios/construccion-mantenimiento/", "75");
+            Cat.Add("/servicios/diseno-decoracion/", "79");
+            Cat.Add("/compra-venta/libros-revistas/", "38");
+            Cat.Add("/compra-venta/consola-videojuego-juegos/", "39");
+            Cat.Add("/compra-venta/mascotas-animales/", "41");
+            Cat.Add("/computadoras/impresora-cartuchos/", "15");
+            Cat.Add("/compra-venta/ropa-zapato-accesorios/", "211");
+            Cat.Add("/compra-venta/joyas-relojes/", "211");
+            Cat.Add("/autos/piezas-accesorios/", "125");
         }
     }
 }

@@ -28,5 +28,6 @@ namespace Services
         Task Update(List<Anuncio> anunciosProcesados);
 
         FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio);
+        Task<FormInsertAnuncio> Retrieve(string url);
     }
 }
