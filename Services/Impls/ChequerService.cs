@@ -205,6 +205,7 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
+            await _anuncioService.Reset();
             await repositoryTemporizador.SaveChangesAsync();
         }
 
