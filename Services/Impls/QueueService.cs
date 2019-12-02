@@ -29,7 +29,7 @@ namespace Services.Impls
         public async Task Add(string id, DateTime dateTime)
         {
             ShortQueue queue = new ShortQueue();
-            queue.Url = id;
+            queue.AnuncioId = id;
             queue.Created = dateTime;
             await _queueRepository.AddAsync(queue);
         }
@@ -39,7 +39,7 @@ namespace Services.Impls
             DateTime UtcCuba = DateTime.Now.ToUtcCuba();
             IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
                                                             where q.Created <= UtcCuba
-                                                            join a in _context.Anuncio on q.Id equals a.Id
+                                                            join a in _context.Anuncio on q.AnuncioId equals a.Id
                                                             select a).ToListAsync();
 
             _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created <= UtcCuba));
