@@ -34,14 +34,16 @@ namespace Services.Impls
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
         private readonly INotificationsService _notificationsService;
+        private readonly ITemporizadorService _temporizadorService;
         readonly ILogger _log;
 
-        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService, ITemporizadorService temporizadorService)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
             _notificationsService = notificationsService;
+            _temporizadorService = temporizadorService;
             initCat();
         }
 
@@ -138,7 +140,11 @@ namespace Services.Impls
 
         public async Task DeleteAllByGroup(string GrupoId)
         {
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(GrupoId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId && p.Procesando == 0);
             repositoryAnuncio.RemoveRange(anuncios);
 
             await repositoryAnuncio.SaveChangesAsync();
@@ -192,20 +198,15 @@ namespace Services.Impls
         public async Task DeleteAsync(string Id)
         {
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
+            if(anuncio.Procesando != 0)
+            {
+                throw new Exception("El anuncio está siendo procesado por el sistema");
+            }
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
             repositoryAnuncio.Remove(anuncio);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(List<string> list)
-        {
-            IEnumerable<Anuncio> anuncios = (await repositoryAnuncio.FindAllAsync(a => list.Contains(a.Url))).AsEnumerable();
-            repositoryAnuncio.RemoveRange(anuncios);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(IEnumerable<Anuncio> anuncios)
-        {
-            repositoryAnuncio.RemoveRange(anuncios);
             await repositoryAnuncio.SaveChangesAsync();
         }
 

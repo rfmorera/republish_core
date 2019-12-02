@@ -13,7 +13,7 @@ namespace RestoreAnuncios
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            AnuncioService anuncioService = new AnuncioService(null, null, null);
+            AnuncioService anuncioService = new AnuncioService(null, null, null, null);
 
             try
             {
