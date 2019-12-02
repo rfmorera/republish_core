@@ -12,7 +12,7 @@ namespace Models
         public string Id { get; set; }
 
         [Required]
-        public string Url { get; set; }
+        public string AnuncioId { get; set; }
 
         public DateTime? Created { get; set; }
     }

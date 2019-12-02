@@ -212,24 +212,32 @@ namespace Services.Impls
 
         public async Task NotifyDelete(List<Anuncio> list)
         {
-            if (!list.Any())
+            try
             {
-                return;
-            }
-
-            List<Notificacion> notificacions = new List<Notificacion>();
-            foreach (Anuncio item in list)
-            {
-                notificacions.Add(new Notificacion()
+                if (!list.Any())
                 {
-                    UserId = item.Grupo.UserId,
-                    DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
-                    Readed = false
-                });
-            }
+                    return;
+                }
 
-            await _notificationsService.Add(notificacions);
+                List<Notificacion> notificacions = new List<Notificacion>();
+                foreach (Anuncio item in list)
+                {
+                    _dbContext.Entry(item).Reference(s => s.Grupo).Load();
+                    notificacions.Add(new Notificacion()
+                    {
+                        UserId = item.Grupo.UserId,
+                        DateCreated = DateTime.Now.ToUtcCuba(),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Readed = false
+                    });
+                }
+
+                await _notificationsService.Add(notificacions);
+            }
+            catch(Exception ex)
+            {
+                _log.LogError(ex.ToExceptionString());
+            }
         }
 
         public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
@@ -368,7 +376,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
+            throw new Exception("Unkown error");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)

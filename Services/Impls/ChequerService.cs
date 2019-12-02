@@ -60,7 +60,13 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-                DateTime UtcCubaMinus3 = UtcCuba.AddMinutes(-2);
+                TimeSpan ini = new TimeSpan(0, 15, 0);
+                TimeSpan fin = new TimeSpan(23, 50, 0);
+                if (ini > UtcCuba.TimeOfDay || UtcCuba.TimeOfDay > fin)
+                {
+                    return;
+                }
+
                 IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
                 
                 List<Task<IEnumerable<Anuncio>>> getAnunciosTasks = new List<Task<IEnumerable<Anuncio>>>();
@@ -110,6 +116,7 @@ namespace Services.Impls
                     int idxCaptcha = 0, 
                         idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
                         lenCaptchas = captchaKeys.Count,
+                        lenEmails = randomEmails.Count,
                         cntAnuncios = 0;
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
@@ -117,6 +124,8 @@ namespace Services.Impls
                         cntAnuncios++;
                         reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
                         idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
+                        idxEmail = (idxEmail + 1) % lenEmails;
+
                         if(cntAnuncios == 30)
                         {
                             await Task.Delay(TimeSpan.FromSeconds(30));
@@ -127,7 +136,6 @@ namespace Services.Impls
                     await Task.WhenAll(reinsertTask);
 
                     List<Anuncio> anunciosProcesados = new List<Anuncio>(),
-                                  anunciosExceptions = new List<Anuncio>(),
                                   anunciosEliminados = new List<Anuncio>();
                     len = reinsertTask.Count;
                     for (int i = 0; i < len; i++)
@@ -136,7 +144,9 @@ namespace Services.Impls
                         ReinsertResult result = taskResult.Result;
                         if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
-                            anunciosProcesados.Add(result.Anuncio);
+                            Anuncio an = result.Anuncio;
+                            an.Procesando = 0;
+                            anunciosProcesados.Add(an);
                         }
                         else
                         {
@@ -159,7 +169,6 @@ namespace Services.Impls
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;
                                 anunciosProcesados.Add(an);
-                                dateTime = dateTime.AddMinutes(2);
                                 continue;
                             }
 
@@ -169,7 +178,6 @@ namespace Services.Impls
                                 an.Procesando = 0;
                                 an.Enable = false;
                                 an.Eliminado = true;
-                                anunciosExceptions.Add(an);
                                 anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
@@ -185,7 +193,7 @@ namespace Services.Impls
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
                     double pctVerify = 100.0 * verifyPub / totalProcesados;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
