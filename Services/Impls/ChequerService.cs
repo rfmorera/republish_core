@@ -25,7 +25,6 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
-        private readonly IRepository<ShortQueue> _queueRepository;
         private readonly IRepository<RemoveQueue> _removeRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
@@ -35,13 +34,13 @@ namespace Services.Impls
         private readonly ITemporizadorService _temporizadorService;
         private readonly IValidationService _validationService;
         private readonly IEmailRandomService _emailRandomService;
+        private readonly IQueueService _queueService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService, IQueueService queueService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
-            _queueRepository = new Repository<ShortQueue>(context);
             _removeRepository = new Repository<RemoveQueue>(context);
             _grupoService = grupoService;
             _log = log;
@@ -52,6 +51,7 @@ namespace Services.Impls
             _temporizadorService = temporizadorService;
             _validationService = validationService;
             _emailRandomService = emailRandomService;
+            _queueService = queueService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -91,13 +91,7 @@ namespace Services.Impls
                     }
                 }
 
-                IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
-                                                                where q.Created <= UtcCubaMinus3
-                                                                join a in _context.Anuncio on q.Url equals a.Url
-                                                                select a).ToListAsync();
-
-                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created <= UtcCubaMinus3));
-                await _queueRepository.SaveChangesAsync();
+                IEnumerable<Anuncio> anunciosFromQueue = await _queueService.GetAnunciosFromQueue();
 
                 listAnuncios.AddRange(anunciosFromQueue);
 
@@ -169,12 +163,10 @@ namespace Services.Impls
                                 anunciosEliminados.Add(result.Anuncio.Id);
                                 continue;
                             }
-
-                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = dateTime});
+                            await _queueService.Add(result.Anuncio.Id, dateTime);
                         }
                     }
 
-                    await _queueRepository.SaveChangesAsync();
                     await _removeRepository.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
@@ -205,7 +197,6 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
-            _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
             await repositoryTemporizador.SaveChangesAsync();
         }
 
