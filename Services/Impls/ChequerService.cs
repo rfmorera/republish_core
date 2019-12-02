@@ -66,7 +66,7 @@ namespace Services.Impls
 
                 foreach (Temporizador t in list)
                 {
-                    getAnunciosTasks.Add(_grupoService.GetAnunciosToUpdate(t.GrupoId, t.Etapa));
+                    getAnunciosTasks.Add(_anuncioService.GetAnunciosToUpdate(t.GrupoId, t.Etapa));
                 }
 
                 await Task.WhenAll(getAnunciosTasks);
@@ -130,9 +130,9 @@ namespace Services.Impls
 
                     await Task.WhenAll(reinsertTask);
 
-                    List<string> anunciosEliminados = new List<string>();
                     List<Anuncio> anunciosProcesados = new List<Anuncio>(),
-                                  anunciosExceptions = new List<Anuncio>();
+                                  anunciosExceptions = new List<Anuncio>(),
+                                  anunciosEliminados = new List<Anuncio>();
                     len = reinsertTask.Count;
                     for (int i = 0; i < len; i++)
                     {
@@ -160,13 +160,21 @@ namespace Services.Impls
                                 int pos = result.Exception.Message.IndexOf("https");
                                 string url = result.Exception.Message.Substring(pos);
                                 await _removeRepository.AddAsync(new RemoveQueue() { Url = url});
-                                anunciosExceptions.Add(result.Anuncio);
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
+                                anunciosProcesados.Add(an);
                                 dateTime = dateTime.AddMinutes(2);
+                                continue;
                             }
 
                             if (result.IsDeleted)
                             {
-                                anunciosEliminados.Add(result.Anuncio.Id);
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
+                                an.Enable = false;
+                                an.Eliminado = true;
+                                anunciosExceptions.Add(an);
+                                anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
 
@@ -175,7 +183,7 @@ namespace Services.Impls
                     }
 
                     await _queueRepository.SaveChangesAsync();
-                    await _removeRepository.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
                     await _anuncioService.Update(anunciosExceptions);

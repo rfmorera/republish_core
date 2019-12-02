@@ -21,6 +21,5 @@ namespace Services
         Task<Grupo> GetAsync(string GrupoId);
 
         Task<Grupo> ToogleEnable(string Id);
-        Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa);
     }
 }

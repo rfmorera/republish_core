@@ -31,8 +31,6 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string noiseData = "\n\n\n\n\n\n\n\n\n-----------Raw Text-------------------\nqwertyuiopas nbghnhfntgy,lop kjhmgymikonbvfvbcyh\n xcvxb ztfdwqerasfvtyrfjguioyhio pujdfghjklzxcvbm\nzqxswcedvfrb tgnhymju,ik.lo\n123456789-+.0\n??|?|?|?| ?|?||?||?|? ?|?|?|?|?|?|?| ?|?||?|?|?\n___________________ ____________________ ______________\n//////////////////////////// ///////////////// /////////////// ///////////\n";
-
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
         private readonly INotificationsService _notificationsService;
@@ -146,6 +144,51 @@ namespace Services.Impls
             await repositoryAnuncio.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
+        {
+            IEnumerable<Anuncio> listAnuncio = new List<Anuncio>();
+            if (Etapa == 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+            }
+            else if (Etapa > 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).Where(a => !a.Actualizado).Take(Etapa).ToListAsync();
+
+                if (!listAnuncio.Any())
+                {
+                    listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+                    foreach (Anuncio a in listAnuncio)
+                    {
+                        a.Actualizado = false;
+                    }
+                    listAnuncio = listAnuncio.Take(Etapa);
+                }
+            }
+            else
+            {
+                return listAnuncio;
+            }
+            
+            foreach(Anuncio a in listAnuncio)
+            {
+                a.Procesando = 1;
+                a.Actualizado = true;
+            }
+
+            return listAnuncio;
+        }
+
+        private IQueryable<Anuncio> QueryBaseAnunciosToUpdate(string GroupId)
+        {
+            return repositoryAnuncio.QueryAll().Where(a => a.GroupId == GroupId
+                                                        && a.Enable
+                                                        && a.Procesando == 0
+                                                        && !a.Eliminado)
+                                               .OrderBy(a => a.Orden)
+                                               .Select(a => a);
+        }
+
         public async Task DeleteAsync(string Id)
         {
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
@@ -166,32 +209,26 @@ namespace Services.Impls
             await repositoryAnuncio.SaveChangesAsync();
         }
 
-        public async Task NotifyDelete(List<string> list)
+        public async Task NotifyDelete(List<Anuncio> list)
         {
             if (!list.Any())
             {
                 return;
             }
 
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
-                                                                    .Where(a => list.Contains(a.Id))
-                                                                    .Include(a => a.Grupo)
-                                                                    .ToListAsync();
             List<Notificacion> notificacions = new List<Notificacion>();
-            foreach (Anuncio item in anuncios)
+            foreach (Anuncio item in list)
             {
                 notificacions.Add(new Notificacion()
                 {
                     UserId = item.Grupo.UserId,
                     DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha eliminado del sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
                     Readed = false
                 });
             }
 
             await _notificationsService.Add(notificacions);
-
-            await DeleteAsync(anuncios);
         }
 
         public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
