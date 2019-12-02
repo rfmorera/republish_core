@@ -99,7 +99,7 @@ namespace Republish
             services.AddScoped<INotificationsService, NotificationsService>();
             services.AddScoped<IValidationService, ValidationService>();
             services.AddScoped<IEmailRandomService, EmailRandomService>();
-            services.AddScoped<IQueueService, QueueService>();
+            services.AddScoped<IQueueService, queueService>();
 
             services.AddAuthorization(options =>
             {
