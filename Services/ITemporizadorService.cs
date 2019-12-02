@@ -23,5 +23,6 @@ namespace Services
         Task<bool> ToogleUserEnable(string UserId);
         Task<Temporizador> TooggleEnable(string Id);
         Task<IEnumerable<Temporizador>> GetRunning();
+        Task<bool> GroupHasTemporizadoresEnable(string GroupId);
     }
 }
