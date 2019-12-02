@@ -18,6 +18,7 @@ using Services.Exceptions;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using System.Net;
 using Services.Results;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Services.Impls
 {
@@ -70,7 +71,9 @@ namespace Services.Impls
                 }
 
                 await Task.WhenAll(getAnunciosTasks);
-                
+                await SaveChanges();
+
+
                 List<Anuncio> listAnuncios = new List<Anuncio>();
                 int len = getAnunciosTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
@@ -182,11 +185,8 @@ namespace Services.Impls
                         }
                     }
 
-                    await _queueRepository.SaveChangesAsync();
-                    await _context.SaveChangesAsync();
+                    await SaveChanges();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
-                    await _anuncioService.Update(anunciosProcesados);
-                    await _anuncioService.Update(anunciosExceptions);
 
                     int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
@@ -215,6 +215,55 @@ namespace Services.Impls
             }
             _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
             await repositoryTemporizador.SaveChangesAsync();
+        }
+
+        private async Task SaveChanges()
+        {
+            int saved = 5;
+            while (saved > 0)
+            {
+                try
+                {
+                    // Attempt to save changes to the database
+                    await _context.SaveChangesAsync();
+                    saved--;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    int len = ex.Entries.Count;
+                    for (int i = 0; i < len; i++)
+                    {
+                        var entry = ex.Entries[i];
+                        var clientValues = (Anuncio)entry.Entity;
+                        var databaseEntry = entry.GetDatabaseValues();
+                        if (databaseEntry == null)
+                        {
+                            _log.LogInformation("Unable to save changes. The anuncio  was deleted by another user.");
+                        }
+                        else
+                        {
+                            Anuncio databaseValues = (Anuncio)databaseEntry.ToObject();
+
+                            if (databaseValues.Url != clientValues.Url)
+                            {
+                                _log.LogError($"Conflicto de URL > {clientValues.Id} | DB {databaseValues.Url} Client {clientValues.Url}");
+                                databaseValues.Url = clientValues.Url;
+                            }
+                            else
+                            {
+                                _log.LogError("Don't know how to handle concurrency conflicts for " + clientValues.Id);
+                            }
+                            entry.OriginalValues.SetValues(databaseEntry);
+                        }
+                    }   
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.)
+                    _log.LogError("Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    return;
+                }
+            }
         }
 
         public async Task ResetRemoveQueue()
