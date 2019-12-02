@@ -613,5 +613,14 @@ namespace Services.Impls
             Cat.Add("/compra-venta/joyas-relojes/", "211");
             Cat.Add("/autos/piezas-accesorios/", "125");
         }
+
+        public async Task Reset()
+        {
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.GetAllAsync();
+            foreach (Anuncio item in anuncios){
+                item.Procesando = 0;
+                item.Revalidado = 0;
+            }
+        }
     }
 }
