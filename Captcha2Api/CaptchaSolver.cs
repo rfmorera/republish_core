@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Captcha2Api.Exceptions;
 
 namespace Captcha2Api
 {
@@ -132,6 +133,11 @@ namespace Captcha2Api
             {
                 return responseString.Substring(3, responseString.Length - 3);
             }
+            else if(responseString == "ERROR_CAPTCHA_UNSOLVABLE")
+            {
+                throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE");
+            }
+
             return null;
         }
 
