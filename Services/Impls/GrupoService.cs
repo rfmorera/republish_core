@@ -94,60 +94,6 @@ namespace Services.Impls
             return list;
         }
 
-        /// <summary>
-        /// Get All anuncios to ReInsert
-        /// </summary>
-        /// <param name="GroupId">Group to get Anuncios from</param>
-        /// <param name="Etapa">Number of anuncios to retrieve</param>
-        /// <returns></returns>
-        public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
-        {
-            if (Etapa == 0)
-            {
-                return (await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable)).Select(a => a);
-            }
-
-            IEnumerable<Anuncio> listAnuncio = (await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable && a.Actualizado == false));
-
-            if (Etapa > 0)
-            {
-                listAnuncio = listAnuncio.Take(Etapa);
-            }
-
-            List<Anuncio> list = new List<Anuncio>();
-
-            if (listAnuncio.Any())
-            {
-                foreach (Anuncio a in listAnuncio)
-                {
-                    a.Actualizado = true;
-                    await _anuncioRepo.UpdateAsync(a, a.Id);
-
-                    list.Add(a);
-                }
-            }
-            else
-            {
-                listAnuncio = await _anuncioRepo.FindAllAsync(a => a.GroupId == GroupId && a.Enable);
-
-                foreach (Anuncio a in listAnuncio)
-                {
-                    if (Etapa > 0 )
-                    {
-                        list.Add(a);
-                        Etapa--;
-                    }
-                    else
-                    {
-                        a.Actualizado = false;
-                        await _anuncioRepo.UpdateAsync(a, a.Id);
-                    }
-                }
-            }
-
-            return list;
-        }
-
         public async Task<Grupo> ToogleEnable(string Id)
         {
             Grupo grupo = await _repository.FindAsync(g => g.Id == Id);

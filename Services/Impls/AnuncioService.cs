@@ -31,19 +31,20 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string noiseData = "\n\n\n\n\n\n\n\n\n-----------Raw Text-------------------\nqwertyuiopas nbghnhfntgy,lop kjhmgymikonbvfvbcyh\n xcvxb ztfdwqerasfvtyrfjguioyhio pujdfghjklzxcvbm\nzqxswcedvfrb tgnhymju,ik.lo\n123456789-+.0\n??|?|?|?| ?|?||?||?|? ?|?|?|?|?|?|?| ?|?||?|?|?\n___________________ ____________________ ______________\n//////////////////////////// ///////////////// /////////////// ///////////\n";
-
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
         private readonly INotificationsService _notificationsService;
+        private readonly ITemporizadorService _temporizadorService;
         readonly ILogger _log;
 
-        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService, ITemporizadorService temporizadorService)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
             _notificationsService = notificationsService;
+            _temporizadorService = temporizadorService;
+            initCat();
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
@@ -139,58 +140,104 @@ namespace Services.Impls
 
         public async Task DeleteAllByGroup(string GrupoId)
         {
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(GrupoId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId && p.Procesando == 0);
             repositoryAnuncio.RemoveRange(anuncios);
 
             await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
+        {
+            IEnumerable<Anuncio> listAnuncio = new List<Anuncio>();
+            if (Etapa == 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+            }
+            else if (Etapa > 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).Where(a => !a.Actualizado).Take(Etapa).ToListAsync();
+
+                if (!listAnuncio.Any())
+                {
+                    listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+                    foreach (Anuncio a in listAnuncio)
+                    {
+                        a.Actualizado = false;
+                    }
+                    listAnuncio = listAnuncio.Take(Etapa);
+                }
+            }
+            else
+            {
+                return listAnuncio;
+            }
+            
+            foreach(Anuncio a in listAnuncio)
+            {
+                a.Procesando = 1;
+                a.Actualizado = true;
+            }
+
+            return listAnuncio;
+        }
+
+        private IQueryable<Anuncio> QueryBaseAnunciosToUpdate(string GroupId)
+        {
+            return repositoryAnuncio.QueryAll().Where(a => a.GroupId == GroupId
+                                                        && a.Enable
+                                                        && a.Procesando == 0
+                                                        && !a.Eliminado)
+                                               .OrderBy(a => a.Orden)
+                                               .Select(a => a);
         }
 
         public async Task DeleteAsync(string Id)
         {
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
+            if(anuncio.Procesando != 0)
+            {
+                throw new Exception("El anuncio está siendo procesado por el sistema");
+            }
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
             repositoryAnuncio.Remove(anuncio);
             await repositoryAnuncio.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(List<string> list)
+        public async Task NotifyDelete(List<Anuncio> list)
         {
-            IEnumerable<Anuncio> anuncios = (await repositoryAnuncio.FindAllAsync(a => list.Contains(a.Url))).AsEnumerable();
-            repositoryAnuncio.RemoveRange(anuncios);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(IEnumerable<Anuncio> anuncios)
-        {
-            repositoryAnuncio.RemoveRange(anuncios);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task NotifyDelete(List<string> list)
-        {
-            if (!list.Any())
+            try
             {
-                return;
-            }
-
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
-                                                                    .Where(a => list.Contains(a.Id))
-                                                                    .Include(a => a.Grupo)
-                                                                    .ToListAsync();
-            List<Notificacion> notificacions = new List<Notificacion>();
-            foreach (Anuncio item in anuncios)
-            {
-                notificacions.Add(new Notificacion()
+                if (!list.Any())
                 {
-                    UserId = item.Grupo.UserId,
-                    DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha eliminado del sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
-                    Readed = false
-                });
+                    return;
+                }
+
+                List<Notificacion> notificacions = new List<Notificacion>();
+                foreach (Anuncio item in list)
+                {
+                    _dbContext.Entry(item).Reference(s => s.Grupo).Load();
+                    notificacions.Add(new Notificacion()
+                    {
+                        UserId = item.Grupo.UserId,
+                        DateCreated = DateTime.Now.ToUtcCuba(),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Readed = false
+                    });
+                }
+
+                await _notificationsService.Add(notificacions);
             }
-
-            await _notificationsService.Add(notificacions);
-
-            await DeleteAsync(anuncios);
+            catch(Exception ex)
+            {
+                _log.LogError(ex.ToExceptionString());
+            }
         }
 
         public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
@@ -233,7 +280,7 @@ namespace Services.Impls
 
                 result = new ReinsertResult(anuncio);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result = new ReinsertResult(anuncio, ex);
             }
@@ -241,14 +288,14 @@ namespace Services.Impls
             return result;
         }
 
-        private async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        public async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
             string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
             return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
         }
 
-        private InsertResult ParseInsertResult(string answer)
+        public InsertResult ParseInsertResult(string answer)
         {
             int posIni = answer.IndexOf("id\":\"") + "id\":\"".Length;
             int posNex = answer.IndexOf("\"", posIni);
@@ -288,7 +335,7 @@ namespace Services.Impls
                     await Task.Delay(TimeSpan.FromSeconds(20));
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
                 throw new Exception("Error Removing from Revolico " + Url);
@@ -298,7 +345,7 @@ namespace Services.Impls
             throw new Exception("Error Removing from Revolico " + Url);
         }
 
-        private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
+        public async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
         {
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
@@ -329,7 +376,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
+            throw new Exception("Unkown error");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)
@@ -347,7 +394,7 @@ namespace Services.Impls
                 int price;
                 _ = int.TryParse(tmp.Attributes["value"].Value, out price);
                 formAnuncio.variables.price = price;
-                
+
                 tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
                 formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.Attributes["value"].Value);
 
@@ -446,11 +493,142 @@ namespace Services.Impls
 
         public async Task Update(List<Anuncio> anunciosProcesados)
         {
-            foreach(Anuncio a in anunciosProcesados)
+            foreach (Anuncio a in anunciosProcesados)
             {
                 await repositoryAnuncio.UpdateAsync(a, a.Id);
             }
             await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<FormInsertAnuncio> Retrieve(string url)
+        {
+            // Get Anuncio
+            string htmlAnuncio = await Requests.GetAsync(url);
+            FormInsertAnuncio formInsert = ParseFormReadUrl(htmlAnuncio);
+            return formInsert;
+        }
+
+        public FormInsertAnuncio ParseFormReadUrl(string htmlAnuncio)
+        {
+            try
+            {
+                FormInsertAnuncio formAnuncio = new FormInsertAnuncio();
+                HtmlDocument doc = new HtmlDocument();
+
+                // Load the html from a string
+                doc.LoadHtml(htmlAnuncio);
+                HtmlNode tmp;
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPrice']");
+
+                    int price;
+                    _ = int.TryParse(tmp.InnerText, out price);
+                    formAnuncio.variables.price = price;
+                }
+                catch (Exception) { }
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adTitle']");
+                formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.InnerText);
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adDescription']");
+                int p1 = htmlAnuncio.LastIndexOf("description\":\"") + "description\":\"".Length;
+                int p2 = htmlAnuncio.IndexOf("\",\"price", p1);
+                // Decode the encoded string.
+                formAnuncio.variables.description = HttpUtility.HtmlDecode(htmlAnuncio).Substring(p1, p2 - p1);
+
+                formAnuncio.variables.images = new string[0];
+                List<string> imagesId = new List<string>();
+                int lastPos = 0, posIni = 0, posEnd;
+                posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                while (posIni != -1)
+                while (posIni != -1)
+                {
+                    posEnd = htmlAnuncio.IndexOf("urls", posIni);
+                    posIni += 9;
+                    posEnd -= 3;
+                    string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
+                    imagesId.Add(id);
+                    lastPos = posEnd;
+                    posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                }
+                formAnuncio.variables.images = imagesId.ToArray();
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adEmail']");
+                    formAnuncio.variables.email = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adName']");
+                    formAnuncio.variables.name = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPhone']");
+                    formAnuncio.variables.phone = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                //int p2 = htmlAnuncio.LastIndexOf("\",\"typename\":\"CategoryType\"");
+                //int p1 = p2;
+                //for (int i = 1; i <= 3; i++)
+                //{
+                //    if (htmlAnuncio.ElementAt(p2 - i) == ':')
+                //    {
+                //        p1 = p2 - i + 1;
+                //        break;
+                //    }
+                //}
+                string cat = GetCategoria(htmlAnuncio);
+                formAnuncio.variables.subcategory = Cat[cat];
+
+                formAnuncio.variables.contactInfo = "EMAIL_PHONE";
+                formAnuncio.variables.botScore = "";
+
+                Console.WriteLine(cat);
+
+                return formAnuncio;
+            }
+            catch (Exception ex)
+            {
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+            }
+        }
+
+        NameValueCollection Cat;
+        void initCat()
+        {
+            Cat = new NameValueCollection();
+            Cat.Add("/vivienda/alquiler-a-cubanos/", "103");
+            Cat.Add("/vivienda/alquiler-a-extranjeros/", "104");
+            Cat.Add("/servicios/gimnasio-masaje-entrenador/", "220");
+            Cat.Add("/vivienda/compra-venta/", "101");
+            Cat.Add("/vivienda/casa-en-la-playa/", "105");
+            Cat.Add("/compra-venta/electrodomesticos/", "35");
+            Cat.Add("/servicios/construccion-mantenimiento/", "75");
+            Cat.Add("/servicios/diseno-decoracion/", "79");
+            Cat.Add("/compra-venta/libros-revistas/", "38");
+            Cat.Add("/compra-venta/consola-videojuego-juegos/", "39");
+            Cat.Add("/compra-venta/mascotas-animales/", "41");
+            Cat.Add("/computadoras/impresora-cartuchos/", "15");
+            Cat.Add("/compra-venta/ropa-zapato-accesorios/", "211");
+            Cat.Add("/compra-venta/joyas-relojes/", "211");
+            Cat.Add("/autos/piezas-accesorios/", "125");
+        }
+
+        public async Task Reset()
+        {
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.GetAllAsync();
+            foreach (Anuncio item in anuncios){
+                item.Procesando = 0;
+                item.Revalidado = 0;
+            }
         }
     }
 }
