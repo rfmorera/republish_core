@@ -19,8 +19,9 @@ namespace Services
         Task UpdateTitle(string GrupoId);
         Task<IEnumerable<Anuncio>> GetByGroup(string GrupoId);
         Task DeleteAllByGroup(string GrupoId);
+        Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa);
 
-        Task NotifyDelete(List<string> list);
+        Task NotifyDelete(List<Anuncio> list);
 
         Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email);
         Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio);
