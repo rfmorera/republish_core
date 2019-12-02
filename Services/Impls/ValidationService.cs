@@ -25,7 +25,6 @@ namespace Services.Impls
         private readonly INotificationsService _notificationsService;
         private readonly IAnuncioService _anuncioService;
         private readonly IQueueService _queueService;
-        private readonly IRepository<ShortQueue> _queueRepository;
         readonly ILogger _log;
 
         public ValidationService(ApplicationDbContext context, INotificationsService notificationsService, ILogger<ValidationService> log, IAnuncioService anuncioService, IQueueService queueService)

@@ -136,7 +136,6 @@ namespace Services.Impls
                     await Task.WhenAll(reinsertTask);
 
                     List<Anuncio> anunciosProcesados = new List<Anuncio>(),
-                                  anunciosExceptions = new List<Anuncio>(),
                                   anunciosEliminados = new List<Anuncio>();
                     len = reinsertTask.Count;
                     for (int i = 0; i < len; i++)
@@ -170,7 +169,6 @@ namespace Services.Impls
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;
                                 anunciosProcesados.Add(an);
-                                dateTime = dateTime.AddMinutes(2);
                                 continue;
                             }
 
@@ -180,7 +178,6 @@ namespace Services.Impls
                                 an.Procesando = 0;
                                 an.Enable = false;
                                 an.Eliminado = true;
-                                anunciosExceptions.Add(an);
                                 anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
@@ -196,7 +193,7 @@ namespace Services.Impls
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
                     double pctVerify = 100.0 * verifyPub / totalProcesados;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
