@@ -25,6 +25,8 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
+        private readonly IRepository<ShortQueue> _queueRepository;
+        private readonly IRepository<RemoveQueue> _removeRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
         private readonly IRegistroService _registroService;
@@ -32,12 +34,15 @@ namespace Services.Impls
         private readonly IManejadorFinancieroService _financieroService;
         private readonly ITemporizadorService _temporizadorService;
         private readonly IValidationService _validationService;
+        private readonly IEmailRandomService _emailRandomService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
+            _queueRepository = new Repository<ShortQueue>(context);
+            _removeRepository = new Repository<RemoveQueue>(context);
             _grupoService = grupoService;
             _log = log;
             _captchaService = captchaService;
@@ -46,6 +51,7 @@ namespace Services.Impls
             _financieroService = financieroService;
             _temporizadorService = temporizadorService;
             _validationService = validationService;
+            _emailRandomService = emailRandomService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -53,6 +59,7 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
+                DateTime UtcCubaMinus3 = UtcCuba.AddMinutes(-2);
                 IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
                 
                 List<Task<IEnumerable<Anuncio>>> getAnunciosTasks = new List<Task<IEnumerable<Anuncio>>>();
@@ -84,6 +91,17 @@ namespace Services.Impls
                     }
                 }
 
+                IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
+                                                                where q.Created <= UtcCubaMinus3
+                                                                join a in _context.Anuncio on q.Url equals a.Url
+                                                                select a).ToListAsync();
+
+                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created <= UtcCubaMinus3));
+                await _queueRepository.SaveChangesAsync();
+
+                listAnuncios.AddRange(anunciosFromQueue);
+
+                listAnuncios = listAnuncios.GroupBy(a => a.GetUriId).Select(b => b.First()).ToList();
                 if (listAnuncios.Any())
                 {
                     await _registroService.AddRegistros(registros);
@@ -91,20 +109,34 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- >>> Queue Messages {0}", listAnuncios.Count()));
 
                     List<CaptchaKeys> captchaKeys = (await _captchaService.GetCaptchaKeyAsync()).ToList();
-                    int idx = 0, lenCaptchas = captchaKeys.Count;
+                    List<Emails> randomEmails = (await _emailRandomService.GetList()).ToList();
+
+                    int idxCaptcha = 0, 
+                        idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
+                        lenCaptchas = captchaKeys.Count,
+                        cntAnuncios = 0;
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
                     {
-                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idx].Key));
-                        idx = (idx + 1) % lenCaptchas;
+                        cntAnuncios++;
+                        reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
+                        idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
+                        if(cntAnuncios == 30)
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(30));
+                            cntAnuncios = 0;
+                        }
                     }
 
                     await Task.WhenAll(reinsertTask);
 
                     List<string> anunciosEliminados = new List<string>();
-                    List<Anuncio> anunciosProcesados = new List<Anuncio>();
-                    foreach (Task<ReinsertResult> taskResult in reinsertTask)
+                    List<Anuncio> anunciosProcesados = new List<Anuncio>(),
+                                  anunciosExceptions = new List<Anuncio>();
+                    len = reinsertTask.Count;
+                    for (int i = 0; i < len; i++)
                     {
+                        Task<ReinsertResult> taskResult = reinsertTask[i];
                         ReinsertResult result = taskResult.Result;
                         if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
@@ -112,20 +144,41 @@ namespace Services.Impls
                         }
                         else
                         {
+                            DateTime dateTime = DateTime.Now.ToUtcCuba();
                             if (result.HasException)
                             {
                                 _log.LogWarning($"{result.Anuncio.GetUriId} | {result.Exception.Message} | {result.Exception.StackTrace}");
                             }
+
+                            if (result.IsBaned)
+                            {
+                                dateTime = dateTime.AddMinutes(2);
+                            }
+
+                            if(result.NonRemoved)
+                            {
+                                int pos = result.Exception.Message.IndexOf("https");
+                                string url = result.Exception.Message.Substring(pos);
+                                await _removeRepository.AddAsync(new RemoveQueue() { Url = url});
+                                anunciosExceptions.Add(result.Anuncio);
+                                dateTime = dateTime.AddMinutes(2);
+                            }
+
                             if (result.IsDeleted)
                             {
                                 anunciosEliminados.Add(result.Anuncio.Id);
+                                continue;
                             }
-                            // Add to requeue
+
+                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = dateTime});
                         }
                     }
 
+                    await _queueRepository.SaveChangesAsync();
+                    await _removeRepository.SaveChangesAsync();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
                     await _anuncioService.Update(anunciosProcesados);
+                    await _anuncioService.Update(anunciosExceptions);
 
                     int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
@@ -133,8 +186,8 @@ namespace Services.Impls
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
                     int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
-                    double pctVerify = 100.0 * verifyPub / totalAnuncios;
-                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalAnuncios, pct));
+                    double pctVerify = 100.0 * verifyPub / totalProcesados;
+                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
             }
             catch (Exception ex)
@@ -152,7 +205,33 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
+            _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
             await repositoryTemporizador.SaveChangesAsync();
+        }
+
+        public async Task ResetRemoveQueue()
+        {
+            List<RemoveQueue> list = _removeRepository.QueryAll().ToList();
+            List<string> urlList = list.Select(e => e.Url).ToList();
+            _removeRepository.RemoveRange(list);
+            await _removeRepository.SaveChangesAsync();
+
+            List<Task<bool>> tasks = new List<Task<bool>>();
+            foreach (string t in urlList)
+            {
+                tasks.Add(_anuncioService.DeleteFromRevolico(t));
+            }
+            Task.WaitAll(tasks.ToArray());
+
+            int len = list.Count;
+            for(int i = 0; i < len; i++)
+            {
+                if(tasks[i].IsFaulted)
+                {
+                    await _removeRepository.AddAsync(new RemoveQueue() { Url = urlList[i] });
+                }
+            }
+            await _removeRepository.SaveChangesAsync();
         }
     }
 }

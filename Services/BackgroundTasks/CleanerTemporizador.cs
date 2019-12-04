@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Services.BackgroundTasks
 {
-    public class TemporizadoresTimer : IHostedService, IDisposable
+    public class CleanerTemporizador : IHostedService, IDisposable
     {
         private Timer _timer;
         private readonly ILogger _logger;
 
-        public TemporizadoresTimer(IServiceProvider services,
-            ILogger<TemporizadoresTimer> logger)
+        public CleanerTemporizador(IServiceProvider services,
+            ILogger<CleanerTemporizador> logger)
         {
             Services = services;
             _logger = logger;
@@ -26,9 +26,9 @@ namespace Services.BackgroundTasks
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Check Temporizadores  is starting.");
+                "Cleaner Temporizadores  is starting.");
 
-            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(15), TimeSpan.FromMinutes(1));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
@@ -38,7 +38,7 @@ namespace Services.BackgroundTasks
             try
             {
                 _logger.LogInformation(
-                "Check Temporizadores is working.");
+                "Cleaner Temporizadores is working.");
 
                 using (var scope = Services.CreateScope())
                 {
@@ -46,12 +46,12 @@ namespace Services.BackgroundTasks
                         scope.ServiceProvider
                             .GetRequiredService<IChequerService>();
 
-                    IAsyncResult asyncResult = scopedProcessingService.CheckAllTemporizadores();
+                    IAsyncResult asyncResult = scopedProcessingService.ResetRemoveQueue();
                     WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
                     waitHandle.WaitOne();
                 }
                 _logger.LogInformation(
-                    "Completed - Check Temporizadores  is completed.");
+                    "Completed - Cleaner Temporizadores  is completed.");
             }
             catch(Exception ex)
             {
@@ -62,7 +62,7 @@ namespace Services.BackgroundTasks
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation(
-                "Check Temporizadores is stopping.");
+                "Cleaner Temporizadores is stopping.");
 
             return Task.CompletedTask;
         }

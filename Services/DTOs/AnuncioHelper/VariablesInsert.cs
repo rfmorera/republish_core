@@ -7,6 +7,12 @@ namespace Services.DTOs.AnuncioHelper
 {
     public class VariablesInsert
     {
+        public VariablesInsert()
+        {
+            subcategory = email = title = contactInfo = captchaResponse = string.Empty;
+            description = name = phone = string.Empty;
+        }
+
         public VariablesInsert(VariablesUpdate variables)
         {
             subcategory = variables.subcategory;

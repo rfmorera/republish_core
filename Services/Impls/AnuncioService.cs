@@ -44,6 +44,7 @@ namespace Services.Impls
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
             _notificationsService = notificationsService;
+            initCat();
         }
 
         public async Task AddAsync(string GrupoId, string[] links)
@@ -173,7 +174,7 @@ namespace Services.Impls
             }
 
             IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
-                                                                    .Where(a => list.Contains(a.Url))
+                                                                    .Where(a => list.Contains(a.Id))
                                                                     .Include(a => a.Grupo)
                                                                     .ToListAsync();
             List<Notificacion> notificacions = new List<Notificacion>();
@@ -193,52 +194,62 @@ namespace Services.Impls
             await DeleteAsync(anuncios);
         }
 
-        public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha)
+        public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
         {
             ReinsertResult result;
+            CaptchaAnswer captchaResponse;
+            FormInsertAnuncio formInsertAnuncio;
+            FormDeleteAnuncio formDeleteAnuncio;
             try
             {
+                // Get Anuncio
                 string htmlAnuncio = await Requests.GetAsync(anuncio.Url);
                 GetException(htmlAnuncio, anuncio.Url, false);
 
+                // Parse All Data
                 FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
+                formAnuncio.variables.email = email;
 
-                CaptchaAnswer captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
+                //Solve Captcha
+                captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
                 formAnuncio.variables.captchaResponse = captchaResponse.Answer;
 
-                FormInsertAnuncio formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
-                string answer = await FormInsertAnuncio(formInsertAnuncio);
+                // Parse Insert and Delete Forms
+                formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
+                formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
 
+                // Insert new Announce
+                string answer = await InsertAnuncio(formInsertAnuncio);
+
+                // Verify Insertion
                 GetException(answer, anuncio.Url, true, captchaResponse);
 
-                FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
-                await DeleteFromRevolico(formDeleteAnuncio);
-
+                // Update new Anuncio URL
                 InsertResult insertResult = ParseInsertResult(answer);
-                UpdateAuncioUrl(insertResult, anuncio);
+                anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
+                _log.LogWarning($"ReplaceInsert {anuncio.Id} {insertResult.FullId}");
+
+                // Delete from Revolico
+                await DeleteFromRevolico(formDeleteAnuncio);
 
                 result = new ReinsertResult(anuncio);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result = new ReinsertResult(anuncio, ex);
             }
+
             return result;
         }
 
-        private async Task<string> FormInsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        public async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
             string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
             return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
         }
 
-        private void UpdateAuncioUrl(InsertResult insertResult, Anuncio anuncio)
-        {
-            anuncio.Url = $"{Requests.RevolicoModifyUrl}?key={insertResult.FullId}";
-        }
-
-        private InsertResult ParseInsertResult(string answer)
+        public InsertResult ParseInsertResult(string answer)
         {
             int posIni = answer.IndexOf("id\":\"") + "id\":\"".Length;
             int posNex = answer.IndexOf("\"", posIni);
@@ -250,14 +261,45 @@ namespace Services.Impls
             return new InsertResult(Id, Token);
         }
 
-        public async Task<string> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
+        public async Task<bool> DeleteFromRevolico(string url)
         {
-            string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+            string htmlAnuncio = await Requests.GetAsync(url);
+            FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
 
-            return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+            FormDeleteAnuncio formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
+
+            return await DeleteFromRevolico(formDeleteAnuncio);
         }
 
-        private async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
+        public async Task<bool> DeleteFromRevolico(FormDeleteAnuncio formDeleteAnuncio)
+        {
+            string Url;
+            try
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    string jsonForm = $"[{JsonConvert.SerializeObject(formDeleteAnuncio)}]";
+                    string answer = await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+                    if (answer.Contains("\"status\":200") ||
+                         answer.Contains("\"errors\":null") ||
+                         answer.Contains("DeleteAdWithoutUserMutationPayload"))
+                    {
+                        return true;
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(20));
+                }
+            }
+            catch (Exception)
+            {
+                Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
+                throw new Exception("Error Removing from Revolico " + Url);
+            }
+
+            Url = $"{Requests.RevolicoModifyUrl}?key={formDeleteAnuncio.variables.token}{formDeleteAnuncio.variables.id}";
+            throw new Exception("Error Removing from Revolico " + Url);
+        }
+
+        public async Task<CaptchaAnswer> ResolveCaptcha(string key2captcha, string _uri, string htmlAnuncio)
         {
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
@@ -306,9 +348,9 @@ namespace Services.Impls
                 int price;
                 _ = int.TryParse(tmp.Attributes["value"].Value, out price);
                 formAnuncio.variables.price = price;
-                
+
                 tmp = doc.DocumentNode.SelectSingleNode("//*[@name='title']");
-                formAnuncio.variables.title = tmp.Attributes["value"].Value;
+                formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.Attributes["value"].Value);
 
                 tmp = doc.DocumentNode.SelectSingleNode("//textarea[@name='description']");
                 // Decode the encoded string.
@@ -405,11 +447,133 @@ namespace Services.Impls
 
         public async Task Update(List<Anuncio> anunciosProcesados)
         {
-            foreach(Anuncio a in anunciosProcesados)
+            foreach (Anuncio a in anunciosProcesados)
             {
                 await repositoryAnuncio.UpdateAsync(a, a.Id);
             }
             await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<FormInsertAnuncio> Retrieve(string url)
+        {
+            // Get Anuncio
+            string htmlAnuncio = await Requests.GetAsync(url);
+            FormInsertAnuncio formInsert = ParseFormReadUrl(htmlAnuncio);
+            return formInsert;
+        }
+
+        public FormInsertAnuncio ParseFormReadUrl(string htmlAnuncio)
+        {
+            try
+            {
+                FormInsertAnuncio formAnuncio = new FormInsertAnuncio();
+                HtmlDocument doc = new HtmlDocument();
+
+                // Load the html from a string
+                doc.LoadHtml(htmlAnuncio);
+                HtmlNode tmp;
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPrice']");
+
+                    int price;
+                    _ = int.TryParse(tmp.InnerText, out price);
+                    formAnuncio.variables.price = price;
+                }
+                catch (Exception) { }
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adTitle']");
+                formAnuncio.variables.title = HttpUtility.HtmlDecode(tmp.InnerText);
+
+                tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adDescription']");
+                int p1 = htmlAnuncio.LastIndexOf("description\":\"") + "description\":\"".Length;
+                int p2 = htmlAnuncio.IndexOf("\",\"price", p1);
+                // Decode the encoded string.
+                formAnuncio.variables.description = HttpUtility.HtmlDecode(htmlAnuncio).Substring(p1, p2 - p1);
+
+                formAnuncio.variables.images = new string[0];
+                List<string> imagesId = new List<string>();
+                int lastPos = 0, posIni = 0, posEnd;
+                posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                while (posIni != -1)
+                while (posIni != -1)
+                {
+                    posEnd = htmlAnuncio.IndexOf("urls", posIni);
+                    posIni += 9;
+                    posEnd -= 3;
+                    string id = htmlAnuncio.Substring(posIni, posEnd - posIni);
+                    imagesId.Add(id);
+                    lastPos = posEnd;
+                    posIni = htmlAnuncio.IndexOf("gcsKey", lastPos);
+                }
+                formAnuncio.variables.images = imagesId.ToArray();
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adEmail']");
+                    formAnuncio.variables.email = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adName']");
+                    formAnuncio.variables.name = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                try
+                {
+                    tmp = doc.DocumentNode.SelectSingleNode("//*[@data-cy='adPhone']");
+                    formAnuncio.variables.phone = tmp.InnerText;
+                }
+                catch (Exception) { }
+
+                //int p2 = htmlAnuncio.LastIndexOf("\",\"typename\":\"CategoryType\"");
+                //int p1 = p2;
+                //for (int i = 1; i <= 3; i++)
+                //{
+                //    if (htmlAnuncio.ElementAt(p2 - i) == ':')
+                //    {
+                //        p1 = p2 - i + 1;
+                //        break;
+                //    }
+                //}
+                string cat = GetCategoria(htmlAnuncio);
+                formAnuncio.variables.subcategory = Cat[cat];
+
+                formAnuncio.variables.contactInfo = "EMAIL_PHONE";
+                formAnuncio.variables.botScore = "";
+
+                Console.WriteLine(cat);
+
+                return formAnuncio;
+            }
+            catch (Exception ex)
+            {
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+            }
+        }
+
+        NameValueCollection Cat;
+        void initCat()
+        {
+            Cat = new NameValueCollection();
+            Cat.Add("/vivienda/alquiler-a-cubanos/", "103");
+            Cat.Add("/vivienda/alquiler-a-extranjeros/", "104");
+            Cat.Add("/servicios/gimnasio-masaje-entrenador/", "220");
+            Cat.Add("/vivienda/compra-venta/", "101");
+            Cat.Add("/vivienda/casa-en-la-playa/", "105");
+            Cat.Add("/compra-venta/electrodomesticos/", "35");
+            Cat.Add("/servicios/construccion-mantenimiento/", "75");
+            Cat.Add("/servicios/diseno-decoracion/", "79");
+            Cat.Add("/compra-venta/libros-revistas/", "38");
+            Cat.Add("/compra-venta/consola-videojuego-juegos/", "39");
+            Cat.Add("/compra-venta/mascotas-animales/", "41");
+            Cat.Add("/computadoras/impresora-cartuchos/", "15");
+            Cat.Add("/compra-venta/ropa-zapato-accesorios/", "211");
+            Cat.Add("/compra-venta/joyas-relojes/", "211");
+            Cat.Add("/autos/piezas-accesorios/", "125");
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Services
     {
         Task CheckAllTemporizadores();
         Task ResetAll();
+        Task ResetRemoveQueue();
     }
 }

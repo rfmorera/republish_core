@@ -13,6 +13,7 @@ using Services.Utils;
 using Microsoft.Extensions.Logging;
 using Services.Extensions;
 using Services.DTOs.AnuncioHelper;
+using Republish.Extensions;
 
 namespace Services.Impls
 {
@@ -21,11 +22,13 @@ namespace Services.Impls
         private readonly IRepository<Anuncio> _anuncioRepository;
         private readonly INotificationsService _notificationsService;
         private readonly IAnuncioService _anuncioService;
+        private readonly IRepository<ShortQueue> _queueRepository;
         readonly ILogger _log;
 
         public ValidationService(ApplicationDbContext context, INotificationsService notificationsService, ILogger<ValidationService> log, IAnuncioService anuncioService)
         {
             _anuncioRepository = new Repository<Anuncio>(context);
+            _queueRepository = new Repository<ShortQueue>(context);
             _notificationsService = notificationsService;
             _log = log;
             _anuncioService = anuncioService;
@@ -52,6 +55,8 @@ namespace Services.Impls
                     string message = String.Format("Anuncio escondido: Revolico no está listando el anuncio <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\nContacte a Revolico para que lo habiliten.", a.Titulo, a.Categoria.ToUpper(), a.Url);
                     await _notificationsService.SendNotification(a.Grupo.UserId, message);
                     //a.Enable = false;
+
+                    await _queueRepository.AddAsync(new ShortQueue() { Url = a.Url, Created = DateTime.Now.ToUtcCuba() });
                 }
                 else
                 {

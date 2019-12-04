@@ -74,6 +74,7 @@ namespace Republish
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
+            services.AddHostedService<CleanerTemporizador>();
             
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -97,6 +98,7 @@ namespace Republish
             services.AddTransient<IAgentService, AgentService>();
             services.AddScoped<INotificationsService, NotificationsService>();
             services.AddScoped<IValidationService, ValidationService>();
+            services.AddScoped<IEmailRandomService, EmailRandomService>();
 
             services.AddAuthorization(options =>
             {
