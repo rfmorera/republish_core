@@ -152,5 +152,10 @@ namespace Services.Impls
 
             return list;
         }
+
+        public async Task<bool> GroupHasTemporizadoresEnable(string GroupId)
+        {
+            return (await repositoryTemporizador.FindAllAsync(t => t.GrupoId == GroupId && t.Enable)).Any();
+        }
     }
 }

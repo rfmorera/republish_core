@@ -18,6 +18,7 @@ using Services.Exceptions;
 using BlueDot.Data.UnitsOfWorkInterfaces;
 using System.Net;
 using Services.Results;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Services.Impls
 {
@@ -25,7 +26,6 @@ namespace Services.Impls
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Temporizador> repositoryTemporizador;
-        private readonly IRepository<ShortQueue> _queueRepository;
         private readonly IRepository<RemoveQueue> _removeRepository;
         private readonly IGrupoService _grupoService;
         private readonly ICaptchaService _captchaService;
@@ -35,13 +35,13 @@ namespace Services.Impls
         private readonly ITemporizadorService _temporizadorService;
         private readonly IValidationService _validationService;
         private readonly IEmailRandomService _emailRandomService;
+        private readonly IQueueService _queueService;
         readonly ILogger<ChequerService> _log;
 
-        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService)
+        public ChequerService(ApplicationDbContext context, IGrupoService grupoService, ILogger<ChequerService> log, ICaptchaService captchaService, IRegistroService registroService, IAnuncioService anuncioService, IManejadorFinancieroService financieroService, ITemporizadorService temporizadorService, IValidationService validationService, IEmailRandomService emailRandomService, IQueueService queueService)
         {
             _context = context;
             repositoryTemporizador = new Repository<Temporizador>(context);
-            _queueRepository = new Repository<ShortQueue>(context);
             _removeRepository = new Repository<RemoveQueue>(context);
             _grupoService = grupoService;
             _log = log;
@@ -52,6 +52,7 @@ namespace Services.Impls
             _temporizadorService = temporizadorService;
             _validationService = validationService;
             _emailRandomService = emailRandomService;
+            _queueService = queueService;
         }
 
         public async Task CheckAllTemporizadores()
@@ -59,18 +60,25 @@ namespace Services.Impls
             try
             {
                 DateTime UtcCuba = DateTime.Now.ToUtcCuba();
-                DateTime UtcCubaMinus3 = UtcCuba.AddMinutes(-2);
+                TimeSpan ini = new TimeSpan(0, 15, 0);
+                TimeSpan fin = new TimeSpan(23, 50, 0);
+                if (ini > UtcCuba.TimeOfDay || UtcCuba.TimeOfDay > fin)
+                {
+                    return;
+                }
+
                 IEnumerable<Temporizador> list = await _temporizadorService.GetRunning();
                 
                 List<Task<IEnumerable<Anuncio>>> getAnunciosTasks = new List<Task<IEnumerable<Anuncio>>>();
 
                 foreach (Temporizador t in list)
                 {
-                    getAnunciosTasks.Add(_grupoService.GetAnunciosToUpdate(t.GrupoId, t.Etapa));
+                    getAnunciosTasks.Add(_anuncioService.GetAnunciosToUpdate(t.GrupoId, t.Etapa));
                 }
 
                 await Task.WhenAll(getAnunciosTasks);
-                
+                await SaveChanges();
+
                 List<Anuncio> listAnuncios = new List<Anuncio>();
                 int len = getAnunciosTasks.Count;
                 List<Registro> registros = new List<Registro>(len);
@@ -91,13 +99,7 @@ namespace Services.Impls
                     }
                 }
 
-                IEnumerable<Anuncio> anunciosFromQueue = await (from q in _context.ShortQueue
-                                                                where q.Created <= UtcCubaMinus3
-                                                                join a in _context.Anuncio on q.Url equals a.Url
-                                                                select a).ToListAsync();
-
-                _queueRepository.RemoveRange(await _queueRepository.FindAllAsync(q => q.Created <= UtcCubaMinus3));
-                await _queueRepository.SaveChangesAsync();
+                IEnumerable<Anuncio> anunciosFromQueue = await _queueService.GetAnunciosFromQueue();
 
                 listAnuncios.AddRange(anunciosFromQueue);
 
@@ -114,6 +116,7 @@ namespace Services.Impls
                     int idxCaptcha = 0, 
                         idxEmail = (new Random(DateTime.Now.Millisecond)).Next(0, randomEmails.Count), 
                         lenCaptchas = captchaKeys.Count,
+                        lenEmails = randomEmails.Count,
                         cntAnuncios = 0;
                     List<Task<ReinsertResult>> reinsertTask = new List<Task<ReinsertResult>>();
                     foreach (Anuncio an in listAnuncios)
@@ -121,6 +124,8 @@ namespace Services.Impls
                         cntAnuncios++;
                         reinsertTask.Add(_anuncioService.ReInsert(an, captchaKeys[idxCaptcha].Key, randomEmails[idxEmail].Email));
                         idxCaptcha = (idxCaptcha + 1) % lenCaptchas;
+                        idxEmail = (idxEmail + 1) % lenEmails;
+
                         if(cntAnuncios == 30)
                         {
                             await Task.Delay(TimeSpan.FromSeconds(30));
@@ -130,9 +135,8 @@ namespace Services.Impls
 
                     await Task.WhenAll(reinsertTask);
 
-                    List<string> anunciosEliminados = new List<string>();
                     List<Anuncio> anunciosProcesados = new List<Anuncio>(),
-                                  anunciosExceptions = new List<Anuncio>();
+                                  anunciosEliminados = new List<Anuncio>();
                     len = reinsertTask.Count;
                     for (int i = 0; i < len; i++)
                     {
@@ -140,7 +144,9 @@ namespace Services.Impls
                         ReinsertResult result = taskResult.Result;
                         if (taskResult.IsCompletedSuccessfully && taskResult.Result.Success)
                         {
-                            anunciosProcesados.Add(result.Anuncio);
+                            Anuncio an = result.Anuncio;
+                            an.Procesando = 0;
+                            anunciosProcesados.Add(an);
                         }
                         else
                         {
@@ -160,32 +166,34 @@ namespace Services.Impls
                                 int pos = result.Exception.Message.IndexOf("https");
                                 string url = result.Exception.Message.Substring(pos);
                                 await _removeRepository.AddAsync(new RemoveQueue() { Url = url});
-                                anunciosExceptions.Add(result.Anuncio);
-                                dateTime = dateTime.AddMinutes(2);
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
+                                anunciosProcesados.Add(an);
+                                continue;
                             }
 
                             if (result.IsDeleted)
                             {
-                                anunciosEliminados.Add(result.Anuncio.Id);
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
+                                an.Enable = false;
+                                an.Eliminado = true;
+                                anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
-
-                            await _queueRepository.AddAsync(new ShortQueue() { Url = result.Anuncio.Url, Created = dateTime});
+                            await _queueService.Add(result.Anuncio.Id, dateTime);
                         }
                     }
 
-                    await _queueRepository.SaveChangesAsync();
-                    await _removeRepository.SaveChangesAsync();
+                    await SaveChanges();
                     await _anuncioService.NotifyDelete(anunciosEliminados);
-                    await _anuncioService.Update(anunciosProcesados);
-                    await _anuncioService.Update(anunciosExceptions);
 
                     int totalProcesados = anunciosProcesados.Count;
                     int totalAnuncios = listAnuncios.Count();
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Url).ToList());
+                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
                     double pctVerify = 100.0 * verifyPub / totalProcesados;
                     _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
@@ -205,8 +213,57 @@ namespace Services.Impls
                 t.NextExecution = t.HoraInicio;
                 await repositoryTemporizador.UpdateAsync(t, t.Id);
             }
-            _queueRepository.RemoveRange(await _queueRepository.GetAllAsync());
+            await _anuncioService.Reset();
             await repositoryTemporizador.SaveChangesAsync();
+        }
+
+        private async Task SaveChanges()
+        {
+            int saved = 5;
+            while (saved > 0)
+            {
+                try
+                {
+                    // Attempt to save changes to the database
+                    await _context.SaveChangesAsync();
+                    saved--;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    int len = ex.Entries.Count;
+                    for (int i = 0; i < len; i++)
+                    {
+                        var entry = ex.Entries[i];
+                        var clientValues = (Anuncio)entry.Entity;
+                        var databaseEntry = entry.GetDatabaseValues();
+                        if (databaseEntry == null)
+                        {
+                            _log.LogInformation("Unable to save changes. The anuncio  was deleted by another user.");
+                        }
+                        else
+                        {
+                            Anuncio databaseValues = (Anuncio)databaseEntry.ToObject();
+
+                            if (databaseValues.Url != clientValues.Url)
+                            {
+                                _log.LogError($"Conflicto de URL > {clientValues.Id} | DB {databaseValues.Url} Client {clientValues.Url}");
+                                databaseValues.Url = clientValues.Url;
+                            }
+                            else
+                            {
+                                _log.LogError("Don't know how to handle concurrency conflicts for " + clientValues.Id);
+                            }
+                            entry.OriginalValues.SetValues(databaseEntry);
+                        }
+                    }   
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.)
+                    _log.LogError("Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    return;
+                }
+            }
         }
 
         public async Task ResetRemoveQueue()

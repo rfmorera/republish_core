@@ -31,19 +31,19 @@ namespace Services.Impls
 {
     public class AnuncioService : IAnuncioService
     {
-        private const string noiseData = "\n\n\n\n\n\n\n\n\n-----------Raw Text-------------------\nqwertyuiopas nbghnhfntgy,lop kjhmgymikonbvfvbcyh\n xcvxb ztfdwqerasfvtyrfjguioyhio pujdfghjklzxcvbm\nzqxswcedvfrb tgnhymju,ik.lo\n123456789-+.0\n??|?|?|?| ?|?||?||?|? ?|?|?|?|?|?|?| ?|?||?|?|?\n___________________ ____________________ ______________\n//////////////////////////// ///////////////// /////////////// ///////////\n";
-
         private readonly ApplicationDbContext _dbContext;
         private readonly IRepository<Anuncio> repositoryAnuncio;
         private readonly INotificationsService _notificationsService;
+        private readonly ITemporizadorService _temporizadorService;
         readonly ILogger _log;
 
-        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService)
+        public AnuncioService(ApplicationDbContext dbContext, ILogger<AnuncioService> log, INotificationsService notificationsService, ITemporizadorService temporizadorService)
         {
             _dbContext = dbContext;
             repositoryAnuncio = new Repository<Anuncio>(dbContext);
             _log = log;
             _notificationsService = notificationsService;
+            _temporizadorService = temporizadorService;
             initCat();
         }
 
@@ -140,58 +140,104 @@ namespace Services.Impls
 
         public async Task DeleteAllByGroup(string GrupoId)
         {
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(GrupoId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId && p.Procesando == 0);
             repositoryAnuncio.RemoveRange(anuncios);
 
             await repositoryAnuncio.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Anuncio>> GetAnunciosToUpdate(string GroupId, int Etapa)
+        {
+            IEnumerable<Anuncio> listAnuncio = new List<Anuncio>();
+            if (Etapa == 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+            }
+            else if (Etapa > 0)
+            {
+                listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).Where(a => !a.Actualizado).Take(Etapa).ToListAsync();
+
+                if (!listAnuncio.Any())
+                {
+                    listAnuncio = await QueryBaseAnunciosToUpdate(GroupId).ToListAsync();
+                    foreach (Anuncio a in listAnuncio)
+                    {
+                        a.Actualizado = false;
+                    }
+                    listAnuncio = listAnuncio.Take(Etapa);
+                }
+            }
+            else
+            {
+                return listAnuncio;
+            }
+            
+            foreach(Anuncio a in listAnuncio)
+            {
+                a.Procesando = 1;
+                a.Actualizado = true;
+            }
+
+            return listAnuncio;
+        }
+
+        private IQueryable<Anuncio> QueryBaseAnunciosToUpdate(string GroupId)
+        {
+            return repositoryAnuncio.QueryAll().Where(a => a.GroupId == GroupId
+                                                        && a.Enable
+                                                        && a.Procesando == 0
+                                                        && !a.Eliminado)
+                                               .OrderBy(a => a.Orden)
+                                               .Select(a => a);
         }
 
         public async Task DeleteAsync(string Id)
         {
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
+            if(anuncio.Procesando != 0)
+            {
+                throw new Exception("El anuncio está siendo procesado por el sistema");
+            }
+            if (await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
+            {
+                throw new Exception("Grupo tiene Temporizadores activados");
+            }
             repositoryAnuncio.Remove(anuncio);
             await repositoryAnuncio.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(List<string> list)
+        public async Task NotifyDelete(List<Anuncio> list)
         {
-            IEnumerable<Anuncio> anuncios = (await repositoryAnuncio.FindAllAsync(a => list.Contains(a.Url))).AsEnumerable();
-            repositoryAnuncio.RemoveRange(anuncios);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(IEnumerable<Anuncio> anuncios)
-        {
-            repositoryAnuncio.RemoveRange(anuncios);
-            await repositoryAnuncio.SaveChangesAsync();
-        }
-
-        public async Task NotifyDelete(List<string> list)
-        {
-            if (!list.Any())
+            try
             {
-                return;
-            }
-
-            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.QueryAll()
-                                                                    .Where(a => list.Contains(a.Id))
-                                                                    .Include(a => a.Grupo)
-                                                                    .ToListAsync();
-            List<Notificacion> notificacions = new List<Notificacion>();
-            foreach (Anuncio item in anuncios)
-            {
-                notificacions.Add(new Notificacion()
+                if (!list.Any())
                 {
-                    UserId = item.Grupo.UserId,
-                    DateCreated = DateTime.Now.ToUtcCuba(),
-                    Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha eliminado del sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
-                    Readed = false
-                });
+                    return;
+                }
+
+                List<Notificacion> notificacions = new List<Notificacion>();
+                foreach (Anuncio item in list)
+                {
+                    _dbContext.Entry(item).Reference(s => s.Grupo).Load();
+                    notificacions.Add(new Notificacion()
+                    {
+                        UserId = item.Grupo.UserId,
+                        DateCreated = DateTime.Now.ToUtcCuba(),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Readed = false
+                    });
+                }
+
+                await _notificationsService.Add(notificacions);
             }
-
-            await _notificationsService.Add(notificacions);
-
-            await DeleteAsync(anuncios);
+            catch(Exception ex)
+            {
+                _log.LogError(ex.ToExceptionString());
+            }
         }
 
         public async Task<ReinsertResult> ReInsert(Anuncio anuncio, string Key2Captcha, string email)
@@ -330,7 +376,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new BadCaptchaException("ERROR_CAPTCHA_UNSOLVABLE", _uri);
+            throw new Exception("Unkown error");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)
@@ -574,6 +620,15 @@ namespace Services.Impls
             Cat.Add("/compra-venta/ropa-zapato-accesorios/", "211");
             Cat.Add("/compra-venta/joyas-relojes/", "211");
             Cat.Add("/autos/piezas-accesorios/", "125");
+        }
+
+        public async Task Reset()
+        {
+            IEnumerable<Anuncio> anuncios = await repositoryAnuncio.GetAllAsync();
+            foreach (Anuncio item in anuncios){
+                item.Procesando = 0;
+                item.Revalidado = 0;
+            }
         }
     }
 }

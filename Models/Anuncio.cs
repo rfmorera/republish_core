@@ -21,6 +21,11 @@ namespace Models
 
         public bool Enable { get; set; } = true;
 
+        public short Procesando { get; set; } = 0;
+        public short Revalidado { get; set; } = 0;
+        public bool Eliminado { get; set; } = false;
+
+
         [NotMapped]
         public Uri UrlFormat { get
             {
