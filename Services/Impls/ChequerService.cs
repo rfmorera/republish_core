@@ -181,6 +181,12 @@ namespace Services.Impls
                                 anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
+
+                            if (!result.BadCaptcha)
+                            {
+                                continue;
+                            }
+
                             await _queueService.Add(result.Anuncio.Id, dateTime);
                         }
                     }
