@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Services;
 using Services.DTOs;
+using Services.Exceptions;
 
 namespace RepublishTool.Areas.Client.Controllers
 {
@@ -80,9 +81,16 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string GrupoId)
         {
-            await _grupoService.DeleteAsync(GrupoId);
+            try
+            {
+                await _grupoService.DeleteAsync(GrupoId);
 
-            return Ok(GrupoId);
+                return Ok(GrupoId);
+            }
+            catch(CannotDeleteException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -97,17 +105,31 @@ namespace RepublishTool.Areas.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAnuncio(string GrupoId, string AnuncioId)
         {
-            await _anuncioService.DeleteAsync(AnuncioId);
+            try
+            {
+                await _anuncioService.DeleteAsync(AnuncioId);
 
-            return Ok(AnuncioId);
+                return await BuildPartialDetailsView(GrupoId);
+            }
+            catch (CannotDeleteException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteAllAnuncios(string GrupoId)
         {
-            await _anuncioService.DeleteAllByGroup(GrupoId);
+            try
+            {
+                await _anuncioService.DeleteAllByGroup(GrupoId);
 
-            return await BuildPartialDetailsView(GrupoId);
+                return await BuildPartialDetailsView(GrupoId);
+            }
+            catch (CannotDeleteException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -135,7 +157,7 @@ namespace RepublishTool.Areas.Client.Controllers
         {
             await _temporizadorService.DeleteAsync(TemporizadorId);
 
-            return Ok(TemporizadorId);
+            return await BuildPartialDetailsView(GrupoId);
         }
 
         [HttpPost]

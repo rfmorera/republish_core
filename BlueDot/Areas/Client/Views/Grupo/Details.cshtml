@@ -93,7 +93,7 @@
                                     <tr class="gradeX" id="@item.Id">
                                         <td>
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="EditaTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="disabled btn btn-white btn-sm1 tooltip-demo edit-button" data-form-id="edit-form"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteTemporizador" asp-route-GrupoId="@Model.Id" asp-route-TemporizadorId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
                                         </td>
                                         <td>
                                             <div class="switch-temporizador">
@@ -163,7 +163,7 @@
                                         <td>
                                             <a href="@item.Url" target="_blank" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visitar"></i></a>
 
-                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+                                            <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
 
                                             <div class="switch-temporizador">
                                                 <div class="onoffswitch">
@@ -206,7 +206,7 @@
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
       data-ajax-success="onDeleteSuccess"
-      data-ajax-failure="onAjaxError"
+      data-ajax-failure="onDeleteRecordFailure"
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content"></form>
 
