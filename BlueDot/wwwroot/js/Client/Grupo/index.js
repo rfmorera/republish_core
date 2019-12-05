@@ -1,6 +1,6 @@
 ﻿$(document).ready(initializePage);
 
-function onSaveSuccess() {
+function onActionSuccess() {
     onAjaxSuccess();
     initializePage();
 }
@@ -8,11 +8,6 @@ function onSaveSuccess() {
 function onAddSuccess() {
     clean_modal();
     initializePage();
-}
-
-function onDeleteSuccess(data, status, xhr) {
-    onAjaxSuccess();
-    $("#" + data).remove();
 }
 
 function initializePage() {
@@ -166,11 +161,6 @@ function showTemporizadoresConfirmationPopup(form, estado, detail) {
     }, function () {
         form.submit();
     });
-}
-
-function onToogleSuccess() {
-    initializePage();
-    onAjaxSuccess();
 }
 
 function onDeleteRecordFailure(xhr, status, error) {

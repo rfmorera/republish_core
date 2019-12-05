@@ -5,11 +5,6 @@ function onAddSuccess() {
     initializePage();
 }
 
-function onDeleteSuccess(data, status, xhr) {
-    $("#" + data).remove();
-    onAjaxSuccess();
-}
-
 function initializePage() {
     $('.clockpicker').clockpicker();
 
