@@ -184,6 +184,9 @@ namespace Services.Impls
 
                             if (!result.BadCaptcha)
                             {
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
+                                an.Enable = false;
                                 continue;
                             }
 
