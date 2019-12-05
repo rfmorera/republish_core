@@ -142,12 +142,12 @@ namespace Services.Impls
         {
             if (await _temporizadorService.GroupHasTemporizadoresEnable(GrupoId))
             {
-                throw new CannotDeleteRecord("El Grupo tiene Temporizadores habilitados");
+                throw new CannotDeleteException("El Grupo tiene Temporizadores habilitados");
             }
             IEnumerable<Anuncio> anuncios = await repositoryAnuncio.FindAllAsync(p => p.GroupId == GrupoId);
             if(anuncios.Any(a => a.Procesando != 0))
             {
-                throw new CannotDeleteRecord("Existen anuncios siendo procesados en el sistema");
+                throw new CannotDeleteException("Existen anuncios siendo procesados en el sistema");
             }
             repositoryAnuncio.RemoveRange(anuncios);
 
@@ -204,11 +204,11 @@ namespace Services.Impls
             Anuncio anuncio = await repositoryAnuncio.FindAsync(p => p.Id == Id);
             if(anuncio.Procesando != 0)
             {
-                throw new CannotDeleteRecord("El anuncio está siendo procesado por el sistema");
+                throw new CannotDeleteException("El anuncio está siendo procesado por el sistema");
             }
             if (await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
             {
-                throw new CannotDeleteRecord("El Grupo tiene Temporizadores activados");
+                throw new CannotDeleteException("El Grupo tiene Temporizadores activados");
             }
             repositoryAnuncio.Remove(anuncio);
             await repositoryAnuncio.SaveChangesAsync();

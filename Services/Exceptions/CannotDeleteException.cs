@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Services.Exceptions
 {
-    public class CannotDeleteRecord : Exception
+    public class CannotDeleteException : Exception
     {
-        public CannotDeleteRecord(string message) : base(message)
+        public CannotDeleteException(string message) : base(message)
         {
 
         }
