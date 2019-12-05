@@ -165,7 +165,7 @@
 
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
 
-                                            <div class="switch-temporizador">
+                                            <a class="delete-button" asp-controller="Grupo" asp-action="TogleAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" data-form-id="submit-form" data-text="Confirme que usted desea habilitar/deshabilitar el anuncio.">
                                                 <div class="onoffswitch">
                                                     <input type="checkbox" checked="@item.Enable" class="onoffswitch-checkbox" />
                                                     <label class="onoffswitch-label">
@@ -173,7 +173,7 @@
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </td>
                                         <td>
                                             <span class="badge badge-@item.BadgeClass">@item.BadgeMessage</span>
