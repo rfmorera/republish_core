@@ -103,6 +103,21 @@ namespace RepublishTool.Areas.Client.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> TogleAnuncio(string GrupoId, string AnuncioId)
+        {
+            try
+            {
+                await _anuncioService.TogleAnuncio(AnuncioId);
+
+                return await BuildPartialDetailsView(GrupoId);
+            }
+            catch (CannotDeleteException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> DeleteAnuncio(string GrupoId, string AnuncioId)
         {
             try

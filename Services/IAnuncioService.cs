@@ -30,5 +30,6 @@ namespace Services
         Task<FormInsertAnuncio> Retrieve(string url);
 
         Task Reset();
+        Task TogleAnuncio(string Id);
     }
 }

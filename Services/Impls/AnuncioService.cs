@@ -207,9 +207,9 @@ namespace Services.Impls
             {
                 throw new CannotDeleteException("El anuncio está siendo procesado por el sistema");
             }
-            if (await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
+            if (anuncio.Enable == true && await _temporizadorService.GroupHasTemporizadoresEnable(anuncio.GroupId))
             {
-                throw new CannotDeleteException("El Grupo tiene Temporizadores activados");
+                throw new CannotDeleteException("El Grupo tiene Temporizadores activados y su anuncio está activo");
             }
             repositoryAnuncio.Remove(anuncio);
             await repositoryAnuncio.SaveChangesAsync();
@@ -634,6 +634,20 @@ namespace Services.Impls
                 item.Procesando = 0;
                 item.Revalidado = 0;
             }
+        }
+
+        public async Task TogleAnuncio(string Id)
+        {
+            Anuncio anuncio = await repositoryAnuncio.FindAsync(a => a.Id == Id);
+            if(anuncio.Enable == true)
+            {
+                anuncio.Enable = false;
+            }
+            else
+            {
+                anuncio.Enable = true;
+            }
+            await repositoryAnuncio.SaveChangesAsync();
         }
     }
 }
