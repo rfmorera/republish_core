@@ -194,7 +194,8 @@ namespace Services.Impls
             return repositoryAnuncio.QueryAll().Where(a => a.GroupId == GroupId
                                                         && a.Enable.HasValue && a.Enable.Value
                                                         && a.Procesando == 0
-                                                        && !a.Eliminado)
+                                                        && !a.Eliminado 
+                                                        && !a.Despublicado)
                                                .OrderBy(a => a.Orden)
                                                .Select(a => a);
         }
