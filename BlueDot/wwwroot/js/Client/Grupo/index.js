@@ -172,3 +172,30 @@ function onToogleSuccess() {
     initializePage();
     onAjaxSuccess();
 }
+
+function onDeleteRecordFailure(xhr, status, error) {
+    if (xhr.status === 422) {
+        var response = xhr.responseText;
+
+        // Note: Need to also check "UsernameExists" because this is the string returned by the DropZone plugin. This is for the case where attachments are included in the questionnaire.
+        if (response.length > 0) {
+            setTimeout(
+                function () {
+                    swal({
+                        title: "Error",
+                        text: response,
+                        type: "warning",
+                        confirmButtonColor: "#DD6B55",
+                        showCancelButton: false,
+                        showConfirmButton: true
+                    });
+                }, 1000);
+        }
+        else {
+            onAjaxError.apply(this, arguments);
+        }
+    }
+    else {
+        onAjaxError.apply(this, arguments);
+    }
+}
