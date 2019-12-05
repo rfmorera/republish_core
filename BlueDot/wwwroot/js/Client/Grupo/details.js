@@ -37,25 +37,6 @@ function initializePage() {
         }
     });
 
-
-    $("a.delete-all-anuncios-button").off("click").on("click", function (e) {
-        e.preventDefault();
-        var form = prepareFormCustom($(this));
-
-        if (form) {
-            showConfirmationPopupCustom(form);
-        }
-    });
-
-    $("a.delete-all-temporizadores-button").off("click").on("click", function (e) {
-        e.preventDefault();
-        var form = prepareFormCustom($(this));
-
-        if (form) {
-            showConfirmationPopupTemporizadoresCustom(form);
-        }
-    });
-
     $(".update-title").off('click').on('click', function (e) {
         form = $("#title-form");
 
@@ -124,29 +105,6 @@ function initializePage() {
     });
 }
 
-function showConfirmationPopupCustom(form) {
-    swal({
-        title: "¿Está seguro?",
-        text: "Por favor confirme que usted desea eliminar todos los anuncios de este grupo",
-        type: "warning",
-        confirmButtonColor: "#DD6B55",
-        showCancelButton: true
-    }, function () {
-        form.submit();
-    });
-}
-function showConfirmationPopupTemporizadoresCustom(form) {
-    swal({
-        title: "¿Está seguro?",
-        text: "Por favor confirme que usted desea eliminar todos los temporizadores de este grupo",
-        type: "warning",
-        confirmButtonColor: "#DD6B55",
-        showCancelButton: true
-    }, function () {
-        form.submit();
-    });
-}
-
 function onCookieSuccess() {
     swal({
         title: "¿Está seguro?",
@@ -173,24 +131,7 @@ function showTemporizadoresConfirmationPopup(form, estado, detail) {
     });
 }
 
-function onToogleSuccess() {
+function onActionSuccess() {
     initializePage();
     onAjaxSuccess();
-}
-
-function onUpdateTitleSuccess() {
-    initializePage();
-    onAjaxSuccess();
-}
-
-function showConfirmationPopupActualizarTitulo(form) {
-    swal({
-        title: "¿Está seguro?",
-        text: "Por favor confirme que usted desea actualizar los títulos de los anuncios de este grupo",
-        type: "warning",
-        confirmButtonColor: "#DD6B55",
-        showCancelButton: true
-    }, function () {
-        form.submit();
-    });
 }

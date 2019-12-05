@@ -64,7 +64,7 @@
                 <div class="ibox-title">
                     <h3>Temporizadores</h3><br>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
-                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-temporizadores-button" data-form-id="delete-form">Eliminar Temporizadores</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllTemporizadores" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-button" data-form-id="delete-form" data-text="Por favor confirme que usted desea eliminar todos los temporizadores de este grupo">Eliminar Temporizadores</a>
                     <a href="#myModal" data-toggle="modal" data-target="#add-temporizador-modal" class="btn btn-primary" id="btnAddTemporizador">Añadir Temporizador</a>
                     <div class="bg-info p-xs float-right m-r-lg">Gasto Esperado: $@Model.Costo</div>
                 </div>
@@ -132,10 +132,11 @@
                 <div class="ibox-title">
                     <h3>Anuncios</h3><br>
                     <a asp-area="Client" asp-controller="Grupo" asp-action="Index" class="btn btn-default">Regresar</a>
-                    <button class="btn btn-info update-title">Actualizar Titulos</button>
-                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-all-anuncios-button" data-form-id="delete-form">Eliminar Anuncios</a>
-                    <a href="#myModal" data-toggle="modal" data-target="#edit-modal" class="btn btn-primary" id="btnAddAnuncios">Añadir Anuncios</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="UpdateAnuncioTitle" asp-route-GrupoId="@Model.Id" class="btn btn-info submit-button" data-form-id="submit-form">Actualizar Titulos</a>
+                    <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAllAnuncios" asp-route-GrupoId="@Model.Id" class="btn btn-warning delete-button" data-form-id="delete-form" data-text="Por favor confirme que usted desea eliminar todos los anuncios de este grupo">Eliminar Anuncios</a>
+                    <a href="#myModal" data-toggle="modal" data-target="#add-anuncio-modal" class="btn btn-primary" id="btnAddAnuncios">Añadir Anuncios</a>
                 </div>
+                <div class="ibox-content">
                 <div class="ibox-content">
                     <div class="table-responsive">
 
@@ -149,7 +150,7 @@
                         <table id="dataTables-table" class="footable table table-striped table-bordered table-hover dataTables-example" data-filter="#filterAnuncios" data-page-size="5" data-page-previous-text="ant" data-page-next-text="sigt">
                             <thead>
                                 <tr>
-                                    <th width="10%" data-sort-ignore="true">Acciones</th>
+                                    <th width="10%" data-sort-ignore="true">Acciones Sistema</th>
                                     <th width="5%">Estado</th>
                                     <th width="50%">Titulo</th>
                                     <th width="20%">Categoría</th>
@@ -161,17 +162,21 @@
                                     <tr class="gradeX" id="@item.Id">
                                         <td>
                                             <a href="@item.Url" target="_blank" class="btn btn-white btn-sm tooltip-demo"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visitar"></i></a>
+
                                             <a asp-area="Client" asp-controller="Grupo" asp-action="DeleteAnuncio" asp-route-GrupoId="@Model.Id" asp-route-AnuncioId="@item.Id" class="btn btn-white btn-sm1 tooltip-demo delete-button" data-form-id="delete-individual-form"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+
+                                            <div class="switch-temporizador">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" checked="@item.Enable" class="onoffswitch-checkbox" />
+                                                    <label class="onoffswitch-label">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td>
-                                            @if (!item.Enable)
-                                            {
-                                                <span class="badge badge-warning">Inactivo</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-primary">Activo</span>
-                                            }
+                                            <span class="badge badge-@item.BadgeClass">@item.BadgeMessage</span>
                                         </td>
                                         <td>
                                             @item.Title
@@ -205,20 +210,21 @@
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content"></form>
 
-<form id="delete-individual-form" method="post" role="form"
+<form id="submit-form" method="post" role="form"
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
-      data-ajax-success="onDeleteSuccess"
+      data-ajax-success="onActionSuccess"
       data-ajax-failure="onAjaxError"
-      data-ajax-complete="onAjaxCompleted"></form>
+      data-ajax-complete="onAjaxCompleted"
+      data-ajax-update="#body_content"></form>
 
 <form id="toogle-form" method="post" role="form"
       asp-area="Client" asp-controller="Grupo" asp-action="ToogleTemporizador"
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
-      data-ajax-success="onToogleSuccess"
+      data-ajax-success="onActionSuccess"
       data-ajax-failure="onAjaxError"
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content">
@@ -241,7 +247,7 @@
 </form>
 
 <!-- modal window -->
-<div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="add-anuncio-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated fadeIn">
             <form asp-controller="Grupo" asp-action="AddAnuncio" method="post" class="form-horizontal" id="form2" form="form2" role="form"
