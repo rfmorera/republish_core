@@ -181,7 +181,7 @@ namespace Services.Impls
                                 anunciosEliminados.Add(result.Anuncio);
                                 continue;
                             }
-                            await _queueService.Add(result.Anuncio.Id, dateTime);
+                            //await _queueService.Add(result.Anuncio.Id, dateTime);
                         }
                     }
 
