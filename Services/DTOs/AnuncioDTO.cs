@@ -34,15 +34,25 @@ namespace Services.DTOs
                 BadgeClass = "dark";
                 BadgeMessage = "Eliminado";
             }
+            else if (a.Despublicado)
+            {
+                BadgeClass = "warning";
+                BadgeMessage = "Despublicado";
+            }
+            else if (a.Caducado)
+            {
+                BadgeClass = "dark";
+                BadgeMessage = "Caducado";
+            }
             else if (a.Procesando != 0)
             {
                 BadgeClass = "danger";
                 BadgeMessage = "Procesando";
             }
-            else if (a.Despublicado)
+            else if (a.Procesando == 0)
             {
-                BadgeClass = "warning";
-                BadgeMessage = "Despublicado";
+                BadgeClass = "info";
+                BadgeMessage = "Ok!!";
             }
         }
 
