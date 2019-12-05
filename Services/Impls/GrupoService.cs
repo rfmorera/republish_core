@@ -45,6 +45,7 @@ namespace Services.Impls
         public async Task DeleteAsync(string Id)
         {
             Grupo grupo = await GetAsync(Id);
+            await _anuncioService.DeleteAllByGroup(Id);
             _repository.Remove(grupo);
             await _repository.SaveChangesAsync();
         }
