@@ -188,7 +188,7 @@ namespace Services.Impls
         private IQueryable<Anuncio> QueryBaseAnunciosToUpdate(string GroupId)
         {
             return repositoryAnuncio.QueryAll().Where(a => a.GroupId == GroupId
-                                                        && a.Enable
+                                                        && a.Enable.HasValue && a.Enable.Value
                                                         && a.Procesando == 0
                                                         && !a.Eliminado)
                                                .OrderBy(a => a.Orden)

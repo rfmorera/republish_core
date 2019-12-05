@@ -71,7 +71,7 @@ namespace Services.Impls
                     }
 
                     string message;
-                    if (!a.Enable)
+                    if (a.Enable.HasValue && !a.Enable.Value)
                     {
                         message = String.Format("Anuncio deshabilitado: ha excedido el máximo de intentos de publicación <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\n", a.Titulo, a.Categoria.ToUpper(), a.Url);
                     }
