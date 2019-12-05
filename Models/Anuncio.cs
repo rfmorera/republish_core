@@ -24,6 +24,7 @@ namespace Models
         public short Procesando { get; set; } = 0;
         public short Revalidado { get; set; } = 0;
         public bool Eliminado { get; set; } = false;
+        public bool Despublicado { get; set; } = false;
 
 
         [NotMapped]
