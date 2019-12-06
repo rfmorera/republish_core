@@ -182,11 +182,20 @@ namespace Services.Impls
                                 continue;
                             }
 
-                            if (!result.BadCaptcha)
+                            if (result.Despublicado)
                             {
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;
                                 an.Enable = false;
+                                an.Despublicado = true;
+                                anunciosEliminados.Add(result.Anuncio);
+                                continue;
+                            }
+
+                            if (!result.BadCaptcha)
+                            {
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
                                 continue;
                             }
 
