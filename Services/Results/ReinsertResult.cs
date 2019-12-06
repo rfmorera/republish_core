@@ -37,7 +37,7 @@ namespace Services.Results
             {
                 Despublicado = true;
             }
-            else if (ex.Message.ToLower().Contains("captcha") 
+            else if (ex.Message.Contains("Captcha") 
                   || ex.StackTrace.ToLower().Contains("captcha"))
             {
                 BadCaptcha = true;
