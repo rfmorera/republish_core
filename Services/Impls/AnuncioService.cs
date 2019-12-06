@@ -228,11 +228,12 @@ namespace Services.Impls
                 foreach (Anuncio item in list)
                 {
                     _dbContext.Entry(item).Reference(s => s.Grupo).Load();
+                    _log.LogInformation("Anuncio caducado/eliminado/despublicado " + item.Id + " -> " + item.Url);
                     notificacions.Add(new Notificacion()
                     {
                         UserId = item.Grupo.UserId,
                         DateCreated = DateTime.Now.ToUtcCuba(),
-                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado/despublicado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
                         Readed = false
                     });
                 }
@@ -381,7 +382,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new Exception("Unkown error");
+            throw new Exception("Unkown error. Captcha");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)
@@ -451,7 +452,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace + "\n --- \n" + htmlAnuncio, "");
             }
         }
 
@@ -473,6 +474,10 @@ namespace Services.Impls
             else if (answer.Contains("Has eliminado este anuncio."))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Eliminado");
+            }
+            else if (answer.Contains("Despublicado."))
+            {
+                throw new BaseException(string.Empty, "Deteccion Anuncio Despublicado");
             }
             else if (ff && (
                      !answer.Contains("\"status\":200") ||

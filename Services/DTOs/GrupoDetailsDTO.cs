@@ -9,8 +9,6 @@ namespace Services.DTOs
 {
     public class GrupoDetailsDTO
     {
-        private Grupo grupo;
-
         public GrupoDetailsDTO(Grupo grupo, IEnumerable<AnuncioDTO> list, IEnumerable<TemporizadorDTO> listT)
         {
             this.grupo = grupo;
@@ -18,7 +16,7 @@ namespace Services.DTOs
             Nombre = grupo.Nombre;
             Anuncios = list;
             Temporizadores = listT;
-            Costo = listT.Sum(t => t.Costo);
+            Costo = listT.Where(t => t.Enable && t.SystemEnable && t.UserEnable).Sum(t => t.Costo);
         }
 
         public string Id { get; set; }
