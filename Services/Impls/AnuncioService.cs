@@ -261,6 +261,7 @@ namespace Services.Impls
                 // Parse All Data
                 FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
                 formAnuncio.variables.email = email;
+                anuncio.FormUpdateAnuncio = JsonConvert.SerializeObject(formAnuncio);
 
                 //Solve Captcha
                 captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
@@ -478,6 +479,10 @@ namespace Services.Impls
             else if (answer.ToLower().Contains("anuncio despublicado"))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Despublicado");
+            }
+            else if (answer.Contains("Ha ocurrido un error"))
+            {
+                throw new BaseException(string.Empty, "Revolico Error");
             }
             else if (ff && (
                      !answer.Contains("\"status\":200") ||

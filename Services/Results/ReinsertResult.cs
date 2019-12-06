@@ -37,6 +37,10 @@ namespace Services.Results
             {
                 Despublicado = true;
             }
+            else if (ex.Message.Contains("Revolico Error"))
+            {
+                Despublicado = true;
+            }
             else if (ex.Message.Contains("Captcha") 
                   || ex.StackTrace.ToLower().Contains("captcha"))
             {
@@ -59,5 +63,6 @@ namespace Services.Results
         public bool IsBaned { get; set; }
         public bool BadCaptcha { get; set; }
         public bool Despublicado { get; set; }
+        public bool RevolicoError { get; set; }
     }
 }
