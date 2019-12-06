@@ -382,7 +382,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new Exception("Unkown error");
+            throw new Exception("Unkown error. Captcha");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)

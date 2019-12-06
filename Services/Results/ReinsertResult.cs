@@ -33,7 +33,8 @@ namespace Services.Results
             {
                 NonRemoved = true;
             }
-            else if (ex.Message.Contains("Captcha"))
+            else if (ex.Message.ToLower().Contains("captcha") 
+                  || ex.StackTrace.ToLower().Contains("captcha"))
             {
                 BadCaptcha = true;
             }
