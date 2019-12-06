@@ -211,9 +211,9 @@ namespace Services.Impls
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
-                    double pctVerify = 100.0 * verifyPub / totalProcesados;
-                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
+                    //int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
+                    //double pctVerify = 100.0 * verifyPub / totalProcesados;
+                    //_log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
             }
             catch (Exception ex)
