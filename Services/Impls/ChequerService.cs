@@ -192,7 +192,7 @@ namespace Services.Impls
                                 continue;
                             }
 
-                            if (!result.BadCaptcha)
+                            if (!result.BadCaptcha && !result.RevolicoError)
                             {
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;
