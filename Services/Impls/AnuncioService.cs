@@ -475,7 +475,7 @@ namespace Services.Impls
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Eliminado");
             }
-            else if (answer.Contains("Despublicado."))
+            else if (answer.ToLower().Contains("anuncio despublicado"))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Despublicado");
             }
