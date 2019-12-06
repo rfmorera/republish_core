@@ -135,7 +135,7 @@ namespace Services.Impls
                                        .Where(g => g.Activo)
                                        .Sum(g => g.Temporizadores
                                                     .Where(t => t.Enable && t.UserEnable)
-                                                    .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count, dateTime))
+                                                    .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Where(a => a.Enable == true).Count(), dateTime))
                                           );
         }
     }
