@@ -9,6 +9,7 @@ namespace Services.DTOs
 {
     public class GrupoDetailsDTO
     {
+        private Grupo grupo;
         public GrupoDetailsDTO(Grupo grupo, IEnumerable<AnuncioDTO> list, IEnumerable<TemporizadorDTO> listT)
         {
             this.grupo = grupo;
