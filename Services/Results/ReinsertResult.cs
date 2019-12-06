@@ -33,14 +33,14 @@ namespace Services.Results
             {
                 NonRemoved = true;
             }
-            else if (ex.Message.ToLower().Contains("captcha") 
-                  || ex.StackTrace.ToLower().Contains("captcha"))
-            {
-                BadCaptcha = true;
-            }
             else if (ex.Message.Contains("Deteccion Anuncio Despublicado"))
             {
                 Despublicado = true;
+            }
+            else if (ex.Message.Contains("Captcha") 
+                  || ex.StackTrace.ToLower().Contains("captcha"))
+            {
+                BadCaptcha = true;
             }
         }
 
