@@ -61,7 +61,7 @@ namespace Services.Impls
 
             double costoAnuncio = await _financieroService.CostoAnuncio(grupo.UserId);
             IEnumerable<TemporizadorDTO> listT = (from t in (await _temporizadorService.GetByGroup(GrupoId)).AsQueryable()
-                                                select new TemporizadorDTO(t, list.Count(), costoAnuncio)).AsEnumerable();
+                                                select new TemporizadorDTO(t, list.Where(a => a.Enable == true).Count(), costoAnuncio)).AsEnumerable();
             
             GrupoDetailsDTO model = new GrupoDetailsDTO(grupo, list, listT);
             return model;

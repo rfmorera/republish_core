@@ -58,34 +58,34 @@ namespace Services.Impls
 
                     if (a.Revalidado <= MaxRevalidado)
                     {
-                        a.Procesando += 1;
+                        //a.Procesando += 1;
                         if (a.Procesando <= MaxProcesado)
                         {
-                            await _queueService.Add(a.Id, DateTime.Now);
+                            //await _queueService.Add(a.Id, DateTime.Now);
                         }
                         else
                         {
-                            a.Enable = false;
+                            //a.Enable = false;
                             _log.LogWarning($"ValidationService Anuncio {a.Id} ha exedido MaxProcesado");
                         }
                     }
 
-                    string message;
-                    if (a.Enable.HasValue && !a.Enable.Value)
-                    {
-                        message = String.Format("Anuncio deshabilitado: ha excedido el máximo de intentos de publicación <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\n", a.Titulo, a.Categoria.ToUpper(), a.Url);
-                    }
-                    else
-                    {
-                        message = String.Format("Anuncio escondido: Revolico no está listando el anuncio <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\nContacte a Revolico para que lo habiliten.", a.Titulo, a.Categoria.ToUpper(), a.Url);
-                    }
-                    await _notificationsService.SendNotification(a.Grupo.UserId, message);
+                    //string message;
+                    //if (a.Enable.HasValue && !a.Enable.Value)
+                    //{
+                    //    message = String.Format("Anuncio deshabilitado: ha excedido el máximo de intentos de publicación <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\n", a.Titulo, a.Categoria.ToUpper(), a.Url);
+                    //}
+                    //else
+                    //{
+                    //    message = String.Format("Anuncio escondido: Revolico no está listando el anuncio <a href='{2}' target='_blank' >{0} </a> en la categoría <strong>{1}</strong>.\nContacte a Revolico para que lo habiliten.", a.Titulo, a.Categoria.ToUpper(), a.Url);
+                    //}
+                    //await _notificationsService.SendNotification(a.Grupo.UserId, message);
                 }
                 else
                 {
-                    a.Procesando = 0;
                     cnt++;
                 }
+                
             }
 
             await _anuncioRepository.SaveChangesAsync();
