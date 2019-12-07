@@ -14,11 +14,11 @@ namespace RestoreAnuncios
         {
             Console.WriteLine("Hello World!");
             AnuncioService anuncioService = new AnuncioService(null, null, null, null);
-
+            string folder = "C:\\Users\\Rafael Fernanadez\\Documents\\Trabajos\\RT\\Recuperacion de Anuncios\\Primeros";
             try
             {
-                using (StreamReader reader = new StreamReader("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\source.txt"))
-                using (StreamWriter writer = new StreamWriter("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\target.txt"))
+                using (StreamReader reader = new StreamReader(folder + "\\source.txt"))
+                using (StreamWriter writer = new StreamWriter(folder + "\\target.txt"))
                 {
                     string url;
                     int cnt = 1;
@@ -45,9 +45,8 @@ namespace RestoreAnuncios
                 Console.WriteLine(ex.Message);
             }
 
-
-            using (StreamReader reader = new StreamReader("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\target.txt"))
-            using (StreamWriter writer = new StreamWriter("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\links-modificar.txt"))
+            using (StreamReader reader = new StreamReader(folder+"\\target.txt"))
+            using (StreamWriter writer = new StreamWriter(folder+"\\links-modificar.txt"))
             {
                 string line;
                 int cnt = 1;
