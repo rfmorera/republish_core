@@ -361,8 +361,8 @@ namespace Services.Impls
             string siteKeyv2 = htmlAnuncio.Substring(p1, p2 - p1);
             string siteKeyv3 = "6Lfw9oYUAAAAAIjIAhcI2lpRHp5IfrmJv-asUrvp";
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
-            string captchaIdv2 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv2);
-            string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3);
+            string captchaIdv2 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv2, false);
+            string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3, true);
             WebException last = null;
 
             string finalAnsv2 = string.Empty, finalAnsv3 = string.Empty;
