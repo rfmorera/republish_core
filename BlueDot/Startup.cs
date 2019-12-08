@@ -130,7 +130,7 @@ namespace Republish
             }
             loggerFactory.AddFile("logger{Date}");
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             

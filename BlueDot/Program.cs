@@ -14,11 +14,11 @@ namespace Republish
 {
     public class Program
     {
-        
+
         public static void Main(string[] args)
         {
             ServicePoint sp1, sp2;
-            
+
             // Upper Limit of Connections
             ServicePointManager.DefaultConnectionLimit = 250;
             ServicePointManager.MaxServicePoints = 60;
@@ -44,7 +44,14 @@ namespace Republish
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .UseStartup<Startup>();
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    // Requires `using Microsoft.Extensions.Logging;`
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                    logging.AddDebug();
+                    logging.AddEventSourceLogger();
+                }).UseStartup<Startup>();
 
     }
 }

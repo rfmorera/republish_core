@@ -6,6 +6,11 @@
     <UserSecretsId>cea6a88d-c207-4c3f-b0e5-eb17690ff524</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Interfaces\**" />
     <Compile Remove="PasswordMigrationTool\**" />
