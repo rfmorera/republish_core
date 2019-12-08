@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetTor;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -53,25 +54,26 @@ namespace Services.Utils
             {
                 try
                 {
-                    using (HttpClient client = new HttpClient())
+                    using (var httpClient = new HttpClient(new TorSocks5Handler(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9050))))
                     {
                         int pUa = DateTime.Now.Millisecond % User_Agents.Length;
-                        client.Timeout = TimeSpan.FromSeconds(35);
-                        client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
-                        HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
-                        if(responseHttp.StatusCode == HttpStatusCode.InternalServerError)
+                        httpClient.Timeout = TimeSpan.FromSeconds(35);
+                        httpClient.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
+                        HttpResponseMessage responseHttp = await httpClient.PostAsync(requestUri, httpContent);
+                        if (responseHttp.StatusCode == HttpStatusCode.InternalServerError)
                         {
                             await Task.Delay(TimeSpan.FromSeconds(30));
                             continue;
                         }
                         string answer = await responseHttp.Content?.ReadAsStringAsync();
-                        if(answer.Contains("The web server reported a bad gateway error."))
+                        if (answer.Contains("The web server reported a bad gateway error."))
                         {
                             await Task.Delay(TimeSpan.FromSeconds(30));
                             continue;
                         }
                         return answer;
                     }
+
                 }
                 catch (WebException ex)
                 {
@@ -99,10 +101,10 @@ namespace Services.Utils
         /// <returns></returns>
         public static async Task<string> GetAsync(string requestUri)
         {
-            using (HttpClient client = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(35);
-                HttpResponseMessage responseHttp = await client.GetAsync(requestUri);
+                httpClient.Timeout = TimeSpan.FromSeconds(35);
+                HttpResponseMessage responseHttp = await httpClient.GetAsync(requestUri);
                 return await responseHttp.Content?.ReadAsStringAsync();
             }
         }

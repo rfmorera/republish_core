@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{DF0044A1-6622-4951-9CE6-DDFCC562CB70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{E4F27A48-19F1-4024-85A8-F7D1FE29FD15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C4A78CA6-62DC-43A9-8130-02396EC7640D} = {C4A78CA6-62DC-43A9-8130-02396EC7640D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{0DC0A02F-79BC-43D7-BD22-7744406EDCF1}"
 EndProject
