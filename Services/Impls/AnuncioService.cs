@@ -383,7 +383,7 @@ namespace Services.Impls
                         string ansv3 = await Captcha2Solver.retrieve(key2captcha, captchaIdv3);
                         if (!String.IsNullOrEmpty(ansv3))
                         {
-                            finalAnsv2 = ansv3;
+                            finalAnsv3 = ansv3;
                         }
                     }
 

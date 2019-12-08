@@ -14,39 +14,39 @@ namespace RestoreAnuncios
         {
             Console.WriteLine("Hello World!");
             AnuncioService anuncioService = new AnuncioService(null, null, null, null);
+            string folder = "C:\\Users\\Rafael Fernanadez\\Documents\\Trabajos\\RT\\Recuperacion de Anuncios\\Alain";
+            //try
+            //{
+            //    using (StreamReader reader = new StreamReader("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\source.txt"))
+            //    using (StreamWriter writer = new StreamWriter("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\target.txt"))
+            //    {
+            //        string url;
+            //        int cnt = 1;
+            //        while (!reader.EndOfStream && (url = reader.ReadLine()).Length > 0)
+            //        {
+            //            Console.WriteLine(cnt);
+            //            try
+            //            {
+            //                FormInsertAnuncio formInsertAnuncio = anuncioService.Retrieve(url).GetAwaiter().GetResult();
+            //                string jsonForm = $"{JsonConvert.SerializeObject(formInsertAnuncio)}";
 
-            try
-            {
-                using (StreamReader reader = new StreamReader("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\source.txt"))
-                using (StreamWriter writer = new StreamWriter("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\target.txt"))
-                {
-                    string url;
-                    int cnt = 1;
-                    while (!reader.EndOfStream && (url = reader.ReadLine()).Length > 0)
-                    {
-                        Console.WriteLine(cnt);
-                        try
-                        {
-                            FormInsertAnuncio formInsertAnuncio = anuncioService.Retrieve(url).GetAwaiter().GetResult();
-                            string jsonForm = $"{JsonConvert.SerializeObject(formInsertAnuncio)}";
+            //                writer.WriteLine(jsonForm);
+            //            }
+            //            catch (Exception)
+            //            {
+            //                writer.WriteLine(" no " + url);
+            //            }
+            //            cnt++;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
-                            writer.WriteLine(jsonForm);
-                        }
-                        catch (Exception)
-                        {
-                            writer.WriteLine(" no " + url);
-                        }
-                        cnt++;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            using (StreamReader reader = new StreamReader("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\target.txt"))
-            using (StreamWriter writer = new StreamWriter("C:\\Users\\Rafael Fernanadez\\source\\repos\\RepublishCore\\RestoreAnuncios\\links-modificar.txt"))
+            using (StreamReader reader = new StreamReader(folder+"\\target.txt"))
+            using (StreamWriter writer = new StreamWriter(folder+"\\links-modificar.txt"))
             {
                 string line;
                 int cnt = 1;
