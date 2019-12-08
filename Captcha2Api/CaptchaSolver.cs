@@ -62,7 +62,7 @@ namespace Captcha2Api
         /// </summary>
         /// <param name="opts"></param>
         /// <returns>captchaID</returns>
-        public static async Task<string> submit_recaptcha(string _access_token, string _uri, string siteKey)
+        public static async Task<string> submit_recaptcha(string _access_token, string _uri, string siteKey, bool v3)
         {
             WebException last = null;
             for (int i = 0; i < 2; i++)
@@ -75,6 +75,9 @@ namespace Captcha2Api
                     postData += "&method=userrecaptcha";
                     postData += "&googlekey=" + siteKey;
                     postData += "&pageurl=" + _uri;
+                    if (v3) {
+                        postData += "&version=v3";
+                    }
 
                     var data = Encoding.ASCII.GetBytes(postData);
 
