@@ -265,7 +265,8 @@ namespace Services.Impls
 
                 //Solve Captcha
                 captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
-                formAnuncio.variables.captchaResponse = captchaResponse.Answer;
+                formAnuncio.variables.captchaResponse = captchaResponse.Answerv2;
+                formAnuncio.variables.botScore = captchaResponse.Answerv3;
 
                 // Parse Insert and Delete Forms
                 formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
@@ -357,21 +358,41 @@ namespace Services.Impls
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
 
-            string siteKey = htmlAnuncio.Substring(p1, p2 - p1);
+            string siteKeyv2 = htmlAnuncio.Substring(p1, p2 - p1);
+            string siteKeyv3 = "6Lfw9oYUAAAAAIjIAhcI2lpRHp5IfrmJv-asUrvp";
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
-            string captchaId = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
+            string captchaIdv2 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv2, false);
+            string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3, true);
             WebException last = null;
 
+            string finalAnsv2 = string.Empty, finalAnsv3 = string.Empty;
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
             {
                 try
                 {
-                    string ans = await Captcha2Solver.retrieve(key2captcha, captchaId);
-                    if (!String.IsNullOrEmpty(ans))
+                    if (string.IsNullOrEmpty(finalAnsv2))
                     {
-                        return new CaptchaAnswer(key2captcha, captchaId, ans);
+                        string ansv2 = await Captcha2Solver.retrieve(key2captcha, captchaIdv2);
+                        if (!String.IsNullOrEmpty(ansv2))
+                        {
+                            finalAnsv2 = ansv2;
+                        }
                     }
+                    if (string.IsNullOrEmpty(finalAnsv3))
+                    {
+                        string ansv3 = await Captcha2Solver.retrieve(key2captcha, captchaIdv3);
+                        if (!String.IsNullOrEmpty(ansv3))
+                        {
+                            finalAnsv2 = ansv3;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(finalAnsv3) && !string.IsNullOrEmpty(finalAnsv2))
+                    {
+                        return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
+                    }
+
                     await Task.Delay(10000);
                 }
                 catch (WebException ex)
@@ -461,8 +482,9 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
-                throw new BaseException("Bad Captcha", "Bad Captcha " + ans);
+                //string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
+                //throw new BaseException("Bad Captcha", "Bad Captcha " + ans);
+                throw new BaseException("Bad Captcha", "Bad Captcha");
             }
             else if (answer.Contains("Cloudflare to restrict access"))
             {
