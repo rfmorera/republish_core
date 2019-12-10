@@ -58,6 +58,15 @@ namespace Services.Utils
                         int pUa = DateTime.Now.Millisecond % User_Agents.Length;
                         client.Timeout = TimeSpan.FromSeconds(35);
                         client.DefaultRequestHeaders.Add("User-Agent", User_Agents[pUa]);
+
+                        client.DefaultRequestHeaders.Add("accept", "*/*");
+                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+                        client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+                        client.DefaultRequestHeaders.Add("Host", "api.revolico.com");
+                        client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                        client.DefaultRequestHeaders.Add("Origin", "https://www.revolico.com");
+                        client.DefaultRequestHeaders.Add("Referer", "https://www.revolico.com/insertar-anuncio.html");
+                        client.DefaultRequestHeaders.Add("TE", "Trailers");
                         HttpResponseMessage responseHttp = await client.PostAsync(requestUri, httpContent);
                         if(responseHttp.StatusCode == HttpStatusCode.InternalServerError)
                         {
