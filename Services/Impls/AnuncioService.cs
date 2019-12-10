@@ -255,6 +255,7 @@ namespace Services.Impls
             try
             {
                 // Get Anuncio
+                
                 string htmlAnuncio = await Requests.GetAsync(anuncio.Url);
                 GetException(htmlAnuncio, anuncio.Url, false);
 
