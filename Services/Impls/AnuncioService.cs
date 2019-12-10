@@ -266,7 +266,7 @@ namespace Services.Impls
                 //Solve Captcha
                 captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
                 formAnuncio.variables.captchaResponse = captchaResponse.Answerv2;
-                formAnuncio.variables.botScore = captchaResponse.Answerv3;
+                //formAnuncio.variables.botScore = captchaResponse.Answerv3;
 
                 // Parse Insert and Delete Forms
                 formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
@@ -362,7 +362,8 @@ namespace Services.Impls
             string siteKeyv3 = "6Lfw9oYUAAAAAIjIAhcI2lpRHp5IfrmJv-asUrvp";
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
             string captchaIdv2 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv2, false);
-            string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3, true);
+            //string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3, true);
+            string captchaIdv3 = "";
             WebException last = null;
 
             string finalAnsv2 = string.Empty, finalAnsv3 = string.Empty;
@@ -377,21 +378,22 @@ namespace Services.Impls
                         if (!String.IsNullOrEmpty(ansv2))
                         {
                             finalAnsv2 = ansv2;
+                            return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
                         }
                     }
-                    if (string.IsNullOrEmpty(finalAnsv3))
-                    {
-                        string ansv3 = await Captcha2Solver.retrieve(key2captcha, captchaIdv3);
-                        if (!String.IsNullOrEmpty(ansv3))
-                        {
-                            finalAnsv3 = ansv3;
-                        }
-                    }
+                    //if (string.IsNullOrEmpty(finalAnsv3))
+                    //{
+                    //    string ansv3 = await Captcha2Solver.retrieve(key2captcha, captchaIdv3);
+                    //    if (!String.IsNullOrEmpty(ansv3))
+                    //    {
+                    //        finalAnsv3 = ansv3;
+                    //    }
+                    //}
 
-                    if (!string.IsNullOrEmpty(finalAnsv3) && !string.IsNullOrEmpty(finalAnsv2))
-                    {
-                        return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
-                    }
+                    //if (!string.IsNullOrEmpty(finalAnsv3) && !string.IsNullOrEmpty(finalAnsv2))
+                    //{
+                    //    return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
+                    //}
 
                     await Task.Delay(10000);
                 }
