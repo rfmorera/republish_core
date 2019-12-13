@@ -172,7 +172,7 @@ namespace Services.Impls
                                 continue;
                             }
 
-                            if (result.IsDeleted)
+                            if (result.IsDeleted || result.Despublicado)
                             {
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;

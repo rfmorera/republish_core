@@ -11,7 +11,7 @@ namespace Services.Results
         public ReinsertResult(Anuncio anuncio)
         {
             Anuncio = anuncio;
-            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = false;
+            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = Despublicado = false;
             Success = true;
         }
 
@@ -19,13 +19,13 @@ namespace Services.Results
         {
             Anuncio = anuncio;
             Exception = ex;
-            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = false;
+            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = Despublicado = false;
             if(ex.Message.Contains("Deteccion Anuncio Eliminado"))
             {
                 IsDeleted = true;
             }
             else if (ex.Message.Contains("Non updated") || ex.Message.Contains("Baned CloudFlare"))
-            {
+            {    
                 IsBaned = true;
             }
             else if (ex.Message.Contains("Error Removing from Revolico"))
@@ -36,9 +36,12 @@ namespace Services.Results
             {
                 BadCaptcha = true;
             }
+            else if (ex.Message.Contains("Despublicado"))
+            {
+                Despublicado = true;
+            }
         }
 
-        public Anuncio Anuncio { get; set; }
         public bool HasException
         {
             get
@@ -46,11 +49,14 @@ namespace Services.Results
                 return Exception != null;
             }
         }
+
+        public Anuncio Anuncio { get; set; }
         public Exception Exception { get; set; }
         public bool Success { get; set; }
         public bool IsDeleted { get; set; }
         public bool NonRemoved { get; set; }
         public bool IsBaned { get; set; }
         public bool BadCaptcha { get; set; }
+        public bool Despublicado { get; set; }
     }
 }

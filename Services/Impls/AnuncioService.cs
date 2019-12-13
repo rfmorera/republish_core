@@ -227,7 +227,7 @@ namespace Services.Impls
                     {
                         UserId = item.Grupo.UserId,
                         DateCreated = DateTime.Now.ToUtcCuba(),
-                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado/despublicado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
                         Readed = false
                     });
                 }
@@ -446,7 +446,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace + "\n " + htmlAnuncio, "");
             }
         }
 
@@ -475,6 +475,10 @@ namespace Services.Impls
                      !answer.Contains("createAdWithoutUser")))
             {
                 throw new BaseException(string.Empty, "Non updated " + answer);
+            }
+            else if (answer.Contains("Anuncio despublicado."))
+            {
+                throw new BaseException(string.Empty, "Deteccion Anuncio despublicado");
             }
         }
 
