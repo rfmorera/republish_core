@@ -19,11 +19,14 @@ namespace Models
         public string Titulo { get; set; }
         public string Categoria { get; set; }
 
-        public bool Enable { get; set; } = true;
+        public bool? Enable { get; set; } = true;
 
         public short Procesando { get; set; } = 0;
         public short Revalidado { get; set; } = 0;
         public bool Eliminado { get; set; } = false;
+        public bool Despublicado { get; set; } = false;
+
+        public string FormUpdateAnuncio { get; set; }
 
 
         [NotMapped]

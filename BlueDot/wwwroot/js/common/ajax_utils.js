@@ -10,7 +10,7 @@ function initializePageCommon() {
         var form = prepareForm($(this));
 
         if (form) {
-            showConfirmationPopup(form);
+            showConfirmationPopup(form, $(this));
         }
     });
 
@@ -74,10 +74,23 @@ function prepareForm(anchorSelector) {
     return form;
 }
 
-function showConfirmationPopup(form) {
+function showConfirmationPopup(form, anchorSelector) {
+    var title = anchorSelector.attr("data-title");
+
+    if (!title) {
+        title = "¿Está seguro?";
+    }
+
+    var text = anchorSelector.attr("data-text");
+
+    if (!text) {
+        text = "Por favor confirme que usted desea eliminar este elemento";
+    }
+
+    // TODO: Consider using the showLoaderOnConfirm/preConfirm options to handle the AJAX requests. This will require a lot of refactoring unfortunately.
     swal({
-        title: "¿Está seguro?",
-        text: "Por favor confirme que usted desea eliminar este elemento",
+        title: title,
+        text: text,
         type: "warning",
         confirmButtonColor: "#DD6B55",
         showCancelButton: true

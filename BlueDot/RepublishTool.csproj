@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Interfaces\**" />
+    <Compile Remove="PasswordMigrationTool\**" />
     <Content Remove="Interfaces\**" />
+    <Content Remove="PasswordMigrationTool\**" />
     <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="PasswordMigrationTool\**" />
     <None Remove="Interfaces\**" />
+    <None Remove="PasswordMigrationTool\**" />
   </ItemGroup>
 
   <ItemGroup>

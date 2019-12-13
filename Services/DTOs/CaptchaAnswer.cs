@@ -6,15 +6,19 @@ namespace Services.DTOs
 {
     public class CaptchaAnswer
     {
-        public CaptchaAnswer(string access_token, string captchaId, string ans)
+        public CaptchaAnswer(string access_token, string captchaIdv2, string captchaIdv3, string ansv2, string ansv3)
         {
-            Id = captchaId;
-            Answer = ans;
+            Idv2 = captchaIdv2;
+            Idv3 = captchaIdv3;
+            Answerv2 = ansv2;
+            Answerv3 = ansv3;
             AccessToken = access_token;
         }
 
-        public string Id { get; set; }
+        public string Idv2 { get; set; }
+        public string Idv3 { get; set; }
         public string AccessToken { get; set; }
-        public string Answer { get; set; }
+        public string Answerv2 { get; set; }
+        public string Answerv3 { get; set; }
     }
 }

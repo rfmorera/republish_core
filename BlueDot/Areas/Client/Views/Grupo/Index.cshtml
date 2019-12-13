@@ -117,9 +117,10 @@
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
-      data-ajax-success="onDeleteSuccess"
-      data-ajax-failure="onAjaxError"
-      data-ajax-complete="onAjaxCompleted">
+      data-ajax-success="onActionSuccess"
+      data-ajax-failure="onDeleteRecordFailure"
+      data-ajax-complete="onAjaxCompleted"
+      data-ajax-update="#body_content">
 </form>
 
 <!-- modal window -->
@@ -174,7 +175,7 @@
       data-ajax="true"
       data-ajax-method="post"
       data-ajax-begin="onAjaxBegin"
-      data-ajax-success="onToogleSuccess"
+      data-ajax-success="onActionSuccess"
       data-ajax-failure="onAjaxError"
       data-ajax-complete="onAjaxCompleted"
       data-ajax-update="#body_content">
