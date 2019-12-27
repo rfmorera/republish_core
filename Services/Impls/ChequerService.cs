@@ -182,11 +182,20 @@ namespace Services.Impls
                                 continue;
                             }
 
-                            if (!result.BadCaptcha)
+                            if (result.Despublicado)
                             {
                                 Anuncio an = result.Anuncio;
                                 an.Procesando = 0;
                                 an.Enable = false;
+                                an.Despublicado = true;
+                                anunciosEliminados.Add(result.Anuncio);
+                                continue;
+                            }
+
+                            if (!result.BadCaptcha && !result.RevolicoError)
+                            {
+                                Anuncio an = result.Anuncio;
+                                an.Procesando = 0;
                                 continue;
                             }
 
@@ -202,9 +211,9 @@ namespace Services.Impls
                     double pct = 100.0 * totalProcesados / totalAnuncios;
                     _log.LogWarning(string.Format("!!! ---- Actualizados correctamente {0} de {1} | {2}%", totalProcesados, totalAnuncios, pct));
 
-                    int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
-                    double pctVerify = 100.0 * verifyPub / totalProcesados;
-                    _log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
+                    //int verifyPub = await _validationService.VerifyPublication(anunciosProcesados.Select(a => a.Id).ToList());
+                    //double pctVerify = 100.0 * verifyPub / totalProcesados;
+                    //_log.LogWarning(string.Format("!!! ---- Mostrados correctamente {0} de {1} | {2}%", verifyPub, totalProcesados, pct));
                 }
             }
             catch (Exception ex)

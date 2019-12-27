@@ -228,11 +228,12 @@ namespace Services.Impls
                 foreach (Anuncio item in list)
                 {
                     _dbContext.Entry(item).Reference(s => s.Grupo).Load();
+                    _log.LogInformation("Anuncio caducado/eliminado/despublicado " + item.Id + " -> " + item.Url);
                     notificacions.Add(new Notificacion()
                     {
                         UserId = item.Grupo.UserId,
                         DateCreated = DateTime.Now.ToUtcCuba(),
-                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
+                        Mensaje = String.Format("Del grupo {0} el anuncio {1} a caducado/eliminado/despublicado por tanto se ha deshabilitado en el sistema.\nUrl {2}\nCategoría: {3}", item.Grupo.Nombre, item.Titulo, item.Url, item.Categoria),
                         Readed = false
                     });
                 }
@@ -254,16 +255,19 @@ namespace Services.Impls
             try
             {
                 // Get Anuncio
+                
                 string htmlAnuncio = await Requests.GetAsync(anuncio.Url);
                 GetException(htmlAnuncio, anuncio.Url, false);
 
                 // Parse All Data
                 FormUpdateAnuncio formAnuncio = ParseFormAnuncio(htmlAnuncio);
                 formAnuncio.variables.email = email;
+                anuncio.FormUpdateAnuncio = JsonConvert.SerializeObject(formAnuncio);
 
                 //Solve Captcha
                 captchaResponse = await ResolveCaptcha(Key2Captcha, Requests.RevolicoInserrUrl, htmlAnuncio);
-                formAnuncio.variables.captchaResponse = captchaResponse.Answer;
+                formAnuncio.variables.captchaResponse = captchaResponse.Answerv2;
+                //formAnuncio.variables.botScore = captchaResponse.Answerv3;
 
                 // Parse Insert and Delete Forms
                 formInsertAnuncio = new FormInsertAnuncio(formAnuncio);
@@ -355,21 +359,43 @@ namespace Services.Impls
             int p1 = htmlAnuncio.IndexOf("RECAPTCHA_V2_SITE_KEY") + "RECAPTCHA_V2_SITE_KEY".Length + 3;
             int p2 = htmlAnuncio.IndexOf("RECAPTCHA_V3_SITE_KEY") - 3;
 
-            string siteKey = htmlAnuncio.Substring(p1, p2 - p1);
+            string siteKeyv2 = htmlAnuncio.Substring(p1, p2 - p1);
+            string siteKeyv3 = "6Lfw9oYUAAAAAIjIAhcI2lpRHp5IfrmJv-asUrvp";
             //string siteKey = "6LfyRCIUAAAAAP5zhuXfbwh63Sx4zqfPmh3Jnjy7";
-            string captchaId = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKey);
+            string captchaIdv2 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv2, false);
+            //string captchaIdv3 = await Captcha2Solver.submit_recaptcha(key2captcha, _uri, siteKeyv3, true);
+            string captchaIdv3 = "";
             WebException last = null;
 
+            string finalAnsv2 = string.Empty, finalAnsv3 = string.Empty;
             await Task.Delay(15000);
             for (int i = 0; i < 30; i++)
             {
                 try
                 {
-                    string ans = await Captcha2Solver.retrieve(key2captcha, captchaId);
-                    if (!String.IsNullOrEmpty(ans))
+                    if (string.IsNullOrEmpty(finalAnsv2))
                     {
-                        return new CaptchaAnswer(key2captcha, captchaId, ans);
+                        string ansv2 = await Captcha2Solver.retrieve(key2captcha, captchaIdv2);
+                        if (!String.IsNullOrEmpty(ansv2))
+                        {
+                            finalAnsv2 = ansv2;
+                            return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
+                        }
                     }
+                    //if (string.IsNullOrEmpty(finalAnsv3))
+                    //{
+                    //    string ansv3 = await Captcha2Solver.retrieve(key2captcha, captchaIdv3);
+                    //    if (!String.IsNullOrEmpty(ansv3))
+                    //    {
+                    //        finalAnsv3 = ansv3;
+                    //    }
+                    //}
+
+                    //if (!string.IsNullOrEmpty(finalAnsv3) && !string.IsNullOrEmpty(finalAnsv2))
+                    //{
+                    //    return new CaptchaAnswer(key2captcha, captchaIdv2, captchaIdv3, finalAnsv2, finalAnsv3);
+                    //}
+
                     await Task.Delay(10000);
                 }
                 catch (WebException ex)
@@ -381,7 +407,7 @@ namespace Services.Impls
             {
                 throw last;
             }
-            throw new Exception("Unkown error");
+            throw new Exception("Unkown error. Captcha");
         }
 
         public FormUpdateAnuncio ParseFormAnuncio(string htmlAnuncio)
@@ -451,7 +477,7 @@ namespace Services.Impls
             }
             catch (Exception ex)
             {
-                throw new GeneralException(ex.Message + "\n" + ex.StackTrace, "");
+                throw new GeneralException(ex.Message + "\n" + ex.StackTrace + "\n --- \n" + htmlAnuncio, "");
             }
         }
 
@@ -459,8 +485,9 @@ namespace Services.Impls
         {
             if (answer.Contains("Error verifying reCAPTCHA"))
             {
-                string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
-                throw new BaseException("Bad Captcha", "Bad Captcha " + ans);
+                //string ans = Captcha2Solver.set_captcha_bad(captchaResponse.AccessToken, captchaResponse.Id);
+                //throw new BaseException("Bad Captcha", "Bad Captcha " + ans);
+                throw new BaseException("Bad Captcha", "Bad Captcha");
             }
             else if (answer.Contains("Cloudflare to restrict access"))
             {
@@ -473,6 +500,14 @@ namespace Services.Impls
             else if (answer.Contains("Has eliminado este anuncio."))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Eliminado");
+            }
+            else if (answer.ToLower().Contains("anuncio despublicado"))
+            {
+                throw new BaseException(string.Empty, "Deteccion Anuncio Despublicado");
+            }
+            else if (answer.Contains("Ha ocurrido un error"))
+            {
+                throw new BaseException(string.Empty, "Revolico Error");
             }
             else if (ff && (
                      !answer.Contains("\"status\":200") ||

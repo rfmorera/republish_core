@@ -11,7 +11,8 @@ namespace Services.Results
         public ReinsertResult(Anuncio anuncio)
         {
             Anuncio = anuncio;
-            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = false;
+
+            Success = IsDeleted = NonRemoved = IsBaned = BadCaptcha = Despublicado = false;
             Success = true;
         }
 
@@ -32,7 +33,16 @@ namespace Services.Results
             {
                 NonRemoved = true;
             }
-            else if (ex.Message.Contains("Captcha"))
+            else if (ex.Message.Contains("Deteccion Anuncio Despublicado"))
+            {
+                Despublicado = true;
+            }
+            else if (ex.Message.Contains("Revolico Error"))
+            {
+                Despublicado = true;
+            }
+            else if (ex.Message.Contains("Captcha") 
+                  || ex.StackTrace.ToLower().Contains("captcha"))
             {
                 BadCaptcha = true;
             }
@@ -52,5 +62,7 @@ namespace Services.Results
         public bool NonRemoved { get; set; }
         public bool IsBaned { get; set; }
         public bool BadCaptcha { get; set; }
+        public bool Despublicado { get; set; }
+        public bool RevolicoError { get; set; }
     }
 }

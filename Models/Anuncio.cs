@@ -26,6 +26,8 @@ namespace Models
         public bool Eliminado { get; set; } = false;
         public bool Despublicado { get; set; } = false;
 
+        public string FormUpdateAnuncio { get; set; }
+
 
         [NotMapped]
         public Uri UrlFormat { get

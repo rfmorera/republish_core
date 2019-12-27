@@ -132,8 +132,11 @@ namespace Services.Impls
         {
             double costoAnuncio = await _financieroService.CostoAnuncio(clientId);
             return (await _grupoService.GetByUser(clientId))
+                                       .Where(g => g.Activo)
                                        .Sum(g => g.Temporizadores
-                                       .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Count, dateTime)));
+                                                    .Where(t => t.Enable && t.UserEnable)
+                                                    .Sum(t => t.Costo(costoAnuncio, g.Anuncios.Where(a => a.Enable == true).Count(), dateTime))
+                                          );
         }
     }
 }
