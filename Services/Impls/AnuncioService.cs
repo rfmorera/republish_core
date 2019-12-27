@@ -296,6 +296,8 @@ namespace Services.Impls
 
         public async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
+
+
             string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
             return await Requests.PostAsync(Requests.apiRevolico, jsonForm);

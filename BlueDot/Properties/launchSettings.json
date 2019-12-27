@@ -2,9 +2,13 @@
   "iisSettings": {
     "windowsAuthentication": true,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/RepublishTool",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:57593",
-      "sslPort": 44307
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -16,7 +20,7 @@
       }
     },
     "Republish": {
-      "commandName": "Project",
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
