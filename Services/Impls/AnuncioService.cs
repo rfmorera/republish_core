@@ -271,10 +271,10 @@ namespace Services.Impls
                 formDeleteAnuncio = new FormDeleteAnuncio(formAnuncio);
 
                 // Insert new Announce
-                string answer = await InsertAnuncio(formInsertAnuncio);
+                Tuple<string, string> answer = InsertAnuncio(formInsertAnuncio);
 
                 // Verify Insertion
-                GetException(answer, anuncio.Url, true, captchaResponse);
+                GetException(answer.Item2, anuncio.Url, true, captchaResponse);
 
                 // Update new Anuncio URL
                 InsertResult insertResult = ParseInsertResult(answer);
@@ -294,25 +294,33 @@ namespace Services.Impls
             return result;
         }
 
-        public async Task<string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
+        public Tuple<string, string> InsertAnuncio(FormInsertAnuncio formInsertAnuncio)
         {
+            return SeleniumInsert.Reinsert(formInsertAnuncio);
 
+            //string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
 
-            string jsonForm = $"[{JsonConvert.SerializeObject(formInsertAnuncio)}]";
-
-            return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
+            //return await Requests.PostAsync(Requests.apiRevolico, jsonForm);
         }
 
-        public InsertResult ParseInsertResult(string answer)
+        public InsertResult ParseInsertResult(Tuple<string, string> tuple)
         {
-            int posIni = answer.IndexOf("id\":\"") + "id\":\"".Length;
-            int posNex = answer.IndexOf("\"", posIni);
-            string Id = answer.Substring(posIni, posNex - posIni);
+            try
+            {
+                string answer = tuple.Item2;
+                int posIni = answer.IndexOf("modificar-anuncio.html?key=") + "modificar-anuncio.html?key=".Length;
+                int posNex = answer.IndexOf(">Mo", posIni) - 1;
+                string full = answer.Substring(posIni, posNex - posIni);
 
-            posIni = answer.IndexOf("token\":\"") + "token\":\"".Length;
-            posNex = answer.IndexOf("\"", posIni);
-            string Token = answer.Substring(posIni, posNex - posIni);
-            return new InsertResult(Id, Token);
+                //posIni = answer.IndexOf("token=") + "token=".Length;
+                //string Token = answer.Substring(posIni);
+                //return new InsertResult(Id, Token);
+                return new InsertResult(full);
+            }
+            catch(Exception ex)
+            {
+                throw new BaseException(string.Empty, "Non updated "+ "URL: "+ tuple.Item1 + " HTML: "+ tuple.Item2 +" |||\n" + ex.Message + "-----\n" + ex.StackTrace);
+            }
         }
 
         public async Task<bool> DeleteFromRevolico(string url)
@@ -470,24 +478,33 @@ namespace Services.Impls
                 throw new BaseException(string.Empty, "Baned CloudFlare");
             }
             else if (answer.Contains("Attention Required! | Cloudflare"))
-            {
+            { 
                 throw new BaseException(string.Empty, "api.revolico ask for Captcha");
             }
             else if (answer.Contains("Has eliminado este anuncio."))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Eliminado");
             }
-            else if (answer.ToLower().Contains("anuncio despublicado"))
+            else if (answer.ToLower().Contains("despublicado"))
             {
                 throw new BaseException(string.Empty, "Deteccion Anuncio Despublicado");
             }
-            else if (ff && (
-                     !answer.Contains("\"status\":200") ||
-                     !answer.Contains("\"errors\":null") ||
-                     !answer.Contains("createAdWithoutUser")))
+            else if (answer.ToLower().Contains("resaltados en color rojo"))
+            {
+                throw new BaseException(string.Empty, "Missing Fields" + answer);
+            }
+            else if(ff && !answer.Contains("modificar-anuncio.html?key="))
             {
                 throw new BaseException(string.Empty, "Non updated " + answer);
             }
+            //Es necesario que revises los campos que están resaltados en color rojo, para poder enviar los datos.
+            //else if (ff && (
+            //         !answer.Contains("\"status\":200") ||
+            //         !answer.Contains("\"errors\":null") ||
+            //         !answer.Contains("createAdWithoutUser")))
+            //{
+            //    throw new BaseException(string.Empty, "Non updated " + answer);
+            //}
         }
 
         private string GetCategoria(string content)

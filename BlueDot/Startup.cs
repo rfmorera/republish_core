@@ -43,6 +43,7 @@ namespace Republish
         {
             ConfigureConnections(services);
 
+            //services.AddDataProtection();
             //services.AddDataProtection()
             //        .SetApplicationName("RepublishTool")
             //        .SetDefaultKeyLifetime(TimeSpan.FromDays(14)); ;
@@ -56,26 +57,27 @@ namespace Republish
 
             // The Tempdata provider cookie is not essential. Make it essential
             // so Tempdata is functional when tracking is disabled.
-            services.Configure<CookieTempDataProviderOptions>(options => {
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
                 options.Cookie.IsEssential = true;
             });
-            
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
 
-            services.ConfigureApplicationCookie(options => {
-                options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
-                options.LoginPath = new PathString("/Identity/Account/Logout"); 
-                options.LogoutPath = new PathString("/Identity/Account/Logout");
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
-
-            
 
             services.AddHostedService<TemporizadoresTimer>();
             services.AddHostedService<FacturarTimer>();
             services.AddHostedService<CleanerTemporizador>();
-            
+
             services.AddSingleton<IEmailTemplate, RepublishEmailTemplate>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -107,10 +109,13 @@ namespace Republish
                 options.AddPolicy(RTPolicies.Agent, policy => policy.RequireRole(RTRoles.Agent));
             });
 
-                services.AddMvc().AddRazorPagesOptions(opts => {
+            services.AddAuthentication(IdentityConstants.ApplicationScheme);
+
+            services.AddMvc().AddRazorPagesOptions(opts =>
+            {
                 opts.Conventions.AddAreaPageRoute("Identity", "/Identity/Account/Login", "");
-                opts.Conventions.AddAreaPageRoute("Identity", "/Account/Login","");
-                opts.Conventions.AddAreaPageRoute("Identity", "/Login","");
+                opts.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+                opts.Conventions.AddAreaPageRoute("Identity", "/Login", "");
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -131,7 +136,7 @@ namespace Republish
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -160,7 +165,7 @@ namespace Republish
         }
 
         private void ConfigureConnections(IServiceCollection services)
-        {  
+        {
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("RepublishContextConnection")));

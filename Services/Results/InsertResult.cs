@@ -6,20 +6,21 @@ namespace Services.Results
 {
     public class InsertResult
     {
-        public InsertResult(string id, string token)
+        //public InsertResult(string id, string token)
+        //{
+        //    Id = id;
+        //    Token = token;
+        //}
+        public InsertResult(string full)
         {
-            Id = id;
-            Token = token;
+            FullId = full;
         }
-
-        public string Id { get; set; }
-        public string Token { get; set; }
+        //public string Id { get; set; }
+        //public string Token { get; set; }
         public string FullId
         {
-            get
-            {
-                return Token + Id;
-            }
+            get;
+            set;
         }
     }
 }

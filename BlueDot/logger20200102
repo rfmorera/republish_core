@@ -1,0 +1,139 @@
+2020-01-02T16:23:19.6201706-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:23:19.6290110-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:23:19.6313897-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:23:34.3213634-05:00  [WRN] Hora 16:23:34.1749006 cantidad de temporizadores 0 (7d5df7bb)
+2020-01-02T16:24:34.1808292-05:00  [WRN] Hora 16:24:34.1478078 cantidad de temporizadores 0 (d330894f)
+2020-01-02T16:25:34.1529743-05:00  [WRN] Hora 16:25:34.1444308 cantidad de temporizadores 1 (aaf2db36)
+2020-01-02T16:25:34.2206793-05:00  [WRN] !!! ---- >>> Queue Messages 3 (1c06499a)
+2020-01-02T16:26:34.1471741-05:00  [WRN] Hora 16:26:34.1411413 cantidad de temporizadores 0 (f2591579)
+2020-01-02T16:27:34.1502942-05:00  [WRN] Hora 16:27:34.1443637 cantidad de temporizadores 0 (60ecaf5a)
+2020-01-02T16:28:00.8355247-05:00  [WRN] OKqR6GydhymU33300882 | Deteccion Anuncio Despublicado |    at Services.Impls.AnuncioService.GetException(String answer, String _uri, Boolean ff, CaptchaAnswer captchaResponse) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 490
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 259 (17b7c918)
+2020-01-02T16:28:00.8380766-05:00  [WRN] 0jsw0kGUGRlY33300947 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (293ce3b8)
+2020-01-02T16:28:00.8402613-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T16:30:35.6417986-05:00  [WRN] Hora 16:30:35.5859448 cantidad de temporizadores 1 (1860e7ac)
+2020-01-02T16:30:35.6439987-05:00  [WRN] Hora 16:30:35.5759098 cantidad de temporizadores 1 (2e663154)
+2020-01-02T16:30:35.6709472-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 3 | 0% (bf5f4410)
+2020-01-02T16:30:35.6730941-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2020-01-02T16:30:35.6761728-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2020-01-02T16:31:35.5668284-05:00  [WRN] Hora 16:31:35.5458198 cantidad de temporizadores 0 (da30de2f)
+2020-01-02T16:35:31.1993060-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:35:31.2071989-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:35:31.2097226-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:35:46.0104458-05:00  [WRN] Hora 16:35:45.9202378 cantidad de temporizadores 1 (7ac5a007)
+2020-01-02T16:35:46.2431493-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2020-01-02T16:36:45.9176956-05:00  [WRN] Hora 16:36:45.9100263 cantidad de temporizadores 0 (29c35a34)
+2020-01-02T16:37:57.8775899-05:00  [WRN] Hora 16:37:56.6758366 cantidad de temporizadores 0 (5514b5a5)
+2020-01-02T16:38:46.9934693-05:00  [WRN] ReplaceInsert 87eba8b2-8939-4013-b4e2-25e41cd9a682 rGeqbbQppIFA33338058 (72a931e2)
+2020-01-02T16:38:47.0056114-05:00  [WRN] Hora 16:38:46.9916253 cantidad de temporizadores 0 (23f22e52)
+2020-01-02T16:39:02.2043927-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T16:39:12.8970064-05:00  [WRN] !!! ---- Actualizados correctamente 1 de 2 | 50% (dab5dd40)
+2020-01-02T16:39:45.9281766-05:00  [WRN] Hora 16:39:45.9075275 cantidad de temporizadores 0 (0947e7b4)
+2020-01-02T16:40:45.9137504-05:00  [WRN] Hora 16:40:45.9067689 cantidad de temporizadores 0 (3b088837)
+2020-01-02T16:41:45.9122454-05:00  [WRN] Hora 16:41:45.9052315 cantidad de temporizadores 0 (f3ac1f46)
+2020-01-02T16:42:45.9123854-05:00  [WRN] Hora 16:42:45.9064584 cantidad de temporizadores 0 (1fbc1ecc)
+2020-01-02T16:43:45.9160540-05:00  [WRN] Hora 16:43:45.9082855 cantidad de temporizadores 0 (528efe5b)
+2020-01-02T16:44:45.9117969-05:00  [WRN] Hora 16:44:45.9060687 cantidad de temporizadores 0 (45cfa9c0)
+2020-01-02T16:49:39.0211617-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:49:39.0267893-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:49:39.0290043-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2020-01-02T16:49:53.8399686-05:00  [WRN] Hora 16:49:53.7146603 cantidad de temporizadores 0 (20083138)
+2020-01-02T16:50:53.7303452-05:00  [WRN] Hora 16:50:53.7067389 cantidad de temporizadores 1 (cd905f92)
+2020-01-02T16:50:53.8194343-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2020-01-02T16:51:53.7154813-05:00  [WRN] Hora 16:51:53.7056756 cantidad de temporizadores 0 (a18fac96)
+2020-01-02T16:52:42.2602045-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T16:52:48.3488149-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2020-01-02T16:52:53.7084335-05:00  [WRN] Hora 16:52:53.7020882 cantidad de temporizadores 0 (2cf01ab2)
+2020-01-02T16:53:53.7094233-05:00  [WRN] Hora 16:53:53.6949804 cantidad de temporizadores 1 (189334ea)
+2020-01-02T16:53:53.7304688-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2020-01-02T16:54:53.7021961-05:00  [WRN] Hora 16:54:53.6953936 cantidad de temporizadores 0 (19f94275)
+2020-01-02T16:55:41.0624968-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T16:55:41.1230191-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2020-01-02T16:55:53.7055716-05:00  [WRN] Hora 16:55:53.6952595 cantidad de temporizadores 0 (ee9e9701)
+2020-01-02T16:56:53.7097541-05:00  [WRN] Hora 16:56:53.6948722 cantidad de temporizadores 0 (6c7c45f7)
+2020-01-02T16:57:53.7097272-05:00  [WRN] Hora 16:57:53.7035561 cantidad de temporizadores 1 (0722d56a)
+2020-01-02T16:57:53.7904491-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2020-01-02T16:58:53.7112705-05:00  [WRN] Hora 16:58:53.7047534 cantidad de temporizadores 0 (d6faaf70)
+2020-01-02T16:59:40.1420270-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T16:59:40.1489409-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2020-01-02T16:59:53.7271115-05:00  [WRN] Hora 16:59:53.7042937 cantidad de temporizadores 0 (e717bba5)
+2020-01-02T17:00:53.7081058-05:00  [WRN] Hora 17:00:53.7015690 cantidad de temporizadores 0 (15888ed4)
+2020-01-02T17:01:05.7383668-05:00 0HLSFPML7GV0D:00000005 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2020-01-02T17:01:05.7783683-05:00 0HLSFPML7GV0D:00000005 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2020-01-02T17:01:53.7253820-05:00  [WRN] Hora 17:01:53.7035322 cantidad de temporizadores 1 (83ccc293)
+2020-01-02T17:01:53.8070375-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2020-01-02T17:02:53.7130644-05:00  [WRN] Hora 17:02:53.7066773 cantidad de temporizadores 0 (8d8c23e8)
+2020-01-02T17:03:45.9842052-05:00  [WRN] rsXULeGipbDQ33338251 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (7d55fa4f)
+2020-01-02T17:03:45.9912953-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2020-01-02T17:03:53.7082940-05:00  [WRN] Hora 17:03:53.7020657 cantidad de temporizadores 0 (83105af0)
+2020-01-02T17:04:53.7117176-05:00  [WRN] Hora 17:04:53.7029099 cantidad de temporizadores 0 (2d387a62)
+2020-01-02T17:05:53.7141140-05:00  [WRN] Hora 17:05:53.7074938 cantidad de temporizadores 1 (c0cfbfe3)
+2020-01-02T17:05:53.9841496-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2020-01-02T17:06:53.7102225-05:00  [WRN] Hora 17:06:53.7030189 cantidad de temporizadores 0 (0b54cb82)
+2020-01-02T17:07:53.7097730-05:00  [WRN] Hora 17:07:53.7010038 cantidad de temporizadores 1 (f2f69d2c)
+2020-01-02T17:08:41.2218358-05:00  [WRN] NTxSCPDrJwnZ33312042 | The HTTP request to the remote WebDriver server for URL http://localhost:6717/session/7f64ed0b-2c01-4c2e-aa10-e3eadd150d04/url timed out after 60 seconds. |    at OpenQA.Selenium.Remote.HttpCommandExecutor.MakeHttpRequest(HttpRequestInfo requestInfo)
+   at OpenQA.Selenium.Remote.HttpCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.DriverServiceCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.set_Url(String value)
+   at Services.Utils.SeleniumInsert.Reinsert(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\SeleniumInsert.cs:line 21
+   at Services.Impls.AnuncioService.InsertAnuncio(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 299
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 274 (5bd3e437)
+2020-01-02T17:08:41.2341257-05:00  [WRN] rsXULeGipbDQ33338251 | The HTTP request to the remote WebDriver server for URL http://localhost:6476/session/3f4caace-b0fe-4331-b7d9-d50727cf2ef4/url timed out after 60 seconds. |    at OpenQA.Selenium.Remote.HttpCommandExecutor.MakeHttpRequest(HttpRequestInfo requestInfo)
+   at OpenQA.Selenium.Remote.HttpCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.DriverServiceCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.set_Url(String value)
+   at Services.Utils.SeleniumInsert.Reinsert(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\SeleniumInsert.cs:line 21
+   at Services.Impls.AnuncioService.InsertAnuncio(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 299
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 274 (0150ab2b)
+2020-01-02T17:08:41.2435689-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 2 | 0% (a0db85b8)
+2020-01-02T17:08:53.7160650-05:00  [WRN] Hora 17:08:53.7083603 cantidad de temporizadores 0 (68a8884f)
+2020-01-02T17:08:53.7390445-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2020-01-02T17:09:53.7143389-05:00  [WRN] Hora 17:09:53.7085631 cantidad de temporizadores 0 (1515a8e2)
+2020-01-02T17:10:53.7248968-05:00  [WRN] Hora 17:10:53.7090601 cantidad de temporizadores 0 (6674177d)
+2020-01-02T17:11:24.2385368-05:00  [WRN] rsXULeGipbDQ33338251 | The operation was canceled. |    at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (6961ac87)
+2020-01-02T17:11:24.2410782-05:00  [WRN] NTxSCPDrJwnZ33312042 | Non updated Length cannot be less than zero.
+Parameter name: length-----
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 312 |    at Services.Impls.AnuncioService.ParseInsertResult(String answer) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 320
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 280 (e3ca4312)
+2020-01-02T17:11:24.2574981-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 2 | 0% (a0db85b8)

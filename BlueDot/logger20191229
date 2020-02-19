@@ -1,0 +1,56 @@
+2019-12-29T19:39:51.1833083-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-29T19:39:51.1897410-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-29T19:39:51.1938926-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-29T19:40:06.0301714-05:00  [WRN] Hora 19:40:05.9311449 cantidad de temporizadores 0 (1a700db5)
+2019-12-29T19:41:05.9312721-05:00  [WRN] Hora 19:41:05.9095099 cantidad de temporizadores 1 (4f44e7df)
+2019-12-29T19:41:06.0197248-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2019-12-29T19:42:05.9487397-05:00  [WRN] Hora 19:42:05.9233377 cantidad de temporizadores 0 (9509dec0)
+2019-12-29T19:42:07.2245860-05:00 0HLSCO33TATV2:00000009 [ERR] System.Private.CoreLib--
+--   at System.Threading.Tasks.Task.WaitAllCore(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Services.Impls.AnuncioService.GetData(String[] links) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 118--
+--One or more errors occurred. (A task was canceled.) (The SSL connection could not be established, see inner exception.) (A task was canceled.) (1add8b1b)
+2019-12-29T19:42:07.3595951-05:00 0HLSCO33TATV2:00000009 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-29T19:42:07.3927439-05:00 0HLSCO33TATV2:00000009 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-29T19:42:07.4260090-05:00 0HLSCO33TATV2:00000009 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-29T19:43:05.9342222-05:00  [WRN] Hora 19:43:05.9235328 cantidad de temporizadores 0 (a3b6d79a)
+2019-12-29T19:43:27.4349039-05:00  [WRN] OKqR6GydhymU33300882 | The operation was canceled. |    at System.Net.Http.HttpConnection.ChunkedEncodingReadStream.CopyToAsyncCore(Stream destination, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnection.HttpConnectionResponseContent.SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (23a659fa)
+2019-12-29T19:43:27.4436101-05:00  [WRN] 0jsw0kGUGRlY33300947 | The HTTP request to the remote WebDriver server for URL http://localhost:9012/session/a0d76721-0839-4e4a-8cff-0bee1efb1ed2/url timed out after 60 seconds. |    at OpenQA.Selenium.Remote.HttpCommandExecutor.MakeHttpRequest(HttpRequestInfo requestInfo)
+   at OpenQA.Selenium.Remote.HttpCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.DriverServiceCommandExecutor.Execute(Command commandToExecute)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.set_Url(String value)
+   at Services.Utils.SeleniumInsert.Reinsert(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\SeleniumInsert.cs:line 21
+   at Services.Impls.AnuncioService.InsertAnuncio(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 299
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 274 (9067007d)
+2019-12-29T19:43:27.4550328-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 2 | 0% (a0db85b8)
+2019-12-29T19:44:05.9161988-05:00  [WRN] Hora 19:44:05.9096768 cantidad de temporizadores 0 (aaf4a051)
+2019-12-29T19:44:05.9266608-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2019-12-29T19:44:41.1198091-05:00  [WRN] 0jsw0kGUGRlY33300947 | The operation was canceled. |    at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (c0567caa)
+2019-12-29T19:44:41.1232813-05:00  [WRN] OKqR6GydhymU33300882 | The operation was canceled. |    at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (58ce3bb1)
+2019-12-29T19:44:41.1311270-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 2 | 0% (a0db85b8)
+2019-12-29T19:45:05.9146206-05:00  [WRN] Hora 19:45:05.9087466 cantidad de temporizadores 0 (96864cae)
+2019-12-29T19:45:05.9249143-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)

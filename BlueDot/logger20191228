@@ -1,0 +1,144 @@
+2019-12-28T11:00:57.7917896-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:00:57.7999931-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:00:57.8027123-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:01:12.4636232-05:00  [WRN] Hora 11:01:12.3959970 cantidad de temporizadores 0 (cf7cb20b)
+2019-12-28T11:01:12.5771981-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:01:12.9692067-05:00  [WRN] tbK12iWMyCug33125182 | No such host is known |    at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (783e45b4)
+2019-12-28T11:01:12.9949634-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:02:12.3875084-05:00  [WRN] Hora 11:02:12.3744272 cantidad de temporizadores 0 (28f7f9ed)
+2019-12-28T11:02:12.4045831-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:02:12.6152881-05:00  [WRN] tbK12iWMyCug33125182 | No such host is known |    at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (783e45b4)
+2019-12-28T11:02:12.6215605-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:03:06.5544513-05:00 0HLSBLSG5ELIL:0000000E [ERR] System.Private.CoreLib--
+--   at System.Threading.Tasks.Task.WaitAllCore(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Services.Impls.AnuncioService.GetData(String[] links) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 118--
+--One or more errors occurred. (No such host is known) (No such host is known) (6ec88494)
+2019-12-28T11:03:06.6560406-05:00 0HLSBLSG5ELIL:0000000E [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-28T11:03:06.6872024-05:00 0HLSBLSG5ELIL:0000000E [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-28T11:03:12.3877396-05:00  [WRN] Hora 11:03:12.3773174 cantidad de temporizadores 0 (aaf181bc)
+2019-12-28T11:03:12.4181229-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:03:12.5117465-05:00  [WRN] tbK12iWMyCug33125182 | No such host is known |    at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at Services.Utils.Requests.GetAsync(String requestUri) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\Requests.cs:line 105
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 258 (783e45b4)
+2019-12-28T11:03:12.5173499-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:04:12.3870835-05:00  [WRN] Hora 11:04:12.3798215 cantidad de temporizadores 1 (acba3f57)
+2019-12-28T11:04:12.4286020-05:00  [WRN] !!! ---- >>> Queue Messages 2 (f6787e83)
+2019-12-28T11:05:12.3900121-05:00  [WRN] Hora 11:05:12.3796496 cantidad de temporizadores 0 (ae5db24d)
+2019-12-28T11:06:06.5233766-05:00  [WRN] fojwcWPeMcoN33299950 |  (InsecureCertificate) |    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.set_Url(String value)
+   at Services.Utils.SeleniumInsert.Reinsert(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\SeleniumInsert.cs:line 18
+   at Services.Impls.AnuncioService.InsertAnuncio(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 299
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 274 (1c7c27f7)
+2019-12-28T11:06:06.5253554-05:00  [WRN] tbK12iWMyCug33125182 | Deteccion Anuncio Eliminado |    at Services.Impls.AnuncioService.GetException(String answer, String _uri, Boolean ff, CaptchaAnswer captchaResponse) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 486
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 259 (a58a356d)
+2019-12-28T11:06:06.5446766-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 2 | 0% (a0db85b8)
+2019-12-28T11:06:12.3860541-05:00  [WRN] Hora 11:06:12.3769334 cantidad de temporizadores 1 (206c8eef)
+2019-12-28T11:06:12.3985920-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:07:20.2179594-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:07:20.2231880-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:07:20.2248102-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:07:34.9794837-05:00  [WRN] Hora 11:07:34.9219582 cantidad de temporizadores 0 (01603a89)
+2019-12-28T11:08:02.7747833-05:00 0HLSBM025DVEM:00000005 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-28T11:08:34.9092526-05:00  [WRN] Hora 11:08:34.9021387 cantidad de temporizadores 1 (97fb555c)
+2019-12-28T11:08:34.9529870-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:14:35.8932492-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:14:35.9001968-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:14:35.9018758-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:14:50.7691857-05:00  [WRN] Hora 11:14:50.6873279 cantidad de temporizadores 1 (c65b76b9)
+2019-12-28T11:15:50.6833141-05:00  [WRN] Hora 11:15:50.6726525 cantidad de temporizadores 1 (16d1d7ad)
+2019-12-28T11:16:50.6809974-05:00  [WRN] Hora 11:16:50.6731049 cantidad de temporizadores 1 (fb63ce45)
+2019-12-28T11:16:50.7148350-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:17:50.6827365-05:00  [WRN] Hora 11:17:50.6736796 cantidad de temporizadores 0 (22f54650)
+2019-12-28T11:18:50.6841562-05:00  [WRN] Hora 11:18:50.6745479 cantidad de temporizadores 0 (24e03894)
+2019-12-28T11:18:55.5676989-05:00  [WRN] fojwcWPeMcoN33299950 | Element <meta name="description"> is not reachable by keyboard |    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.SendKeys(String text)
+   at Services.Utils.SeleniumInsert.Reinsert(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Utils\SeleniumInsert.cs:line 29
+   at Services.Impls.AnuncioService.InsertAnuncio(FormInsertAnuncio formInsertAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 299
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 274 (f0b01ac5)
+2019-12-28T11:18:55.5816606-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:21:34.8668985-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:21:34.8752062-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:21:34.8770359-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:21:49.6492419-05:00  [WRN] Hora 11:21:49.6321038 cantidad de temporizadores 2 (1e1cac78)
+2019-12-28T11:21:49.7727130-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:22:49.6399676-05:00  [WRN] Hora 11:22:49.6133759 cantidad de temporizadores 0 (cefe43f5)
+2019-12-28T11:23:51.8577554-05:00  [WRN] Hora 11:23:51.8413350 cantidad de temporizadores 0 (e04b83d8)
+2019-12-28T11:26:05.6680110-05:00  [WRN] The 'bool' property '"Actualizado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:26:05.6745479-05:00  [WRN] The 'bool' property '"Caducado"' on entity type '"Anuncio"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:26:05.6765105-05:00  [WRN] The 'bool' property '"Activo"' on entity type '"Grupo"' is configured with a database-generated default. This default will always be used for inserts when the property has the value 'false', since this is the CLR default for the 'bool' type. Consider using the nullable 'bool?' type instead so that the default will only be used for inserts when the property value is 'null'. (a2a8ca4b)
+2019-12-28T11:26:20.4490472-05:00  [WRN] Hora 11:26:20.3895157 cantidad de temporizadores 0 (f70c655e)
+2019-12-28T11:26:48.1700245-05:00 0HLSBMAHJDHAP:00000006 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-28T11:27:20.3869348-05:00  [WRN] Hora 11:27:20.3762265 cantidad de temporizadores 1 (61b93eca)
+2019-12-28T11:27:20.4363223-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:27:20.6106691-05:00  [WRN] fojwcWPeMcoN33299950 | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 409
+ --- 
+[Fiddler] DNS Lookup for "www.revolico.com" failed. System.Net.Sockets.SocketException No such host is known                                                                                                                                                                                                                                                                                                                                                                                                                     |    at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 463
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 262 (84e674fe)
+2019-12-28T11:27:20.6288863-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:56:27.3866377-05:00  [WRN] Hora 11:56:27.3809142 cantidad de temporizadores 1 (5228ce7f)
+2019-12-28T11:56:27.4011893-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:56:27.5095492-05:00  [WRN] fojwcWPeMcoN33299950 | Object reference not set to an instance of an object.
+   at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 409
+ --- 
+[Fiddler] DNS Lookup for "www.revolico.com" failed. The system reports that no network connection is available. 
+System.Net.Sockets.SocketException No such host is known                                                                                                                                                                                                                                                                                                                                                        |    at Services.Impls.AnuncioService.ParseFormAnuncio(String htmlAnuncio) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 463
+   at Services.Impls.AnuncioService.ReInsert(Anuncio anuncio, String Key2Captcha, String email) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 262 (7de21afe)
+2019-12-28T11:56:27.5157831-05:00  [WRN] !!! ---- Actualizados correctamente 0 de 1 | 0% (024b9a3a)
+2019-12-28T11:57:07.4041363-05:00 0HLSBMAHJDHAQ:00000006 [ERR] Services--
+--   at Services.Impls.AnuncioService.UpdateTitle(String GrupoId) in C:\Users\Rafael Fernanadez\Source\Repos\RepublishCore\Services\Impls\AnuncioService.cs:line 80--
+--Object reference not set to an instance of an object. (b5e62a1a)
+2019-12-28T11:57:27.3838172-05:00  [WRN] Hora 11:57:27.3786447 cantidad de temporizadores 0 (acb25648)
+2019-12-28T11:58:27.3856284-05:00  [WRN] Hora 11:58:27.3790689 cantidad de temporizadores 1 (9b0807c3)
+2019-12-28T11:58:27.4073230-05:00  [WRN] !!! ---- >>> Queue Messages 1 (ffac90e7)
+2019-12-28T11:59:30.7383555-05:00  [WRN] Hora 11:59:30.7295132 cantidad de temporizadores 0 (6c3d04f9)
+2019-12-28T12:00:27.3948420-05:00  [WRN] Hora 12:00:27.3854011 cantidad de temporizadores 1 (6c5cccff)
+2019-12-28T12:01:27.3804262-05:00  [WRN] Hora 12:01:27.3744586 cantidad de temporizadores 0 (528c5e1e)
+2019-12-28T12:01:57.1082898-05:00  [WRN] ReplaceInsert a0a6b8f9-7a63-464f-bad9-990cc149d22e OKqR6GydhymU33300882 (b480d41a)
+2019-12-28T12:02:12.8759645-05:00  [WRN] !!! ---- Actualizados correctamente 1 de 1 | 100% (6ce9e9e3)
+2019-12-28T12:02:27.3962778-05:00  [WRN] Hora 12:02:27.3851417 cantidad de temporizadores 0 (bfad13db)
+2019-12-28T12:03:27.3925994-05:00  [WRN] Hora 12:03:27.3806872 cantidad de temporizadores 0 (f2cdcd8d)
+2019-12-28T12:04:27.3891254-05:00  [WRN] Hora 12:04:27.3777275 cantidad de temporizadores 0 (9a06e5a8)
+2019-12-28T12:05:27.3907019-05:00  [WRN] Hora 12:05:27.3779614 cantidad de temporizadores 0 (0c5fb1fc)
+2019-12-28T12:06:27.4003542-05:00  [WRN] Hora 12:06:27.3795365 cantidad de temporizadores 0 (e17a5bb2)
+2019-12-28T12:07:27.3946245-05:00  [WRN] Hora 12:07:27.3855250 cantidad de temporizadores 0 (42e360cf)
+2019-12-28T12:08:27.3975809-05:00  [WRN] Hora 12:08:27.3856085 cantidad de temporizadores 0 (c321e290)
